@@ -21,7 +21,8 @@ int main(int argc, char *argv[]) {
     while ((c = fgetc(stdin)) != EOF) {
         // Read input from stdin until EOF
         if (c == '\n') {
-            continue; // Skip newlines
+            fputc('\n', stdout);
+            continue;
         }
         char output = encode(&enigma, c);
         fputc(output, stdout);
