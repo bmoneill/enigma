@@ -70,9 +70,9 @@ void rotate(rotor_t *rotor, int count) {
 char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
     rotor_t *rotor = &enigma->rotors[rotorIdx];
     int index = (input - 'A') % 26;
+    int output = rotor->alphabet[index];
 
     if (rotorIdx == 0 && direction == 1) {
-        // Rotate the first rotor before processing
         rotate(rotor, direction);
         VERBOSE_PRINT(verbose, "Rotating rotor %d\n", rotorIdx + 1);
     } else if (rotorIdx > 0 && enigma->rotors[rotorIdx - 1].alphabet[0] == rotor->alphabet[index]) {
@@ -80,7 +80,7 @@ char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
         rotate(&enigma->rotors[rotorIdx - 1], direction);
     }
 
-    return rotor->alphabet[index];
+    return output;
 }
 
 char substitute(const char *plugboard, char input) {
