@@ -3,7 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 #include "enigma.h"
+
+#define VERBOSE_PRINT(verbose, fmt, ...) if (verbose) fprintf(stderr, fmt, __VA_ARGS__)
+
+int verbose = 1;
 
 void rotate(rotor_t *, int);
 char rotor_pass(enigma_t *, int, int, char);
@@ -15,13 +20,13 @@ char encode(enigma_t *enigma, char input) {
 
     // Pass through the plugboard first
     output = substitute(enigma->plugboard, output);
-    fprintf(stderr, "Plugboard: %c -> %c\n", input, output);
+    VERBOSE_PRINT(verbose, "Plugboard: %c -> %c\n", input, output);
 
     // Pass through the rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
         input = output;
         output = rotor_pass(enigma, i, 1, output);
-        fprintf(stderr, "Rotor %d: %c -> %c\n", i + 1, input, output);
+        VERBOSE_PRINT(verbose, "Rotor %d: %c -> %c\n", i + 1, input, output);
     }
 
     // Pass through the reflector
@@ -29,14 +34,14 @@ char encode(enigma_t *enigma, char input) {
         int index = output - 'A';
         int input = output;
         output = enigma->reflector->alphabet[index];
-        fprintf(stderr, "Reflector %s: %c -> %c\n", enigma->reflector->name, input, output);
+        VERBOSE_PRINT(verbose, "Reflector %s: %c -> %c\n", enigma->reflector->name, input, output);
     }
 
     // Pass back through the rotors in reverse order
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
         input = output;
         output = rotor_pass(enigma, i, -1, output);
-        fprintf(stderr, "Rotor %d: %c -> %c\n", i + 1, input, output);
+        VERBOSE_PRINT(verbose, "Rotor %d: %c -> %c\n", i + 1, input, output);
     }
     return output;
 }
@@ -69,7 +74,7 @@ char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
     if (rotorIdx == 0 && direction == 1) {
         // Rotate the first rotor before processing
         rotate(rotor, direction);
-        fprintf(stderr, "Rotating rotor %d\n", rotorIdx + 1);
+        VERBOSE_PRINT(verbose, "Rotating rotor %d\n", rotorIdx + 1);
     } else if (rotorIdx > 0 && enigma->rotors[rotorIdx - 1].alphabet[0] == rotor->alphabet[index]) {
         // Rotate the previous rotor if the current rotor is at a notch position
         rotate(&enigma->rotors[rotorIdx - 1], direction);
