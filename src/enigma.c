@@ -43,6 +43,15 @@ char encode(enigma_t *enigma, char input) {
     return output;
 }
 
+int get_index(char c) {
+    if (c >= 'A' && c <= 'Z') {
+        return c - 'A';
+    } else if (c >= 'a' && c <= 'z') {
+        return c - 'a';
+    }
+    return -1;
+}
+
 void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
     enigma->rotors = malloc(count * sizeof(rotor_t));
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
@@ -97,15 +106,6 @@ char reflect(enigma_t *enigma, char input) {
     }
 
     return tolower(enigma->reflector->alphabet[index]);
-}
-
-int get_index(char c) {
-    if (c >= 'A' && c <= 'Z') {
-        return c - 'A';
-    } else if (c >= 'a' && c <= 'z') {
-        return c - 'a';
-    }
-    return -1;
 }
 
 char substitute(const char *plugboard, char input) {
