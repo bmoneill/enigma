@@ -8,13 +8,15 @@
 
 #define VERBOSE_PRINT(fmt, ...) if (verbose) fprintf(stderr, fmt, __VA_ARGS__)
 
+const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 int verbose = 1;
 
 static int get_index(char c);
 static char reflect(enigma_t *, char);
 static void rotate(rotor_t *, int);
 static void rotate_rotors(enigma_t *);
-static char rotor_pass(enigma_t *, int, int, char);
+static char rotor_pass(enigma_t *, int, char);
 static char substitute(const char *, char);
 
 char encode(enigma_t *enigma, char input) {
@@ -30,32 +32,29 @@ char encode(enigma_t *enigma, char input) {
     }
 
     char output = substitute(enigma->plugboard, input);
-    VERBOSE_PRINT("Plugboard: %c -> %c\n", input, output);
+    VERBOSE_PRINT("Plugboard: %c\n", output);
 
     for (int i = 0; i < enigma->rotor_count; i++) {
-        input = output;
-        output = rotor_pass(enigma, i, 1, output);
-        VERBOSE_PRINT("Rotor %d: %c -> %c\n", i + 1, input, output);
+        output = rotor_pass(enigma, i, output);
+        VERBOSE_PRINT("Rotor %d: %c\n", i + 1, output);
     }
 
-    input = output;
     output = reflect(enigma, output);
-    VERBOSE_PRINT("Reflector %s: %c -> %c\n", enigma->reflector->name, input, output);
+    VERBOSE_PRINT("Reflector %s: %c\n", enigma->reflector->name, output);
 
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
-        input = output;
-        output = rotor_pass(enigma, i, -1, output);
-        VERBOSE_PRINT("Rotor %d: %c -> %c\n", i + 1, input, output);
+        output = rotor_pass(enigma, i, output);
+        VERBOSE_PRINT("Rotor %d: %c\n", i + 1, output);
     }
 
-    input = output;
     output = substitute(enigma->plugboard, output);
-    VERBOSE_PRINT("Plugboard: %c -> %c\n", input, output);
+    VERBOSE_PRINT("Plugboard: %c\n", output);
 
     return output;
 }
 
 void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
+    enigma->rotor_flag = 0;
     enigma->rotors = malloc(count * sizeof(rotor_t));
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
 
@@ -106,30 +105,22 @@ static void rotate_rotors(enigma_t *enigma) {
     }
 }
 
-static char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
+static char rotor_pass(enigma_t *enigma, int rotorIdx, char input) {
     rotor_t *rotor = &enigma->rotors[rotorIdx];
+
     int index = get_index(input);
-
-
-    if (isupper(input)) {
-        return rotor->alphabet[index];
-    }
-
-    return tolower(rotor->alphabet[index]);
+    return isupper(input) ? rotor->alphabet[index] : tolower(rotor->alphabet[index]);
 }
 
 static char reflect(enigma_t *enigma, char input) {
-    if (!enigma->reflector) {
+    reflector_t *reflector = enigma->reflector;
+
+    if (!reflector) {
         return input;
     }
 
     int index = get_index(input);
-
-    if (isupper(input)) {
-        return enigma->reflector->alphabet[index];
-    }
-
-    return tolower(enigma->reflector->alphabet[index]);
+    return isupper(input) ? reflector->alphabet[index] : tolower(reflector->alphabet[index]);
 }
 
 static char substitute(const char *plugboard, char input) {
