@@ -6,7 +6,7 @@
 
 #include "enigma.h"
 
-#define VERBOSE_PRINT(verbose, fmt, ...) if (verbose) fprintf(stderr, fmt, __VA_ARGS__)
+#define VERBOSE_PRINT(fmt, ...) if (verbose) fprintf(stderr, fmt, __VA_ARGS__)
 
 int verbose = 1;
 
@@ -18,27 +18,27 @@ char substitute(const char *, char);
 
 char encode(enigma_t *enigma, char input) {
     char output = substitute(enigma->plugboard, input);
-    VERBOSE_PRINT(verbose, "Plugboard: %c -> %c\n", input, output);
+    VERBOSE_PRINT("Plugboard: %c -> %c\n", input, output);
 
     for (int i = 0; i < enigma->rotor_count; i++) {
         input = output;
         output = rotor_pass(enigma, i, 1, output);
-        VERBOSE_PRINT(verbose, "Rotor %d: %c -> %c\n", i + 1, input, output);
+        VERBOSE_PRINT("Rotor %d: %c -> %c\n", i + 1, input, output);
     }
 
     input = output;
     output = reflect(enigma, output);
-    VERBOSE_PRINT(verbose, "Reflector %s: %c -> %c\n", enigma->reflector->name, input, output);
+    VERBOSE_PRINT("Reflector %s: %c -> %c\n", enigma->reflector->name, input, output);
 
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
         input = output;
         output = rotor_pass(enigma, i, -1, output);
-        VERBOSE_PRINT(verbose, "Rotor %d: %c -> %c\n", i + 1, input, output);
+        VERBOSE_PRINT("Rotor %d: %c -> %c\n", i + 1, input, output);
     }
 
     input = output;
     output = substitute(enigma->plugboard, output);
-    VERBOSE_PRINT(verbose, "Plugboard: %c -> %c\n", input, output);
+    VERBOSE_PRINT("Plugboard: %c -> %c\n", input, output);
 
     return output;
 }
@@ -76,24 +76,21 @@ void rotate(rotor_t *rotor, int count) {
 char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
     rotor_t *rotor = &enigma->rotors[rotorIdx];
     int index = get_index(input);
-    int output;
-
-    if (isupper(input)) {
-        output = rotor->alphabet[index];
-    } else {
-        output = tolower(rotor->alphabet[index]);
-    }
 
     if (rotorIdx == 0 && direction == 1) {
-        VERBOSE_PRINT(verbose, "Rotating rotor %d\n", rotorIdx + 1);
+        VERBOSE_PRINT("Rotating rotor %d\n", rotorIdx + 1);
         rotate(rotor, direction);
     } else if (rotorIdx > 0 && enigma->rotors[rotorIdx - 1].alphabet[0] == rotor->alphabet[index]) {
         // Rotate the previous rotor if the current rotor is at a notch position
-        VERBOSE_PRINT(verbose, "Rotating rotor %d\n", rotorIdx);
+        VERBOSE_PRINT("Rotating rotor %d\n", rotorIdx);
         rotate(&enigma->rotors[rotorIdx - 1], direction);
     }
 
-    return output;
+    if (isupper(input)) {
+        return rotor->alphabet[index];
+    }
+
+    return tolower(rotor->alphabet[index]);
 }
 
 char reflect(enigma_t *enigma, char input) {
