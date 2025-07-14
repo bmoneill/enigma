@@ -8,7 +8,7 @@ typedef struct {
 
 typedef struct {
     const char *name;
-    char *alphabet;
+    const char *alphabet;
     const char *notches;
     int idx;
 } rotor_t;

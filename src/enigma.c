@@ -7,19 +7,26 @@
 #include "enigma.h"
 
 #define VERBOSE_PRINT(fmt, ...) if (verbose) fprintf(stderr, fmt, __VA_ARGS__)
+#define ALPHA_SIZE 26
 
 const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int verbose = 1;
 
-static int get_index(char c);
-static char reflect(enigma_t *, char);
+static int index_of(const char *, char);
+static char reflect(enigma_t *, int, int);
 static void rotate(rotor_t *, int);
 static void rotate_rotors(enigma_t *);
-static char rotor_pass(enigma_t *, int, char);
-static char substitute(const char *, char);
+static int rotor_pass(enigma_t *, int, int, int);
+static int substitute(const char *, int, int);
+static int to_alpha(int, int);
+static int to_char_code(char);
 
 char encode(enigma_t *enigma, char input) {
+    char output = input;
+    int upper = isupper(input);
+    int idx = to_char_code(input);
+
     VERBOSE_PRINT("Keyboard Input: %c\n", input);
 
     rotate_rotors(enigma);
@@ -31,42 +38,47 @@ char encode(enigma_t *enigma, char input) {
         VERBOSE_PRINT("%s", "\n");
     }
 
-    char output = substitute(enigma->plugboard, input);
-    VERBOSE_PRINT("Plugboard: %c\n", output);
+    // Plugboard
+    idx = substitute(enigma->plugboard, idx, upper);
+    VERBOSE_PRINT("Plugboard: %c\n", alphabet[idx]);
 
+    // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
-        output = rotor_pass(enigma, i, output);
-        VERBOSE_PRINT("Rotor %d: %c\n", i + 1, output);
+        idx = (idx + enigma->rotors[i].idx) % ALPHA_SIZE;
+        idx = index_of(enigma->rotors[i].alphabet, alphabet[idx]);
+        VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
     }
 
-    output = reflect(enigma, output);
-    VERBOSE_PRINT("Reflector %s: %c\n", enigma->reflector->name, output);
+    // Reflector
+    idx = to_char_code(enigma->reflector->alphabet[idx]);
+    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, alphabet[idx]);
 
+    // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
-        output = rotor_pass(enigma, i, output);
-        VERBOSE_PRINT("Rotor %d: %c\n", i + 1, output);
+        idx = (idx + enigma->rotors[i].idx) % ALPHA_SIZE;
+        VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
     }
 
-    output = substitute(enigma->plugboard, output);
-    VERBOSE_PRINT("Plugboard: %c\n", output);
+    // Plugboard again
+    idx = substitute(enigma->plugboard, idx, upper);
+    VERBOSE_PRINT("Plugboard: %c\n", alphabet[idx]);
 
-    return output;
+    return to_alpha(idx, upper);
 }
 
 void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
     enigma->rotor_flag = 0;
     enigma->rotors = malloc(count * sizeof(rotor_t));
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
-
-    for (int i = 0; i < count; i++) {
-        enigma->rotors[i].alphabet = malloc(27 * sizeof(char));
-        memcpy(enigma->rotors[i].alphabet, rotors[i].alphabet, 27 * sizeof(char));
-    }
     enigma->rotor_count = count;
 }
 
+static int index_of(const char *str, char c) {
+    const char *p = strchr(str, c);
+    return p ? (int)(p - str) : -1;
+}
 
-static int get_index(char c) {
+static int to_char_code(char c) {
     if (c >= 'A' && c <= 'Z') {
         return c - 'A';
     } else if (c >= 'a' && c <= 'z') {
@@ -75,19 +87,15 @@ static int get_index(char c) {
     return -1;
 }
 
+static int to_alpha(int c, int upper) {
+    return c + (upper ? 'A' : 'a');
+}
+
 static void rotate(rotor_t *rotor, int count) {
     rotor->idx += count;
 
-    if (rotor->idx >= 26) {
-        rotor->idx -= 26;
-    }
-
-    for (int i = 0; i < count; i++) {
-        char first = rotor->alphabet[0];
-        for (int j = 0; j < 25; j++) {
-            rotor->alphabet[j] = rotor->alphabet[j + 1];
-        }
-        rotor->alphabet[25] = first;
+    if (rotor->idx >= ALPHA_SIZE) {
+        rotor->idx -= ALPHA_SIZE;
     }
 }
 
@@ -105,33 +113,28 @@ static void rotate_rotors(enigma_t *enigma) {
     }
 }
 
-static char rotor_pass(enigma_t *enigma, int rotorIdx, char input) {
-    rotor_t *rotor = &enigma->rotors[rotorIdx];
-
-    int index = get_index(input);
-    return isupper(input) ? rotor->alphabet[index] : tolower(rotor->alphabet[index]);
-}
-
-static char reflect(enigma_t *enigma, char input) {
+static char reflect(enigma_t *enigma, int idx, int upper) {
     reflector_t *reflector = enigma->reflector;
 
     if (!reflector) {
-        return input;
+        printf("Error: Reflector not set.\n");
+        return idx;
     }
 
-    int index = get_index(input);
-    return isupper(input) ? reflector->alphabet[index] : tolower(reflector->alphabet[index]);
+    return upper ? reflector->alphabet[idx] : tolower(reflector->alphabet[idx]);
 }
 
-static char substitute(const char *plugboard, char input) {
-    if (!plugboard) return input;
+static int substitute(const char *plugboard, int idx, int upper) {
+    if (!plugboard) return to_alpha(idx, upper);
 
     for (int i = 0; plugboard[i] != '\0'; i += 2) {
-        if (plugboard[i] == input) {
+        if (plugboard[i] == idx) {
+            // TODO casing
             return plugboard[i + 1];
-        } else if (plugboard[i + 1] == input) {
+        } else if (plugboard[i + 1] == idx) {
             return plugboard[i];
         }
     }
-    return input;
+
+    return idx;
 }
