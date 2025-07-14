@@ -24,7 +24,7 @@ char encode(enigma_t *enigma, char input) {
     if (verbose) {
         VERBOSE_PRINT("%s", "Rotor Positions:");
         for (int i = 0; i < enigma->rotor_count; i++) {
-            VERBOSE_PRINT(" %c", enigma->rotors[i].alphabet[0]);
+            VERBOSE_PRINT(" %c", enigma->rotors[i].idx + 'A');
         }
         VERBOSE_PRINT("%s", "\n");
     }
@@ -55,16 +55,7 @@ char encode(enigma_t *enigma, char input) {
     return output;
 }
 
-static int get_index(char c) {
-    if (c >= 'A' && c <= 'Z') {
-        return c - 'A';
-    } else if (c >= 'a' && c <= 'z') {
-        return c - 'a';
-    }
-    return -1;
-}
-
-static void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
+void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
     enigma->rotors = malloc(count * sizeof(rotor_t));
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
 
@@ -73,6 +64,16 @@ static void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
         memcpy(enigma->rotors[i].alphabet, rotors[i].alphabet, 27 * sizeof(char));
     }
     enigma->rotor_count = count;
+}
+
+
+static int get_index(char c) {
+    if (c >= 'A' && c <= 'Z') {
+        return c - 'A';
+    } else if (c >= 'a' && c <= 'z') {
+        return c - 'a';
+    }
+    return -1;
 }
 
 static void rotate(rotor_t *rotor, int count) {
