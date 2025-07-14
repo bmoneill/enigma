@@ -10,13 +10,25 @@
 
 int verbose = 1;
 
-int get_index(char c);
-char reflect(enigma_t *, char);
-void rotate(rotor_t *, int);
-char rotor_pass(enigma_t *, int, int, char);
-char substitute(const char *, char);
+static int get_index(char c);
+static char reflect(enigma_t *, char);
+static void rotate(rotor_t *, int);
+static void rotate_rotors(enigma_t *);
+static char rotor_pass(enigma_t *, int, int, char);
+static char substitute(const char *, char);
 
 char encode(enigma_t *enigma, char input) {
+    VERBOSE_PRINT("Keyboard Input: %c\n", input);
+
+    rotate_rotors(enigma);
+    if (verbose) {
+        VERBOSE_PRINT("%s", "Rotor Positions:");
+        for (int i = 0; i < enigma->rotor_count; i++) {
+            VERBOSE_PRINT(" %c", enigma->rotors[i].alphabet[0]);
+        }
+        VERBOSE_PRINT("%s", "\n");
+    }
+
     char output = substitute(enigma->plugboard, input);
     VERBOSE_PRINT("Plugboard: %c -> %c\n", input, output);
 
@@ -43,7 +55,7 @@ char encode(enigma_t *enigma, char input) {
     return output;
 }
 
-int get_index(char c) {
+static int get_index(char c) {
     if (c >= 'A' && c <= 'Z') {
         return c - 'A';
     } else if (c >= 'a' && c <= 'z') {
@@ -52,7 +64,7 @@ int get_index(char c) {
     return -1;
 }
 
-void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
+static void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
     enigma->rotors = malloc(count * sizeof(rotor_t));
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
 
@@ -63,7 +75,13 @@ void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
     enigma->rotor_count = count;
 }
 
-void rotate(rotor_t *rotor, int count) {
+static void rotate(rotor_t *rotor, int count) {
+    rotor->idx += count;
+
+    if (rotor->idx >= 26) {
+        rotor->idx -= 26;
+    }
+
     for (int i = 0; i < count; i++) {
         char first = rotor->alphabet[0];
         for (int j = 0; j < 25; j++) {
@@ -73,18 +91,24 @@ void rotate(rotor_t *rotor, int count) {
     }
 }
 
-char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
+static void rotate_rotors(enigma_t *enigma) {
+    rotate(&enigma->rotors[0], 1);
+
+    if (enigma->rotor_flag) {
+        rotate(&enigma->rotors[1], 1);
+        rotate(&enigma->rotors[2], 1);
+    }
+
+    // TODO fix for multiple notches
+    if (enigma->rotors[0].alphabet[0] == enigma->rotors[0].notches[0]) {
+        rotate(&enigma->rotors[1], 1);
+    }
+}
+
+static char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
     rotor_t *rotor = &enigma->rotors[rotorIdx];
     int index = get_index(input);
 
-    if (rotorIdx == 0 && direction == 1) {
-        VERBOSE_PRINT("Rotating rotor %d\n", rotorIdx + 1);
-        rotate(rotor, direction);
-    } else if (rotorIdx > 0 && enigma->rotors[rotorIdx - 1].alphabet[0] == rotor->alphabet[index]) {
-        // Rotate the previous rotor if the current rotor is at a notch position
-        VERBOSE_PRINT("Rotating rotor %d\n", rotorIdx);
-        rotate(&enigma->rotors[rotorIdx - 1], direction);
-    }
 
     if (isupper(input)) {
         return rotor->alphabet[index];
@@ -93,8 +117,10 @@ char rotor_pass(enigma_t *enigma, int rotorIdx, int direction, char input) {
     return tolower(rotor->alphabet[index]);
 }
 
-char reflect(enigma_t *enigma, char input) {
-    if (!enigma->reflector) return input;
+static char reflect(enigma_t *enigma, char input) {
+    if (!enigma->reflector) {
+        return input;
+    }
 
     int index = get_index(input);
 
@@ -105,7 +131,7 @@ char reflect(enigma_t *enigma, char input) {
     return tolower(enigma->reflector->alphabet[index]);
 }
 
-char substitute(const char *plugboard, char input) {
+static char substitute(const char *plugboard, char input) {
     if (!plugboard) return input;
 
     for (int i = 0; plugboard[i] != '\0'; i += 2) {

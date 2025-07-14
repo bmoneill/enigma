@@ -10,11 +10,13 @@ typedef struct {
     const char *name;
     char *alphabet;
     const char *notches;
+    int idx;
 } rotor_t;
 
 typedef struct {
     char *name;
     rotor_t *rotors;
+    int rotor_flag;
     int rotor_count;
     reflector_t *reflector;
     const char *plugboard;
