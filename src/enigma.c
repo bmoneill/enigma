@@ -30,6 +30,7 @@ char encode(enigma_t *enigma, char input) {
     VERBOSE_PRINT("Keyboard Input: %c\n", input);
 
     rotate_rotors(enigma);
+
     if (verbose) {
         VERBOSE_PRINT("%s", "Rotor Positions:");
         for (int i = 0; i < enigma->rotor_count; i++) {
@@ -66,7 +67,7 @@ char encode(enigma_t *enigma, char input) {
     return to_alpha(idx, upper);
 }
 
-void init_rotors(enigma_t *enigma, rotor_t *rotors, int count) {
+void init_rotors(enigma_t *enigma, const rotor_t *rotors, int count) {
     enigma->rotor_flag = 0;
     enigma->rotors = malloc(count * sizeof(rotor_t));
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));

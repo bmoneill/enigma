@@ -23,6 +23,6 @@ typedef struct {
 } enigma_t;
 
 char encode(enigma_t*, char);
-void init_rotors(enigma_t *, rotor_t *, int);
+void init_rotors(enigma_t *, const rotor_t *, int);
 
 #endif
