@@ -1,4 +1,4 @@
-# enigma: Enigma machine encoder/decoder
+# enigma: Enigma machine simulator
 
 This is a CLI M3 Enigma simulator.
 
