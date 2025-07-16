@@ -22,6 +22,16 @@ static char substitute(const char *, char, int);
 static int to_alpha(int, int);
 static int to_char_code(char);
 
+/**
+ * @brief Encode a character using the Enigma machine.
+ *
+ * This function takes an input character, processes it through the Enigma machine's rotors and reflector,
+ * and returns the encoded character. It handles both uppercase and lowercase characters.
+ *
+ * @param enigma Pointer to the Enigma machine structure.
+ * @param input The character to encode.
+ * @return The encoded character.
+ */
 char encode(enigma_t *enigma, char input) {
     char output = input;
     int upper = isupper(input);
@@ -72,6 +82,16 @@ char encode(enigma_t *enigma, char input) {
     return output;
 }
 
+/**
+ * @brief Initialize the rotors of the Enigma machine.
+ *
+ * This populates the `rotors` array in the specified `enigma_t` by copying the provided
+ * array of rotors. It also sets the rotor flag and count.
+ *
+ * @param enigma Pointer to the `enigma_t`.
+ * @param rotors Array of `rotor_t`s to copy to the `enigma_t`.
+ * @param count Number of rotors to copy.
+ */
 void init_rotors(enigma_t *enigma, const rotor_t *rotors, int count) {
     enigma->rotor_flag = 0;
     enigma->rotors = malloc(count * sizeof(rotor_t));
@@ -79,23 +99,47 @@ void init_rotors(enigma_t *enigma, const rotor_t *rotors, int count) {
     enigma->rotor_count = count;
 }
 
+/**
+ * @brief Find the index of a character in a string.
+ *
+ * This function searches for the first occurrence of a character in a string
+ * and returns its index. If the character is not found, it returns -1.
+ *
+ * @param str The string to search in.
+ * @param c The character to find.
+ * @return The index of the character in the string, or -1 if not found.
+ */
 static int index_of(const char *str, char c) {
     const char *p = strchr(str, c);
     return p ? (int)(p - str) : -1;
 }
 
-static char reflect(enigma_t *enigma, int idx, int upper) {
-    reflector_t *reflector = enigma->reflector;
-
+/**
+ * @brief Pass through the reflector and return the reflected character.
+ *
+ * @param reflector Pointer to the reflector structure.
+ * @param idx The index where the ciphertext left the last rotor.
+ * @param upper A flag indicating if the character is uppercase (1) or lowercase (0).
+ * @return The reflected character based on the reflector's alphabet.
+ */
+static char reflect(reflector_t *reflector, int idx, int upper) {
     if (!reflector) {
-        printf("Error: Reflector not set.\n");
+        fprintf(stderr, "Warning: Reflector not set.\n");
         return idx;
     }
 
     return upper ? reflector->alphabet[idx] : tolower(reflector->alphabet[idx]);
 }
 
-
+/**
+ * @brief Rotate the specified rotor by the specified count.
+ *
+ * This function rotates the rotor's index by the given count, wrapping around
+ * if it exceeds the size of the alphabet.
+ *
+ * @param rotor Pointer to the rotor structure.
+ * @param count The number of positions to rotate.
+ */
 static void rotate(rotor_t *rotor, int count) {
     rotor->idx += count;
 
@@ -104,6 +148,14 @@ static void rotate(rotor_t *rotor, int count) {
     }
 }
 
+/**
+ * @brief Rotate the rotors of the Enigma machine.
+ *
+ * This function rotates the first rotor by one position and checks if the
+ * next rotors need to be rotated based on the notches.
+ *
+ * @param enigma Pointer to the Enigma machine structure.
+ */
 static void rotate_rotors(enigma_t *enigma) {
     rotate(&enigma->rotors[0], 1);
 
@@ -118,6 +170,18 @@ static void rotate_rotors(enigma_t *enigma) {
     }
 }
 
+/**
+ * @brief Substitute characters based on the plugboard configuration.
+ *
+ * This function takes in the plugboard configuration (an even-length string
+ * representing pairs of characters to swap), and the character to be substituted.
+ * The character can be uppercase or lowercase.
+ *
+ * @param plugboard The plugboard configuration string.
+ * @param c The character to be substituted.
+ * @param upper A flag indicating if the character is uppercase (1) or lowercase (0)
+ * @return The substituted character based on the plugboard configuration.
+ */
 static char substitute(const char *plugboard, char c, int upper) {
     printf("%c\n", c);
     if (!plugboard) return c;
@@ -136,6 +200,11 @@ static char substitute(const char *plugboard, char c, int upper) {
     return c;
 }
 
+/**
+ * @brief Convert a character to its corresponding index in the alphabet.
+ * @param c character to convert
+ * @return The index of the character in the alphabet (0 for 'A' or 'a'...)
+ */
 static int to_char_code(char c) {
     if (c >= 'A' && c <= 'Z') {
         return c - 'A';
@@ -145,6 +214,12 @@ static int to_char_code(char c) {
     return -1;
 }
 
+/**
+ * @brief Convert an index to its corresponding character in the alphabet (with correct casing).
+ * @param c The index to convert.
+ * @param upper A flag indicating if the character should be uppercase (1) or lowercase (0).
+ * @return The character corresponding to the index in the alphabet.
+ */
 static int to_alpha(int c, int upper) {
     return c + (upper ? 'A' : 'a');
 }
