@@ -9,7 +9,7 @@ BOMBE_SRC=src/bombe.c src/reflectors.c src/rotors.c src/enigma.c src/bombe_main.
 all: $(ENIGMA_BIN) $(BOMBE_BIN)
 
 $(ENIGMA_BIN): $(ENIGMA_SRC)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $(ENIGMA_CFLAGS) $(CPPFLAGS) $^ -o $@
 
 $(BOMBE_BIN): $(BOMBE_SRC)
 	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
