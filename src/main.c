@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     memcpy(enigma.reflector, &enigma_1_UKW_B, sizeof(reflector_t));
 
     enigma.plugboard = ""; // Example plugboard configuration
-    init_rotors(&enigma, (rotor_t[]) { enigma_I_rotor_I, enigma_I_rotor_II, enigma_I_rotor_III }, enigma.rotor_count);
+    init_rotors(&enigma, (rotor_t[]) { enigma_I_rotor_III, enigma_I_rotor_II, enigma_I_rotor_I }, enigma.rotor_count);
 
     int c;
     while ((c = fgetc(stdin)) != EOF) {

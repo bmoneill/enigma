@@ -18,7 +18,7 @@ static char reflect(enigma_t *, int, int);
 static void rotate(rotor_t *, int);
 static void rotate_rotors(enigma_t *);
 static int rotor_pass(enigma_t *, int, int, int);
-static int substitute(const char *, int, int);
+static char substitute(const char *, char, int);
 static int to_alpha(int, int);
 static int to_char_code(char);
 
@@ -40,13 +40,15 @@ char encode(enigma_t *enigma, char input) {
     }
 
     // Plugboard
-    idx = substitute(enigma->plugboard, idx, upper);
-    VERBOSE_PRINT("Plugboard: %c\n", alphabet[idx]);
+    input = substitute(enigma->plugboard, input, upper);
+    idx = to_char_code(input);
+    VERBOSE_PRINT("Plugboard: %c\n", input);
 
     // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
         idx = (idx + enigma->rotors[i].idx) % ALPHA_SIZE;
-        idx = index_of(enigma->rotors[i].alphabet, alphabet[idx]);
+        idx = to_char_code(enigma->rotors[i].alphabet[idx]);
+        idx = (ALPHA_SIZE + idx - enigma->rotors[i].idx) % ALPHA_SIZE;
         VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
     }
 
@@ -57,14 +59,17 @@ char encode(enigma_t *enigma, char input) {
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
         idx = (idx + enigma->rotors[i].idx) % ALPHA_SIZE;
+        idx = to_char_code(enigma->rotors[i].alphabet[idx]);
+        idx = (ALPHA_SIZE + idx - enigma->rotors[i].idx) % ALPHA_SIZE;
+
         VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
     }
 
     // Plugboard again
-    idx = substitute(enigma->plugboard, idx, upper);
-    VERBOSE_PRINT("Plugboard: %c\n", alphabet[idx]);
+    output = substitute(enigma->plugboard, enigma->rotors[0].alphabet[idx], upper);
+    VERBOSE_PRINT("Plugboard: %c\n", output);
 
-    return to_alpha(idx, upper);
+    return output;
 }
 
 void init_rotors(enigma_t *enigma, const rotor_t *rotors, int count) {
@@ -79,18 +84,17 @@ static int index_of(const char *str, char c) {
     return p ? (int)(p - str) : -1;
 }
 
-static int to_char_code(char c) {
-    if (c >= 'A' && c <= 'Z') {
-        return c - 'A';
-    } else if (c >= 'a' && c <= 'z') {
-        return c - 'a';
+static char reflect(enigma_t *enigma, int idx, int upper) {
+    reflector_t *reflector = enigma->reflector;
+
+    if (!reflector) {
+        printf("Error: Reflector not set.\n");
+        return idx;
     }
-    return -1;
+
+    return upper ? reflector->alphabet[idx] : tolower(reflector->alphabet[idx]);
 }
 
-static int to_alpha(int c, int upper) {
-    return c + (upper ? 'A' : 'a');
-}
 
 static void rotate(rotor_t *rotor, int count) {
     rotor->idx += count;
@@ -114,28 +118,33 @@ static void rotate_rotors(enigma_t *enigma) {
     }
 }
 
-static char reflect(enigma_t *enigma, int idx, int upper) {
-    reflector_t *reflector = enigma->reflector;
+static char substitute(const char *plugboard, char c, int upper) {
+    printf("%c\n", c);
+    if (!plugboard) return c;
 
-    if (!reflector) {
-        printf("Error: Reflector not set.\n");
-        return idx;
-    }
-
-    return upper ? reflector->alphabet[idx] : tolower(reflector->alphabet[idx]);
-}
-
-static int substitute(const char *plugboard, int idx, int upper) {
-    if (!plugboard) return to_alpha(idx, upper);
+    c = toupper(c);
 
     for (int i = 0; plugboard[i] != '\0'; i += 2) {
-        if (plugboard[i] == idx) {
-            // TODO casing
-            return plugboard[i + 1];
-        } else if (plugboard[i + 1] == idx) {
-            return plugboard[i];
+        printf("passed\n");
+        if (plugboard[i] == c) {
+            return upper ? plugboard[i + 1] : tolower(plugboard[i + 1]);
+        } else if (plugboard[i + 1] == c) {
+            return upper ? plugboard[i] : tolower(plugboard[i]);
         }
     }
 
-    return idx;
+    return c;
+}
+
+static int to_char_code(char c) {
+    if (c >= 'A' && c <= 'Z') {
+        return c - 'A';
+    } else if (c >= 'a' && c <= 'z') {
+        return c - 'a';
+    }
+    return -1;
+}
+
+static int to_alpha(int c, int upper) {
+    return c + (upper ? 'A' : 'a');
 }
