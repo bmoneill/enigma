@@ -3,10 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define VERBOSE 1
 
 #include "enigma.h"
 
-#define VERBOSE_PRINT(fmt, ...) if (verbose) fprintf(stderr, fmt, __VA_ARGS__)
+#define VERBOSE_PRINT(fmt, ...) if (VERBOSE) fprintf(stderr, fmt, __VA_ARGS__)
 #define ALPHA_SIZE 26
 
 const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -55,9 +56,9 @@ char encode(enigma_t *enigma, char input) {
     VERBOSE_PRINT("Plugboard: %c\n", input);
 
     // Rotors
-    for (int i = 0; i < enigma->rotor_count; i++) {
+    for (int i = enigma->rotor_count - 1; i >= 0; i--) {
         idx = rotor_pass(&enigma->rotors[i], idx);
-        VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
+        VERBOSE_PRINT("Rotor %s (index %d): %c\n", enigma->rotors[i].name, idx, enigma->rotors[i].alphabet[idx]);
     }
 
     // Reflector
@@ -66,10 +67,11 @@ char encode(enigma_t *enigma, char input) {
     VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, alphabet[idx]);
 
     // Rotors in reverse
-    for (int i = enigma->rotor_count - 1; i >= 0; i--) {
+    for (int i = 0; i < enigma->rotor_count; i++) {
         idx = rotor_pass(&enigma->rotors[i], idx);
-        VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
+        VERBOSE_PRINT("Rotor %s (index %d): %c\n", enigma->rotors[i].name, idx, enigma->rotors[i].alphabet[idx]);
     }
+
 
     // Plugboard again
     output = substitute(enigma->plugboard, enigma->rotors[0].alphabet[idx], upper);
@@ -196,13 +198,11 @@ static int rotor_pass(rotor_t *rotor, int idx) {
  * @return The substituted character based on the plugboard configuration.
  */
 static char substitute(const char *plugboard, char c, int upper) {
-    printf("%c\n", c);
     if (!plugboard) return c;
 
     c = toupper(c);
 
     for (int i = 0; plugboard[i] != '\0'; i += 2) {
-        printf("passed\n");
         if (plugboard[i] == c) {
             return upper ? plugboard[i + 1] : tolower(plugboard[i + 1]);
         } else if (plugboard[i + 1] == c) {

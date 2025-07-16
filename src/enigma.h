@@ -14,7 +14,6 @@ typedef struct {
 } rotor_t;
 
 typedef struct {
-    char *name;
     rotor_t *rotors;
     int rotor_flag;
     int rotor_count;
