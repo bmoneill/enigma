@@ -14,10 +14,10 @@ const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 int verbose = 1;
 
 static int index_of(const char *, char);
-static char reflect(enigma_t *, int, int);
+static int reflect(reflector_t *, int);
 static void rotate(rotor_t *, int);
 static void rotate_rotors(enigma_t *);
-static int rotor_pass(enigma_t *, int, int, int);
+static int rotor_pass(rotor_t *, int);
 static char substitute(const char *, char, int);
 static int to_alpha(int, int);
 static int to_char_code(char);
@@ -56,22 +56,18 @@ char encode(enigma_t *enigma, char input) {
 
     // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
-        idx = (idx + enigma->rotors[i].idx) % ALPHA_SIZE;
-        idx = to_char_code(enigma->rotors[i].alphabet[idx]);
-        idx = (ALPHA_SIZE + idx - enigma->rotors[i].idx) % ALPHA_SIZE;
+        idx = rotor_pass(&enigma->rotors[i], idx);
         VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
     }
 
     // Reflector
     idx = to_char_code(enigma->reflector->alphabet[idx]);
+    output = reflect(enigma->reflector, idx);
     VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, alphabet[idx]);
 
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
-        idx = (idx + enigma->rotors[i].idx) % ALPHA_SIZE;
-        idx = to_char_code(enigma->rotors[i].alphabet[idx]);
-        idx = (ALPHA_SIZE + idx - enigma->rotors[i].idx) % ALPHA_SIZE;
-
+        idx = rotor_pass(&enigma->rotors[i], idx);
         VERBOSE_PRINT("Rotor %d (index %d): %c\n", i + 1, idx, enigma->rotors[i].alphabet[idx]);
     }
 
@@ -122,13 +118,13 @@ static int index_of(const char *str, char c) {
  * @param upper A flag indicating if the character is uppercase (1) or lowercase (0).
  * @return The reflected character based on the reflector's alphabet.
  */
-static char reflect(reflector_t *reflector, int idx, int upper) {
+static int reflect(reflector_t *reflector, int idx) {
     if (!reflector) {
         fprintf(stderr, "Warning: Reflector not set.\n");
         return idx;
     }
 
-    return upper ? reflector->alphabet[idx] : tolower(reflector->alphabet[idx]);
+    return reflector->alphabet[idx];
 }
 
 /**
@@ -168,6 +164,23 @@ static void rotate_rotors(enigma_t *enigma) {
     if (enigma->rotors[0].alphabet[0] == enigma->rotors[0].notches[0]) {
         rotate(&enigma->rotors[1], 1);
     }
+}
+
+/**
+ * @brief Pass through a rotor and return the index of the character.
+ *
+ * This function passes through a rotor, given the index that the wiring left
+ * the last rotor. It returns the index of the character in the rotor's alphabet
+ * (the index which it left this rotor).
+ *
+ * @param rotor Pointer to the `rotor_t`.
+ * @param idx The index of the character in the alphabet.
+ * @return The index of the character after passing through the rotor.
+ */
+static int rotor_pass(rotor_t *rotor, int idx) {
+    idx = (idx + rotor->idx) % ALPHA_SIZE;
+    idx = to_char_code(rotor->alphabet[idx]);
+    return (ALPHA_SIZE + idx - rotor->idx) % ALPHA_SIZE;
 }
 
 /**
