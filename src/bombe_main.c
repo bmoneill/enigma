@@ -40,7 +40,7 @@ static void print_usage(const char *argv0) {
     fprintf(stderr, "Usage: %s -c crib -i index -p ciphertext\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -c crib       Set the crib string to use\n");
+    fprintf(stderr, "  -C ciphertext Set the ciphertext to analyze\n");
     fprintf(stderr, "  -i index      Set the index where the crib string should be in the ciphertext\n");
-    fprintf(stderr, "  -p ciphertext Set the ciphertext to analyze\n");
     exit(EXIT_FAILURE);
 }

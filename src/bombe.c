@@ -44,7 +44,7 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
     printf("Running Bombe...\n");
     printf("Crib:\n");
     for (int i = 0; i < bombe->numCribs; i++) {
-        printf(" * %d %s\n", bombe->crib[i].index, bombe->crib[i].s);
+        printf(" - Index: %d, String: %s\n", bombe->crib[i].index, bombe->crib[i].s);
     }
 
     enigma_t enigma;
@@ -90,7 +90,7 @@ static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ci
                 enigma->rotors[2].idx = i;
                 enigma->rotors[1].idx = j;
                 enigma->rotors[0].idx = k;
-                sprintf(configString, "Rotors: %s (%c), %s (%c), %s (%c), Reflector: %s",
+                sprintf(configString, "Rotors: %s (%c)  %s (%c), %s (%c) | Reflector: %s",
                         enigma->rotors[0].name, enigma->rotors[0].idx + 'A',
                         enigma->rotors[1].name, enigma->rotors[1].idx + 'A',
                         enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
@@ -145,5 +145,5 @@ static void bombe_process_single(bombe_t *bombe, enigma_t *enigma, const char *c
         }
     }
 
-    printf("%s: %s\n", configString, plaintext);
+    printf("%s | Plaintext: %s\n", configString, plaintext);
 }
