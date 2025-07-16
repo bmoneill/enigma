@@ -41,6 +41,10 @@ $
 
 ## Bugs
 
+* For some reason, GCC optimizations break this code.
+* No support for double-stepping rotors (yet).
+* Probably others.
+
 If you find a bug, submit an issue, PR, or email me with a description and/or patch.
 
 ## License
