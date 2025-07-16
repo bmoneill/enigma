@@ -4,11 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bombe.h"
 #include "enigma.h"
 #include "rotors.h"
 #include "reflectors.h"
 
+static void bombe(char *, char *, int);
 static void load_default_enigma(enigma_t *);
 static int load_reflector_config(enigma_t *, const char *);
 static int load_rotor_config(enigma_t *, char *);
@@ -18,11 +18,6 @@ static void print_usage(const char *);
 int main(int argc, char *argv[]) {
     int opt;
     enigma_t enigma;
-    bombe_t bombe;
-
-
-    bombe_init(&bombe, (char *[]){"HELLO"}, (int []){0}, 1);
-//    bombe_run(&bombe, "HELLO");
 
     load_default_enigma(&enigma);
 
