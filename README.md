@@ -1,15 +1,30 @@
 # enigma: Enigma machine encoder/decoder
 
+This is an Enigma machine encoder/decoder.
+
 ## Building
 
-```
+```shell
 make
 sudo make install
 ```
 
+To enable verbose messages for debugging, uncomment the `CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
+
 ## Usage
 
-## Screenshots
+```shell
+$ ./enigma -h
+./enigma: invalid option -- 'h'
+Usage: ./enigma [-p plugboard] [-r rotors] [-R reflector] [-P position]
+Options:
+  -p plugboard   Set the plugboard configuration (e.g., 'AB CD EF')
+  -P position    Set the initial position of the rotors (e.g., 'ABC')
+  -r rotors      Set the rotor configuration (e.g., 'I II III')
+  -R reflector   Set the reflector configuration (e.g., 'B')
+Available rotors: I, II, III, IV, V, VI, VII, VIII
+Available reflectors: A, B, C
+```
 
 ## Further Reading
 
