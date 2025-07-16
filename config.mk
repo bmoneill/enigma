@@ -6,6 +6,7 @@ CC       = cc
 LD       = $(CC)
 
 CFLAGS   = -O2 -Werror -std=c99 -pedantic -g
+# CFLAGS   += -DVERBOSE
 CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 \
            -D_FILE_OFFSET_BITS=64 -DVERSION="$(VERSION)"
 LDFLAGS  = -g -Werror
