@@ -23,9 +23,13 @@ static void bombe_process_single(bombe_t *, enigma_t *, const char *, int, char 
  * @param numCribs Number of crib strings (length of cribStrings and cribIndices)
  */
 void bombe_init(bombe_t *bombe, char **cribStrings, int *cribIndices, int numCribs) {
+    bombe->lastCribIndex = 0;
     for (int i = 0; i < numCribs; i++) {
         bombe->crib[i].s = cribStrings[i];
         bombe->crib[i].index = cribIndices[i];
+        if (cribIndices[i] > bombe->lastCribIndex) {
+            bombe->lastCribIndex = cribIndices[i];
+        }
     }
     bombe->numCribs = numCribs;
 }
@@ -36,8 +40,6 @@ void bombe_init(bombe_t *bombe, char **cribStrings, int *cribIndices, int numCri
  * @param ciphertext The ciphertext to analyze
  */
 void bombe_run(bombe_t *bombe, const char *ciphertext) {
-    int rotor_count = 3;
-    int reflector_count = 3;
     int plugboard_count = 0;
     int ciphertextLength = strlen(ciphertext);
 
@@ -48,7 +50,7 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
     }
 
     enigma_t enigma;
-    enigma.rotors = malloc(rotor_count * sizeof(rotor_t));
+    enigma.rotors = malloc(ROTOR_COUNT * sizeof(rotor_t));
     enigma.reflector = malloc(sizeof(reflector_t));
     enigma.plugboard = NULL;
     enigma.rotor_count = 3;
@@ -60,7 +62,22 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
 
     char *plaintext = malloc(ciphertextLength + 1);
 
-    bombe_process_chunk(bombe, &enigma, ciphertext, ciphertextLength, plaintext);
+    // Loop through all unique rotor configurations
+    for (int i = 0; i < ROTOR_COUNT; i++) {
+        memcpy(&enigma.rotors[0], enigma_rotors[i], sizeof(rotor_t));
+        for (int j = 0; j < ROTOR_COUNT; j++) {
+            memcpy(&enigma.rotors[1], enigma_rotors[j], sizeof(rotor_t));
+            for (int k = 0; k < ROTOR_COUNT; k++) {
+                if (i == j || j == k || i == k) continue;
+                memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(rotor_t));
+
+                for (int l = 0; l < REFLECTOR_COUNT; l++) {
+                    enigma.reflector = enigma_reflectors[l];
+                    bombe_process_chunk(bombe, &enigma, ciphertext, ciphertextLength, plaintext);
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -78,10 +95,6 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
  * @param plaintext Buffer to store the decrypted plaintext (to avoid mallocing each time)
  */
 static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext) {
-    printf("Processing chunk with rotors (%s, %s, %s), reflector %s\n",
-           enigma->rotors[0].name, enigma->rotors[1].name, enigma->rotors[2].name,
-           enigma->reflector->name);
-
     char configString[256];
 
     for (int i = 0; i < ALPHA_SIZE; i++) {
