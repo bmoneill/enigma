@@ -3,16 +3,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define VERBOSE 1
-
 #include "enigma.h"
 
-#define VERBOSE_PRINT(fmt, ...) if (VERBOSE) fprintf(stderr, fmt, __VA_ARGS__)
+#ifdef VERBOSE
+#define VERBOSE_PRINT(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)
+#else
+#define VERBOSE_PRINT(fmt, ...)
+#endif
+
 #define ALPHA_SIZE 26
 
 const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-int verbose = 1;
 
 static int index_of(const char *, char);
 static int reflect(reflector_t *, int);
@@ -42,13 +43,13 @@ char encode(enigma_t *enigma, char input) {
 
     rotate_rotors(enigma);
 
-    if (verbose) {
+    #ifdef VERBOSE
         VERBOSE_PRINT("%s", "Rotor Positions:");
         for (int i = 0; i < enigma->rotor_count; i++) {
             VERBOSE_PRINT(" %c", enigma->rotors[i].idx + 'A');
         }
         VERBOSE_PRINT("%s", "\n");
-    }
+    #endif
 
     // Plugboard
     input = substitute(enigma->plugboard, input, upper);
