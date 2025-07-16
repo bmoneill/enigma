@@ -69,9 +69,9 @@ static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ci
         for (int j = 0; j < ALPHA_SIZE; j++) {
             for (int k = 0; k < ALPHA_SIZE; k++) {
                 // Set rotor positions based on i, j, k
-                enigma->rotors[0].idx = i;
+                enigma->rotors[2].idx = i;
                 enigma->rotors[1].idx = j;
-                enigma->rotors[2].idx = k;
+                enigma->rotors[0].idx = k;
 
                 // Run Bombe algorithm with the current configuration
                 bombe_process_single(bombe, enigma, ciphertext, ciphertextLength);
