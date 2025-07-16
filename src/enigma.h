@@ -1,6 +1,9 @@
 #ifndef ENIGMA_H
 #define ENIGMA_H
 
+#define ROTOR_COUNT 8
+#define REFLECTOR_COUNT 3
+
 typedef struct {
     const char *name;
     const char *alphabet;

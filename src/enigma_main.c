@@ -8,6 +8,7 @@
 #include "rotors.h"
 #include "reflectors.h"
 
+static void bombe(char *, char *, int);
 static void load_default_enigma(enigma_t *);
 static int load_reflector_config(enigma_t *, const char *);
 static int load_rotor_config(enigma_t *, char *);
@@ -16,7 +17,6 @@ static void print_usage(const char *);
 
 int main(int argc, char *argv[]) {
     int opt;
-    int verbose = 0;
     enigma_t enigma;
 
     load_default_enigma(&enigma);
@@ -85,7 +85,7 @@ static void load_default_enigma(enigma_t *enigma) {
  * @return 1 if the reflector was found and loaded, 0 otherwise.
  */
 static int load_reflector_config(enigma_t *enigma , const char *s) {
-    for (int i = 0; i < sizeof(enigma_reflectors) / sizeof(reflector_t *); i++) {
+    for (int i = 0; i < 3; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
             memcpy(enigma->reflector, enigma_reflectors[i], sizeof(reflector_t));
             return 1;
@@ -98,7 +98,7 @@ static int load_reflector_config(enigma_t *enigma , const char *s) {
 
 static int load_rotor_config(enigma_t *enigma, char *s) {
     enigma->rotor_count = 0;
-    int numRotors = sizeof(enigma_rotors) / sizeof(rotor_t *);
+    int numRotors = 8;
 
     char *token = strtok(s, " ");
     while (token != NULL) {

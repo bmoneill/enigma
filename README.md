@@ -1,6 +1,6 @@
-# enigma: Enigma machine simulator
+# enigma: Enigma machine simulator and Bombe
 
-This is a CLI M3 Enigma simulator.
+This is a CLI M3 Enigma simulator and Bombe.
 
 ## Building
 
@@ -12,6 +12,8 @@ sudo make install
 To enable verbose messages for debugging, uncomment the `CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
 
 ## Usage
+
+### enigma
 
 `enigma` will read input from stdin and print to stdout. Redirection is up to the user.
 Parameters are listed below. `enigma` works with both uppercase and lowercase input.
@@ -38,6 +40,32 @@ HELLO
 $
 ```
 
+### bombe
+
+`bombe` takes in 3 arguments: the crib, the index where the crib should be in
+the ciphertext, and the ciphertext. It will output all Enigma configurations containing
+the plaintext crib at the given index, and the entire plaintext.
+
+```shell
+$ ./bombe -h
+./bombe: invalid option -- 'h'
+Usage: ./bombe -c crib -i index -p ciphertext
+Options:
+  -c crib       Set the crib string to use
+  -C ciphertext Set the ciphertext to analyze
+  -i index      Set the index where the crib string should be in the ciphertext
+$ ./bombe -c HELLO -i 0 -C ILBDA
+Running Bombe...
+Crib:
+ - Index: 0, String: HELLO
+Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLO
+Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLO
+Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLO
+Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLO
+Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLO
+...
+```
+
 ## Further Reading
 
 * [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
@@ -47,6 +75,7 @@ $
 
 * For some reason, GCC optimizations break this code.
 * No support for double-stepping rotors (yet).
+* Bombe doesn't support a populated plugboard.
 * Probably others.
 
 If you find a bug, submit an issue, PR, or email me with a description and/or patch.
