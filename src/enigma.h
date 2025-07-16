@@ -11,7 +11,6 @@ typedef struct {
     const char *alphabet;
     const char *notches;
     int idx;
-    int ring;
 } rotor_t;
 
 typedef struct {
