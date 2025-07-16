@@ -1,6 +1,6 @@
 # enigma: Enigma machine encoder/decoder
 
-This is an Enigma machine encoder/decoder.
+This is a CLI M3 Enigma simulator.
 
 ## Building
 
