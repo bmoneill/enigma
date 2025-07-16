@@ -69,6 +69,7 @@ static void load_default_enigma(enigma_t *enigma) {
     enigma->rotors[2] = rotor_I;
     enigma->rotors[1] = rotor_II;
     enigma->rotors[0] = rotor_III;
+    enigma->rotor_flag = 0;
     enigma->plugboard = NULL;
 }
 
