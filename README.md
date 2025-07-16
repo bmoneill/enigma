@@ -29,7 +29,11 @@ Available rotors: I, II, III, IV, V, VI, VII, VIII
 Available reflectors: A, B, C
 $ ./enigma
 HELLO
-WOKHE
+ILBDA
+^C
+$ ./enigma
+ILBDA
+HELLO
 ^C
 $
 ```
