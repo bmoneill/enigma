@@ -2,7 +2,7 @@ include config.mk
 
 BIN=enigma
 
-SRC=src/enigma.c src/main.c
+SRC=src/bombe.c src/enigma.c src/reflectors.c src/rotors.c src/main.c
 
 all: $(BIN)
 
