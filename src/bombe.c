@@ -20,8 +20,7 @@ static void bombe_process_single(bombe_t *, enigma_t *, const char *, int, char 
  * @param bombe The bombe structure to initialize
  * @param cribStrings Array of crib strings to be used
  * @param cribIndices Array of crib indices for each crib string
- * @param cribLength Length of the crib array
- * @param enigma Pointer to the Enigma configuration
+ * @param numCribs Number of crib strings (length of cribStrings and cribIndices)
  */
 void bombe_init(bombe_t *bombe, char **cribStrings, int *cribIndices, int numCribs) {
     for (int i = 0; i < numCribs; i++) {
@@ -35,8 +34,6 @@ void bombe_init(bombe_t *bombe, char **cribStrings, int *cribIndices, int numCri
  * @brief Runs the Bombe algorithm with the provided cribs and configuration.
  * @param bombe The bombe structure containing cribs and configuration
  * @param ciphertext The ciphertext to analyze
- * @param offset Potential offset for crib matching
- * @param threadCount Number of threads to use for processing
  */
 void bombe_run(bombe_t *bombe, const char *ciphertext) {
     int rotor_count = 3;
@@ -73,9 +70,14 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
  * and loop through all possible rotor positions and check if any match our crib.
  *
  * This loop runs 26^3=17576 times.
+ *
+ * @param bombe The bombe structure containing cribs and configuration
+ * @param enigma The Enigma configuration to use for processing
+ * @param ciphertext The ciphertext to analyze
+ * @param ciphertextLength The length of the ciphertext
+ * @param plaintext Buffer to store the decrypted plaintext (to avoid mallocing each time)
  */
 static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext) {
-    // Placeholder for processing each chunk of ciphertext
     printf("Processing chunk with rotors (%s, %s, %s), reflector %s\n",
            enigma->rotors[0].name, enigma->rotors[1].name, enigma->rotors[2].name,
            enigma->reflector->name);
@@ -85,7 +87,6 @@ static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ci
     for (int i = 0; i < ALPHA_SIZE; i++) {
         for (int j = 0; j < ALPHA_SIZE; j++) {
             for (int k = 0; k < ALPHA_SIZE; k++) {
-                // Set rotor positions based on i, j, k
                 enigma->rotors[2].idx = i;
                 enigma->rotors[1].idx = j;
                 enigma->rotors[0].idx = k;
@@ -95,7 +96,6 @@ static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ci
                         enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
                         enigma->reflector->name);
 
-                // Run Bombe algorithm with the current configuration
                 bombe_process_single(bombe, enigma, ciphertext, ciphertextLength, plaintext, configString);
             }
         }
@@ -104,6 +104,13 @@ static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ci
 
 /**
  * @brief Check the given enigma configuration against the ciphertext.
+ *
+ * @param bombe The bombe structure containing cribs and configuration
+ * @param enigma The Enigma configuration to use for processing
+ * @param ciphertext The ciphertext to analyze
+ * @param ciphertextLength The length of the ciphertext
+ * @param plaintext Buffer to store the decrypted plaintext
+ * @param configString String representation of the current Enigma configuration
  */
 static void bombe_process_single(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext, const char *configString) {
     int matching = -1;
