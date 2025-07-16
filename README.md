@@ -13,6 +13,9 @@ To enable verbose messages for debugging, uncomment the `CFLAGS += -DVERBOSE` li
 
 ## Usage
 
+`enigma` will read input from stdin and print to stdout. Redirection is up to the user.
+Parameters are listed below. `enigma` works with both uppercase and lowercase input.
+
 ```shell
 $ ./enigma -h
 ./enigma: invalid option -- 'h'
@@ -24,6 +27,11 @@ Options:
   -R reflector   Set the reflector configuration (e.g., 'B')
 Available rotors: I, II, III, IV, V, VI, VII, VIII
 Available reflectors: A, B, C
+$ ./enigma
+HELLO
+WOKHE
+^C
+$
 ```
 
 ## Further Reading
