@@ -66,9 +66,9 @@ static void load_default_enigma(enigma_t *enigma) {
     memcpy(enigma->reflector, &UKW_B, sizeof(reflector_t));
     enigma->rotor_count = 3;
     enigma->rotors = malloc(enigma->rotor_count * sizeof(rotor_t));
-    enigma->rotors[0] = rotor_I;
+    enigma->rotors[2] = rotor_I;
     enigma->rotors[1] = rotor_II;
-    enigma->rotors[2] = rotor_III;
+    enigma->rotors[0] = rotor_III;
     enigma->plugboard = NULL;
 }
 

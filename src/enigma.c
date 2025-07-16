@@ -19,7 +19,7 @@ static int index_of(const char *, char);
 static int reflect(reflector_t *, int);
 static void rotate(rotor_t *, int);
 static void rotate_rotors(enigma_t *);
-static int rotor_pass(rotor_t *, int);
+static int rotor_pass(rotor_t *, int, int);
 static char substitute(const char *, char, int);
 static int to_alpha(int, int);
 static int to_char_code(char);
@@ -54,28 +54,27 @@ char encode(enigma_t *enigma, char input) {
     // Plugboard
     input = substitute(enigma->plugboard, input, upper);
     idx = to_char_code(input);
-    VERBOSE_PRINT("Plugboard: %c\n", input);
+    VERBOSE_PRINT("Plugboard: %c (index %d)\n", input, idx);
 
     // Rotors
-    for (int i = enigma->rotor_count - 1; i >= 0; i--) {
-        idx = rotor_pass(&enigma->rotors[i], idx);
-        VERBOSE_PRINT("Rotor %s (index %d): %c\n", enigma->rotors[i].name, idx, enigma->rotors[i].alphabet[idx]);
+    for (int i = 0; i < enigma->rotor_count; i++) {
+        idx = rotor_pass(&enigma->rotors[i], idx, 1);
+        VERBOSE_PRINT("Rotor %s (index %d): %c\n", enigma->rotors[i].alphabet, idx, alphabet[idx]);
     }
 
     // Reflector
-    idx = to_char_code(enigma->reflector->alphabet[idx]);
     output = reflect(enigma->reflector, idx);
+    idx = to_char_code(output);
     VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, alphabet[idx]);
 
     // Rotors in reverse
-    for (int i = 0; i < enigma->rotor_count; i++) {
-        idx = rotor_pass(&enigma->rotors[i], idx);
-        VERBOSE_PRINT("Rotor %s (index %d): %c\n", enigma->rotors[i].name, idx, enigma->rotors[i].alphabet[idx]);
+    for (int i = enigma->rotor_count - 1; i >= 0; i--) {
+        idx = rotor_pass(&enigma->rotors[i], idx, -1);
+        VERBOSE_PRINT("Rotor %s (index %d, offset %d): %c\n", enigma->rotors[i].alphabet, idx, enigma->rotors[i].idx, alphabet[idx]);
     }
 
-
     // Plugboard again
-    output = substitute(enigma->plugboard, enigma->rotors[0].alphabet[idx], upper);
+    output = substitute(enigma->plugboard, alphabet[idx], upper);
     VERBOSE_PRINT("Plugboard: %c\n", output);
 
     return output;
@@ -178,11 +177,16 @@ static void rotate_rotors(enigma_t *enigma) {
  *
  * @param rotor Pointer to the `rotor_t`.
  * @param idx The index of the character in the alphabet.
+ * @param direction The direction of the pass (1 for forward, -1 for reverse)
  * @return The index of the character after passing through the rotor.
  */
-static int rotor_pass(rotor_t *rotor, int idx) {
+static int rotor_pass(rotor_t *rotor, int idx, int direction) {
     idx = (idx + rotor->idx) % ALPHA_SIZE;
-    idx = to_char_code(rotor->alphabet[idx]);
+    if (direction == 1) {
+        idx = index_of(alphabet, rotor->alphabet[idx]);
+    } else {
+        idx = index_of(rotor->alphabet, alphabet[idx]);
+    }
     return (ALPHA_SIZE + idx - rotor->idx) % ALPHA_SIZE;
 }
 
