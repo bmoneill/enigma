@@ -27,6 +27,7 @@ void bombe_init(bombe_t *bombe, char **cribStrings, int *cribIndices, int numCri
     for (int i = 0; i < numCribs; i++) {
         bombe->crib[i].s = cribStrings[i];
         bombe->crib[i].index = cribIndices[i];
+        bombe->crib[i].length = strlen(cribStrings[i]);
         if (cribIndices[i] > bombe->lastCribIndex) {
             bombe->lastCribIndex = cribIndices[i];
         }
@@ -158,5 +159,7 @@ static void bombe_process_single(bombe_t *bombe, enigma_t *enigma, const char *c
         }
     }
 
-    printf("%s | Plaintext: %s\n", configString, plaintext);
+    if (matching > -1 && matchedLength == bombe->crib[matching].length) {
+        printf("%s | Plaintext: %s\n", configString, plaintext);
+    }
 }
