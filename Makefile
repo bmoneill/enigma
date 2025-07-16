@@ -7,10 +7,7 @@ SRC=src/enigma.c src/main.c
 all: $(BIN)
 
 $(BIN): $(SRC)
-	$(LD) $(LDFLAGS) $^ -o $@
-
-%.o: %.c
-	$(CC) -c $(CFLAGS) -o $@ $^
+	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 clean:
 	rm -f $(wildcard src/*.o) $(BIN)
