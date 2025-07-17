@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
 
     bombe_t bombe;
     bombe_init(&bombe, (char *[]){crib}, (int []){idx}, 1);
-    bombe_run(&bombe, ciphertext);
+    bombe_run(&bombe, ciphertext, 6);
 
     return EXIT_SUCCESS;
 }

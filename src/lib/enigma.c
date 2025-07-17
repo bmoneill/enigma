@@ -25,27 +25,6 @@ static int to_alpha(int, int);
 static int to_char_code(char);
 
 /**
- * @brief Deinitialize the Enigma machine.
- *
- * This function frees the memory allocated for the rotors and reflector in the `enigma_t`.
- *
- * @param enigma Pointer to the Enigma machine structure.
- */
-void deinit_enigma(enigma_t *enigma) {
-    if (enigma->rotors) {
-        free(enigma->rotors);
-    }
-    if (enigma->reflector) {
-        for (int i = 0; i < REFLECTOR_COUNT; i++) {
-            if (enigma->reflector == enigma_reflectors[i]) {
-                return;
-            }
-        }
-        free(enigma->reflector);
-    }
-}
-
-/**
  * @brief Encode a character using the Enigma machine.
  *
  * This function takes an input character, processes it through the Enigma machine's rotors and reflector,
@@ -113,7 +92,6 @@ char encode(enigma_t *enigma, char input) {
  */
 void init_rotors(enigma_t *enigma, const rotor_t *rotors, int count) {
     enigma->rotor_flag = 0;
-    enigma->rotors = malloc(count * sizeof(rotor_t));
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
     enigma->rotor_count = count;
 }
@@ -145,10 +123,8 @@ static int index_of(const char *str, char c) {
  * @param enigma Pointer to the `enigma_t` to be initialized.
  */
 void init_default_enigma(enigma_t *enigma) {
-    enigma->reflector = malloc(sizeof(reflector_t));
-    memcpy(enigma->reflector, &UKW_B, sizeof(reflector_t));
+    enigma->reflector = &UKW_B;
     enigma->rotor_count = 3;
-    enigma->rotors = malloc(enigma->rotor_count * sizeof(rotor_t));
     enigma->rotors[2] = rotor_I;
     enigma->rotors[1] = rotor_II;
     enigma->rotors[0] = rotor_III;

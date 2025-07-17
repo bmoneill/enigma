@@ -1,5 +1,6 @@
 #include "bombe.h"
 
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,8 +9,19 @@
 #include "rotors.h"
 #include "reflectors.h"
 
-static void process_chunk(bombe_t *, enigma_t *, const char *, int, char *);
-static void process_single(bombe_t *, enigma_t *, const char *, int, char *, const char *);
+typedef struct {
+    bombe_t bombe;
+    enigma_t enigma;
+    const char *ciphertext;
+    int ciphertextLength;
+    char *plaintext;
+    int threadNumber;
+} bombe_thread_args_t;
+
+static void init_chunk_thread_args(bombe_thread_args_t *, const bombe_t *, const enigma_t *, const char *, int, int);
+static void *thread_process_chunk(void *);
+static void process_chunk(bombe_t *, enigma_t *, const char *, int, char *, int);
+static void process_single(bombe_t *, enigma_t *, const char *, int, char *, const char *, int);
 
 /**
  * @brief Initializes the Bombe structure with cribs and Enigma configuration.
@@ -70,15 +82,18 @@ void bombe_find_potential_indices(const char *ciphertext, const char *crib, int 
  *
  * @param bombe The bombe structure containing cribs and configuration
  * @param ciphertext The ciphertext to analyze
+ * @param maxThreads The number of threads to use for processing
  */
-void bombe_run(bombe_t *bombe, const char *ciphertext) {
+void bombe_run(bombe_t *bombe, const char *ciphertext, int maxThreads) {
     enigma_t enigma;
     int plugboard_count = 0;
     int ciphertextLength = strlen(ciphertext);
 
+    pthread_t *threads = malloc(maxThreads * sizeof(pthread_t));
+    int threadCount = 0;
+
     init_default_enigma(&enigma);
 
-    char *plaintext = malloc(ciphertextLength + 1);
 
     // Loop through all unique rotor and reflector configurations
     for (int i = 0; i < ROTOR_COUNT; i++) {
@@ -88,17 +103,36 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
             for (int k = 0; k < ROTOR_COUNT; k++) {
                 if (i == j || j == k || i == k) continue;
                 memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(rotor_t));
-
                 for (int l = 0; l < REFLECTOR_COUNT; l++) {
                     enigma.reflector = enigma_reflectors[l];
-                    process_chunk(bombe, &enigma, ciphertext, ciphertextLength, plaintext);
+
+                    bombe_thread_args_t *args = malloc(sizeof(bombe_thread_args_t));
+                    init_chunk_thread_args(args, bombe, &enigma, ciphertext, ciphertextLength, threadCount);
+                    pthread_create(&threads[threadCount++], NULL, thread_process_chunk, args);
+                    if (threadCount >= maxThreads) {
+                        for (int t = 0; t < threadCount; t++) {
+                            pthread_join(threads[t], NULL);
+                        }
+                        threadCount = 0;
+                    }
                 }
             }
         }
     }
 
-    deinit_enigma(&enigma);
-    free(plaintext);
+    for (int t = 0; t < threadCount; t++) {
+        pthread_join(threads[t], NULL);
+    }
+    free(threads);
+}
+
+static void init_chunk_thread_args(bombe_thread_args_t *dst, const bombe_t *bombe, const enigma_t *enigma, const char *ciphertext, int ciphertextLength, int threadNumber) {
+    memcpy(&dst->bombe, bombe, sizeof(bombe_t));
+    memcpy(&dst->enigma, enigma, sizeof(enigma_t));
+    dst->ciphertext = ciphertext;
+    dst->ciphertextLength = ciphertextLength;
+    dst->plaintext = malloc(ciphertextLength + 1);
+    dst->threadNumber = threadNumber;
 }
 
 /**
@@ -113,7 +147,8 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
  * @param ciphertextLength The length of the ciphertext
  * @param plaintext Buffer to store the decrypted plaintext (to avoid mallocing each time)
  */
-static void process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext) {
+static void process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext,
+                          int threadNumber) {
     char configString[256];
 
     for (int i = 0; i < ALPHA_SIZE; i++) {
@@ -128,10 +163,18 @@ static void process_chunk(bombe_t *bombe, enigma_t *enigma, const char *cipherte
                         enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
                         enigma->reflector->name);
 
-                process_single(bombe, enigma, ciphertext, ciphertextLength, plaintext, configString);
+                process_single(bombe, enigma, ciphertext, ciphertextLength, plaintext, configString, threadNumber);
             }
         }
     }
+}
+
+static void *thread_process_chunk(void *args) {
+    bombe_thread_args_t *bombeArgs = (bombe_thread_args_t *)args;
+    process_chunk(&bombeArgs->bombe, &bombeArgs->enigma, bombeArgs->ciphertext,
+                  bombeArgs->ciphertextLength, bombeArgs->plaintext, bombeArgs->threadNumber);
+    free(bombeArgs);
+    return NULL;
 }
 
 /**
@@ -146,7 +189,8 @@ static void process_chunk(bombe_t *bombe, enigma_t *enigma, const char *cipherte
  */
 static void process_single(bombe_t *bombe, enigma_t *enigma,
                            const char *ciphertext, int ciphertextLength,
-                           char *plaintext, const char *configString) {
+                           char *plaintext, const char *configString,
+                        int threadNumber) {
     int matching = -1;
     int matchedLength = 0;
 
@@ -183,6 +227,6 @@ static void process_single(bombe_t *bombe, enigma_t *enigma,
     }
 
     if (matching > -1 && matchedLength == bombe->crib[matching].length) {
-        printf("%s | Plaintext: %s\n", configString, plaintext);
+        printf("%d | %s | Plaintext: %s\n",  threadNumber, configString, plaintext);
     }
 }

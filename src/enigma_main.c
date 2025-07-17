@@ -9,7 +9,6 @@
 #include "lib/reflectors.h"
 
 static void bombe(char *, char *, int);
-static void load_default_enigma(enigma_t *);
 static int load_reflector_config(enigma_t *, const char *);
 static int load_rotor_config(enigma_t *, char *);
 static int load_rotor_positions(enigma_t *, char *);
@@ -19,7 +18,7 @@ int main(int argc, char *argv[]) {
     int opt;
     enigma_t enigma;
 
-    load_default_enigma(&enigma);
+    init_default_enigma(&enigma);
 
     // Parse command line options
     // Parameters look a bit too similar, maybe we can have better names?
@@ -45,32 +44,7 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
 
-    free(enigma.rotors);
-    free(enigma.reflector);
     return EXIT_SUCCESS;
-}
-
-/**
- * @brief Load the default configuration for the Enigma machine.
- *
- * Default config is as follows:
- * - Reflector: UKW-B
- * - Rotors: I, II, III
- * - Rotor positions: A, A, A
- * - Empty plugboard
- *
- * @param enigma Pointer to the `enigma_t` to be initialized.
- */
-static void load_default_enigma(enigma_t *enigma) {
-    enigma->reflector = malloc(sizeof(reflector_t));
-    memcpy(enigma->reflector, &UKW_B, sizeof(reflector_t));
-    enigma->rotor_count = 3;
-    enigma->rotors = malloc(enigma->rotor_count * sizeof(rotor_t));
-    enigma->rotors[2] = rotor_I;
-    enigma->rotors[1] = rotor_II;
-    enigma->rotors[0] = rotor_III;
-    enigma->rotor_flag = 0;
-    enigma->plugboard = NULL;
 }
 
 /**

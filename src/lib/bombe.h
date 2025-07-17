@@ -19,7 +19,7 @@ typedef struct {
 } bombe_t;
 
 void bombe_init(bombe_t *, char **, int *, int);
-void bombe_run(bombe_t *, const char *);
+void bombe_run(bombe_t *, const char *, int);
 void bombe_find_potential_indices(const char *, const char *, int *);
 
 #endif

@@ -18,7 +18,7 @@ typedef struct {
 } rotor_t;
 
 typedef struct {
-    rotor_t *rotors;
+    rotor_t rotors[4];
     int rotor_flag;
     int rotor_count;
     reflector_t *reflector;
