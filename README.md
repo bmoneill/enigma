@@ -9,60 +9,56 @@ make
 sudo make install
 ```
 
-To enable verbose messages for debugging, uncomment the `CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
+To enable verbose messages for debugging, uncomment the `ENIGMA_CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
 
 ## Usage
 
-### enigma
+### Enigma simulator
 
-`enigma` will read input from stdin and print to stdout. Redirection is up to the user.
-Parameters are listed below. `enigma` works with both uppercase and lowercase input.
+This is an almost-full-featured M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
+outputs to stdout by default, and is case-agnostic.
+
+The following options are supported:
+
+* `-p`: Set the plugboard configuration (e.g. 'ABCDEF')
+* `-P`: Set the initial position of the rotors (e.g. 'ABC')
+* `-r`: Set the rotor configuration (e.g. 'I II III')
+* `-R`: Set the reflector (e.g. 'B')
+
+Here is an example encryption/decryption with a custom rotor/plugboard configuration:
 
 ```shell
-$ ./enigma -h
-./enigma: invalid option -- 'h'
-Usage: ./enigma [-p plugboard] [-r rotors] [-R reflector] [-P position]
-Options:
-  -p plugboard   Set the plugboard configuration (e.g., 'AB CD EF')
-  -P position    Set the initial position of the rotors (e.g., 'ABC')
-  -r rotors      Set the rotor configuration (e.g., 'I II III')
-  -R reflector   Set the reflector configuration (e.g., 'B')
-Available rotors: I, II, III, IV, V, VI, VII, VIII
-Available reflectors: A, B, C
-$ ./enigma
-HELLO
-ILBDA
+$ ./enigma -p "ABCD" -r "I II IV" -P "XYZ"
+HELLO # user input
+MWQHY # output
 ^C
-$ ./enigma
-ILBDA
+$ ./enigma -p "ABCD" -r "I II IV" -P "XYZ" # same configuration
+MWQHY
 HELLO
-^C
-$
 ```
 
 ### bombe
 
+This is a program based on the machine used to crack Enigma during World War II.
 `bombe` takes in 3 arguments: the crib, the index where the crib should be in
-the ciphertext, and the ciphertext. It will output all Enigma configurations containing
-the plaintext crib at the given index, and the entire plaintext.
+the ciphertext, and the ciphertext. The crib is a piece of known plaintext. For example,
+during the war, it was common for the Germans to begin their messages with weather reports,
+so the German word for "weather report" could be used to crack the message and get the
+day's Enigma configuration.
+
+`bombe` will output all Enigma configurations containing the plaintext crib at the given
+index, and the resulting plaintext. An example is below.
 
 ```shell
-$ ./bombe -h
-./bombe: invalid option -- 'h'
-Usage: ./bombe -c crib -i index -p ciphertext
-Options:
-  -c crib       Set the crib string to use
-  -C ciphertext Set the ciphertext to analyze
-  -i index      Set the index where the crib string should be in the ciphertext
-$ ./bombe -c HELLO -i 0 -C ILBDA
+$ ./bombe -c "HELLO" -C "ILBDAAMTAZ" -i 0
 Running Bombe...
 Crib:
  - Index: 0, String: HELLO
-Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLO
-Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLO
-Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLO
-Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLO
-Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLO
+Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLONLLON
+Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
+Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD
+Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLOSVRTA
+Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
 ...
 ```
 
@@ -70,6 +66,7 @@ Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLO
 
 * [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
 * [Enigma Cipher Machine on Crypto Museum](https://www.cryptomuseum.com/crypto/enigma/index.htm)
+* [The Turing-Welchman Bombe (National Museum of Computing)](https://www.tnmoc.org/bombe)
 
 ## Bugs
 
