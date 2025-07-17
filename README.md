@@ -13,8 +13,7 @@ To enable verbose messages for debugging, uncomment the `ENIGMA_CFLAGS += -DVERB
 
 ## Enigma Simulator
 
-This is an M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
-outputs to stdout by default, and is case-agnostic.
+### About the Enigma
 
 The Enigma was a cipher device used by the Germans during World War II to encrypt military communication.
 It uses a very complex wiring system to scramble the input.
@@ -29,6 +28,11 @@ allowed the ciphertext to be converted back to plaintext simply by typing it in.
 
 Needless to say, this was pretty strong cryptography for the time, and it was a top priority of the Allies to break
 Enigma.
+
+### Usage
+
+This is an M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
+outputs to stdout by default, and is case-agnostic.
 
 The following options are supported:
 
