@@ -102,7 +102,6 @@ static int load_rotor_config(enigma_t *enigma, char *s) {
 
     char *token = strtok(s, " ");
     while (token != NULL) {
-        printf("Loading rotor: %s\n", token);
         for (int i = 0; i < numRotors; i++) {
             if (!strcmp(enigma_rotors[i]->name, token)) {
                 enigma->rotors[enigma->rotor_count++] = *enigma_rotors[i];
@@ -139,7 +138,7 @@ static int load_rotor_positions(enigma_t *enigma, char *s) {
 static void print_usage(const char *argv0) {
     fprintf(stderr, "Usage: %s [-p plugboard] [-r rotors] [-R reflector] [-P position] [-v]\n", argv0);
     fprintf(stderr, "Options:\n");
-    fprintf(stderr, "  -p plugboard   Set the plugboard configuration (e.g., 'AB CD EF')\n");
+    fprintf(stderr, "  -p plugboard   Set the plugboard configuration (e.g., 'ABCDEF')\n");
     fprintf(stderr, "  -P position    Set the initial position of the rotors (e.g., 'ABC')\n");
     fprintf(stderr, "  -r rotors      Set the rotor configuration (e.g., 'I II III')\n");
     fprintf(stderr, "  -R reflector   Set the reflector configuration (e.g., 'B')\n");

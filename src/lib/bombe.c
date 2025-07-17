@@ -166,18 +166,19 @@ static void process_single(bombe_t *bombe, enigma_t *enigma,
                     break;
                 }
             }
-        } else if (decrypted == bombe->crib[matching].s[matchedLength]) {
-            matchedLength++;
-            if (matchedLength == bombe->crib[matching].length) {
-                // Match found, decode rest of ciphertext and return
-                for (int j = i + 1; j < ciphertextLength; j++) {
-                    plaintext[j] = encode(enigma, ciphertext[j]);
-                }
-                break;
-            }
         } else {
-            matching = -1;
-            matchedLength = 0;
+            if (decrypted == bombe->crib[matching].s[matchedLength]) {
+                matchedLength++;
+                if (matchedLength == bombe->crib[matching].length) {
+                    for (int j = i + 1; j < ciphertextLength; j++) {
+                        plaintext[j] = encode(enigma, ciphertext[j]);
+                    }
+                    break;
+                }
+            } else {
+                matching = -1;
+                matchedLength = 0;
+            }
         }
     }
 

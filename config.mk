@@ -6,6 +6,6 @@ CC       = cc
 LD       = $(CC)
 
 CFLAGS        = -Werror -std=c99 -pedantic -g
-ENIGMA_CFLAGS = -DVERBOSE
+#ENIGMA_CFLAGS = -DVERBOSE
 CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 \
            -D_FILE_OFFSET_BITS=64 -DVERSION="$(VERSION)"
