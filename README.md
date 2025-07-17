@@ -42,7 +42,7 @@ This is a program based on the machine used to crack Enigma during World War II.
 `bombe` takes in 3 arguments: the crib, the index where the crib should be in
 the ciphertext, and the ciphertext. The crib is a piece of known plaintext. For example,
 during the war, it was common for the Germans to begin their messages with weather reports,
-so the German word for "weather report" could be used to crack the message and get the
+so the German for "weather report" could be used to crack the message and get the
 day's Enigma configuration.
 
 `bombe` will output all Enigma configurations containing the plaintext crib
