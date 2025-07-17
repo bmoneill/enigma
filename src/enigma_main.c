@@ -8,13 +8,13 @@
 #include "lib/rotors.h"
 #include "lib/reflectors.h"
 
-static void bombe(char *, char *, int);
-static int load_reflector_config(enigma_t *, const char *);
-static int load_rotor_config(enigma_t *, char *);
-static int load_rotor_positions(enigma_t *, char *);
-static void print_usage(const char *);
+static void bombe(char*, char*, int);
+static int load_reflector_config(enigma_t*, const char*);
+static int load_rotor_config(enigma_t*, char*);
+static int load_rotor_positions(enigma_t*, char*);
+static void print_usage(const char*);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     int opt;
     enigma_t enigma;
 
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
  * @param s The string identifier for the reflector.
  * @return 1 if the reflector was found and loaded, 0 otherwise.
  */
-static int load_reflector_config(enigma_t *enigma , const char *s) {
+static int load_reflector_config(enigma_t* enigma, const char* s) {
     for (int i = 0; i < 3; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
             memcpy(enigma->reflector, enigma_reflectors[i], sizeof(reflector_t));
@@ -70,11 +70,11 @@ static int load_reflector_config(enigma_t *enigma , const char *s) {
     return 0;
 }
 
-static int load_rotor_config(enigma_t *enigma, char *s) {
+static int load_rotor_config(enigma_t* enigma, char* s) {
     enigma->rotor_count = 0;
     int numRotors = 8;
 
-    char *token = strtok(s, " ");
+    char* token = strtok(s, " ");
     while (token != NULL) {
         for (int i = 0; i < numRotors; i++) {
             if (!strcmp(enigma_rotors[i]->name, token)) {
@@ -94,13 +94,13 @@ static int load_rotor_config(enigma_t *enigma, char *s) {
     return 1;
 }
 
-static int load_rotor_positions(enigma_t *enigma, char *s) {
+static int load_rotor_positions(enigma_t* enigma, char* s) {
     if (enigma->rotor_count == 0) {
         fprintf(stderr, "No rotors loaded\n");
         return 0;
     }
 
-    char *token = strtok(s, " ");
+    char* token = strtok(s, " ");
     for (int i = 0; i < enigma->rotor_count && token != NULL; i++) {
         enigma->rotors[i].idx = toupper(token[0]) - 'A';
         token = strtok(NULL, " ");
@@ -109,7 +109,7 @@ static int load_rotor_positions(enigma_t *enigma, char *s) {
     return 1;
 }
 
-static void print_usage(const char *argv0) {
+static void print_usage(const char* argv0) {
     fprintf(stderr, "Usage: %s [-p plugboard] [-r rotors] [-R reflector] [-P position] [-v]\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -p plugboard   Set the plugboard configuration (e.g., 'ABCDEF')\n");

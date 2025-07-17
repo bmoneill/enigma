@@ -7,7 +7,7 @@
 #define MAX_CRIB_INDICES 50
 
 typedef struct {
-    char *s;
+    char* s;
     int length;
     int index;
 } bombe_crib_node_t;
@@ -18,8 +18,8 @@ typedef struct {
     int numCribs;
 } bombe_t;
 
-void bombe_init(bombe_t *, char **, int *, int);
-void bombe_run(bombe_t *, const char *, int);
-void bombe_find_potential_indices(const char *, const char *, int *);
+void bombe_init(bombe_t*, char**, int*, int);
+void bombe_run(bombe_t*, const char*, int);
+void bombe_find_potential_indices(const char*, const char*, int*);
 
 #endif

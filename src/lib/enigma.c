@@ -13,14 +13,14 @@
 #define VERBOSE_PRINT(fmt, ...)
 #endif
 
-const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-static int index_of(const char *, char);
-static int reflect(reflector_t *, int);
-static void rotate(rotor_t *, int);
-static void rotate_rotors(enigma_t *);
-static int rotor_pass(rotor_t *, int, int);
-static char substitute(const char *, char, int);
+static int index_of(const char*, char);
+static int reflect(reflector_t*, int);
+static void rotate(rotor_t*, int);
+static void rotate_rotors(enigma_t*);
+static int rotor_pass(rotor_t*, int, int);
+static char substitute(const char*, char, int);
 static int to_alpha(int, int);
 static int to_char_code(char);
 
@@ -34,7 +34,7 @@ static int to_char_code(char);
  * @param input The character to encode.
  * @return The encoded character.
  */
-char encode(enigma_t *enigma, char input) {
+char encode(enigma_t* enigma, char input) {
     char output = input;
     int upper = isupper(input);
     int idx = to_char_code(input);
@@ -43,13 +43,13 @@ char encode(enigma_t *enigma, char input) {
 
     rotate_rotors(enigma);
 
-    #ifdef VERBOSE
-        VERBOSE_PRINT("%s", "Rotor Positions:");
-        for (int i = 0; i < enigma->rotor_count; i++) {
-            VERBOSE_PRINT(" %c", enigma->rotors[i].idx + 'A');
-        }
-        VERBOSE_PRINT("%s", "\n");
-    #endif
+#ifdef VERBOSE
+    VERBOSE_PRINT("%s", "Rotor Positions:");
+    for (int i = 0; i < enigma->rotor_count; i++) {
+        VERBOSE_PRINT(" %c", enigma->rotors[i].idx + 'A');
+    }
+    VERBOSE_PRINT("%s", "\n");
+#endif
 
     // Plugboard
     input = substitute(enigma->plugboard, input, upper);
@@ -90,7 +90,7 @@ char encode(enigma_t *enigma, char input) {
  * @param rotors Array of `rotor_t`s to copy to the `enigma_t`.
  * @param count Number of rotors to copy.
  */
-void init_rotors(enigma_t *enigma, const rotor_t *rotors, int count) {
+void init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
     enigma->rotor_flag = 0;
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
     enigma->rotor_count = count;
@@ -106,8 +106,8 @@ void init_rotors(enigma_t *enigma, const rotor_t *rotors, int count) {
  * @param c The character to find.
  * @return The index of the character in the string, or -1 if not found.
  */
-static int index_of(const char *str, char c) {
-    const char *p = strchr(str, c);
+static int index_of(const char* str, char c) {
+    const char* p = strchr(str, c);
     return p ? (int)(p - str) : -1;
 }
 
@@ -122,7 +122,7 @@ static int index_of(const char *str, char c) {
  *
  * @param enigma Pointer to the `enigma_t` to be initialized.
  */
-void init_default_enigma(enigma_t *enigma) {
+void init_default_enigma(enigma_t* enigma) {
     enigma->reflector = &UKW_B;
     enigma->rotor_count = 3;
     enigma->rotors[2] = rotor_I;
@@ -141,7 +141,7 @@ void init_default_enigma(enigma_t *enigma) {
  * @param upper A flag indicating if the character is uppercase (1) or lowercase (0).
  * @return The reflected character based on the reflector's alphabet.
  */
-static int reflect(reflector_t *reflector, int idx) {
+static int reflect(reflector_t* reflector, int idx) {
     if (!reflector) {
         fprintf(stderr, "Warning: Reflector not set.\n");
         return idx;
@@ -159,7 +159,7 @@ static int reflect(reflector_t *reflector, int idx) {
  * @param rotor Pointer to the rotor structure.
  * @param count The number of positions to rotate.
  */
-static void rotate(rotor_t *rotor, int count) {
+static void rotate(rotor_t* rotor, int count) {
     rotor->idx += count;
 
     if (rotor->idx >= ALPHA_SIZE) {
@@ -175,7 +175,7 @@ static void rotate(rotor_t *rotor, int count) {
  *
  * @param enigma Pointer to the Enigma machine structure.
  */
-static void rotate_rotors(enigma_t *enigma) {
+static void rotate_rotors(enigma_t* enigma) {
     rotate(&enigma->rotors[0], 1);
 
     if (enigma->rotor_flag) {
@@ -201,11 +201,12 @@ static void rotate_rotors(enigma_t *enigma) {
  * @param direction The direction of the pass (1 for forward, -1 for reverse)
  * @return The index of the character after passing through the rotor.
  */
-static int rotor_pass(rotor_t *rotor, int idx, int direction) {
+static int rotor_pass(rotor_t* rotor, int idx, int direction) {
     idx = (idx + rotor->idx) % ALPHA_SIZE;
     if (direction == 1) {
         idx = index_of(alphabet, rotor->alphabet[idx]);
-    } else {
+    }
+    else {
         idx = index_of(rotor->alphabet, alphabet[idx]);
     }
     return (ALPHA_SIZE + idx - rotor->idx) % ALPHA_SIZE;
@@ -223,7 +224,7 @@ static int rotor_pass(rotor_t *rotor, int idx, int direction) {
  * @param upper A flag indicating if the character is uppercase (1) or lowercase (0)
  * @return The substituted character based on the plugboard configuration.
  */
-static char substitute(const char *plugboard, char c, int upper) {
+static char substitute(const char* plugboard, char c, int upper) {
     if (!plugboard) return c;
 
     c = toupper(c);
@@ -231,7 +232,8 @@ static char substitute(const char *plugboard, char c, int upper) {
     for (int i = 0; plugboard[i] != '\0'; i += 2) {
         if (plugboard[i] == c) {
             return upper ? plugboard[i + 1] : tolower(plugboard[i + 1]);
-        } else if (plugboard[i + 1] == c) {
+        }
+        else if (plugboard[i + 1] == c) {
             return upper ? plugboard[i] : tolower(plugboard[i]);
         }
     }
@@ -247,7 +249,8 @@ static char substitute(const char *plugboard, char c, int upper) {
 static int to_char_code(char c) {
     if (c >= 'A' && c <= 'Z') {
         return c - 'A';
-    } else if (c >= 'a' && c <= 'z') {
+    }
+    else if (c >= 'a' && c <= 'z') {
         return c - 'a';
     }
     return -1;

@@ -11,6 +11,6 @@ extern const rotor_t rotor_V;
 extern const rotor_t rotor_VI;
 extern const rotor_t rotor_VII;
 extern const rotor_t rotor_VIII;
-extern const rotor_t *enigma_rotors[];
+extern const rotor_t* enigma_rotors[];
 
 #endif

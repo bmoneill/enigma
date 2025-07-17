@@ -6,6 +6,6 @@
 extern reflector_t UKW_A;
 extern reflector_t UKW_B;
 extern reflector_t UKW_C;
-extern reflector_t *enigma_reflectors[];
+extern reflector_t* enigma_reflectors[];
 
 #endif

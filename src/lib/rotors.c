@@ -56,7 +56,7 @@ const rotor_t rotor_VIII = {
     .idx = 0,
 };
 
-const rotor_t *enigma_rotors[] = {
+const rotor_t* enigma_rotors[] = {
     &rotor_I,
     &rotor_II,
     &rotor_III,

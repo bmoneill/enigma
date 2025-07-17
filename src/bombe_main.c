@@ -5,12 +5,12 @@
 
 #include "lib/bombe.h"
 
-static void print_usage(const char *argv0);
+static void print_usage(const char* argv0);
 
-int main(int argc, char *argv[]) {
-    char *crib = NULL;
+int main(int argc, char* argv[]) {
+    char* crib = NULL;
     int idx = -1;
-    char *ciphertext = NULL;
+    char* ciphertext = NULL;
     int threadCount = 1;
 
     // Parse command line options
@@ -32,13 +32,13 @@ int main(int argc, char *argv[]) {
     }
 
     bombe_t bombe;
-    bombe_init(&bombe, (char *[]){crib}, (int []){idx}, 1);
+    bombe_init(&bombe, (char* []) { crib }, (int[]) { idx }, 1);
     bombe_run(&bombe, ciphertext, threadCount);
 
     return EXIT_SUCCESS;
 }
 
-static void print_usage(const char *argv0) {
+static void print_usage(const char* argv0) {
     fprintf(stderr, "Usage: %s [-t thread_count] -c crib -i index -C ciphertext\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -c crib       Set the crib string to use\n");

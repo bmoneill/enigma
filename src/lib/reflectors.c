@@ -15,7 +15,7 @@ reflector_t UKW_C = {
     .alphabet = "FVPJIAOYEDRZXWGCTKUQSBNMHL",
 };
 
-reflector_t *enigma_reflectors[] = {
+reflector_t* enigma_reflectors[] = {
     &UKW_A,
     &UKW_B,
     &UKW_C,
