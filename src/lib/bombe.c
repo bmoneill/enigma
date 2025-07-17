@@ -129,6 +129,12 @@ void bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
     free(threads);
 }
 
+/**
+ * @brief Initialize the bombe_thread_args_t structure with the given configuration.
+ *
+ * This function generates a bombe_thread_args_t that contains the arguments for
+ * process_chunk(), in order to pass them to the created thread.
+ */
 static void init_chunk_thread_args(bombe_thread_args_t* dst,
     const bombe_t* bombe,
     const enigma_t* enigma,
