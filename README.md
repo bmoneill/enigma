@@ -31,7 +31,6 @@ Here is an example encryption/decryption with a custom rotor/plugboard configura
 $ ./enigma -p "ABCD" -r "I II IV" -P "XYZ"
 HELLO # user input
 MWQHY # output
-^C
 $ ./enigma -p "ABCD" -r "I II IV" -P "XYZ" # same configuration
 MWQHY
 HELLO
