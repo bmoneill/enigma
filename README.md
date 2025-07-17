@@ -13,8 +13,22 @@ To enable verbose messages for debugging, uncomment the `ENIGMA_CFLAGS += -DVERB
 
 ## Enigma Simulator
 
-This is an almost-full-featured M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
+This is an M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
 outputs to stdout by default, and is case-agnostic.
+
+The Enigma was a cipher device used by the Germans during World War II to encrypt military communication.
+It uses a very complex wiring system to scramble the input.
+
+When a key is pressed, the signal first passes through the plugboard, which swaps the letter with another according
+to its configuration. It then travels through three rotors, each further scrambling the signal. Next, the signal
+reaches the reflector, which adds another layer of complexity by sending it back through the rotors in reverse order.
+Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
+
+The Enigma's encryption was symmetric, meaning that using the same configuration for both encryption and decryption
+allowed the ciphertext to be converted back to plaintext simply by typing it in.
+
+Needless to say, this was pretty strong cryptography for the time, and it was a top priority of the Allies to break
+Enigma.
 
 The following options are supported:
 
@@ -44,8 +58,8 @@ so the German for "weather report" could be used to crack the message and get th
 day's Enigma configuration.
 
 `bombe` will output all Enigma configurations containing the plaintext crib
-string at the given index, and the resulting plaintext. By default, it is fairly slow
-(takes around 12 seconds on my 16-core i9), so multithreading is supported.
+string at the given index, and the resulting plaintext. By default, it is fairly slow,
+so multithreading is supported.
 
 ### Usage
 
@@ -76,6 +90,8 @@ Rotors: III (A)  VIII (P), VII (T) | Reflector: A | Plaintext: HELLOXCRUE
 Multithreading reduces the runtime by a significant margin. I'm sure this
 code could be optimized much further (the Enigma encoding function focuses
 on readability rather than performance - this is not ideal for the Bombe).
+
+Below are single- and multi-threaded times on my 16-core i9-10885H.
 
 ```shell
 $ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 1 # single thread
