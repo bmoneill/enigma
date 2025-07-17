@@ -79,7 +79,7 @@ The following options are supported:
 ```shell
 $ ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t32
 Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLONLLON
-Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD
+Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD # actual plaintext
 Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
 Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLOSVRTA
 Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
