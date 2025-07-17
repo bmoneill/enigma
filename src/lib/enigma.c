@@ -24,6 +24,13 @@ static char substitute(const char *, char, int);
 static int to_alpha(int, int);
 static int to_char_code(char);
 
+/**
+ * @brief Deinitialize the Enigma machine.
+ *
+ * This function frees the memory allocated for the rotors and reflector in the `enigma_t`.
+ *
+ * @param enigma Pointer to the Enigma machine structure.
+ */
 void deinit_enigma(enigma_t *enigma) {
     if (enigma->rotors) {
         free(enigma->rotors);
