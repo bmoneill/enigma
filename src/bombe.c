@@ -150,6 +150,9 @@ static void bombe_process_single(bombe_t *bombe, enigma_t *enigma, const char *c
             if (decrypted == bombe->crib[matching].s[matchedLength]) {
                 matchedLength++;
                 if (matchedLength == bombe->crib[matching].length) {
+                    for (int j = i + 1; j < ciphertextLength; j++) {
+                        plaintext[j] = encode(enigma, ciphertext[j]);
+                    }
                     break;
                 }
             } else {
