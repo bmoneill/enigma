@@ -235,5 +235,5 @@ static void process_single(bombe_t* bombe, enigma_t* enigma,
         }
     }
 
-    printf("%d | %s | Plaintext: %s\n", ciphertextLength, configString, plaintext);
+    printf("%s | Plaintext: %s\n", configString, plaintext);
 }
