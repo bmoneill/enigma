@@ -12,29 +12,18 @@ int main(int argc, char* argv[]) {
     int idx = -1;
     char* ciphertext = NULL;
     int threadCount = 1;
-    int findIndices = 0;
 
     // Parse command line options
     // Again need better names here
     int opt;
-    while ((opt = getopt(argc, argv, "c:C:i:I:t:")) != -1) {
+    while ((opt = getopt(argc, argv, "c:C:i:t:")) != -1) {
         switch (opt) {
         case 'c': crib = optarg; break;
         case 'C': ciphertext = optarg; break;
         case 'i': idx = atoi(optarg); break;
-        case 'I': findIndices = 1; break;
         case 't': threadCount = atoi(optarg); break;
         default: print_usage(argv[0]);
         }
-    }
-
-    if (findIndices) {
-        int *indices = malloc(MAX_CRIB_INDICES * sizeof(int));
-        bombe_find_potential_indices(ciphertext, crib, indices);
-        for (int i = 0; indices[i] != -1; i++) {
-            printf("Potential index: %d\n", indices[i]);
-        }
-        free(indices);
     }
 
     if (!crib || !ciphertext || idx < 0) {
@@ -43,14 +32,14 @@ int main(int argc, char* argv[]) {
     }
 
     bombe_t bombe;
-    bombe_init(&bombe, (char* []) { crib }, (int[]) { idx }, 1);
+    bombe_init(&bombe, crib, idx);
     bombe_run(&bombe, ciphertext, threadCount);
 
     return EXIT_SUCCESS;
 }
 
 static void print_usage(const char* argv0) {
-    fprintf(stderr, "Usage: %s [-t thread_count] -c crib -i index -C ciphertext\n", argv0);
+    fprintf(stderr, "Usage: %s [-I] [-i index] [-t threadCount] -c crib -C ciphertext\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -c crib       Set the crib string to use\n");
     fprintf(stderr, "  -C ciphertext Set the ciphertext to analyze\n");

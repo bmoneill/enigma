@@ -30,17 +30,10 @@ static void process_single(bombe_t*, enigma_t*, const char*, int, char*, const c
  * @param cribIndices Array of crib indices for each crib string
  * @param numCribs Number of crib strings (length of cribStrings and cribIndices)
  */
-void bombe_init(bombe_t* bombe, char** cribStrings, int* cribIndices, int numCribs) {
-    bombe->lastCribIndex = 0;
-    for (int i = 0; i < numCribs; i++) {
-        bombe->crib[i].s = cribStrings[i];
-        bombe->crib[i].index = cribIndices[i];
-        bombe->crib[i].length = strlen(cribStrings[i]);
-        if (cribIndices[i] > bombe->lastCribIndex) {
-            bombe->lastCribIndex = cribIndices[i];
-        }
-    }
-    bombe->numCribs = numCribs;
+void bombe_init(bombe_t* bombe, char* crib, int cribIndex) {
+    bombe->crib = crib;
+    bombe->cribIndex = cribIndex;
+    bombe->cribLength = strlen(crib);
 }
 
 /**
@@ -221,44 +214,33 @@ static void* thread_process_chunk(void* args) {
 static void process_single(bombe_t* bombe, enigma_t* enigma,
     const char* ciphertext, int ciphertextLength,
     char* plaintext, const char* configString) {
-    int matching = -1;
-    int matchedLength = 0;
+    int matching = 0;
 
     for (int i = 0; i < ciphertextLength; i++) {
-        if (i > bombe->lastCribIndex && matching == -1) {
-            return; // No matches found for this configuration
+        if (i > bombe->cribIndex && !matching) {
+            // No match found
+            return;
         }
 
         char decrypted = encode(enigma, ciphertext[i]);
         plaintext[i] = decrypted;
 
-        if (matching == -1) {
-            for (int j = 0; j < bombe->numCribs; j++) {
-                if (bombe->crib[j].index == i && bombe->crib[j].s[0] == decrypted) {
-                    matching = j;
-                    matchedLength++;
-                    break;
-                }
-            }
+        if (matching == bombe->cribLength) {
+            // Decrypt whole ciphertext
+            continue;
         }
-        else {
-            if (decrypted == bombe->crib[matching].s[matchedLength]) {
-                matchedLength++;
-                if (matchedLength == bombe->crib[matching].length) {
-                    for (int j = i + 1; j < ciphertextLength; j++) {
-                        plaintext[j] = encode(enigma, ciphertext[j]);
-                    }
-                    break;
-                }
-            }
-            else {
-                matching = -1;
-                matchedLength = 0;
-            }
+
+        if (matching && decrypted == bombe->crib[matching]) {
+            matching++;
+        } else {
+            // Not a match
+            return;
+        }
+
+        if (i == bombe->cribIndex && decrypted == bombe->crib[0]) {
+            matching = 1;
         }
     }
 
-    if (matching > -1 && matchedLength == bombe->crib[matching].length) {
-        printf("%s | Plaintext: %s\n", configString, plaintext);
-    }
+    printf("%s | Plaintext: %s\n", configString, plaintext);
 }
