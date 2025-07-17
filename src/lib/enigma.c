@@ -11,8 +11,6 @@
 #define VERBOSE_PRINT(fmt, ...)
 #endif
 
-#define ALPHA_SIZE 26
-
 const char *alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 static int index_of(const char *, char);

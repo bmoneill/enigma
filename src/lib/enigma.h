@@ -1,6 +1,7 @@
 #ifndef ENIGMA_H
 #define ENIGMA_H
 
+#define ALPHA_SIZE 26
 #define ROTOR_COUNT 8
 #define REFLECTOR_COUNT 3
 

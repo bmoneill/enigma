@@ -8,10 +8,8 @@
 #include "rotors.h"
 #include "reflectors.h"
 
-#define ALPHA_SIZE 26
-
-static void bombe_process_chunk(bombe_t *, enigma_t *, const char *, int, char *);
-static void bombe_process_single(bombe_t *, enigma_t *, const char *, int, char *, const char *);
+static void process_chunk(bombe_t *, enigma_t *, const char *, int, char *);
+static void process_single(bombe_t *, enigma_t *, const char *, int, char *, const char *);
 
 /**
  * @brief Initializes the Bombe structure with cribs and Enigma configuration.
@@ -99,7 +97,7 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
 
     char *plaintext = malloc(ciphertextLength + 1);
 
-    // Loop through all unique rotor configurations
+    // Loop through all unique rotor and reflector configurations
     for (int i = 0; i < ROTOR_COUNT; i++) {
         memcpy(&enigma.rotors[0], enigma_rotors[i], sizeof(rotor_t));
         for (int j = 0; j < ROTOR_COUNT; j++) {
@@ -110,7 +108,7 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
 
                 for (int l = 0; l < REFLECTOR_COUNT; l++) {
                     enigma.reflector = enigma_reflectors[l];
-                    bombe_process_chunk(bombe, &enigma, ciphertext, ciphertextLength, plaintext);
+                    process_chunk(bombe, &enigma, ciphertext, ciphertextLength, plaintext);
                 }
             }
         }
@@ -131,7 +129,7 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
  * @param ciphertextLength The length of the ciphertext
  * @param plaintext Buffer to store the decrypted plaintext (to avoid mallocing each time)
  */
-static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext) {
+static void process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext) {
     char configString[256];
 
     for (int i = 0; i < ALPHA_SIZE; i++) {
@@ -146,7 +144,7 @@ static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ci
                         enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
                         enigma->reflector->name);
 
-                bombe_process_single(bombe, enigma, ciphertext, ciphertextLength, plaintext, configString);
+                process_single(bombe, enigma, ciphertext, ciphertextLength, plaintext, configString);
             }
         }
     }
@@ -162,7 +160,9 @@ static void bombe_process_chunk(bombe_t *bombe, enigma_t *enigma, const char *ci
  * @param plaintext Buffer to store the decrypted plaintext
  * @param configString String representation of the current Enigma configuration
  */
-static void bombe_process_single(bombe_t *bombe, enigma_t *enigma, const char *ciphertext, int ciphertextLength, char *plaintext, const char *configString) {
+static void process_single(bombe_t *bombe, enigma_t *enigma,
+                           const char *ciphertext, int ciphertextLength,
+                           char *plaintext, const char *configString) {
     int matching = -1;
     int matchedLength = 0;
 
@@ -182,19 +182,18 @@ static void bombe_process_single(bombe_t *bombe, enigma_t *enigma, const char *c
                     break;
                 }
             }
-        } else {
-            if (decrypted == bombe->crib[matching].s[matchedLength]) {
-                matchedLength++;
-                if (matchedLength == bombe->crib[matching].length) {
-                    for (int j = i + 1; j < ciphertextLength; j++) {
-                        plaintext[j] = encode(enigma, ciphertext[j]);
-                    }
-                    break;
+        } else if (decrypted == bombe->crib[matching].s[matchedLength]) {
+            matchedLength++;
+            if (matchedLength == bombe->crib[matching].length) {
+                // Match found, decode rest of ciphertext and return
+                for (int j = i + 1; j < ciphertextLength; j++) {
+                    plaintext[j] = encode(enigma, ciphertext[j]);
                 }
-            } else {
-                matching = -1;
-                matchedLength = 0;
+                break;
             }
+        } else {
+            matching = -1;
+            matchedLength = 0;
         }
     }
 
