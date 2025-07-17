@@ -46,8 +46,8 @@ during the war, it was common for the Germans to begin their messages with weath
 so the German word for "weather report" could be used to crack the message and get the
 day's Enigma configuration.
 
-`bombe` will output all Enigma configurations containing the plaintext crib at the given
-index, and the resulting plaintext. An example is below.
+`bombe` will output all Enigma configurations containing the plaintext crib
+string at the given index, and the resulting plaintext. An example is below.
 
 ```shell
 $ ./bombe -c "HELLO" -C "ILBDAAMTAZ" -i 0
