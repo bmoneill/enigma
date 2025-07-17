@@ -98,6 +98,7 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
     }
 
     deinit_enigma(&enigma);
+    free(plaintext);
 }
 
 /**
