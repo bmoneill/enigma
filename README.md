@@ -72,6 +72,7 @@ Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
 
 * For some reason, GCC optimizations break this code.
 * No support for double-stepping rotors (yet).
+* Multiple notches (such as on Rotors VI-VIII) do not work properly yet.
 * Bombe doesn't support a populated plugboard.
 * Probably others.
 
