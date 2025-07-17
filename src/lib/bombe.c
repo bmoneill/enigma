@@ -215,7 +215,6 @@ static void process_single(bombe_t* bombe, enigma_t* enigma,
     const char* ciphertext, int ciphertextLength,
     char* plaintext, const char* configString) {
     int matching = 0;
-
     for (int i = 0; i < ciphertextLength; i++) {
         if (i > bombe->cribIndex && !matching) {
             // No match found
@@ -225,22 +224,16 @@ static void process_single(bombe_t* bombe, enigma_t* enigma,
         char decrypted = encode(enigma, ciphertext[i]);
         plaintext[i] = decrypted;
 
-        if (matching == bombe->cribLength) {
-            // Decrypt whole ciphertext
+         if (matching == bombe->cribLength) {
             continue;
-        }
-
-        if (matching && decrypted == bombe->crib[matching]) {
-            matching++;
-        } else {
-            // Not a match
-            return;
-        }
-
-        if (i == bombe->cribIndex && decrypted == bombe->crib[0]) {
+        } else if (i == bombe->cribIndex && decrypted == bombe->crib[0]) {
             matching = 1;
+        } else if (matching && decrypted == bombe->crib[matching]) {
+            matching++;
+        } else if (matching && decrypted != bombe->crib[matching]) {
+            return;
         }
     }
 
-    printf("%s | Plaintext: %s\n", configString, plaintext);
+    printf("%d | %s | Plaintext: %s\n", ciphertextLength, configString, plaintext);
 }
