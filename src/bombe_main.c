@@ -12,18 +12,29 @@ int main(int argc, char* argv[]) {
     int idx = -1;
     char* ciphertext = NULL;
     int threadCount = 1;
+    int findIndices = 0;
 
     // Parse command line options
     // Again need better names here
     int opt;
-    while ((opt = getopt(argc, argv, "c:C:i:t:")) != -1) {
+    while ((opt = getopt(argc, argv, "c:C:i:I:t:")) != -1) {
         switch (opt) {
         case 'c': crib = optarg; break;
         case 'C': ciphertext = optarg; break;
         case 'i': idx = atoi(optarg); break;
+        case 'I': findIndices = 1; break;
         case 't': threadCount = atoi(optarg); break;
         default: print_usage(argv[0]);
         }
+    }
+
+    if (findIndices) {
+        int *indices = malloc(MAX_CRIB_INDICES * sizeof(int));
+        bombe_find_potential_indices(ciphertext, crib, indices);
+        for (int i = 0; indices[i] != -1; i++) {
+            printf("Potential index: %d\n", indices[i]);
+        }
+        free(indices);
     }
 
     if (!crib || !ciphertext || idx < 0) {

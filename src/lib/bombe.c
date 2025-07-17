@@ -50,6 +50,8 @@ void bombe_init(bombe_t* bombe, char** cribStrings, int* cribIndices, int numCri
  * This function checks the ciphertext for potential indices where the crib string
  * could potentially be in the plaintext.
  *
+ * NOTE: This function is currently unused.
+ *
  * @param ciphertext The ciphertext to analyze
  * @param crib The crib string to test against the ciphertext
  * @param indices Pointer to an array to store the indices (-1-terminated)
@@ -110,7 +112,7 @@ void bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
                     // Sloppy, but necessary to avoid race condition
                     bombe_thread_args_t* args = malloc(sizeof(bombe_thread_args_t));
 
-                    init_chunk_thread_args(args, bombe, &enigma, ciphertext, ciphertextLength, threadCount);
+                    init_chunk_thread_args(args, bombe, &enigma, ciphertext, ciphertextLength);
                     pthread_create(&threads[threadCount++], NULL, thread_process_chunk, args);
                     if (threadCount >= maxThreads) {
                         for (int t = 0; t < threadCount; t++) {
@@ -145,6 +147,7 @@ static void init_chunk_thread_args(bombe_thread_args_t* dst,
     dst->ciphertext = ciphertext;
     dst->ciphertextLength = ciphertextLength;
     dst->plaintext = malloc(ciphertextLength + 1);
+    dst->plaintext[ciphertextLength] = '\0';
 }
 
 /**
