@@ -167,6 +167,7 @@ static void process_chunk(bombe_t *bombe, enigma_t *enigma, const char *cipherte
             }
         }
     }
+    free(plaintext);
 }
 
 static void *thread_process_chunk(void *args) {
