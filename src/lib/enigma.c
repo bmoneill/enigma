@@ -36,6 +36,11 @@ void deinit_enigma(enigma_t *enigma) {
         free(enigma->rotors);
     }
     if (enigma->reflector) {
+        for (int i = 0; i < REFLECTOR_COUNT; i++) {
+            if (enigma->reflector == enigma_reflectors[i]) {
+                return;
+            }
+        }
         free(enigma->reflector);
     }
 }
