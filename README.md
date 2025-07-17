@@ -1,4 +1,4 @@
-# enigma: Enigma machine simulator and Bombe
+# Enigma machine simulator and Bombe
 
 This is a CLI M3 Enigma simulator and Bombe.
 
