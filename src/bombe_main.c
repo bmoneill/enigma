@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 }
 
 static void print_usage(const char *argv0) {
-    fprintf(stderr, "Usage: %s -c crib -i index -p ciphertext\n", argv0);
+    fprintf(stderr, "Usage: %s -c crib -i index -C ciphertext\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -c crib       Set the crib string to use\n");
     fprintf(stderr, "  -C ciphertext Set the ciphertext to analyze\n");
