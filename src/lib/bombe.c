@@ -41,15 +41,13 @@ void bombe_init(bombe_t *bombe, char **cribStrings, int *cribIndices, int numCri
  *
  * @param ciphertext The ciphertext to analyze
  * @param crib The crib string to test against the ciphertext
- *
- * @return A malloc'd array of indices where the crib could potentially match in the ciphertext.
+ * @param indices Pointer to an array to store the indices (-1-terminated)
  */
-int *find_potential_indices(const char *ciphertext, const char *crib) {
+void bombe_find_potential_indices(const char *ciphertext, const char *crib, int *indices) {
     int count = 0;
     int matchCount = 0;
     int cribLen = strlen(crib);
     int ciphertextLen = strlen(ciphertext);
-    int *indices = malloc(strlen(ciphertext) * sizeof(int));
 
     for (int i = 0; i < ciphertextLen; i++) {
         if (ciphertext[i] == crib[count]) {
@@ -70,6 +68,7 @@ int *find_potential_indices(const char *ciphertext, const char *crib) {
 
 /**
  * @brief Runs the Bombe algorithm with the provided cribs and configuration.
+ *
  * @param bombe The bombe structure containing cribs and configuration
  * @param ciphertext The ciphertext to analyze
  */
@@ -120,8 +119,6 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
  *
  * Here we take a rotor, reflector, and plugboard configuration, minus rotor positions,
  * and loop through all possible rotor positions and check if any match our crib.
- *
- * This loop runs 26^3=17576 times.
  *
  * @param bombe The bombe structure containing cribs and configuration
  * @param enigma The Enigma configuration to use for processing
