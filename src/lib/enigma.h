@@ -25,6 +25,8 @@ typedef struct {
 } enigma_t;
 
 char encode(enigma_t*, char);
+void deinit_enigma(enigma_t *);
 void init_rotors(enigma_t *, const rotor_t *, int);
+void init_default_enigma(enigma_t *);
 
 #endif

@@ -113,6 +113,30 @@ static int index_of(const char *str, char c) {
 }
 
 /**
+ * @brief Load the default configuration for the Enigma machine.
+ *
+ * Default config is as follows:
+ * - Reflector: UKW-B
+ * - Rotors: I, II, III
+ * - Rotor positions: A, A, A
+ * - Empty plugboard
+ *
+ * @param enigma Pointer to the `enigma_t` to be initialized.
+ */
+void init_default_enigma(enigma_t *enigma) {
+    enigma->reflector = malloc(sizeof(reflector_t));
+    memcpy(enigma->reflector, &UKW_B, sizeof(reflector_t));
+    enigma->rotor_count = 3;
+    enigma->rotors = malloc(enigma->rotor_count * sizeof(rotor_t));
+    enigma->rotors[2] = arotor_I;
+    enigma->rotors[1] = rotor_II;
+    enigma->rotors[0] = rotor_III;
+    enigma->rotor_flag = 0;
+    enigma->plugboard = NULL;
+}
+
+
+/**
  * @brief Pass through the reflector and return the reflected character.
  *
  * @param reflector Pointer to the reflector structure.
