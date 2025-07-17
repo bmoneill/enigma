@@ -4,6 +4,8 @@
 #include <string.h>
 
 #include "enigma.h"
+#include "reflectors.h"
+#include "rotors.h"
 
 #ifdef VERBOSE
 #define VERBOSE_PRINT(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)
@@ -21,6 +23,15 @@ static int rotor_pass(rotor_t *, int, int);
 static char substitute(const char *, char, int);
 static int to_alpha(int, int);
 static int to_char_code(char);
+
+void deinit_enigma(enigma_t *enigma) {
+    if (enigma->rotors) {
+        free(enigma->rotors);
+    }
+    if (enigma->reflector) {
+        free(enigma->reflector);
+    }
+}
 
 /**
  * @brief Encode a character using the Enigma machine.
@@ -126,7 +137,7 @@ void init_default_enigma(enigma_t *enigma) {
     memcpy(enigma->reflector, &UKW_B, sizeof(reflector_t));
     enigma->rotor_count = 3;
     enigma->rotors = malloc(enigma->rotor_count * sizeof(rotor_t));
-    enigma->rotors[2] = arotor_I;
+    enigma->rotors[2] = rotor_I;
     enigma->rotors[1] = rotor_II;
     enigma->rotors[0] = rotor_III;
     enigma->rotor_flag = 0;

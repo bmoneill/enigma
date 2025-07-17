@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "bombe.h"
+#include "lib/bombe.h"
 
 static void print_usage(const char *argv0);
 

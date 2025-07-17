@@ -63,7 +63,6 @@ void bombe_find_potential_indices(const char *ciphertext, const char *crib, int 
     }
 
     indices[matchCount] = -1;
-    return indices;
 }
 
 /**
@@ -83,16 +82,7 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
         printf(" - Index: %d, String: %s\n", bombe->crib[i].index, bombe->crib[i].s);
     }
 
-    enigma_t enigma;
-    enigma.rotors = malloc(ROTOR_COUNT * sizeof(rotor_t));
-    enigma.reflector = malloc(sizeof(reflector_t));
-    enigma.plugboard = NULL;
-    enigma.rotor_count = 3;
-    enigma.rotor_flag = 0;
-    memcpy(&enigma.rotors[2], &rotor_I, sizeof(rotor_t));
-    memcpy(&enigma.rotors[1], &rotor_II, sizeof(rotor_t));
-    memcpy(&enigma.rotors[0], &rotor_III, sizeof(rotor_t));
-    memcpy(enigma.reflector, &UKW_B, sizeof(reflector_t));
+    init_default_enigma(&enigma);
 
     char *plaintext = malloc(ciphertextLength + 1);
 
@@ -112,6 +102,8 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
             }
         }
     }
+
+    deinit_enigma(&enigma);
 }
 
 /**
