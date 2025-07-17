@@ -11,9 +11,7 @@ sudo make install
 
 To enable verbose messages for debugging, uncomment the `ENIGMA_CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
 
-## Usage
-
-### Enigma simulator
+## Enigma Simulator
 
 This is an almost-full-featured M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
 outputs to stdout by default, and is case-agnostic.
@@ -36,7 +34,7 @@ MWQHY
 HELLO
 ```
 
-### bombe
+## Bombe
 
 This is a program based on the machine used to crack Enigma during World War II.
 `bombe` takes in 3 arguments: the crib, the index where the crib should be in
@@ -46,26 +44,53 @@ so the German for "weather report" could be used to crack the message and get th
 day's Enigma configuration.
 
 `bombe` will output all Enigma configurations containing the plaintext crib
-string at the given index, and the resulting plaintext. An example is below.
+string at the given index, and the resulting plaintext. By default, it is fairly slow
+(takes around 12 seconds on my 16-core i9), so multithreading is supported.
+
+### Usage
+
+The following options are supported:
+
+* `-c`: Crib string (required)
+* `-C`: Ciphertext (required)
+* `-i`: Crib string index in plaintext (required)
+* `-t`: Number of threads to use (default: 1)
+
+### Example
 
 ```shell
-$ ./bombe -c "HELLO" -C "ILBDAAMTAZ" -i 0
-Running Bombe...
-Crib:
- - Index: 0, String: HELLO
+$ ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t32
 Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLONLLON
-Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
 Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD
+Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
 Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLOSVRTA
 Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
-...
+Rotors: III (A)  VI (V), VIII (Q) | Reflector: C | Plaintext: HELLOSHRTF
+Rotors: III (A)  VI (U), V (X) | Reflector: C | Plaintext: HELLOZHRMH
+Rotors: III (A)  VI (B), V (Z) | Reflector: C | Plaintext: HELLOOBRXU
+Rotors: III (A)  VIII (P), VII (T) | Reflector: A | Plaintext: HELLOXCRUE
 ```
 
-## Further Reading
+### Multithreading
 
-* [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
-* [Enigma Cipher Machine on Crypto Museum](https://www.cryptomuseum.com/crypto/enigma/index.htm)
-* [The Turing-Welchman Bombe (National Museum of Computing)](https://www.tnmoc.org/bombe)
+Multithreading reduces the runtime by a significant margin. I'm sure this
+code could be optimized much further (the Enigma encoding function focuses
+on readability rather than performance - this is not ideal for the Bombe).
+
+```shell
+$ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 1 # single thread
+real    0m15.231s
+user    0m14.980s
+sys     0m0.117s
+$ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 32 # 32 threads
+real    0m1.657s
+user    0m20.785s
+sys     0m0.118s
+```
+
+## Planned Features
+
+* Bombe should be able to find potential crib indices (WIP).
 
 ## Bugs
 
@@ -75,7 +100,14 @@ Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
 * Bombe doesn't support a populated plugboard.
 * Probably others.
 
-If you find a bug, submit an issue, PR, or email me with a description and/or patch.
+If you find a bug not listed here, submit an issue, PR, or email me with a
+description and/or patch.
+
+## Further Reading
+
+* [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
+* [Enigma Cipher Machine on Crypto Museum](https://www.cryptomuseum.com/crypto/enigma/index.htm)
+* [The Turing-Welchman Bombe (National Museum of Computing)](https://www.tnmoc.org/bombe)
 
 ## License
 
