@@ -102,7 +102,6 @@ static int load_rotor_config(enigma_t *enigma, char *s) {
 
     char *token = strtok(s, " ");
     while (token != NULL) {
-        printf("Loading rotor: %s\n", token);
         for (int i = 0; i < numRotors; i++) {
             if (!strcmp(enigma_rotors[i]->name, token)) {
                 enigma->rotors[enigma->rotor_count++] = *enigma_rotors[i];
