@@ -76,12 +76,6 @@ void bombe_run(bombe_t *bombe, const char *ciphertext) {
     int plugboard_count = 0;
     int ciphertextLength = strlen(ciphertext);
 
-    printf("Running Bombe...\n");
-    printf("Crib:\n");
-    for (int i = 0; i < bombe->numCribs; i++) {
-        printf(" - Index: %d, String: %s\n", bombe->crib[i].index, bombe->crib[i].s);
-    }
-
     init_default_enigma(&enigma);
 
     char *plaintext = malloc(ciphertextLength + 1);
