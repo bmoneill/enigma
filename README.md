@@ -92,8 +92,7 @@ Rotors: III (A)  VIII (P), VII (T) | Reflector: A | Plaintext: HELLOXCRUE
 ### Multithreading
 
 Multithreading reduces the runtime by a significant margin. I'm sure this
-code could be optimized much further (the Enigma encoding function focuses
-on readability rather than performance - this is not ideal for the Bombe).
+code could be optimized much further.
 
 Below are single- and multi-threaded times on my 16-core i9-10885H.
 
