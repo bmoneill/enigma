@@ -119,10 +119,10 @@ sys     0m0.067s
 ## Planned Features
 
 * Bombe should be able to find potential crib indices (WIP).
+* Bombe should use a dictionary to highlight found plaintext containing more actual words.
 
 ## Bugs
 
-* For some reason, GCC optimizations break this code.
 * No support for double-stepping rotors (yet).
 * Multiple notches (such as on Rotors VI-VIII) do not work properly yet.
 * Bombe doesn't support a populated plugboard.
