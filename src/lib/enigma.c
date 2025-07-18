@@ -155,23 +155,6 @@ static __attribute__((always_inline)) inline int reflect(reflector_t* reflector,
 }
 
 /**
- * @brief Rotate the specified rotor by the specified count.
- *
- * This function rotates the rotor's index by the given count, wrapping around
- * if it exceeds the size of the alphabet.
- *
- * @param rotor Pointer to the rotor structure.
- * @param count The number of positions to rotate.
- */
-static __attribute__((always_inline)) inline void rotate(rotor_t* rotor, int count) {
-    rotor->idx += count;
-
-    if (rotor->idx >= ALPHA_SIZE) {
-        rotor->idx -= ALPHA_SIZE;
-    }
-}
-
-/**
  * @brief Rotate the rotors of the Enigma machine.
  *
  * This function rotates the first rotor by one position and checks if the
@@ -180,17 +163,17 @@ static __attribute__((always_inline)) inline void rotate(rotor_t* rotor, int cou
  * @param enigma Pointer to the Enigma machine structure.
  */
 static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
-    rotate(&enigma->rotors[0], 1);
+    enigma->rotors[0].idx++;
 
     // TODO rotor_flag never set at the moment
     if (enigma->rotor_flag) {
-        rotate(&enigma->rotors[1], 1);
-        rotate(&enigma->rotors[2], 1);
+        enigma->rotors[1].idx++;
+        enigma->rotors[2].idx++;
     }
 
     // TODO fix for multiple notches
     if (enigma->rotors[0].alphabet[0] == enigma->rotors[0].notches[0]) {
-        rotate(&enigma->rotors[1], 1);
+        enigma->rotors[1].idx++;
     }
 }
 
