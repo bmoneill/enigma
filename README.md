@@ -23,14 +23,13 @@ to its configuration. It then travels through three rotors, each further scrambl
 reaches the reflector, which adds another layer of complexity by sending it back through the rotors in reverse order.
 Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
 The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.
-
 Needless to say, this was pretty strong cryptography for the time, and it was a top priority of the Allies to break
 Enigma.
 
 ### Usage
 
 ```shell
-enigma [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
+$ enigma [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
 ```
 
 This is an M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
@@ -70,7 +69,7 @@ so multithreading is supported.
 ### Usage
 
 ```shell
-bombe [-t thread_count] -c crib -i index ciphertext
+$ bombe [-t thread_count] -c crib -i index ciphertext
 ```
 
 The following options are supported:
