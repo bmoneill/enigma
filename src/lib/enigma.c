@@ -98,21 +98,6 @@ void init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
 }
 
 /**
- * @brief Find the index of a character in a string.
- *
- * This function searches for the first occurrence of a character in a string
- * and returns its index. Assumes character is present in the string.
- *
- * @param str The string to search in.
- * @param c The character to find.
- * @return The index of the character in the string, or -1 if not found.
- */
-static __attribute__((always_inline)) inline int index_of(const char* str, char c) {
-    const char* p = strchr(str, c);
-    return (int)(p - str);
-}
-
-/**
  * @brief Load the default configuration for the Enigma machine.
  *
  * Default config is as follows:
@@ -133,6 +118,20 @@ void init_default_enigma(enigma_t* enigma) {
     enigma->plugboard = NULL;
 }
 
+/**
+ * @brief Find the index of a character in a string.
+ *
+ * This function searches for the first occurrence of a character in a string
+ * and returns its index. Assumes character is present in the string.
+ *
+ * @param str The string to search in.
+ * @param c The character to find.
+ * @return The index of the character in the string, or -1 if not found.
+ */
+static __attribute__((always_inline)) inline int index_of(const char* str, char c) {
+    const char* p = strchr(str, c);
+    return (int)(p - str);
+}
 
 static __attribute__((always_inline)) inline void rotate(rotor_t *rotor) {
     rotor->idx++;
