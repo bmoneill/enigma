@@ -9,7 +9,7 @@ make
 sudo make install
 ```
 
-To enable verbose messages for debugging, uncomment the `ENIGMA_CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
+To enable verbose messages for debugging, uncomment the `CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
 
 ## Enigma Simulator
 
