@@ -1,8 +1,8 @@
-VERSION  = 0.2
+VERSION  = 0.1
 
 PREFIX   = /usr/local
 
-CC       = cc
+CC       = gcc
 LD       = $(CC)
 
 CFLAGS        = -Werror -std=c99 -pedantic #-g -pg
