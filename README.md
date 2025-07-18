@@ -99,13 +99,13 @@ Below are single- and multi-threaded times on my 16-core i9-10885H.
 
 ```shell
 $ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 1 # single thread
-real    0m15.231s
-user    0m14.980s
-sys     0m0.117s
-$ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 32 # 32 threads
-real    0m1.657s
-user    0m20.785s
-sys     0m0.118s
+real    0m12.940s
+user    0m12.724s
+sys     0m0.106s
+$ $ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 64 # 64 threads
+real    0m1.302s
+user    0m18.424s
+sys     0m0.130s
 ```
 
 ## Planned Features
