@@ -106,9 +106,14 @@ real    0m3.349s
 user    0m3.257s
 sys     0m0.051s
 $ time ./bombe -i 0 -c "HELLO" -t 64 "ILBDAAMTAZ" # 64 threads
-real    0m0.407s
-user    0m5.289s
-sys     0m0.068s
+real    0m0.383s
+user    0m4.986s
+sys     0m0.071s
+$ time ./bombe -i 0 -c "HELLO" -t 256 "ILBDAAMTAZ" # 256 threads
+real    0m0.348s
+user    0m4.995s
+sys     0m0.067s
+
 ```
 
 ## Planned Features
