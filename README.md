@@ -23,8 +23,6 @@ to its configuration. It then travels through three rotors, each further scrambl
 reaches the reflector, which adds another layer of complexity by sending it back through the rotors in reverse order.
 Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
 The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.
-Needless to say, this was pretty strong cryptography for the time, and it was a top priority of the Allies to break
-Enigma.
 
 ### Usage
 
