@@ -15,14 +15,15 @@
 
 const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-static int index_of(const char*, char);
+static inline int index_of(const char*, char);
 static int reflect(reflector_t*, int);
 static void rotate(rotor_t*, int);
 static void rotate_rotors(enigma_t*);
-static int rotor_pass(rotor_t*, int, int);
-static char substitute(const char*, char, int);
-static int to_alpha(int, int);
-static int to_char_code(char);
+static inline int rotor_pass_forward(rotor_t*, int);
+static inline int rotor_pass_reverse(rotor_t*, int);
+static inline char substitute(const char*, char);
+static inline int to_alpha(int, int);
+static inline int to_char_code(char);
 
 /**
  * @brief Encode a character using the Enigma machine.
@@ -35,9 +36,17 @@ static int to_char_code(char);
  * @return The encoded character.
  */
 char encode(enigma_t* enigma, char input) {
+    if (!isalpha(input)) {
+        return input;
+    }
+
     char output = input;
-    int upper = isupper(input);
-    int idx = to_char_code(input);
+    int upper;
+    if (!(upper = isupper(input))) {
+        output = toupper(input);
+    }
+
+    int idx = to_char_code(output);
 
     VERBOSE_PRINT("Keyboard Input: %c\n", input);
 
@@ -52,13 +61,13 @@ char encode(enigma_t* enigma, char input) {
 #endif
 
     // Plugboard
-    input = substitute(enigma->plugboard, input, upper);
+    input = substitute(enigma->plugboard, input);
     idx = to_char_code(input);
     VERBOSE_PRINT("Plugboard: %c (index %d)\n", input, idx);
 
     // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
-        idx = rotor_pass(&enigma->rotors[i], idx, 1);
+        idx = rotor_pass_forward(&enigma->rotors[i], idx);
         VERBOSE_PRINT("Rotor %s (index %d): %c\n", enigma->rotors[i].alphabet, idx, alphabet[idx]);
     }
 
@@ -69,15 +78,15 @@ char encode(enigma_t* enigma, char input) {
 
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
-        idx = rotor_pass(&enigma->rotors[i], idx, -1);
+        idx = rotor_pass_reverse(&enigma->rotors[i], idx);
         VERBOSE_PRINT("Rotor %s (index %d, offset %d): %c\n", enigma->rotors[i].alphabet, idx, enigma->rotors[i].idx, alphabet[idx]);
     }
 
     // Plugboard again
-    output = substitute(enigma->plugboard, alphabet[idx], upper);
+    output = substitute(enigma->plugboard, alphabet[idx]);
     VERBOSE_PRINT("Plugboard: %c\n", output);
 
-    return output;
+    return upper ? output : tolower(output);
 }
 
 /**
@@ -106,7 +115,7 @@ void init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
  * @param c The character to find.
  * @return The index of the character in the string, or -1 if not found.
  */
-static int index_of(const char* str, char c) {
+static __attribute__((always_inline)) inline int index_of(const char* str, char c) {
     const char* p = strchr(str, c);
     return p ? (int)(p - str) : -1;
 }
@@ -190,25 +199,30 @@ static void rotate_rotors(enigma_t* enigma) {
 }
 
 /**
- * @brief Pass through a rotor and return the index of the character.
- *
- * This function passes through a rotor, given the index that the wiring left
- * the last rotor. It returns the index of the character in the rotor's alphabet
- * (the index which it left this rotor).
+ * @brief Pass through a rotor in the forward direction.
  *
  * @param rotor Pointer to the `rotor_t`.
  * @param idx The index of the character in the alphabet.
- * @param direction The direction of the pass (1 for forward, -1 for reverse)
+ *
  * @return The index of the character after passing through the rotor.
  */
-static int rotor_pass(rotor_t* rotor, int idx, int direction) {
+static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rotor, int idx) {
     idx = (idx + rotor->idx) % ALPHA_SIZE;
-    if (direction == 1) {
-        idx = index_of(alphabet, rotor->alphabet[idx]);
-    }
-    else {
-        idx = index_of(rotor->alphabet, alphabet[idx]);
-    }
+    idx = index_of(alphabet, rotor->alphabet[idx]);
+    return (ALPHA_SIZE + idx - rotor->idx) % ALPHA_SIZE;
+}
+
+/**
+ * @brief Pass through a rotor in the reverse direction.
+ *
+ * @param rotor Pointer to the `rotor_t`.
+ * @param idx The index of the character in the alphabet.
+ *
+ * @return The index of the character after passing through the rotor.
+ */
+static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
+    idx = (idx + rotor->idx) % ALPHA_SIZE;
+    idx = index_of(rotor->alphabet, alphabet[idx]);
     return (ALPHA_SIZE + idx - rotor->idx) % ALPHA_SIZE;
 }
 
@@ -217,24 +231,21 @@ static int rotor_pass(rotor_t* rotor, int idx, int direction) {
  *
  * This function takes in the plugboard configuration (an even-length string
  * representing pairs of characters to swap), and the character to be substituted.
- * The character can be uppercase or lowercase.
+ * The character must be uppercase.
  *
  * @param plugboard The plugboard configuration string.
  * @param c The character to be substituted.
- * @param upper A flag indicating if the character is uppercase (1) or lowercase (0)
  * @return The substituted character based on the plugboard configuration.
  */
-static char substitute(const char* plugboard, char c, int upper) {
+static __attribute__((always_inline)) inline char substitute(const char* plugboard, char c) {
     if (!plugboard) return c;
-
-    c = toupper(c);
 
     for (int i = 0; plugboard[i] != '\0'; i += 2) {
         if (plugboard[i] == c) {
-            return upper ? plugboard[i + 1] : tolower(plugboard[i + 1]);
+            return plugboard[i + 1];
         }
         else if (plugboard[i + 1] == c) {
-            return upper ? plugboard[i] : tolower(plugboard[i]);
+            return plugboard[i];
         }
     }
 
@@ -243,25 +254,12 @@ static char substitute(const char* plugboard, char c, int upper) {
 
 /**
  * @brief Convert a character to its corresponding index in the alphabet.
+ *
+ * Assumes the character is an uppercase ASCII letter.
+ *
  * @param c character to convert
  * @return The index of the character in the alphabet (0 for 'A' or 'a'...)
  */
-static int to_char_code(char c) {
-    if (c >= 'A' && c <= 'Z') {
-        return c - 'A';
-    }
-    else if (c >= 'a' && c <= 'z') {
-        return c - 'a';
-    }
-    return -1;
-}
-
-/**
- * @brief Convert an index to its corresponding character in the alphabet (with correct casing).
- * @param c The index to convert.
- * @param upper A flag indicating if the character should be uppercase (1) or lowercase (0).
- * @return The character corresponding to the index in the alphabet.
- */
-static int to_alpha(int c, int upper) {
-    return c + (upper ? 'A' : 'a');
+static __attribute__((always_inline)) inline int to_char_code(char c) {
+    return c - 'A';
 }
