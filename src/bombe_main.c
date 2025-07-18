@@ -14,9 +14,8 @@ int main(int argc, char* argv[]) {
     int threadCount = 1;
 
     // Parse command line options
-    // Again need better names here
     int opt;
-    while ((opt = getopt(argc, argv, "c:C:i:t:")) != -1) {
+    while ((opt = getopt(argc, argv, "c:i:t:")) != -1) {
         switch (opt) {
         case 'c': crib = optarg; break;
         case 'C': ciphertext = optarg; break;
@@ -25,6 +24,12 @@ int main(int argc, char* argv[]) {
         default: print_usage(argv[0]);
         }
     }
+
+    if (optind == argc) {
+        print_usage(argv[0]);
+    }
+
+    ciphertext = optarg;
 
     if (!crib || !ciphertext || idx < 0) {
         fprintf(stderr, "Error: Crib, index, and ciphertext must be provided.\n\n");
@@ -39,7 +44,7 @@ int main(int argc, char* argv[]) {
 }
 
 static void print_usage(const char* argv0) {
-    fprintf(stderr, "Usage: %s [-I] [-i index] [-t threadCount] -c crib -C ciphertext\n", argv0);
+    fprintf(stderr, "Usage: %s [-i index] [-t threadCount] -c crib ciphertext\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -c crib       Set the crib string to use\n");
     fprintf(stderr, "  -C ciphertext Set the ciphertext to analyze\n");
