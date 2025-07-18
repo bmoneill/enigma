@@ -39,8 +39,13 @@ int main(int argc, char* argv[]) {
             fputc(c, stdout);
             continue;
         }
+
         char output = encode(&enigma, c);
-        fputc(output, stdout);
+        if (isupper(c)) {
+            fputc(output, stdout);
+        } else {
+            fputc(tolower(output), stdout);
+        }
     }
     printf("\n");
 

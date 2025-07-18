@@ -13,6 +13,8 @@
 #define VERBOSE_PRINT(fmt, ...)
 #endif
 
+#define ALPHA2IDX(c) ((c) - 'A')
+
 const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 static inline int index_of(const char*, char);
@@ -31,22 +33,14 @@ static inline int to_char_code(char);
  * This function takes an input character, processes it through the Enigma machine's rotors and reflector,
  * and returns the encoded character. It handles both uppercase and lowercase characters.
  *
+ * Assumes the input character is an uppercase ASCII letter.
+ *
  * @param enigma Pointer to the Enigma machine structure.
- * @param input The character to encode.
+ * @param c The character to encode.
  * @return The encoded character.
  */
-char encode(enigma_t* enigma, char input) {
-    if (!isalpha(input)) {
-        return input;
-    }
-
-    char output = input;
-    int upper;
-    if (!(upper = isupper(input))) {
-        output = toupper(input);
-    }
-
-    int idx = output - 'A';
+char encode(enigma_t* enigma, char c) {
+    int idx = c - 'A';
 
     VERBOSE_PRINT("Keyboard Input: %c\n", input);
 
@@ -61,9 +55,9 @@ char encode(enigma_t* enigma, char input) {
 #endif
 
     // Plugboard
-    input = substitute(enigma->plugboard, input);
-    idx = to_char_code(input);
-    VERBOSE_PRINT("Plugboard: %c (index %d)\n", input, idx);
+    c = substitute(enigma->plugboard, c);
+    idx = ALPHA2IDX(c);
+    VERBOSE_PRINT("Plugboard: %c (index %d)\n", c, idx);
 
     // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
@@ -72,7 +66,7 @@ char encode(enigma_t* enigma, char input) {
 
     // Reflector
     idx = enigma->reflector->indices[idx];
-    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, output);
+    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, alphabet[idx]);
 
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
@@ -81,10 +75,10 @@ char encode(enigma_t* enigma, char input) {
     }
 
     // Plugboard again
-    output = substitute(enigma->plugboard, alphabet[idx]);
-    VERBOSE_PRINT("Plugboard: %c\n", output);
+    c = substitute(enigma->plugboard, alphabet[idx]);
+    VERBOSE_PRINT("Plugboard: %c\n", c);
 
-    return upper ? output : tolower(output);
+    return c;
 }
 
 /**
@@ -238,16 +232,4 @@ static __attribute__((always_inline)) inline char substitute(const char* plugboa
     }
 
     return c;
-}
-
-/**
- * @brief Convert a character to its corresponding index in the alphabet.
- *
- * Assumes the character is an uppercase ASCII letter.
- *
- * @param c character to convert
- * @return The index of the character in the alphabet (0 for 'A' or 'a'...)
- */
-static __attribute__((always_inline)) inline int to_char_code(char c) {
-    return c - 'A';
 }
