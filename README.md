@@ -99,7 +99,7 @@ task that is easily parallizable.
 
 Inlining most of the arithmetic functions and using indices for the rotor/reflector
 alphabets cuts down the time significantly. Initially, on one thread, it took
-around 20 seconds to run. I'm sure this code could be optimized much further.
+around 20 seconds to run.
 
 Below are single- and multi-threaded times on my 16-core i9-10885H.
 
@@ -116,7 +116,6 @@ $ time ./bombe -i 0 -c "HELLO" -t 256 "ILBDAAMTAZ" # 256 threads
 real    0m0.348s
 user    0m4.995s
 sys     0m0.067s
-
 ```
 
 ## Planned Features
