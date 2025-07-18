@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lib/enigma.h"
-#include "lib/rotors.h"
-#include "lib/reflectors.h"
+#include "enigma.h"
+#include "rotors.h"
+#include "reflectors.h"
 
 static void bombe(char*, char*, int);
 static int load_reflector_config(enigma_t*, const char*);

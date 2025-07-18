@@ -1,22 +1,11 @@
 #ifndef ENIGMA_H
 #define ENIGMA_H
 
-#define ALPHA_SIZE 26
+#include "reflectors.h"
+#include "rotors.h"
+
 #define ROTOR_COUNT 8
 #define REFLECTOR_COUNT 3
-
-typedef struct {
-    const char* name;
-    int indices[ALPHA_SIZE];
-} reflector_t;
-
-typedef struct {
-    const char* name;
-    int fwd_indices[ALPHA_SIZE];
-    int rev_indices[ALPHA_SIZE];
-    int notches[2];
-    int idx;
-} rotor_t;
 
 typedef struct {
     rotor_t rotors[4];

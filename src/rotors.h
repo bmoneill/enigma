@@ -1,7 +1,15 @@
 #ifndef ENIGMA_ROTORS_H
 #define ENIGMA_ROTORS_H
 
-#include "enigma.h"
+#include "defs.h"
+
+typedef struct {
+    const char* name;
+    int fwd_indices[ALPHA_SIZE];
+    int rev_indices[ALPHA_SIZE];
+    int notches[2];
+    int idx;
+} rotor_t;
 
 extern const rotor_t rotor_I;
 extern const rotor_t rotor_II;
