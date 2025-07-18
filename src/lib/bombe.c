@@ -214,6 +214,7 @@ static void* thread_process_chunk(void* args) {
 static void process_single(bombe_t* bombe, enigma_t* enigma,
     const char* ciphertext, int ciphertextLength,
     char* plaintext, const char* configString) {
+
     int matching = 0;
     for (int i = 0; i < ciphertextLength; i++) {
         if (i > bombe->cribIndex && !matching) {
@@ -224,8 +225,11 @@ static void process_single(bombe_t* bombe, enigma_t* enigma,
         char decrypted = encode(enigma, ciphertext[i]);
         plaintext[i] = decrypted;
 
-         if (matching == bombe->cribLength) {
-            continue;
+        if (matching == bombe->cribLength) {
+            for (int j = i + 1; j < ciphertextLength; j++) {
+                plaintext[j] = encode(enigma, ciphertext[j]);
+            }
+            break;
         } else if (i == bombe->cribIndex && decrypted == bombe->crib[0]) {
             matching = 1;
         } else if (matching && decrypted == bombe->crib[matching]) {

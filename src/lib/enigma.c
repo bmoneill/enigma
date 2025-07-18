@@ -17,7 +17,7 @@ const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 static inline int index_of(const char*, char);
 static inline int reflect(reflector_t*, int);
-static inline void rotate(rotor_t*, int);
+static inline void rotate(rotor_t *rotor);
 static inline void rotate_rotors(enigma_t*);
 static inline int rotor_pass_forward(rotor_t*, int);
 static inline int rotor_pass_reverse(rotor_t*, int);
@@ -109,7 +109,7 @@ void init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
  * @brief Find the index of a character in a string.
  *
  * This function searches for the first occurrence of a character in a string
- * and returns its index. If the character is not found, it returns -1.
+ * and returns its index. Assumes character is present in the string.
  *
  * @param str The string to search in.
  * @param c The character to find.
@@ -117,7 +117,7 @@ void init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
  */
 static __attribute__((always_inline)) inline int index_of(const char* str, char c) {
     const char* p = strchr(str, c);
-    return p ? (int)(p - str) : -1;
+    return (int)(p - str);
 }
 
 /**
@@ -154,6 +154,13 @@ static __attribute__((always_inline)) inline int reflect(reflector_t* reflector,
     return reflector->alphabet[idx];
 }
 
+static __attribute__((always_inline)) inline void rotate(rotor_t *rotor) {
+    rotor->idx++;
+    if (rotor->idx == ALPHA_SIZE) {
+        rotor->idx = 0;
+    }
+}
+
 /**
  * @brief Rotate the rotors of the Enigma machine.
  *
@@ -163,17 +170,17 @@ static __attribute__((always_inline)) inline int reflect(reflector_t* reflector,
  * @param enigma Pointer to the Enigma machine structure.
  */
 static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
-    enigma->rotors[0].idx++;
+    rotate(&enigma->rotors[0]);
 
     // TODO rotor_flag never set at the moment
     if (enigma->rotor_flag) {
-        enigma->rotors[1].idx++;
-        enigma->rotors[2].idx++;
+        rotate(&enigma->rotors[1]);
+        rotate(&enigma->rotors[2]);
     }
 
     // TODO fix for multiple notches
     if (enigma->rotors[0].alphabet[0] == enigma->rotors[0].notches[0]) {
-        enigma->rotors[1].idx++;
+        rotate(&enigma->rotors[1]);
     }
 }
 
@@ -186,9 +193,18 @@ static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma
  * @return The index of the character after passing through the rotor.
  */
 static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rotor, int idx) {
-    idx = (idx + rotor->idx) % ALPHA_SIZE;
+    idx = idx + rotor->idx;
+    if (idx >= ALPHA_SIZE) {
+        idx -= ALPHA_SIZE;
+    }
+
     idx = index_of(alphabet, rotor->alphabet[idx]);
-    return (ALPHA_SIZE + idx - rotor->idx) % ALPHA_SIZE;
+
+    idx = (ALPHA_SIZE + idx - rotor->idx);
+    if (idx >= ALPHA_SIZE) {
+        idx -= ALPHA_SIZE;
+    }
+    return idx;
 }
 
 /**
@@ -200,9 +216,18 @@ static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rot
  * @return The index of the character after passing through the rotor.
  */
 static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
-    idx = (idx + rotor->idx) % ALPHA_SIZE;
+    idx = idx + rotor->idx;
+    if (idx >= ALPHA_SIZE) {
+        idx -= ALPHA_SIZE;
+    }
+
     idx = index_of(rotor->alphabet, alphabet[idx]);
-    return (ALPHA_SIZE + idx - rotor->idx) % ALPHA_SIZE;
+
+    idx = (ALPHA_SIZE + idx - rotor->idx);
+    if (idx >= ALPHA_SIZE) {
+        idx -= ALPHA_SIZE;
+    }
+    return idx;
 }
 
 /**
@@ -219,13 +244,9 @@ static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rot
 static __attribute__((always_inline)) inline char substitute(const char* plugboard, char c) {
     if (!plugboard) return c;
 
-    for (int i = 0; plugboard[i] != '\0'; i += 2) {
-        if (plugboard[i] == c) {
-            return plugboard[i + 1];
-        }
-        else if (plugboard[i + 1] == c) {
-            return plugboard[i];
-        }
+    for (const char *p = plugboard; p[0] && p[1]; p += 2) {
+        if (p[0] == c) return p[1];
+        if (p[1] == c) return p[0];
     }
 
     return c;
