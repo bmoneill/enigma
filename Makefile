@@ -1,10 +1,10 @@
 include config.mk
 
 ENIGMA_BIN=enigma
-ENIGMA_SRC=src/lib/enigma.c src/lib/reflectors.c src/lib/rotors.c src/enigma_main.c
+ENIGMA_SRC=src/enigma.c src/reflectors.c src/rotors.c src/enigma_main.c
 
 BOMBE_BIN=bombe
-BOMBE_SRC=src/lib/bombe.c src/lib/reflectors.c src/lib/rotors.c src/lib/enigma.c src/bombe_main.c
+BOMBE_SRC=src/bombe.c src/reflectors.c src/rotors.c src/enigma.c src/bombe_main.c
 
 all: $(ENIGMA_BIN) $(BOMBE_BIN)
 
