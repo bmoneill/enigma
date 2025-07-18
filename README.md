@@ -30,8 +30,7 @@ The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the 
 $ enigma [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
 ```
 
-This is an M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
-outputs to stdout by default, and is case-agnostic.
+`enigma` reads from stdin and outputs to stdout by default, and is case-agnostic.
 
 The following options are supported:
 
