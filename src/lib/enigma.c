@@ -16,9 +16,9 @@
 const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 static inline int index_of(const char*, char);
-static int reflect(reflector_t*, int);
-static void rotate(rotor_t*, int);
-static void rotate_rotors(enigma_t*);
+static inline int reflect(reflector_t*, int);
+static inline void rotate(rotor_t*, int);
+static inline void rotate_rotors(enigma_t*);
 static inline int rotor_pass_forward(rotor_t*, int);
 static inline int rotor_pass_reverse(rotor_t*, int);
 static inline char substitute(const char*, char);
@@ -182,7 +182,7 @@ static __attribute__((always_inline)) inline void rotate(rotor_t* rotor, int cou
 static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
     rotate(&enigma->rotors[0], 1);
 
-    // TODO rotor_flag never set atm
+    // TODO rotor_flag never set at the moment
     if (enigma->rotor_flag) {
         rotate(&enigma->rotors[1], 1);
         rotate(&enigma->rotors[2], 1);
