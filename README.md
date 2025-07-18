@@ -88,10 +88,15 @@ Rotors: III (A)  VI (B), V (Z) | Reflector: C | Plaintext: HELLOOBRXU
 Rotors: III (A)  VIII (P), VII (T) | Reflector: A | Plaintext: HELLOXCRUE
 ```
 
-### Multithreading
+### Performance/Multithreading
 
-Multithreading reduces the runtime by a significant margin. I'm sure this
-code could be optimized much further.
+Multithreading reduces the runtime by a significant margin. Since we are
+essentially looping through all the possible Enigma configurations, this is a
+task that is easily parallizable.
+
+Inlining most of the arithmetic functions and using indices for the rotor/reflector
+alphabets cuts down the time significantly. Initially, on one thread, it took
+around 20 seconds to run. I'm sure this code could be optimized much further.
 
 Below are single- and multi-threaded times on my 16-core i9-10885H.
 
