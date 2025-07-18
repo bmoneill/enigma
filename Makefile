@@ -15,7 +15,7 @@ $(BOMBE_BIN): $(BOMBE_SRC)
 	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 clean:
-	rm -f $(wildcard src/*.o) $(ENIGMA_BIN) $(BOMBE_BIN)
+	rm -f $(ENIGMA_BIN) $(BOMBE_BIN)
 
 dist:
 	mkdir -p enigma-$(VERSION)
