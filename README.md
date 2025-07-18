@@ -22,14 +22,16 @@ When a key is pressed, the signal first passes through the plugboard, which swap
 to its configuration. It then travels through three rotors, each further scrambling the signal. Next, the signal
 reaches the reflector, which adds another layer of complexity by sending it back through the rotors in reverse order.
 Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
-
-The Enigma's encryption was symmetric, meaning that using the same configuration for both encryption and decryption
-allowed the ciphertext to be converted back to plaintext simply by typing it in.
+The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.
 
 Needless to say, this was pretty strong cryptography for the time, and it was a top priority of the Allies to break
 Enigma.
 
 ### Usage
+
+```shell
+enigma [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
+```
 
 This is an M3 Enigma simulator with rotors I-VIII and Reflectors A-C. It reads from stdin and
 outputs to stdout by default, and is case-agnostic.
@@ -44,10 +46,10 @@ The following options are supported:
 Here is an example encryption/decryption with a custom rotor/plugboard configuration:
 
 ```shell
-$ ./enigma -s "ABCD" -w "I II IV" -p "XYZ"
+$ enigma -s "ABCD" -w "I II IV" -p "XYZ"
 HELLO # user input
 MWQHY # output
-$ ./enigma -s "ABCD" -w "I II IV" -p "XYZ" # same configuration
+$ enigma -s "ABCD" -w "I II IV" -p "XYZ" # same configuration
 MWQHY
 HELLO
 ```
@@ -66,6 +68,10 @@ string at the given index, and the resulting plaintext. By default, it is fairly
 so multithreading is supported.
 
 ### Usage
+
+```shell
+bombe [-t thread_count] -c crib -i index ciphertext
+```
 
 The following options are supported:
 
