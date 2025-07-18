@@ -96,14 +96,14 @@ code could be optimized much further.
 Below are single- and multi-threaded times on my 16-core i9-10885H.
 
 ```shell
-$ time ./bombe -i 0 -c "HELLO" -t 1 "ILBDAAMTAZ" # single thread
-real    0m12.940s
-user    0m12.724s
-sys     0m0.106s
-$ $ time ./bombe -i 0 -c "HELLO" -t 64 "ILBDAAMTAZ" # 64 threads
-real    0m1.302s
-user    0m18.424s
-sys     0m0.130s
+$ time ./bombe -i 0 -c "HELLO" -t 1 "ILBDAAMTAZ" # 1 thread
+real    0m3.349s
+user    0m3.257s
+sys     0m0.051s
+$ time ./bombe -i 0 -c "HELLO" -t 64 "ILBDAAMTAZ" # 64 threads
+real    0m0.407s
+user    0m5.289s
+sys     0m0.068s
 ```
 
 ## Planned Features
