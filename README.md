@@ -70,14 +70,13 @@ so multithreading is supported.
 The following options are supported:
 
 * `-c`: Crib string (required)
-* `-C`: Ciphertext (required)
 * `-i`: Crib string index in plaintext (required)
 * `-t`: Number of threads to use (default: 1)
 
 ### Example
 
 ```shell
-$ ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t32
+$ ./bombe -i 0 -c "HELLO" -t 32 "ILBDAAMTAZ"
 Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLONLLON
 Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD # actual plaintext
 Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
