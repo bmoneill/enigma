@@ -13,6 +13,8 @@ typedef struct {
 typedef struct {
     const char* name;
     const char* alphabet;
+    int fwd_indices[26]; // Used for fast lookup
+    int rev_indices[26];
     const char* notches;
     int idx;
 } rotor_t;

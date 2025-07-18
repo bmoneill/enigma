@@ -198,7 +198,7 @@ static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rot
         idx -= ALPHA_SIZE;
     }
 
-    idx = index_of(alphabet, rotor->alphabet[idx]);
+    idx = rotor->fwd_indices[idx];
 
     idx = (ALPHA_SIZE + idx - rotor->idx);
     if (idx >= ALPHA_SIZE) {
@@ -221,7 +221,7 @@ static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rot
         idx -= ALPHA_SIZE;
     }
 
-    idx = index_of(rotor->alphabet, alphabet[idx]);
+    idx = rotor->rev_indices[idx];
 
     idx = (ALPHA_SIZE + idx - rotor->idx);
     if (idx >= ALPHA_SIZE) {
