@@ -68,7 +68,6 @@ char encode(enigma_t* enigma, char input) {
     // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
         idx = rotor_pass_forward(&enigma->rotors[i], idx);
-        VERBOSE_PRINT("Rotor %s (index %d): %c\n", enigma->rotors[i].alphabet, idx, alphabet[idx]);
     }
 
     // Reflector
@@ -179,7 +178,7 @@ static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma
     }
 
     // TODO fix for multiple notches
-    if (enigma->rotors[0].alphabet[0] == enigma->rotors[0].notches[0]) {
+    if (enigma->rotors[0].fwd_indices[0] == enigma->rotors[0].notches[0]) {
         rotate(&enigma->rotors[1]);
     }
 }
@@ -237,6 +236,8 @@ static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rot
  * representing pairs of characters to swap), and the character to be substituted.
  * The character must be uppercase.
  *
+ * Assumes an even-length string.
+ *
  * @param plugboard The plugboard configuration string.
  * @param c The character to be substituted.
  * @return The substituted character based on the plugboard configuration.
@@ -244,7 +245,7 @@ static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rot
 static __attribute__((always_inline)) inline char substitute(const char* plugboard, char c) {
     if (!plugboard) return c;
 
-    for (const char *p = plugboard; p[0] && p[1]; p += 2) {
+    for (const char *p = plugboard; p[0]; p += 2) {
         if (p[0] == c) return p[1];
         if (p[1] == c) return p[0];
     }

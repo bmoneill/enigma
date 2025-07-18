@@ -8,14 +8,14 @@
 typedef struct {
     const char* name;
     const char* alphabet;
+    int indices[ALPHA_SIZE];
 } reflector_t;
 
 typedef struct {
     const char* name;
-    const char* alphabet;
-    int fwd_indices[26]; // Used for fast lookup
-    int rev_indices[26];
-    const char* notches;
+    int fwd_indices[ALPHA_SIZE];
+    int rev_indices[ALPHA_SIZE];
+    int notches[2];
     int idx;
 } rotor_t;
 
