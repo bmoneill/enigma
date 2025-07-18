@@ -19,11 +19,6 @@ $(BOMBE_BIN): $(BOMBE_SRC)
 clean:
 	rm -f $(wildcard src/*.o) $(ENIGMA_BIN) $(BOMBE_BIN)
 
-	mkdir -p enigma-$(VERSION)
-	tar -cf enigma-$(VERSION).tar enigma-$(VERSION)
-	gzip enigma-$(VERSION).tar
-	rm -rf enigma-$(VERSION)
-
 install:
 	mkdir -p $(DESTDIR)/$(PREFIX)/bin
 	cp -f enigma $(DESTDIR)$(PREFIX)/bin/enigma
