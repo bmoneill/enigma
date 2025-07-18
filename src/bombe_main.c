@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
         print_usage(argv[0]);
     }
 
-    ciphertext = optarg;
+    ciphertext = argv[argc-1];
 
     if (!crib || !ciphertext || idx < 0) {
         fprintf(stderr, "Error: Crib, index, and ciphertext must be provided.\n\n");
