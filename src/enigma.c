@@ -15,7 +15,6 @@
 
 #define ALPHA2IDX(c) ((c) - 'A')
 
-const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 static inline int index_of(const char*, char);
 static inline int reflect(reflector_t*, int);
@@ -40,9 +39,10 @@ static inline int to_char_code(char);
  * @return The encoded character.
  */
 char encode(enigma_t* enigma, char c) {
+    const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int idx = c - 'A';
 
-    VERBOSE_PRINT("Keyboard Input: %c\n", input);
+    VERBOSE_PRINT("Keyboard Input: %c\n", c);
 
     rotate_rotors(enigma);
 
