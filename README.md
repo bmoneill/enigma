@@ -36,18 +36,18 @@ outputs to stdout by default, and is case-agnostic.
 
 The following options are supported:
 
-* `-p`: Set the plugboard configuration (e.g. 'ABCDEF')
-* `-P`: Set the initial position of the rotors (e.g. 'ABC')
-* `-r`: Set the rotor configuration (e.g. 'I II III')
-* `-R`: Set the reflector (e.g. 'B')
+* `-p`: Set the initial rotor (Walze) positions (e.g. `'ABC'`)
+* `-s`: Set the plugboard (Steckerbrett) configuration (e.g. `'ABCDEF'`)
+* `-u`: Set the reflector (Umkehrwalze) (e.g. `'B'`)
+* `-w`: Set the rotor (Walze) configuration (e.g. `'I II III'`)
 
 Here is an example encryption/decryption with a custom rotor/plugboard configuration:
 
 ```shell
-$ ./enigma -p "ABCD" -r "I II IV" -P "XYZ"
+$ ./enigma -s "ABCD" -w "I II IV" -p "XYZ"
 HELLO # user input
 MWQHY # output
-$ ./enigma -p "ABCD" -r "I II IV" -P "XYZ" # same configuration
+$ ./enigma -s "ABCD" -w "I II IV" -p "XYZ" # same configuration
 MWQHY
 HELLO
 ```
@@ -97,11 +97,11 @@ code could be optimized much further.
 Below are single- and multi-threaded times on my 16-core i9-10885H.
 
 ```shell
-$ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 1 # single thread
+$ time ./bombe -i 0 -c "HELLO" -t 1 "ILBDAAMTAZ" # single thread
 real    0m12.940s
 user    0m12.724s
 sys     0m0.106s
-$ $ time ./bombe -i 0 -c "HELLO" -C "ILBDAAMTAZ" -t 64 # 64 threads
+$ $ time ./bombe -i 0 -c "HELLO" -t 64 "ILBDAAMTAZ" # 64 threads
 real    0m1.302s
 user    0m18.424s
 sys     0m0.130s
