@@ -150,12 +150,7 @@ void init_default_enigma(enigma_t* enigma) {
  * @param upper A flag indicating if the character is uppercase (1) or lowercase (0).
  * @return The reflected character based on the reflector's alphabet.
  */
-static int reflect(reflector_t* reflector, int idx) {
-    if (!reflector) {
-        fprintf(stderr, "Warning: Reflector not set.\n");
-        return idx;
-    }
-
+static __attribute__((always_inline)) inline int reflect(reflector_t* reflector, int idx) {
     return reflector->alphabet[idx];
 }
 
@@ -168,7 +163,7 @@ static int reflect(reflector_t* reflector, int idx) {
  * @param rotor Pointer to the rotor structure.
  * @param count The number of positions to rotate.
  */
-static void rotate(rotor_t* rotor, int count) {
+static __attribute__((always_inline)) inline void rotate(rotor_t* rotor, int count) {
     rotor->idx += count;
 
     if (rotor->idx >= ALPHA_SIZE) {
@@ -184,9 +179,10 @@ static void rotate(rotor_t* rotor, int count) {
  *
  * @param enigma Pointer to the Enigma machine structure.
  */
-static void rotate_rotors(enigma_t* enigma) {
+static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
     rotate(&enigma->rotors[0], 1);
 
+    // TODO rotor_flag never set atm
     if (enigma->rotor_flag) {
         rotate(&enigma->rotors[1], 1);
         rotate(&enigma->rotors[2], 1);
