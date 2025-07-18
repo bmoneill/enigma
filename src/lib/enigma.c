@@ -46,7 +46,7 @@ char encode(enigma_t* enigma, char input) {
         output = toupper(input);
     }
 
-    int idx = to_char_code(output);
+    int idx = output - 'A';
 
     VERBOSE_PRINT("Keyboard Input: %c\n", input);
 
@@ -71,9 +71,8 @@ char encode(enigma_t* enigma, char input) {
     }
 
     // Reflector
-    output = reflect(enigma->reflector, idx);
-    idx = to_char_code(output);
-    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, alphabet[idx]);
+    idx = enigma->reflector->indices[idx];
+    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, output);
 
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
@@ -140,18 +139,6 @@ void init_default_enigma(enigma_t* enigma) {
     enigma->plugboard = NULL;
 }
 
-
-/**
- * @brief Pass through the reflector and return the reflected character.
- *
- * @param reflector Pointer to the reflector structure.
- * @param idx The index where the ciphertext left the last rotor.
- * @param upper A flag indicating if the character is uppercase (1) or lowercase (0).
- * @return The reflected character based on the reflector's alphabet.
- */
-static __attribute__((always_inline)) inline int reflect(reflector_t* reflector, int idx) {
-    return reflector->alphabet[idx];
-}
 
 static __attribute__((always_inline)) inline void rotate(rotor_t *rotor) {
     rotor->idx++;

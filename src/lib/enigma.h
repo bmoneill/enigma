@@ -7,7 +7,6 @@
 
 typedef struct {
     const char* name;
-    const char* alphabet;
     int indices[ALPHA_SIZE];
 } reflector_t;
 
