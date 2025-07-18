@@ -1,5 +1,10 @@
 #include "rotors.h"
 
+// Indices here are entered manually to avoid extra calculation at runtime.
+// Essentially, they map the rotor's alphabet to the standard alphabet (A-Z).
+// fwd_indices represents the character code of each standard alphabetic character in the rotor's alphabet.
+// rev_indices represents the character code of each rotor's alphabetic character in the standard alphabet.
+
 const rotor_t rotor_I = {
     .name = "I",
     .alphabet = "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
