@@ -22,12 +22,12 @@ int main(int argc, char* argv[]) {
 
     // Parse command line options
     // Parameters look a bit too similar, maybe we can have better names?
-    while ((opt = getopt(argc, argv, "p:P:r:R:")) != -1) {
+    while ((opt = getopt(argc, argv, "s:p:u:w:")) != -1) {
         switch (opt) {
-        case 'p': enigma.plugboard = optarg; break;
-        case 'P': if (!load_rotor_positions(&enigma, optarg)) print_usage(argv[0]); break;
-        case 'r': if (!load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
-        case 'R': if (!load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
+        case 's': enigma.plugboard = optarg; break;
+        case 'p': if (!load_rotor_positions(&enigma, optarg)) print_usage(argv[0]); break;
+        case 'u': if (!load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
+        case 'w': if (!load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
         default: print_usage(argv[0]); exit(EXIT_FAILURE);
         }
     }
@@ -110,12 +110,12 @@ static int load_rotor_positions(enigma_t* enigma, char* s) {
 }
 
 static void print_usage(const char* argv0) {
-    fprintf(stderr, "Usage: %s [-p plugboard] [-r rotors] [-R reflector] [-P position] [-v]\n", argv0);
+    fprintf(stderr, "Usage: %s [-p positions] [-s plugboard] [-u reflector] [-w rotors]\n", argv0);
     fprintf(stderr, "Options:\n");
-    fprintf(stderr, "  -p plugboard   Set the plugboard configuration (e.g., 'ABCDEF')\n");
-    fprintf(stderr, "  -P position    Set the initial position of the rotors (e.g., 'ABC')\n");
-    fprintf(stderr, "  -r rotors      Set the rotor configuration (e.g., 'I II III')\n");
-    fprintf(stderr, "  -R reflector   Set the reflector configuration (e.g., 'B')\n");
+    fprintf(stderr, "  -p positions    Set the initial position of the rotors (e.g., 'ABC')\n");
+    fprintf(stderr, "  -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g., 'ABCDEF')\n");
+    fprintf(stderr, "  -u reflector   Set the reflector (Umkehrwalze) configuration (e.g., 'B')\n");
+    fprintf(stderr, "  -w rotors      Set the rotor (Walzen) configuration (e.g., 'I II III')\n");
     fprintf(stderr, "Available rotors: I, II, III, IV, V, VI, VII, VIII\n");
     fprintf(stderr, "Available reflectors: A, B, C\n");
     exit(EXIT_FAILURE);
