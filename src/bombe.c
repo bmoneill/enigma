@@ -55,17 +55,15 @@ void bombe_find_potential_indices(const char* ciphertext, const char* crib, int*
     int cribLen = strlen(crib);
     int ciphertextLen = strlen(ciphertext);
 
-    for (int i = 0; i < ciphertextLen; i++) {
-        if (ciphertext[i] == crib[count]) {
-            count++;
-            if (count == cribLen) {
-                indices[matchCount] = i - count + 1;
-                count = 0;
-                matchCount++;
+
+    for (int i = 0; i < ciphertextLen - cribLen; i++) {
+        for (int j = 0; j < cribLen; j++) {
+            if (ciphertext[i + j] == crib[j]) {
+                break;
             }
-        }
-        else {
-            count = 0;
+            if (j == cribLen - 1) {
+                indices[matchCount++] = i;
+            }
         }
     }
 
