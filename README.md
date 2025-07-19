@@ -123,7 +123,6 @@ sys     0m0.067s
 
 ## Planned Features
 
-* Bombe should be able to find potential crib indices (WIP).
 * Bombe should use a dictionary to highlight found plaintext containing more actual words.
 
 ## Bugs
