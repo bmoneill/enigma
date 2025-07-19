@@ -94,7 +94,7 @@ Rotors: III (A)  VIII (P), VII (T) | Reflector: A | Plaintext: HELLOXCRUE
 
 Multithreading reduces the runtime by a significant margin. Since we are
 essentially looping through all the possible Enigma configurations, this is a
-task that is easily parallizable.
+task that is easily parallelizable.
 
 Inlining most of the arithmetic functions and using indices for the rotor/reflector
 alphabets cuts down the time significantly. Initially, on one thread, it took
