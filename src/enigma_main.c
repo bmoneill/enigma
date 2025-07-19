@@ -74,6 +74,17 @@ static int load_reflector_config(enigma_t* enigma, const char* s) {
     return 0;
 }
 
+/**
+ * @brief Load the rotor configuration from string identifiers.
+ *
+ * This function parses a space-separated string of rotor names and populates
+ * the `rotors` array in the `enigma_t` (for CLI argument parsing).
+ *
+ * @param enigma Pointer to the `enigma_t`.
+ * @param s The string containing rotor names.
+ *
+ * @return 1 if the rotors were successfully loaded, 0 otherwise.
+ */
 static int load_rotor_config(enigma_t* enigma, char* s) {
     enigma->rotor_count = 0;
     int numRotors = 8;
@@ -98,6 +109,18 @@ static int load_rotor_config(enigma_t* enigma, char* s) {
     return 1;
 }
 
+/**
+ * @brief Load the initial positions of the rotors from a string.
+ *
+ * This function expects a string of characters representing the initial positions
+ * of the rotors, e.g., "ABC" for three rotors. It sets the `idx` field of each rotor
+ * in the `enigma_t` structure.
+ *
+ * @param enigma Pointer to the `enigma_t`.
+ * @param s The string containing rotor positions.
+ *
+ * @return 1 if the positions were successfully loaded, 0 otherwise.
+ */
 static int load_rotor_positions(enigma_t* enigma, char* s) {
     if (enigma->rotor_count == 0) {
         fprintf(stderr, "No rotors loaded\n");
@@ -113,6 +136,13 @@ static int load_rotor_positions(enigma_t* enigma, char* s) {
     return 1;
 }
 
+/**
+ * @brief Print usage information for the Enigma CLI.
+ *
+ * This function prints the command line options and their descriptions.
+ *
+ * @param argv0 The name of the program, typically `argv[0]`.
+ */
 static void print_usage(const char* argv0) {
     fprintf(stderr, "Usage: %s [-p positions] [-s plugboard] [-u reflector] [-w rotors]\n", argv0);
     fprintf(stderr, "Options:\n");
