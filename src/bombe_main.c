@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
  *
  */
 static void print_usage(const char* argv0) {
-    fprintf(stderr, "Usage: %s [-t threadCount] -c crib -i index ciphertext\n", argv0);
+    fprintf(stderr, "Usage: %s [-i index] [-t threadCount] -c crib ciphertext\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -c crib       Set the crib string to use\n");
     fprintf(stderr, "  -C ciphertext Set the ciphertext to analyze\n");
