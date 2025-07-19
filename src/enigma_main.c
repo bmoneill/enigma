@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
     init_default_enigma(&enigma);
 
     // Parse command line options
-    // Parameters look a bit too similar, maybe we can have better names?
     while ((opt = getopt(argc, argv, "s:p:u:w:")) != -1) {
         switch (opt) {
         case 's': enigma.plugboard = optarg; break;
