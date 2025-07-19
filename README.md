@@ -66,14 +66,18 @@ so multithreading is supported.
 ### Usage
 
 ```shell
-$ bombe [-t thread_count] -c crib -i index ciphertext
+$ bombe [-i index] [-t thread_count] -c crib ciphertext
 ```
 
 The following options are supported:
 
 * `-c`: Crib string (required)
-* `-i`: Crib string index in plaintext (required)
+* `-i`: Crib string index in plaintext
 * `-t`: Number of threads to use (default: 1)
+
+If the index is not provided, `bombe` will find all potential indices and run on
+each one. Indices are valid if each character in the crib string does not match
+the corresponding ciphertext character (a letter may not be encoded into itself).
 
 ### Example
 
