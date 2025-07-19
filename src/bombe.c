@@ -43,8 +43,6 @@ void bombe_init(bombe_t* bombe, char* crib, int cribIndex) {
  * This function checks the ciphertext for potential indices where the crib string
  * could potentially be in the plaintext.
  *
- * NOTE: This function is currently unused.
- *
  * @param ciphertext The ciphertext to analyze
  * @param crib The crib string to test against the ciphertext
  * @param indices Pointer to an array to store the indices (-1-terminated)

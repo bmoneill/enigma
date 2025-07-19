@@ -12,6 +12,8 @@ int main(int argc, char* argv[]) {
     int idx = -1;
     char* ciphertext = NULL;
     int threadCount = 1;
+    int indices[MAX_CRIB_INDICES] = {0};
+    bombe_t bombe;
 
     // Parse command line options
     int opt;
@@ -25,20 +27,29 @@ int main(int argc, char* argv[]) {
         }
     }
 
+
     if (optind == argc) {
         print_usage(argv[0]);
     }
 
     ciphertext = argv[argc-1];
 
-    if (!crib || !ciphertext || idx < 0) {
+    if (!crib || !ciphertext) {
         fprintf(stderr, "Error: Crib, index, and ciphertext must be provided.\n\n");
         print_usage(argv[0]);
     }
 
-    bombe_t bombe;
-    bombe_init(&bombe, crib, idx);
-    bombe_run(&bombe, ciphertext, threadCount);
+    if (idx < 0) {
+        bombe_find_potential_indices(ciphertext, crib, indices);
+        for (int i = 0; indices[i] != -1; i++) {
+            printf("Trying index %d...\n", indices[i]);
+            bombe_init(&bombe, crib, indices[i]);
+            bombe_run(&bombe, ciphertext, threadCount);
+        }
+    } else {
+        bombe_init(&bombe, crib, idx);
+        bombe_run(&bombe, ciphertext, threadCount);
+    }
 
     return EXIT_SUCCESS;
 }
