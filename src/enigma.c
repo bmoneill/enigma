@@ -150,15 +150,19 @@ static __attribute__((always_inline)) inline void rotate(rotor_t *rotor) {
 static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
     rotate(&enigma->rotors[0]);
 
-    // TODO rotor_flag never set at the moment
-    if (enigma->rotor_flag) {
-        rotate(&enigma->rotors[1]);
-        rotate(&enigma->rotors[2]);
+    for (int i = 0; i < enigma->rotors[0].numNotches; i++) {
+        if (enigma->rotors[0].fwd_indices[enigma->rotors[0].idx] == enigma->rotors[0].notches[i]) {
+            rotate(&enigma->rotors[1]);
+            break;
+        }
     }
 
-    // TODO fix for multiple notches
-    if (enigma->rotors[0].fwd_indices[0] == enigma->rotors[0].notches[0]) {
-        rotate(&enigma->rotors[1]);
+    for (int i = 0; i < enigma->rotors[1].numNotches; i++) {
+        if (enigma->rotors[1].fwd_indices[enigma->rotors[1].idx] == enigma->rotors[1].notches[i]) {
+            rotate(&enigma->rotors[1]);
+            rotate(&enigma->rotors[2]);
+            break;
+        }
     }
 }
 

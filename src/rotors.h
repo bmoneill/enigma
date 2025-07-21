@@ -8,6 +8,7 @@ typedef struct {
     int fwd_indices[ALPHA_SIZE];
     int rev_indices[ALPHA_SIZE];
     int notches[2];
+    int numNotches;
     int idx;
 } rotor_t;
 
