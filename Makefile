@@ -6,12 +6,18 @@ ENIGMA_SRC=src/enigma.c src/reflectors.c src/rotors.c src/enigma_main.c
 BOMBE_BIN=bombe
 BOMBE_SRC=src/bombe.c src/reflectors.c src/rotors.c src/enigma.c src/bombe_main.c
 
-all: $(ENIGMA_BIN) $(BOMBE_BIN)
+CRACK_BIN=crack
+CRACK_SRC=src/enigma.c src/reflectors.c src/rotors.c src/ic.c src/crack_main.c
+
+all: $(ENIGMA_BIN) $(BOMBE_BIN) $(CRACK_BIN)
 
 $(ENIGMA_BIN): $(ENIGMA_SRC)
 	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 $(BOMBE_BIN): $(BOMBE_SRC)
+	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
+
+$(CRACK_BIN): $(CRACK_SRC)
 	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 clean:
@@ -35,4 +41,4 @@ uninstall:
 	rm -f $(DESTDIR)/$(PREFIX)/bin/enigma
 	rm -f $(DESTDIR)/$(PREFIX)/bin/bombe
 
-.PHONY: all $(ENIGMA_BIN) $(BOMBE_BIN) clean dist install uninstall
+.PHONY: all $(ENIGMA_BIN) $(BOMBE_BIN) $(CRACK_BIN) clean dist install uninstall
