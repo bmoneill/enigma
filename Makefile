@@ -9,7 +9,7 @@ BOMBE_SRC=src/bombe.c src/reflectors.c src/rotors.c src/enigma.c src/bombe_main.
 CRACK_BIN=crack
 CRACK_SRC=src/enigma.c src/reflectors.c src/rotors.c src/ic.c src/crack_main.c
 
-all: $(ENIGMA_BIN) $(BOMBE_BIN) $(CRACK_BIN)
+all: $(ENIGMA_BIN) $(BOMBE_BIN) #$(CRACK_BIN)
 
 $(ENIGMA_BIN): $(ENIGMA_SRC)
 	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
