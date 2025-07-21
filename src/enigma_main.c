@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     int opt;
     enigma_t enigma;
 
-    init_default_enigma(&enigma);
+    enigma_init_default_config(&enigma);
 
     // Parse command line options
     while ((opt = getopt(argc, argv, "s:p:u:w:")) != -1) {
@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
             continue;
         }
 
-        char output = encode(&enigma, c);
+        char output = enigma_encode(&enigma, c);
         if (isupper(c)) {
             fputc(output, stdout);
         } else {

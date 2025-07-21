@@ -30,7 +30,7 @@ static void process_single(bombe_t*, enigma_t*, const char*, int, char*, const c
  * @param cribIndices Array of crib indices for each crib string
  * @param numCribs Number of crib strings (length of cribStrings and cribIndices)
  */
-void bombe_init(bombe_t* bombe, char* crib, int cribIndex) {
+void enigma_bombe_init(bombe_t* bombe, char* crib, int cribIndex) {
     bombe->crib = crib;
     bombe->cribIndex = cribIndex;
     bombe->cribLength = strlen(crib);
@@ -47,7 +47,7 @@ void bombe_init(bombe_t* bombe, char* crib, int cribIndex) {
  * @param crib The crib string to test against the ciphertext
  * @param indices Pointer to an array to store the indices (-1-terminated)
  */
-void bombe_find_potential_indices(const char* ciphertext, const char* crib, int* indices) {
+void enigma_bombe_find_potential_indices(const char* ciphertext, const char* crib, int* indices) {
     int count = 0;
     int matchCount = 0;
     int cribLen = strlen(crib);
@@ -75,7 +75,7 @@ void bombe_find_potential_indices(const char* ciphertext, const char* crib, int*
  * @param ciphertext The ciphertext to analyze
  * @param maxThreads The number of threads to use for processing
  */
-void bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
+void enigma_bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
     enigma_t enigma;
     int plugboard_count = 0;
     int ciphertextLength = strlen(ciphertext);
@@ -83,7 +83,7 @@ void bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
     pthread_t* threads = malloc(maxThreads * sizeof(pthread_t));
     int threadCount = 0;
 
-    init_default_enigma(&enigma);
+    enigma_init_default_config(&enigma);
 
 
     // Loop through all unique rotor and reflector configurations
@@ -218,12 +218,12 @@ static void process_single(bombe_t* bombe, enigma_t* enigma,
             return;
         }
 
-        char decrypted = encode(enigma, ciphertext[i]);
+        char decrypted = enigma_encode(enigma, ciphertext[i]);
         plaintext[i] = decrypted;
 
         if (matching == bombe->cribLength) {
             for (int j = i + 1; j < ciphertextLength; j++) {
-                plaintext[j] = encode(enigma, ciphertext[j]);
+                plaintext[j] = enigma_encode(enigma, ciphertext[j]);
             }
             break;
         } else if (i == bombe->cribIndex && decrypted == bombe->crib[0]) {

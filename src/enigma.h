@@ -15,9 +15,8 @@ typedef struct {
     const char* plugboard;
 } enigma_t;
 
-char encode(enigma_t*, char);
-void deinit_enigma(enigma_t*);
-void init_rotors(enigma_t*, const rotor_t*, int);
-void init_default_enigma(enigma_t*);
+char enigma_encode(enigma_t*, char);
+void enigma_init_rotors(enigma_t*, const rotor_t*, int);
+void enigma_init_default_config(enigma_t*);
 
 #endif

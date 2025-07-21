@@ -15,7 +15,6 @@
 
 #define ALPHA2IDX(c) ((c) - 'A')
 
-
 static inline int index_of(const char*, char);
 static inline int reflect(reflector_t*, int);
 static inline void rotate(rotor_t *rotor);
@@ -38,7 +37,7 @@ static inline int to_char_code(char);
  * @param c The character to encode.
  * @return The encoded character.
  */
-char encode(enigma_t* enigma, char c) {
+char enigma_encode(enigma_t* enigma, char c) {
     const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int idx = c - 'A';
 
@@ -91,7 +90,7 @@ char encode(enigma_t* enigma, char c) {
  * @param rotors Array of `rotor_t`s to copy to the `enigma_t`.
  * @param count Number of rotors to copy.
  */
-void init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
+void enigma_init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
     enigma->rotor_flag = 0;
     memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
     enigma->rotor_count = count;
@@ -108,7 +107,7 @@ void init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
  *
  * @param enigma Pointer to the `enigma_t` to be initialized.
  */
-void init_default_enigma(enigma_t* enigma) {
+void enigma_init_default_config(enigma_t* enigma) {
     enigma->reflector = &UKW_B;
     enigma->rotor_count = 3;
     enigma->rotors[2] = rotor_I;
