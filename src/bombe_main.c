@@ -40,15 +40,15 @@ int main(int argc, char* argv[]) {
     }
 
     if (idx < 0) {
-        bombe_find_potential_indices(ciphertext, crib, indices);
+        enigma_bombe_find_potential_indices(ciphertext, crib, indices);
         for (int i = 0; indices[i] != -1; i++) {
             printf("Trying index %d...\n", indices[i]);
-            bombe_init(&bombe, crib, indices[i]);
-            bombe_run(&bombe, ciphertext, threadCount);
+            enigma_bombe_init(&bombe, crib, indices[i]);
+            enigma_bombe_run(&bombe, ciphertext, threadCount);
         }
     } else {
-        bombe_init(&bombe, crib, idx);
-        bombe_run(&bombe, ciphertext, threadCount);
+        enigma_bombe_init(&bombe, crib, idx);
+        enigma_bombe_run(&bombe, ciphertext, threadCount);
     }
 
     return EXIT_SUCCESS;
