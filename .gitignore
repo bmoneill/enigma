@@ -2,4 +2,5 @@
 /bombe
 /crack
 /vgcore.*
+/gmon.out
 etc/
