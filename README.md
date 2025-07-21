@@ -4,6 +4,13 @@ This is a CLI M3 Enigma simulator and Bombe.
 
 ## Building
 
+### Linux
+
+#### Prerequisites
+
+* gcc
+* make
+
 ```shell
 make
 sudo make install
