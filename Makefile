@@ -7,7 +7,7 @@ BOMBE_BIN=bombe
 BOMBE_SRC=src/bombe.c src/reflectors.c src/rotors.c src/enigma.c src/bombe_main.c
 
 CRACK_BIN=crack
-CRACK_SRC=src/enigma.c src/reflectors.c src/rotors.c src/ic.c src/crack_main.c
+CRACK_SRC=src/enigma.c src/reflectors.c src/rotors.c src/ioc.c src/ngram.c src/crack.c src/crack_main.c
 
 all: $(ENIGMA_BIN) $(BOMBE_BIN) #$(CRACK_BIN)
 

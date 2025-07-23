@@ -81,6 +81,25 @@ char enigma_encode(enigma_t* enigma, char c) {
 }
 
 /**
+ * @brief Encode a string using the Enigma machine.
+ *
+ * This function encodes a string of characters using the Enigma machine.
+ * It processes each character through the machine and stores the result in the output string.
+ * Assumes the input string is uppercase and null-terminated.
+ *
+ * @param enigma Pointer to the Enigma machine structure.
+ * @param input The input string to encode.
+ * @param output The output string to store the encoded result.
+ * @param length The length of the input string (the output buffer should be at least the same length).
+ */
+void enigma_encode_string(enigma_t* enigma, const char* input, char* output, int length) {
+    for (int i = 0; i < length; i++) {
+        output[i] = enigma_encode(enigma, input[i]);
+    }
+    output[length] = '\0';
+}
+
+/**
  * @brief Initialize the rotors of the Enigma machine.
  *
  * This populates the `rotors` array in the specified `enigma_t` by copying the provided
