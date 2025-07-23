@@ -5,7 +5,7 @@ PREFIX   = /usr/local
 CC       = gcc
 LD       = $(CC)
 
-CFLAGS        = -Werror -std=c99 -pedantic -Ofast -g -pg
+CFLAGS        = -Werror -std=c99 -pedantic -Ofast
 # CFLAGS      += -g -pg
 # CFLAGS      += -DVERBOSE
 CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 \
