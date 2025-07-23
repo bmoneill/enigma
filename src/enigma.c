@@ -217,7 +217,7 @@ static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rot
  * @return The index of the character after passing through the rotor.
  */
 static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
-    idx = idx + rotor->idx;
+    idx += rotor->idx;
     if (idx >= ALPHA_SIZE) {
         idx -= ALPHA_SIZE;
     }
