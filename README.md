@@ -90,15 +90,28 @@ the corresponding ciphertext character (a letter may not be encoded into itself)
 
 ```shell
 $ ./bombe -i 0 -c "HELLO" -t 32 "ILBDAAMTAZ"
-Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLONLLON
-Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD # actual plaintext
-Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
-Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLOSVRTA
-Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
-Rotors: III (A)  VI (V), VIII (Q) | Reflector: C | Plaintext: HELLOSHRTF
-Rotors: III (A)  VI (U), V (X) | Reflector: C | Plaintext: HELLOZHRMH
-Rotors: III (A)  VI (B), V (Z) | Reflector: C | Plaintext: HELLOOBRXU
-Rotors: III (A)  VIII (P), VII (T) | Reflector: A | Plaintext: HELLOXCRUE
+0.177778 Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLONLLON
+0.066667 Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
+0.088889 Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD # actual plaintext
+0.022222 Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLOSVRTA
+0.088889 Rotors: III (A)  II (Z), I (Z) | Reflector: B | Plaintext: HELLOWORLD
+0.066667 Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
+0.044444 Rotors: III (A)  VI (V), VIII (Q) | Reflector: C | Plaintext: HELLOSHRTF
+0.088889 Rotors: III (A)  VI (U), V (X) | Reflector: C | Plaintext: HELLOZHRMH
+0.044444 Rotors: III (A)  VI (B), V (Z) | Reflector: C | Plaintext: HELLOOBRXU
+0.022222 Rotors: IV (I)  VII (T), VI (E) | Reflector: C | Plaintext: HELLOKYBUA
+```
+
+Long ciphertext / short crib results can be sorted through via letter frequencies:
+
+```shell
+time ./bombe -i 0 -c "THIS" -t 64 "QPAYCAAWNNCHFQATVOXQLTCLSVX" | sort -g | tail -1
+...
+0.062678 Rotors: IV (D)  I (Z), III (T) | Reflector: C | Plaintext: THISISENCRYPTEDVERYSECURELY
+
+real    0m0.382s
+user    0m5.030s
+sys     0m0.066s
 ```
 
 ### Performance/Multithreading
