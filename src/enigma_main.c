@@ -33,9 +33,11 @@ int main(int argc, char* argv[]) {
 
     // Main loop
     int c;
+    int lastc;
     while ((c = fgetc(stdin)) != EOF) {
         if (!isalpha(c)) {
             fputc(c, stdout);
+            lastc = c;
             continue;
         }
 
@@ -45,9 +47,12 @@ int main(int argc, char* argv[]) {
         } else {
             fputc(tolower(output), stdout);
         }
+        lastc = c;
     }
-    printf("\n");
 
+    if (lastc != '\n') {
+        fputc('\n', stdout);
+    }
     return EXIT_SUCCESS;
 }
 
