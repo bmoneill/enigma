@@ -17,7 +17,7 @@
 
 static inline int index_of(const char*, char);
 static inline int reflect(reflector_t*, int);
-static inline void rotate(rotor_t *rotor);
+static inline void rotate(rotor_t* rotor);
 static inline void rotate_rotors(enigma_t*);
 static inline int rotor_pass_forward(rotor_t*, int);
 static inline int rotor_pass_reverse(rotor_t*, int);
@@ -151,7 +151,7 @@ static __attribute__((always_inline)) inline int index_of(const char* str, char 
     return (int)(p - str);
 }
 
-static __attribute__((always_inline)) inline void rotate(rotor_t *rotor) {
+static __attribute__((always_inline)) inline void rotate(rotor_t* rotor) {
     rotor->idx++;
     if (rotor->idx == ALPHA_SIZE) {
         rotor->idx = 0;
@@ -178,14 +178,12 @@ static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma
     }
 
     if (!turned) {
-
-    for (int i = 0; i < enigma->rotors[0].numNotches; i++) {
-        if (enigma->rotors[0].fwd_indices[enigma->rotors[0].idx] == enigma->rotors[0].notches[i]) {
-            rotate(&enigma->rotors[1]);
-            break;
+        for (int i = 0; i < enigma->rotors[0].numNotches; i++) {
+            if (enigma->rotors[0].fwd_indices[enigma->rotors[0].idx] == enigma->rotors[0].notches[i]) {
+                rotate(&enigma->rotors[1]);
+                break;
+            }
         }
-    }
-
     }
     rotate(&enigma->rotors[0]);
 }
@@ -252,7 +250,7 @@ static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rot
 static __attribute__((always_inline)) inline char substitute(const char* plugboard, char c) {
     if (!plugboard) return c;
 
-    for (const char *p = plugboard; p[0]; p += 2) {
+    for (const char* p = plugboard; p[0]; p += 2) {
         if (p[0] == c) return p[1];
         if (p[1] == c) return p[0];
     }
