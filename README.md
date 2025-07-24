@@ -106,7 +106,6 @@ Long ciphertext / short crib results can be sorted through via letter frequencie
 
 ```shell
 time ./bombe -i 0 -c "THIS" -t 64 "QPAYCAAWNNCHFQATVOXQLTCLSVX" | sort -g | tail -1
-...
 0.062678 Rotors: IV (D)  I (Z), III (T) | Reflector: C | Plaintext: THISISENCRYPTEDVERYSECURELY
 
 real    0m0.382s
