@@ -105,12 +105,8 @@ $ ./bombe -i 0 -c "HELLO" -t 32 "ILBDAAMTAZ"
 Long ciphertext / short crib results can be sorted through via letter frequencies:
 
 ```shell
-time ./bombe -i 0 -c "THIS" -t 64 "QPAYCAAWNNCHFQATVOXQLTCLSVX" | sort -g | tail -1
+$ ./bombe -i 0 -c "THIS" -t 64 "QPAYCAAWNNCHFQATVOXQLTCLSVX" | sort -g | tail -1
 0.062678 Rotors: IV (D)  I (Z), III (T) | Reflector: C | Plaintext: THISISENCRYPTEDVERYSECURELY
-
-real    0m0.382s
-user    0m5.030s
-sys     0m0.066s
 ```
 
 ### Performance/Multithreading
@@ -126,18 +122,18 @@ around 20 seconds to run.
 Below are single- and multi-threaded times on my 16-core i9-10885H.
 
 ```shell
-$ time ./bombe -i 0 -c "HELLO" -t 1 "ILBDAAMTAZ" # 1 thread
-real    0m3.349s
-user    0m3.257s
-sys     0m0.051s
-$ time ./bombe -i 0 -c "HELLO" -t 64 "ILBDAAMTAZ" # 64 threads
-real    0m0.383s
-user    0m4.986s
-sys     0m0.071s
-$ time ./bombe -i 0 -c "HELLO" -t 256 "ILBDAAMTAZ" # 256 threads
-real    0m0.348s
-user    0m4.995s
-sys     0m0.067s
+$ time ./bombe -i 0 -c "THIS" -t 1 "QPAYCAAWNNCHFQATVOXQLTCLSVX" # 1 thread
+real    0m2.980s
+user    0m2.893s
+sys     0m0.045s
+$ time ./bombe -i 0 -c "THIS" -t 64 "QPAYCAAWNNCHFQATVOXQLTCLSVX" # 64 threads
+real    0m0.414s
+user    0m5.052s
+sys     0m0.070s
+$ time ./bombe -i 0 -c "THIS" -t 256 "QPAYCAAWNNCHFQATVOXQLTCLSVX" # 256 threads
+real    0m0.361s
+user    0m5.072s
+sys     0m0.078s
 ```
 
 ## Planned Features
