@@ -21,14 +21,20 @@ int main(int argc, char* argv[]) {
     enigma_init_default_config(&enigma);
 
     // Parse command line options
+    char *rotorpos = NULL;
     while ((opt = getopt(argc, argv, "s:p:u:w:")) != -1) {
         switch (opt) {
         case 's': enigma.plugboard = optarg; break;
-        case 'p': if (!load_rotor_positions(&enigma, optarg)) print_usage(argv[0]); break;
+        case 'p': rotorpos = optarg; break;
         case 'u': if (!load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
         case 'w': if (!load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
         default: print_usage(argv[0]); exit(EXIT_FAILURE);
         }
+    }
+
+    if (rotorpos && !load_rotor_positions(&enigma, rotorpos)) {
+        print_usage(argv[0]);
+        exit(EXIT_FAILURE);
     }
 
     // Main loop
@@ -132,10 +138,8 @@ static int load_rotor_positions(enigma_t* enigma, char* s) {
         return 0;
     }
 
-    char* token = strtok(s, " ");
-    for (int i = 0; i < enigma->rotor_count && token != NULL; i++) {
-        enigma->rotors[i].idx = toupper(token[0]) - 'A';
-        token = strtok(NULL, " ");
+    for (int i = 0; i < enigma->rotor_count && s[i]; i++) {
+        enigma->rotors[i].idx = toupper(s[i]) - 'A';
     }
 
     return 1;
