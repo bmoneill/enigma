@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
             continue;
         }
 
-        char output = enigma_encode(&enigma, c);
+        char output = enigma_encode(&enigma, toupper(c));
         if (isupper(c)) {
             fputc(output, stdout);
         } else {
