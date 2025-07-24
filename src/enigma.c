@@ -167,7 +167,17 @@ static __attribute__((always_inline)) inline void rotate(rotor_t *rotor) {
  * @param enigma Pointer to the Enigma machine structure.
  */
 static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
-    rotate(&enigma->rotors[0]);
+    int turned = 0;
+    for (int i = 0; i < enigma->rotors[1].numNotches; i++) {
+        if (enigma->rotors[1].fwd_indices[enigma->rotors[1].idx] == enigma->rotors[1].notches[i]) {
+            rotate(&enigma->rotors[1]);
+            rotate(&enigma->rotors[2]);
+            turned = 1;
+            break;
+        }
+    }
+
+    if (!turned) {
 
     for (int i = 0; i < enigma->rotors[0].numNotches; i++) {
         if (enigma->rotors[0].fwd_indices[enigma->rotors[0].idx] == enigma->rotors[0].notches[i]) {
@@ -176,13 +186,8 @@ static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma
         }
     }
 
-    for (int i = 0; i < enigma->rotors[1].numNotches; i++) {
-        if (enigma->rotors[1].fwd_indices[enigma->rotors[1].idx] == enigma->rotors[1].notches[i]) {
-            rotate(&enigma->rotors[1]);
-            rotate(&enigma->rotors[2]);
-            break;
-        }
     }
+    rotate(&enigma->rotors[0]);
 }
 
 /**
