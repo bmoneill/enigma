@@ -17,6 +17,7 @@ typedef struct {
     char* plaintext;
 } bombe_thread_args_t;
 
+static float freq(const char* plaintext);
 static void init_chunk_thread_args(bombe_thread_args_t*, const bombe_t*, const enigma_t*, const char*, int);
 static void* thread_process_chunk(void*);
 static void process_chunk(bombe_t*, enigma_t*, const char*, int, char*);
@@ -235,5 +236,30 @@ static void process_single(bombe_t* bombe, enigma_t* enigma,
         }
     }
 
-    printf("%s | Plaintext: %s\n", configString, plaintext);
+    printf("%f | %s | Plaintext: %s\n", freq(plaintext), configString, plaintext);
+}
+
+/**
+ * @brief Calculate the frequency of characters in the plaintext.
+ *
+ * This function calculates the frequency of each character in the plaintext
+ * and returns a score based on the frequencies.
+ *
+ * @param plaintext The plaintext to analyze
+ * @return The frequency score of the plaintext
+ */
+static float freq(const char* plaintext) {
+    int freq[26] = {0};
+    int len = strlen(plaintext);
+    for (int i = 0; i < len; i++) {
+        if (plaintext[i] >= 'A' && plaintext[i] <= 'Z') {
+            freq[plaintext[i] - 'A']++;
+        }
+    }
+
+    float score = 0.0f;
+    for (int i = 0; i < 26; i++) {
+        score += (float)freq[i] * (freq[i] - 1);
+    }
+    return score / (len * (len - 1));
 }
