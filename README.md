@@ -142,8 +142,6 @@ sys     0m0.078s
 
 ## Bugs
 
-* No support for double-stepping rotors (yet).
-* Multiple notches (such as on Rotors VI-VIII) do not work properly yet.
 * Bombe doesn't support a populated plugboard.
 * Probably others.
 
