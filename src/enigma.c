@@ -16,14 +16,11 @@
 #define ALPHA2IDX(c) ((c) - 'A')
 
 static inline int index_of(const char*, char);
-static inline int reflect(reflector_t*, int);
 static inline void rotate(rotor_t* rotor);
 static inline void rotate_rotors(enigma_t*);
 static inline int rotor_pass_forward(rotor_t*, int);
 static inline int rotor_pass_reverse(rotor_t*, int);
 static inline char substitute(const char*, char);
-static inline int to_alpha(int, int);
-static inline int to_char_code(char);
 
 /**
  * @brief Encode a character using the Enigma machine.
@@ -146,12 +143,20 @@ void enigma_init_default_config(enigma_t* enigma) {
  * @param c The character to find.
  * @return The index of the character in the string, or -1 if not found.
  */
+#ifdef __GNUC__
 static __attribute__((always_inline)) inline int index_of(const char* str, char c) {
+#else
+static inline int index_of(const char* str, char c) {
+#endif
     const char* p = strchr(str, c);
     return (int)(p - str);
 }
 
+#ifdef __GNUC__
 static __attribute__((always_inline)) inline void rotate(rotor_t* rotor) {
+#else
+static inline void rotate(rotor_t* rotor) {
+#endif
     rotor->idx++;
     if (rotor->idx == ALPHA_SIZE) {
         rotor->idx = 0;
@@ -166,7 +171,11 @@ static __attribute__((always_inline)) inline void rotate(rotor_t* rotor) {
  *
  * @param enigma Pointer to the Enigma machine structure.
  */
+#ifdef __GNUC__
 static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
+#else
+static inline void rotate_rotors(enigma_t* enigma) {
+#endif
     int turned = 0;
     for (int i = 0; i < enigma->rotors[1].numNotches; i++) {
         if (enigma->rotors[1].fwd_indices[enigma->rotors[1].idx] == enigma->rotors[1].notches[i]) {
@@ -196,7 +205,11 @@ static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma
  *
  * @return The index of the character after passing through the rotor.
  */
+#ifdef __GNUC__
 static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rotor, int idx) {
+#else
+static inline int rotor_pass_forward(rotor_t* rotor, int idx) {
+#endif
     idx = idx + rotor->idx;
     if (idx >= ALPHA_SIZE) {
         idx -= ALPHA_SIZE;
@@ -219,7 +232,11 @@ static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rot
  *
  * @return The index of the character after passing through the rotor.
  */
+#ifdef __GNUC__
 static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
+#else
+static inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
+#endif
     idx += rotor->idx;
     if (idx >= ALPHA_SIZE) {
         idx -= ALPHA_SIZE;
@@ -247,7 +264,11 @@ static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rot
  * @param c The character to be substituted.
  * @return The substituted character based on the plugboard configuration.
  */
+#ifdef __GNUC__
 static __attribute__((always_inline)) inline char substitute(const char* plugboard, char c) {
+#else
+static inline char substitute(const char* plugboard, char c) {
+#endif
     if (!plugboard) return c;
 
     for (const char* p = plugboard; p[0]; p += 2) {

@@ -49,7 +49,6 @@ void enigma_bombe_init(bombe_t* bombe, char* crib, int cribIndex) {
  * @param indices Pointer to an array to store the indices (-1-terminated)
  */
 void enigma_bombe_find_potential_indices(const char* ciphertext, const char* crib, int* indices) {
-    int count = 0;
     int matchCount = 0;
     int cribLen = strlen(crib);
     int ciphertextLen = strlen(ciphertext);
@@ -78,7 +77,6 @@ void enigma_bombe_find_potential_indices(const char* ciphertext, const char* cri
  */
 void enigma_bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
     enigma_t enigma;
-    int plugboard_count = 0;
     int ciphertextLength = strlen(ciphertext);
 
     pthread_t* threads = malloc(maxThreads * sizeof(pthread_t));
