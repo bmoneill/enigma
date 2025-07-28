@@ -15,7 +15,6 @@
 
 #define ALPHA2IDX(c) ((c) - 'A')
 
-static inline int index_of(const char*, char);
 static inline void rotate(rotor_t* rotor);
 static inline void rotate_rotors(enigma_t*);
 static inline int rotor_pass_forward(rotor_t*, int);
@@ -131,25 +130,6 @@ void enigma_init_default_config(enigma_t* enigma) {
     enigma->rotors[0] = rotor_III;
     enigma->rotor_flag = 0;
     enigma->plugboard = NULL;
-}
-
-/**
- * @brief Find the index of a character in a string.
- *
- * This function searches for the first occurrence of a character in a string
- * and returns its index. Assumes character is present in the string.
- *
- * @param str The string to search in.
- * @param c The character to find.
- * @return The index of the character in the string, or -1 if not found.
- */
-#ifdef __GNUC__
-static __attribute__((always_inline)) inline int index_of(const char* str, char c) {
-#else
-static inline int index_of(const char* str, char c) {
-#endif
-    const char* p = strchr(str, c);
-    return (int)(p - str);
 }
 
 #ifdef __GNUC__
