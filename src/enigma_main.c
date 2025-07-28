@@ -8,7 +8,6 @@
 #include "rotors.h"
 #include "reflectors.h"
 
-static void bombe(char*, char*, int);
 static int load_reflector_config(enigma_t*, const char*);
 static int load_rotor_config(enigma_t*, char*);
 static int load_rotor_positions(enigma_t*, char*);
@@ -39,7 +38,7 @@ int main(int argc, char* argv[]) {
 
     // Main loop
     int c;
-    int lastc;
+    int lastc = 0;
     while ((c = fgetc(stdin)) != EOF) {
         if (!isalpha(c)) {
             fputc(c, stdout);
