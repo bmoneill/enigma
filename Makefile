@@ -1,27 +1,37 @@
 include config.mk
 
-ENIGMA_BIN=enigma
-ENIGMA_SRC=src/enigma.c src/reflectors.c src/rotors.c src/enigma_main.c
+LIBENIGMA_SRC = src/bombe.c src/enigma.c src/reflectors.c src/rotors.c
+LIBENIGMA_OBJ = src/bombe.o src/enigma.o src/reflectors.o src/rotors.o
+LIBENIGMA =     libenigma.a
 
-BOMBE_BIN=bombe
-BOMBE_SRC=src/bombe.c src/reflectors.c src/rotors.c src/enigma.c src/bombe_main.c
+ENIGMA_BIN = enigma
+ENIGMA_SRC = tools/enigma_main.c
 
-CRACK_BIN=crack
-CRACK_SRC=src/enigma.c src/reflectors.c src/rotors.c src/ioc.c src/ngram.c src/crack.c src/crack_main.c
+BOMBE_BIN = bombe
+BOMBE_SRC = tools/bombe_main.c
+
+CRACK_BIN = crack
+CRACK_SRC = src/enigma.c src/reflectors.c src/rotors.c src/ioc.c src/ngram.c src/crack.c src/crack_main.c
 
 all: $(ENIGMA_BIN) $(BOMBE_BIN) #$(CRACK_BIN)
 
-$(ENIGMA_BIN): $(ENIGMA_SRC)
-	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BOMBE_BIN): $(BOMBE_SRC)
-	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
+$(LIBENIGMA): $(LIBENIGMA_OBJ)
+	ar rcs $@ $^
 
-$(CRACK_BIN): $(CRACK_SRC)
-	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
+$(ENIGMA_BIN): $(ENIGMA_SRC) $(LIBENIGMA)
+	$(LD) $(CFLAGS) $(TOOLS_CFLAGS) $(LDFLAGS) $^ -o $@
+
+$(BOMBE_BIN): $(BOMBE_SRC) $(LIBENIGMA)
+	$(LD) $(CFLAGS) $(TOOLS_CFLAGS) $(LDFLAGS) $^ -o $@
+
+$(CRACK_BIN): $(CRACK_SRC) $(LIBENIGMA)
+	$(LD) $(CFLAGS) $(TOOLS_CFLAGS) $(LDFLAGS) $^ -o $@
 
 clean:
-	rm -f $(ENIGMA_BIN) $(BOMBE_BIN)
+	rm -f $(ENIGMA_BIN) $(BOMBE_BIN) $(CRACK_BIN) $(LIBENIGMA) src/*.o tools/*.o
 
 dist:
 	mkdir -p enigma-$(VERSION)
@@ -41,4 +51,4 @@ uninstall:
 	rm -f $(DESTDIR)/$(PREFIX)/bin/enigma
 	rm -f $(DESTDIR)/$(PREFIX)/bin/bombe
 
-.PHONY: all $(ENIGMA_BIN) $(BOMBE_BIN) $(CRACK_BIN) clean dist install uninstall
+.PHONY: all $(ENIGMA_BIN) $(BOMBE_BIN) clean dist install uninstall
