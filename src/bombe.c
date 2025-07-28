@@ -87,12 +87,12 @@ void enigma_bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
 
     // Loop through all unique rotor and reflector configurations
     for (int i = 0; i < ROTOR_COUNT; i++) {
-        memcpy(&enigma.rotors[0], enigma_rotors[i], sizeof(rotor_t));
+        memcpy(&enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
         for (int j = 0; j < ROTOR_COUNT; j++) {
-            memcpy(&enigma.rotors[1], enigma_rotors[j], sizeof(rotor_t));
+            memcpy(&enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
             for (int k = 0; k < ROTOR_COUNT; k++) {
                 if (i == j || j == k || i == k) continue;
-                memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(rotor_t));
+                memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
                 for (int l = 0; l < REFLECTOR_COUNT; l++) {
                     enigma.reflector = enigma_reflectors[l];
 

@@ -10,16 +10,16 @@ typedef struct {
     int notches[2];
     int numNotches;
     int idx;
-} rotor_t;
+} enigma_rotor_t;
 
-extern const rotor_t rotor_I;
-extern const rotor_t rotor_II;
-extern const rotor_t rotor_III;
-extern const rotor_t rotor_IV;
-extern const rotor_t rotor_V;
-extern const rotor_t rotor_VI;
-extern const rotor_t rotor_VII;
-extern const rotor_t rotor_VIII;
-extern const rotor_t* enigma_rotors[];
+extern const enigma_rotor_t enigma_rotor_I;
+extern const enigma_rotor_t enigma_rotor_II;
+extern const enigma_rotor_t enigma_rotor_III;
+extern const enigma_rotor_t enigma_rotor_IV;
+extern const enigma_rotor_t enigma_rotor_V;
+extern const enigma_rotor_t enigma_rotor_VI;
+extern const enigma_rotor_t enigma_rotor_VII;
+extern const enigma_rotor_t enigma_rotor_VIII;
+extern const enigma_rotor_t* enigma_rotors[];
 
 #endif

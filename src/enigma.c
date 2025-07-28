@@ -15,11 +15,17 @@
 
 #define ALPHA2IDX(c) ((c) - 'A')
 
-static inline void rotate(rotor_t* rotor);
-static inline void rotate_rotors(enigma_t*);
-static inline int rotor_pass_forward(rotor_t*, int);
-static inline int rotor_pass_reverse(rotor_t*, int);
-static inline char substitute(const char*, char);
+#ifdef __GNUC__
+#define ENIGMA_ALWAYS_INLINE inline __attribute__((always_inline))
+#else
+#define ENIGMA_ALWAYS_INLINE inline
+#endif
+
+static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor);
+static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t*);
+static ENIGMA_ALWAYS_INLINE int  rotor_pass_forward(enigma_rotor_t*, int);
+static ENIGMA_ALWAYS_INLINE int  rotor_pass_reverse(enigma_rotor_t*, int);
+static ENIGMA_ALWAYS_INLINE char substitute(const char*, char);
 
 /**
  * @brief Encode a character using the Enigma machine.
@@ -105,9 +111,9 @@ void enigma_encode_string(enigma_t* enigma, const char* input, char* output, int
  * @param rotors Array of `rotor_t`s to copy to the `enigma_t`.
  * @param count Number of rotors to copy.
  */
-void enigma_init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
+void enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int count) {
     enigma->rotor_flag = 0;
-    memcpy(enigma->rotors, rotors, count * sizeof(rotor_t));
+    memcpy(enigma->rotors, rotors, count * sizeof(enigma_rotor_t));
     enigma->rotor_count = count;
 }
 
@@ -123,20 +129,16 @@ void enigma_init_rotors(enigma_t* enigma, const rotor_t* rotors, int count) {
  * @param enigma Pointer to the `enigma_t` to be initialized.
  */
 void enigma_init_default_config(enigma_t* enigma) {
-    enigma->reflector = &UKW_B;
+    enigma->reflector = &enigma_UKW_B;
     enigma->rotor_count = 3;
-    enigma->rotors[2] = rotor_I;
-    enigma->rotors[1] = rotor_II;
-    enigma->rotors[0] = rotor_III;
+    enigma->rotors[2] = enigma_rotor_I;
+    enigma->rotors[1] = enigma_rotor_II;
+    enigma->rotors[0] = enigma_rotor_III;
     enigma->rotor_flag = 0;
     enigma->plugboard = NULL;
 }
 
-#ifdef __GNUC__
-static __attribute__((always_inline)) inline void rotate(rotor_t* rotor) {
-#else
-static inline void rotate(rotor_t* rotor) {
-#endif
+static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor) {
     rotor->idx++;
     if (rotor->idx == ALPHA_SIZE) {
         rotor->idx = 0;
@@ -151,11 +153,7 @@ static inline void rotate(rotor_t* rotor) {
  *
  * @param enigma Pointer to the Enigma machine structure.
  */
-#ifdef __GNUC__
-static __attribute__((always_inline)) inline void rotate_rotors(enigma_t* enigma) {
-#else
-static inline void rotate_rotors(enigma_t* enigma) {
-#endif
+static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t* enigma) {
     int turned = 0;
     for (int i = 0; i < enigma->rotors[1].numNotches; i++) {
         if (enigma->rotors[1].fwd_indices[enigma->rotors[1].idx] == enigma->rotors[1].notches[i]) {
@@ -185,11 +183,7 @@ static inline void rotate_rotors(enigma_t* enigma) {
  *
  * @return The index of the character after passing through the rotor.
  */
-#ifdef __GNUC__
-static __attribute__((always_inline)) inline int rotor_pass_forward(rotor_t* rotor, int idx) {
-#else
-static inline int rotor_pass_forward(rotor_t* rotor, int idx) {
-#endif
+static ENIGMA_ALWAYS_INLINE int rotor_pass_forward(enigma_rotor_t* rotor, int idx) {
     idx = idx + rotor->idx;
     if (idx >= ALPHA_SIZE) {
         idx -= ALPHA_SIZE;
@@ -212,11 +206,7 @@ static inline int rotor_pass_forward(rotor_t* rotor, int idx) {
  *
  * @return The index of the character after passing through the rotor.
  */
-#ifdef __GNUC__
-static __attribute__((always_inline)) inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
-#else
-static inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
-#endif
+static ENIGMA_ALWAYS_INLINE int rotor_pass_reverse(enigma_rotor_t* rotor, int idx) {
     idx += rotor->idx;
     if (idx >= ALPHA_SIZE) {
         idx -= ALPHA_SIZE;
@@ -244,11 +234,7 @@ static inline int rotor_pass_reverse(rotor_t* rotor, int idx) {
  * @param c The character to be substituted.
  * @return The substituted character based on the plugboard configuration.
  */
-#ifdef __GNUC__
-static __attribute__((always_inline)) inline char substitute(const char* plugboard, char c) {
-#else
-static inline char substitute(const char* plugboard, char c) {
-#endif
+static ENIGMA_ALWAYS_INLINE char substitute(const char* plugboard, char c) {
     if (!plugboard) return c;
 
     for (const char* p = plugboard; p[0]; p += 2) {

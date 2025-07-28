@@ -8,7 +8,7 @@
 #define REFLECTOR_COUNT 3
 
 typedef struct {
-    rotor_t rotors[4];
+    enigma_rotor_t rotors[4];
     int rotor_flag;
     int rotor_count;
     reflector_t* reflector;
@@ -17,7 +17,7 @@ typedef struct {
 
 char enigma_encode(enigma_t*, char);
 void enigma_encode_string(enigma_t*, const char*, char*, int);
-void enigma_init_rotors(enigma_t*, const rotor_t*, int);
+void enigma_init_rotors(enigma_t*, const enigma_rotor_t*, int);
 void enigma_init_default_config(enigma_t*);
 
 #endif
