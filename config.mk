@@ -6,8 +6,7 @@ CC            = gcc
 LD            = $(CC)
 
 CFLAGS        = -Werror -Wall -Wextra -Wno-unused-parameter -std=c99 -pedantic
-CFLAGS        += -Ofast # For GCC optimizations
-#CFLAGS      += -O3 -ffast-math # For Clang optimizations
+CFLAGS        += -O3 -ffast-math # For optimizations
 # CFLAGS      += -g -pg # For debugging and profiling
 # CFLAGS      += -DVERBOSE # For verbose output
 
