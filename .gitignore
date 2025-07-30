@@ -3,4 +3,5 @@
 /crack
 /vgcore.*
 /gmon.out
-etc/
+*.o
+*.a
