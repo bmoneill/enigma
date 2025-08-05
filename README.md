@@ -8,15 +8,12 @@ This is a CLI M3 Enigma simulator and Bombe.
 
 #### Prerequisites
 
-* gcc
-* make
+* cmake
 
 ```shell
-make
-sudo make install
+cmake .
+cmake --build .
 ```
-
-To enable verbose messages for debugging, uncomment the `CFLAGS += -DVERBOSE` line in [config.mk](config.mk).
 
 ## Enigma Simulator
 
@@ -34,10 +31,10 @@ The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the 
 ### Usage
 
 ```shell
-$ enigma [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
+$ enigmacli [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
 ```
 
-`enigma` reads from stdin and outputs to stdout by default, and is case-agnostic.
+`enigmacli` reads from stdin and outputs to stdout by default, and is case-agnostic.
 
 The following options are supported:
 
@@ -49,10 +46,10 @@ The following options are supported:
 Here is an example encryption/decryption with a custom rotor/plugboard configuration:
 
 ```shell
-$ enigma -s "ABCD" -w "I II IV" -p "XYZ"
+$ enigmacli -s "ABCD" -w "I II IV" -p "XYZ"
 HELLO # user input
 MWQHY # output
-$ enigma -s "ABCD" -w "I II IV" -p "XYZ" # same configuration
+$ enigmacli -s "ABCD" -w "I II IV" -p "XYZ" # same configuration
 MWQHY
 HELLO
 ```
