@@ -75,7 +75,7 @@ void enigma_bombe_find_potential_indices(const char* ciphertext, const char* cri
  * @param ciphertext The ciphertext to analyze
  * @param maxThreads The number of threads to use for processing
  */
-void enigma_bombe_run(bombe_t* bombe, const char* ciphertext, int maxThreads) {
+void enigma_bombe_run(const bombe_t* bombe, const char* ciphertext, int maxThreads) {
     enigma_t enigma;
     int ciphertextLength = strlen(ciphertext);
 

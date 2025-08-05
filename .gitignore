@@ -5,3 +5,8 @@
 /gmon.out
 *.o
 *.a
+CMakeFiles
+Makefile
+CMakeCache.txt
+*.cmake
+DartConfiguration.tcl

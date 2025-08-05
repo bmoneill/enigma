@@ -11,7 +11,7 @@ typedef struct {
 } bombe_t;
 
 void enigma_bombe_init(bombe_t*, char*, int);
-void enigma_bombe_run(bombe_t*, const char*, int);
+void enigma_bombe_run(const bombe_t*, const char*, int);
 void enigma_bombe_find_potential_indices(const char*, const char*, int*);
 
 #endif
