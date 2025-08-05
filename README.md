@@ -133,6 +133,19 @@ user    0m5.072s
 sys     0m0.078s
 ```
 
+## Crack (WIP)
+
+Currently a work in progress.
+
+This is a program to crack the Enigma using Index of Coincidence and n-grams.
+Essentially, we run our ciphertext through each set of rotors and see if the resulting
+plaintext looks a bit more like English or whatever language the plaintext should be in,
+using letter frequencies and n-grams, or groups of letters. Then, we can do the same thing
+for the rotor positions, reflector, and plugboard. This requires a bit more user intervention
+but it works around the limited ability of bombe to work with the plugboard. Brute forcing the
+Enigma is an extremely computationally expensive endeavor, even with modern technology, so this
+is a good way to get around that.
+
 ## Planned Features
 
 * Bombe should use a dictionary to highlight found plaintext containing more actual words.
@@ -150,6 +163,7 @@ description and/or patch.
 * [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
 * [Enigma Cipher Machine on Crypto Museum](https://www.cryptomuseum.com/crypto/enigma/index.htm)
 * [The Turing-Welchman Bombe (National Museum of Computing)](https://www.tnmoc.org/bombe)
+* [Cracking Enigma in 2021 (Computerphile on YouTube)](https://youtu.be/RzWB5jL5RX0)
 
 ## License
 
