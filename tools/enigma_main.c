@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
 static int load_reflector_config(enigma_t* enigma, const char* s) {
     for (int i = 0; i < 3; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
-            memcpy(enigma->reflector, enigma_reflectors[i], sizeof(reflector_t));
+            memcpy(enigma->reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
             return 1;
         }
     }
