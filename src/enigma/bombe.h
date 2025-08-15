@@ -8,10 +8,10 @@ typedef struct {
     int cribLength;
     int cribIndex;
     int numCribs;
-} bombe_t;
+} enigma_bombe_t;
 
-void enigma_bombe_init(bombe_t*, char*, int);
-void enigma_bombe_run(const bombe_t*, const char*, int);
+void enigma_bombe_init(enigma_bombe_t*, char*, int);
+void enigma_bombe_run(const enigma_bombe_t*, const char*, int);
 void enigma_bombe_find_potential_indices(const char*, const char*, int*);
 
 #endif

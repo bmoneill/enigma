@@ -10,7 +10,7 @@
 #include "reflectors.h"
 
 typedef struct {
-    bombe_t bombe;
+    enigma_bombe_t bombe;
     enigma_t enigma;
     const char* ciphertext;
     int ciphertextLength;
@@ -18,10 +18,10 @@ typedef struct {
 } bombe_thread_args_t;
 
 static float freq(const char* plaintext);
-static void init_chunk_thread_args(bombe_thread_args_t*, const bombe_t*, const enigma_t*, const char*, int);
+static void init_chunk_thread_args(bombe_thread_args_t*, const enigma_bombe_t*, const enigma_t*, const char*, int);
 static void* thread_process_chunk(void*);
-static void process_chunk(bombe_t*, enigma_t*, const char*, int, char*);
-static void process_single(bombe_t*, enigma_t*, const char*, int, char*, const char*);
+static void process_chunk(enigma_bombe_t*, enigma_t*, const char*, int, char*);
+static void process_single(enigma_bombe_t*, enigma_t*, const char*, int, char*, const char*);
 
 /**
  * @brief Initializes the Bombe structure with cribs and Enigma configuration.
@@ -31,7 +31,7 @@ static void process_single(bombe_t*, enigma_t*, const char*, int, char*, const c
  * @param cribIndices Array of crib indices for each crib string
  * @param numCribs Number of crib strings (length of cribStrings and cribIndices)
  */
-void enigma_bombe_init(bombe_t* bombe, char* crib, int cribIndex) {
+void enigma_bombe_init(enigma_bombe_t* bombe, char* crib, int cribIndex) {
     bombe->crib = crib;
     bombe->cribIndex = cribIndex;
     bombe->cribLength = strlen(crib);
@@ -75,7 +75,7 @@ void enigma_bombe_find_potential_indices(const char* ciphertext, const char* cri
  * @param ciphertext The ciphertext to analyze
  * @param maxThreads The number of threads to use for processing
  */
-void enigma_bombe_run(const bombe_t* bombe, const char* ciphertext, int maxThreads) {
+void enigma_bombe_run(const enigma_bombe_t* bombe, const char* ciphertext, int maxThreads) {
     enigma_t enigma;
     int ciphertextLength = strlen(ciphertext);
 
@@ -126,11 +126,11 @@ void enigma_bombe_run(const bombe_t* bombe, const char* ciphertext, int maxThrea
  * process_chunk(), in order to pass them to the created thread.
  */
 static void init_chunk_thread_args(bombe_thread_args_t* dst,
-    const bombe_t* bombe,
+    const enigma_bombe_t* bombe,
     const enigma_t* enigma,
     const char* ciphertext,
     int ciphertextLength) {
-    memcpy(&dst->bombe, bombe, sizeof(bombe_t));
+    memcpy(&dst->bombe, bombe, sizeof(enigma_bombe_t));
     memcpy(&dst->enigma, enigma, sizeof(enigma_t));
     dst->ciphertext = ciphertext;
     dst->ciphertextLength = ciphertextLength;
@@ -150,7 +150,7 @@ static void init_chunk_thread_args(bombe_thread_args_t* dst,
  * @param ciphertextLength The length of the ciphertext
  * @param plaintext Buffer to store the decrypted plaintext (to avoid mallocing each time)
  */
-static void process_chunk(bombe_t* bombe, enigma_t* enigma,
+static void process_chunk(enigma_bombe_t* bombe, enigma_t* enigma,
     const char* ciphertext, int ciphertextLength,
     char* plaintext) {
     char configString[256];
@@ -206,7 +206,7 @@ static void* thread_process_chunk(void* args) {
  * @param plaintext Buffer to store the decrypted plaintext
  * @param configString String representation of the current Enigma configuration
  */
-static void process_single(bombe_t* bombe, enigma_t* enigma,
+static void process_single(enigma_bombe_t* bombe, enigma_t* enigma,
     const char* ciphertext, int ciphertextLength,
     char* plaintext, const char* configString) {
 

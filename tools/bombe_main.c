@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     char* ciphertext = NULL;
     int threadCount = 1;
     int indices[MAX_CRIB_INDICES] = {0};
-    bombe_t bombe;
+    enigma_bombe_t bombe;
 
     // Parse command line options
     int opt;
