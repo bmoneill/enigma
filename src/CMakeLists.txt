@@ -16,6 +16,7 @@ INCLUDE_DIRECTORIES (
 
 set(LIBRARY_PUBLIC_SRC
 	"${LIBRARY_BASE_PATH}/enigma/bombe.c"
+	"${LIBRARY_BASE_PATH}/enigma/common.c"
 	"${LIBRARY_BASE_PATH}/enigma/crack.c"
 	"${LIBRARY_BASE_PATH}/enigma/enigma.c"
 	"${LIBRARY_BASE_PATH}/enigma/ioc.c"
@@ -26,6 +27,7 @@ set(LIBRARY_PUBLIC_SRC
 
 set(LIBRARY_PUBLIC_HEADERS
 	"${LIBRARY_BASE_PATH}/bombe.h"
+	"${LIBRARY_BASE_PATH}/common.h"
 	"${LIBRARY_BASE_PATH}/crack.h"
 	"${LIBRARY_BASE_PATH}/defs.h"
 	"${LIBRARY_BASE_PATH}/enigma.h"
