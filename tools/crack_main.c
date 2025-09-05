@@ -35,22 +35,29 @@ int main(int argc, char* argv[]) {
  *
  */
 static void print_usage(const char* argv0) {
-    fprintf(stderr, "Usage: %s [-p positions] [-s plugboard] [-u reflector] [-w rotors] [-t threadCount] [-c plaintext] [-C position] method [file]\n", argv0);
+    fprintf(stderr, "Usage: %s [options] method target [file]\n", argv0);
     fprintf(stderr, "Options:\n");
-    fprintf(stderr, "  -c plaintext   Set known plaintext to use for the attack\n");
+    fprintf(stderr, "  -w rotors      Set the rotor (Walzen) configuration (e.g. 'I II III')\n");
+    fprintf(stderr, "  -p positions   Set the initial rotor positions (e.g. 'ABC')\n");
+    fprintf(stderr, "  -u reflector   Set the reflector (Umkehrwalze) (e.g. 'B')\n");
+    fprintf(stderr, "  -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g. 'ABCDEF')\n");
+    fprintf(stderr, "  -S count       Set the maximum number of plugboard settings (e.g. '10')\n");
+    fprintf(stderr, "  -c plaintext   Known plaintext\n");
     fprintf(stderr, "  -C position    Set the position of known plaintext\n");
-    fprintf(stderr, "  -p positions   Set the initial position of the rotors (e.g., 'ABC')\n");
-    fprintf(stderr, "  -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g., 'ABCDEF')\n");
-    fprintf(stderr, "  -t threadCount Set the number of threads to use for processing (default: 1)\n");
-    fprintf(stderr, "  -u reflector   Set the reflector (Umkehrwalze) configuration (e.g., 'B')\n");
-    fprintf(stderr, "  -w rotors      Set the rotor (Walzen) configuration (e.g., 'I II III')\n");
-    fprintf(stderr, "Available rotors: I, II, III, IV, V, VI, VII, VIII\n");
-    fprintf(stderr, "Available reflectors: A, B, C\n");
+    fprintf(stderr, "  -l language    Language ('english' or 'german')\n");
+    fprintf(stderr, "  -t threadCount Number of threads to use\n\n");
     fprintf(stderr, "Methods:\n");
-    fprintf(stderr, "  brute          Use Brute Force analysis for cryptanalysis\n");
+    fprintf(stderr, "  brute          Use Brute Force for cryptanalysis\n");
     fprintf(stderr, "  ioc            Use Index of Coincidence for cryptanalysis\n");
     fprintf(stderr, "  bigram         Use Bigram analysis for cryptanalysis\n");
     fprintf(stderr, "  trigram        Use Trigram analysis for cryptanalysis\n");
-    fprintf(stderr, "  quadgram       Use Quadgram analysis for cryptanalysis\n");
+    fprintf(stderr, "  quadgram       Use Quadgram analysis for cryptanalysis\n\n");
+    fprintf(stderr, "Targets:\n");
+    fprintf(stderr, "  rotors        Crack the rotor (Walzen) configuration\n");
+    fprintf(stderr, "  positions     Crack the initial rotor positions\n");
+    fprintf(stderr, "  reflector     Crack the reflector (Umkehrwalze) configuration\n");
+    fprintf(stderr, "  plugboard     Crack the plugboard (Steckerbrett) configuration\n\n");
+    fprintf(stderr, "Available rotors: I, II, III, IV, V, VI, VII, VIII\n");
+    fprintf(stderr, "Available reflectors: A, B, C\n");
     exit(EXIT_FAILURE);
 }

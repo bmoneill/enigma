@@ -1,6 +1,6 @@
 set(ENIGMA_BINARY_NAME "enigmacli")
 set(BOMBE_BINARY_NAME "bombe")
-set(CRACK_BINARY_NAME "crack")
+set(CRACK_BINARY_NAME "enigmacrack")
 
 # Get git commit hash
 execute_process(

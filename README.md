@@ -133,11 +133,11 @@ user    0m5.072s
 sys     0m0.078s
 ```
 
-## Crack (WIP)
+## enigmacrack (WIP)
 
 Currently a work in progress.
 
-This is a program to crack the Enigma using Index of Coincidence and n-grams.
+This is a program to crack the Enigma using Index of Coincidence, n-grams, and brute force.
 Essentially, we run our ciphertext through each set of rotors and see if the resulting
 plaintext looks a bit more like English or whatever language the plaintext should be in,
 using letter frequencies and n-grams, or groups of letters. Then, we can do the same thing
@@ -145,6 +145,45 @@ for the rotor positions, reflector, and plugboard. This requires a bit more user
 but it works around the limited ability of bombe to work with the plugboard. Brute forcing the
 Enigma is an extremely computationally expensive endeavor, even with modern technology, so this
 is a good way to get around that.
+
+This tool is not fully automated. If no settings are known, you will likely have to run
+`enigmacrack` at least once for each component of an Enigma key. The output will contain the most
+likely fits, but the top fit may not always be in the actual key.
+
+### Usage
+
+```shell
+enigmacrack [options...] method target [file]\n", argv0);
+```
+
+The following options are supported:
+
+* `-w rotors`: Set the rotor (Walzen) configuration (e.g. 'I II III')
+* `-p positions`: Set the initial rotor positions (e.g. 'ABC')
+* `-u reflector`: Set the reflector (Umkehrwalze) (e.g. 'B')
+* `-s plugboard`: Set the plugboard (Steckerbrett) configuration (e.g. 'ABCDEF')
+* `-S count`: Set the maximum number of plugboard settings (e.g. '10')
+* `-c plaintext`: Known plaintext
+* `-C position`: Known plaintext index
+* `-l language`: Language ('english' or 'german')
+* `-t threadCount`: Number of threads to use
+
+method must be one of the following:
+
+* `brute`: Brute force
+* `ioc`: Index of Coincidence
+* `bigram`: Bigram analysis
+* `trigram`: Trigram analysis
+* `quadgram`: Quadgram analysis
+
+target must be one of the following:
+
+* `rotors`: Rotors
+* `positions`: Rotor positions
+* `plugboard`: Plugboard settings
+* `reflector`: Reflector
+
+If a file is not given, `enigmacrack` will read from standard input.
 
 ## Planned Features
 
