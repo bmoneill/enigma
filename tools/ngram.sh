@@ -1,6 +1,8 @@
 #!/bin/bash
 # ngram generator
 # usage: ngram.sh n file
+# outputs ngram counts to stdout.
+# first line of output is "n linecount"
 
 n=$1
 f=$2
