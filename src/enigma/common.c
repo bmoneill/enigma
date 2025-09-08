@@ -4,7 +4,7 @@
 #include <string.h>
 
 /**
- * @brief Load the rotor configuration from its string identifier.
+ * @brief Load the reflector configuration from its string identifier.
  *
  * This function searches through the available reflectors and sets the
  * `reflector` field of the `enigma_t` to the one matching the provided identifier.
@@ -14,7 +14,7 @@
  * @param s The string identifier for the reflector.
  * @return 1 if the reflector was found and loaded, 0 otherwise.
  */
-int load_reflector_config(enigma_t* enigma, const char* s) {
+int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
     for (int i = 0; i < 3; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
             memcpy(enigma->reflector, enigma_reflectors[i], sizeof(reflector_t));
@@ -35,7 +35,7 @@ int load_reflector_config(enigma_t* enigma, const char* s) {
  *
  * @return 1 if the rotors were successfully loaded, 0 otherwise.
  */
-int load_rotor_config(enigma_t* enigma, char* s) {
+int enigma_load_rotor_config(enigma_t* enigma, char* s) {
     enigma->rotor_count = 0;
     int numRotors = 8;
 
@@ -70,7 +70,7 @@ int load_rotor_config(enigma_t* enigma, char* s) {
  *
  * @return 1 if the positions were successfully loaded, 0 otherwise.
  */
-int load_rotor_positions(enigma_t* enigma, char* s) {
+int enigma_load_rotor_positions(enigma_t* enigma, char* s) {
     if (enigma->rotor_count == 0) {
         return 0;
     }

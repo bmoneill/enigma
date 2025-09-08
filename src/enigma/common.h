@@ -3,8 +3,35 @@
 
 #include "enigma.h"
 
-int load_reflector_config(enigma_t*, const char*);
-int load_rotor_config(enigma_t*, char*);
-int load_rotor_positions(enigma_t*, char*);
+#define ENIGMA_ALPHA_SIZE             26
+#define ENIGMA_MAX_CRIB_INDICES       256
+#define ENIGMA_MAX_ROTOR_COUNT        4
+
+/* Defaults */
+#define ENIGMA_MAX_PLUGBOARD_SETTINGS 10
+#define ENIGMA_DEFAULT_THREAD_COUNT   8
+
+/* Cracking methods */
+#define ENIGMA_MODE_BRUTE             0
+#define ENIGMA_MODE_BOMBE             1
+#define ENIGMA_MODE_BIGRAM            2
+#define ENIGMA_MODE_TRIGRAM           3
+#define ENIGMA_MODE_QUADGRAM          4
+#define ENIGMA_MODE_IOC               5
+
+/* Cracking targets */
+#define ENIGMA_TARGET_ROTORS          0
+#define ENIGMA_TARGET_POSITIONS       1
+#define ENIGMA_TARGET_REFLECTOR       2
+#define ENIGMA_TARGET_PLUGBOARD       3
+
+/* Languages */
+#define ENIGMA_LANG_ENGLISH           0
+#define ENIGMA_LANG_GERMAN            1
+
+
+int enigma_load_reflector_config(enigma_t*, const char*);
+int enigma_load_rotor_config(enigma_t*, char*);
+int enigma_load_rotor_positions(enigma_t*, char*);
 
 #endif
