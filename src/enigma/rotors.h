@@ -54,7 +54,7 @@ static const enigma_rotor_t enigma_rotor_III = {
 
 // Alphabet: "ESOVPZJAYQUIRHXLNFTGKDCMWB"
 // Notches: R
-const enigma_rotor_t enigma_rotor_IV = {
+static const enigma_rotor_t enigma_rotor_IV = {
     .name = "IV",
     .fwd_indices = { 4, 18, 14, 21, 15, 25, 9, 0, 24, 16, 20, 8, 17, 7, 23, 11, 13, 5, 19, 6, 10, 3, 2, 12, 22, 1 },
     .rev_indices = { 7, 25, 22, 21, 0, 17, 19, 13, 11, 6, 20, 15, 23, 16, 2, 4, 9, 12, 1, 18, 10, 3, 24, 14, 8, 5 },
@@ -65,7 +65,7 @@ const enigma_rotor_t enigma_rotor_IV = {
 
 // Alphabet: "VZBRGITYUPSDNHLXAWMJQOFECK"
 // Notches: Z
-const enigma_rotor_t enigma_rotor_V = {
+static const enigma_rotor_t enigma_rotor_V = {
     .name = "V",
     .fwd_indices = { 21, 25, 1, 17, 6, 8, 19, 24, 20, 15, 18, 3, 13, 7, 11, 23, 0, 22, 12, 9, 16, 14, 5, 4, 2, 10 },
     .rev_indices = { 16, 2, 24, 11, 23, 22, 4, 13, 5, 19, 25, 14, 18, 12, 21, 9, 20, 3, 10, 6, 8, 0, 17, 15, 7, 1 },
@@ -76,7 +76,7 @@ const enigma_rotor_t enigma_rotor_V = {
 
 // Alphabet = "JPGVOUMFYQBENHZRDKASXLICTW"
 // Notches: ZM
-const enigma_rotor_t enigma_rotor_VI = {
+static const enigma_rotor_t enigma_rotor_VI = {
     .name = "VI",
     .fwd_indices = { 9, 15, 6, 21, 14, 20, 12, 5, 24, 16, 1, 4, 13, 7, 25, 17, 3, 10, 0, 18, 23, 11, 8, 2, 19, 22 },
     .rev_indices = { 18, 10, 23, 16, 11, 7, 2, 13, 22, 0, 17, 21, 6, 12, 4, 1, 9, 15, 19, 24, 5, 3, 25, 20, 8, 14 },

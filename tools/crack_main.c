@@ -1,7 +1,9 @@
 #include "enigma/bombe.h"
+#include "enigma/brute.h"
 #include "enigma/common.h"
 #include "enigma/crack.h"
 #include "enigma/enigma.h"
+#include "enigma/io.h"
 #include "enigma/ioc.h"
 #include "enigma/ngram.h"
 
@@ -13,12 +15,19 @@
 
 static int                    load_language(enigma_crack_config_t*, const char*);
 static int                    print_usage(const char*);
-static enigma_crack_config_t* parse_arguments(int, char**);
+static enigma_crack_config_t* parse_arguments(int, char**, enigma_ngram_list_t*);
 
 int main(int argc, char* argv[]) {
-    enigma_crack_config_t* config = parse_arguments(argc, argv);
+    if (argc < 2) {
+        print_usage(argv[0]);
+        return 1;
+    }
+
+    enigma_ngram_list_t* ngramList = malloc(sizeof(enigma_ngram_list_t));
+    enigma_crack_config_t* config = parse_arguments(argc, argv, ngramList);
 
     if (!config) {
+        free(ngramList);
         return 1;
     }
 
@@ -27,10 +36,10 @@ int main(int argc, char* argv[]) {
     case ENIGMA_METHOD_BRUTE: enigma_crack_brute(config); break;
     case ENIGMA_METHOD_NGRAM:
         switch (config->target) {
-        case ENIGMA_TARGET_ROTORS: enigma_crack_rotors_ngram(config); break;
-        case ENIGMA_TARGET_POSITIONS: enigma_crack_rotor_positions_ngram(config); break;
-        case ENIGMA_TARGET_REFLECTOR: enigma_crack_reflector_ngram(config); break;
-        case ENIGMA_TARGET_PLUGBOARD: enigma_crack_plugboard_ngram(config); break;
+        case ENIGMA_TARGET_ROTORS: enigma_crack_rotors_ngram(config, ngramList); break;
+        case ENIGMA_TARGET_POSITIONS: enigma_crack_rotor_positions_ngram(config, ngramList); break;
+        case ENIGMA_TARGET_REFLECTOR: enigma_crack_reflector_ngram(config, ngramList); break;
+        case ENIGMA_TARGET_PLUGBOARD: enigma_crack_plugboard_ngram(config, ngramList); break;
         }
         break;
     case ENIGMA_METHOD_IOC:
@@ -43,6 +52,7 @@ int main(int argc, char* argv[]) {
         break;
     }
 
+    free(ngramList);
     return 0;
 }
 
@@ -80,7 +90,7 @@ static int load_language(enigma_crack_config_t *config, const char *language) {
  * @return 1
  */
 static int print_usage(const char* argv0) {
-    fprintf(stderr, "Usage: %s method [target] [options] [file]\n", argv0);
+    fprintf(stderr, "Usage: %s method [target] [options] [ciphertext]\n", argv0);
     fprintf(stderr, "Methods:\n");
     fprintf(stderr, "  bombe            Use a pseudo-Bombe for cryptanalysis (-c, -C required)\n");
     fprintf(stderr, "  brute            Use Brute Force for cryptanalysis\n");
@@ -117,11 +127,10 @@ static int print_usage(const char* argv0) {
     return 1;
 }
 
-static enigma_crack_config_t *parse_arguments(int argc, char* argv[]) {
+static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngram_list_t* ngramList) {
     int opt;
     int result = 0;
     enigma_crack_config_t *config;
-    const char *argv0 = argv[0];
 
     config = calloc(1, sizeof(enigma_crack_config_t));
 
@@ -135,7 +144,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[]) {
         config->method = ENIGMA_METHOD_NGRAM;
     } else {
         free(config);
-        print_usage(argv0);
+        print_usage(argv[0]);
         return NULL;
     }
 
@@ -152,7 +161,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[]) {
             config->target = ENIGMA_TARGET_PLUGBOARD;
         } else {
             free(config);
-            print_usage(argv0);
+            print_usage(argv[0]);
             return NULL;
         }
         optind++;
@@ -165,7 +174,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[]) {
         case 'l': result = load_language(config, optarg); break;
         case 'm': config->minScore = atof(optarg); break;
         case 'M': config->maxScore = atof(optarg); break;
-        case 'n': result = enigma_load_ngrams(&config->ngrams, &config->ngramCount, optarg); break;
+        case 'n': ngramList = enigma_load_ngrams(optarg); break;
         case 'p': result = enigma_load_rotor_positions(&config->enigma, optarg); break;
         case 's': config->enigma.plugboard = optarg; break;
         case 'S': config->maxPlugboardSettings = atoi(optarg); break;
@@ -173,16 +182,21 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[]) {
         case 'u': result = enigma_load_reflector_config(&config->enigma, optarg); break;
         case 'v': enigma_verbose = true; break;
         case 'w': result = enigma_load_rotor_config(&config->enigma, optarg); break;
-        default:  result = print_usage(argv0);
+        default:  result = print_usage(argv[0]);
         }
     }
 
     if (result || (config->method == ENIGMA_METHOD_BOMBE && (!config->plaintext || config->plaintextPos < 0)) ||
         ((config->method == ENIGMA_METHOD_NGRAM || config->method == ENIGMA_METHOD_IOC) &&
-         (config->target < 0 || (!config->minScore && !config->maxScore && !config->ngramCount)))) {
+         (config->target < 0 || (!config->minScore && !config->maxScore && !config->ngramCount))) ||
+        (config->method == ENIGMA_METHOD_NGRAM && !ngramList)) {
         free(config);
-        print_usage(argv0);
+        print_usage(argv[0]);
         return NULL;
+    }
+
+    if (optind < argc) {
+        config->ciphertext = argv[optind];
     }
 
     return config;

@@ -6,6 +6,7 @@
 
 #include "enigma/common.h"
 #include "enigma/enigma.h"
+#include "enigma/io.h"
 #include "enigma/rotors.h"
 #include "enigma/reflectors.h"
 
@@ -23,13 +24,13 @@ int main(int argc, char* argv[]) {
         switch (opt) {
         case 's': enigma.plugboard = optarg; break;
         case 'p': rotorpos = optarg; break;
-        case 'u': if (!load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
-        case 'w': if (!load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
+        case 'u': if (enigma_load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
+        case 'w': if (enigma_load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
         default: print_usage(argv[0]); exit(EXIT_FAILURE);
         }
     }
 
-    if (rotorpos && !load_rotor_positions(&enigma, rotorpos)) {
+    if (rotorpos && !enigma_load_rotor_positions(&enigma, rotorpos)) {
         print_usage(argv[0]);
         exit(EXIT_FAILURE);
     }

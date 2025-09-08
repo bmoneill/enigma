@@ -37,40 +37,38 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
  */
 void enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
     int result_count = 0;
+    char *tempPlaintext = malloc(config->ciphertextLen + 1);
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-        memcpy(&enigma->rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
+        memcpy(&config->enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
         for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
             if (i == j) {
                 continue;
             }
-            memcpy(&enigma->rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
+            memcpy(&config->enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
             for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
                 if (k == i || k == j) {
                     continue;
                 }
-                memcpy(&enigma->rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+                memcpy(&config->enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
 
-                encode_string(enigma, ciphertext, temp_plaintext, len);
-                float score = enigma_ic_score(temp_plaintext, len, NULL);
-                if (result_count < count) {
-                    results[result_count].enigma = malloc(sizeof(enigma_t));
-                    memcpy(results[result_count].enigma, enigma, sizeof(enigma_t));
-                    results[result_count].score = score;
+                enigma_encode_string(&config->enigma, config->ciphertext, tempPlaintext, config->ciphertextLen);
+                float score = enigma_ioc_score(tempPlaintext, config->ciphertextLen, NULL);
+                if (result_count < config->scoreCount) {
+                    memcpy(&config->scores[result_count].enigma, &config->enigma, sizeof(enigma_t));
+                    config->scores[result_count].score = score;
                     result_count++;
                 }
                 else {
                     // Find the lowest score in results
                     int min_index = 0;
                     for (int r = 1; r < result_count; r++) {
-                        if (results[r].score < results[min_index].score) {
+                        if (config->scores[r].score < config->scores[min_index].score) {
                             min_index = r;
                         }
                     }
-                    if (score > results[min_index].score) {
-                        free(results[min_index].enigma);
-                        results[min_index].enigma = malloc(sizeof(enigma_t));
-                        memcpy(results[min_index].enigma, enigma, sizeof(enigma_t));
-                        results[min_index].score = score;
+                    if (score > config->scores[min_index].score) {
+                        memcpy(&config->scores[min_index].enigma, &config->enigma, sizeof(enigma_t));
+                        config->scores[min_index].score = score;
                     }
                 }
             }
@@ -93,7 +91,7 @@ void enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
  *
  * @todo Implement
  */
-void enigma_crack_rotor_positions_ioc(enigma_crack_config_t*) {
+void enigma_crack_rotor_positions_ioc(enigma_crack_config_t* config) {
     // TODO implement
 }
 

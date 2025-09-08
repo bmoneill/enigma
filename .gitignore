@@ -1,6 +1,5 @@
 /tools/enigmacli
-/tools/bombe
-/tools/crack
+/tools/enigmacrack
 /vgcore.*
 /gmon.out
 *.o

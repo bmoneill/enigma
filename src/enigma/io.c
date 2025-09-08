@@ -1,5 +1,7 @@
 #include "io.h"
 
+#include "crack.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>

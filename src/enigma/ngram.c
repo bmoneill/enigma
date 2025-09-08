@@ -1,6 +1,7 @@
 #include "ngram.h"
 
 #include "common.h"
+#include "crack.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,8 +16,9 @@
  * Currently unimplemented.
  *
  * @param config Pointer to the cracking configuration structure.
+ * @param ngramList Pointer to the n-gram list structure.
  */
-void enigma_crack_rotors_ngram(enigma_crack_config_t* config) {
+void enigma_crack_rotors_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
     // TODO Implement
 }
 
@@ -26,8 +28,9 @@ void enigma_crack_rotors_ngram(enigma_crack_config_t* config) {
  * Currently unimplemented.
  *
  * @param config Pointer to the cracking configuration structure.
+ * @param ngramList Pointer to the n-gram list structure.
  */
-void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config) {
+void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
     // TODO Implement
 }
 
@@ -37,9 +40,10 @@ void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config) {
  * Currently unimplemented.
  *
  * @param config Pointer to the cracking configuration structure.
+ * @param ngramList Pointer to the n-gram list structure.
  * @todo Implement
  */
-void enigma_crack_reflector_ngram(enigma_crack_config_t* config) {
+void enigma_crack_reflector_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
     // TODO Implement
 }
 
@@ -49,9 +53,10 @@ void enigma_crack_reflector_ngram(enigma_crack_config_t* config) {
  * Currently unimplemented.
  *
  * @param config Pointer to the cracking configuration structure.
+ * @param ngramList Pointer to the n-gram list structure.
  * @todo Implement
  */
-void enigma_crack_plugboard_ngram(enigma_crack_config_t* config) {
+void enigma_crack_plugboard_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
     // TODO Implement
 }
 

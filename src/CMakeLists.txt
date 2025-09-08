@@ -16,26 +16,31 @@ INCLUDE_DIRECTORIES (
 
 set(LIBRARY_PUBLIC_SRC
 	"${LIBRARY_BASE_PATH}/enigma/bombe.c"
-	"${LIBRARY_BASE_PATH}/enigma/common.c"
+	"${LIBRARY_BASE_PATH}/enigma/brute.c"
 	"${LIBRARY_BASE_PATH}/enigma/crack.c"
 	"${LIBRARY_BASE_PATH}/enigma/enigma.c"
+	"${LIBRARY_BASE_PATH}/enigma/io.c"
 	"${LIBRARY_BASE_PATH}/enigma/ioc.c"
+	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
 	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
 )
 
 set(LIBRARY_PUBLIC_HEADERS
-	"${LIBRARY_BASE_PATH}/bombe.h"
-	"${LIBRARY_BASE_PATH}/common.h"
-	"${LIBRARY_BASE_PATH}/crack.h"
-	"${LIBRARY_BASE_PATH}/enigma.h"
-	"${LIBRARY_BASE_PATH}/ioc.h"
-	"${LIBRARY_BASE_PATH}/ngram.h"
-	"${LIBRARY_BASE_PATH}/reflectors.h"
-	"${LIBRARY_BASE_PATH}/rotors.h"
+	"${LIBRARY_BASE_PATH}/enigma/bombe.h"
+	"${LIBRARY_BASE_PATH}/enigma/brute.h"
+	"${LIBRARY_BASE_PATH}/enigma/common.h"
+	"${LIBRARY_BASE_PATH}/enigma/crack.h"
+	"${LIBRARY_BASE_PATH}/enigma/enigma.h"
+	"${LIBRARY_BASE_PATH}/enigma/io.h"
+	"${LIBRARY_BASE_PATH}/enigma/ioc.h"
+	"${LIBRARY_BASE_PATH}/enigma/ngram.h"
+	"${LIBRARY_BASE_PATH}/enigma/reflectors.h"
+	"${LIBRARY_BASE_PATH}/enigma/rotors.h"
 )
 
 add_library (
 	${LIBRARY_NAME} STATIC ${LIBRARY_PUBLIC_SRC}
+	${LIBRARY_NAME} ${LIBRARY_PUBLIC_SRC}
 )
 
 # Compiler definitions
