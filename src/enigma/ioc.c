@@ -44,12 +44,8 @@ float enigma_ic_score(const char* text, int len, void* placeholder) {
  * @param len Length of the ciphertext.
  * @param count The number of top results to keep track of.
  *
- * @return An array of `crack_result_t` structures containing the top rotor configurations and their scores.
  */
-crack_result_t *crack_rotors(enigma_t* enigma, const char* ciphertext, char* plaintext, int len, int count) {
-    crack_result_t* results = malloc(sizeof(crack_result_t) * count);
-    char* temp_plaintext = malloc(len + 1);
-
+int enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
     int result_count = 0;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         memcpy(&enigma->rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));

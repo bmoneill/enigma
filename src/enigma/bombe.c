@@ -120,6 +120,20 @@ void enigma_bombe_run(const enigma_bombe_t* bombe, const char* ciphertext, int m
 }
 
 /**
+ * @brief Crack the Enigma using the Bombe method.
+ *
+ * This function initializes the Bombe structure and runs the Bombe algorithm
+ * using the provided configuration.
+ *
+ * @param config Pointer to the enigma_crack_config_t structure containing the configuration.
+ */
+void enigma_crack_bombe(enigma_crack_config_t* config) {
+    enigma_bombe_t bombe;
+    enigma_bombe_init(&bombe, config->plaintext, config->plaintextPos);
+    enigma_bombe_run(&bombe, config->ciphertext, config->maxThreads);
+}
+
+/**
  * @brief Initialize the bombe_thread_args_t structure with the given configuration.
  *
  * This function generates a bombe_thread_args_t that contains the arguments for

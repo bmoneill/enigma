@@ -15,13 +15,15 @@ typedef struct {
     int             target;
     char*           plaintext;
     int             plaintextPos;
+    char*           ciphertext;
+    int             ciphertextLen;
     float           minScore;
     float           maxScore;
     int             n;
     enigma_ngram_t* ngrams;
     int             ngramCount;
     int             maxPlugboardSettings;
-    int             threadCount;
+    int             maxThreads;
     enigma_score_t* scores;
     int             scoreCount;
 } enigma_crack_config_t;
