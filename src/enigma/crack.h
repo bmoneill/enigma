@@ -2,17 +2,26 @@
 #define ENIGMA_CRACK_H
 
 #include "enigma.h"
-
-typedef enum {
-    ENIGMA_ROTOR_POSITIONS,
-    ENIGMA_ROTOR_ALPHABET_POSITIONS,
-    ENIGMA_ROTOR_PLUGBOARD
-} enigma_cracklevel_t;
+#include "ngram.h"
 
 typedef struct {
     enigma_t enigma;
-    float score;
-    enigma_cracklevel_t level;
+    float    score;
+    int      target;
 } enigma_score_t;
+
+typedef struct {
+    enigma_t        enigma;
+    int             method;
+    int             target;
+    char*           plaintext;
+    int             plaintextPos;
+    float           minScore;
+    float           maxScore;
+    enigma_ngram_t* ngrams;
+    int             ngramCount;
+    int             maxPlugboardSettings;
+    int             threadCount;
+} enigma_crack_config_t;
 
 #endif

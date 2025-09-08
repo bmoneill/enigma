@@ -21,15 +21,12 @@ set(LIBRARY_PUBLIC_SRC
 	"${LIBRARY_BASE_PATH}/enigma/enigma.c"
 	"${LIBRARY_BASE_PATH}/enigma/ioc.c"
 	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
-	"${LIBRARY_BASE_PATH}/enigma/reflectors.c"
-	"${LIBRARY_BASE_PATH}/enigma/rotors.c"
 )
 
 set(LIBRARY_PUBLIC_HEADERS
 	"${LIBRARY_BASE_PATH}/bombe.h"
 	"${LIBRARY_BASE_PATH}/common.h"
 	"${LIBRARY_BASE_PATH}/crack.h"
-	"${LIBRARY_BASE_PATH}/defs.h"
 	"${LIBRARY_BASE_PATH}/enigma.h"
 	"${LIBRARY_BASE_PATH}/ioc.h"
 	"${LIBRARY_BASE_PATH}/ngram.h"

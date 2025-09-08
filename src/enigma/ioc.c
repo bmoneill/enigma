@@ -9,7 +9,6 @@
 
 static void crack_plugboard(enigma_t*, const char*, char*, int, float);
 static void crack_reflector(enigma_t*, const char*, char*, int, float);
-static void crack_rotors(enigma_t*, const char*, char*, int, float);
 static void crack_rotor_positions(enigma_t*, const char*, char*, int, float);
 static void encode_string(enigma_t*, const char*, char*, int);
 static void find_freq(int*, const char*, int len);
@@ -32,11 +31,6 @@ float enigma_ic_score(const char* text, int len, void* placeholder) {
     return total / (float)(len * (len - 1));
 }
 
-typedef struct {
-    enigma_t* enigma;
-    float score;
-} crack_result_t;
-
 /**
  * @brief Crack rotor configuration using Index of Coincidence.
  *
@@ -49,8 +43,10 @@ typedef struct {
  * @param plaintext Buffer to store the resulting plaintext. Must be at least `len + 1` bytes.
  * @param len Length of the ciphertext.
  * @param count The number of top results to keep track of.
+ *
+ * @return An array of `crack_result_t` structures containing the top rotor configurations and their scores.
  */
-static void crack_rotors(enigma_t* enigma, const char* ciphertext, char* plaintext, int len, int count) {
+crack_result_t *crack_rotors(enigma_t* enigma, const char* ciphertext, char* plaintext, int len, int count) {
     crack_result_t* results = malloc(sizeof(crack_result_t) * count);
     char* temp_plaintext = malloc(len + 1);
 
@@ -94,4 +90,6 @@ static void crack_rotors(enigma_t* enigma, const char* ciphertext, char* plainte
             }
         }
     }
+    free(temp_plaintext);
+    return results;
 }

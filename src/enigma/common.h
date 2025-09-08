@@ -10,6 +10,7 @@
 /* Defaults */
 #define ENIGMA_MAX_PLUGBOARD_SETTINGS 10
 #define ENIGMA_DEFAULT_THREAD_COUNT   8
+#define ENIGMA_DEFAULT_NGRAM_COUNT    100000
 
 /* Cracking methods */
 #define ENIGMA_MODE_BRUTE             0

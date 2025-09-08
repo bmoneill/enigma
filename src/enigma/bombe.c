@@ -94,7 +94,7 @@ void enigma_bombe_run(const enigma_bombe_t* bombe, const char* ciphertext, int m
                 if (i == j || j == k || i == k) continue;
                 memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
                 for (int l = 0; l < REFLECTOR_COUNT; l++) {
-                    enigma.reflector = enigma_reflectors[l];
+                    memcpy(&enigma.reflector, enigma_reflectors[l], sizeof(reflector_t));
 
                     // free()'d at end of thread_process_chunk
                     // Sloppy, but necessary to avoid race condition
@@ -155,9 +155,9 @@ static void process_chunk(enigma_bombe_t* bombe, enigma_t* enigma,
     char* plaintext) {
     char configString[256];
 
-    for (int i = 0; i < ALPHA_SIZE; i++) {
-        for (int j = 0; j < ALPHA_SIZE; j++) {
-            for (int k = 0; k < ALPHA_SIZE; k++) {
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
+            for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
                 enigma->rotors[2].idx = i;
                 enigma->rotors[1].idx = j;
                 enigma->rotors[0].idx = k;
@@ -165,7 +165,7 @@ static void process_chunk(enigma_bombe_t* bombe, enigma_t* enigma,
                     enigma->rotors[0].name, enigma->rotors[0].idx + 'A',
                     enigma->rotors[1].name, enigma->rotors[1].idx + 'A',
                     enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
-                    enigma->reflector->name);
+                    enigma->reflector.name);
 
                 process_single(bombe, enigma, ciphertext, ciphertextLength, plaintext, configString);
             }

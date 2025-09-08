@@ -20,7 +20,7 @@ target_compile_definitions(${BOMBE_BINARY_NAME} PRIVATE VERSION="${GIT_COMMIT_HA
 target_compile_definitions(${CRACK_BINARY_NAME} PRIVATE VERSION="${GIT_COMMIT_HASH}")
 
 # Include the source directory for the executables
-include_directories(${PROJECT_SOURCE_DIR}/src/enigma)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 
 target_link_libraries(${ENIGMA_BINARY_NAME} enigma)
 target_link_libraries(${BOMBE_BINARY_NAME} enigma)
