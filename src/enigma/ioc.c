@@ -37,6 +37,19 @@ typedef struct {
     float score;
 } crack_result_t;
 
+/**
+ * @brief Crack rotor configuration using Index of Coincidence.
+ *
+ * This function attempts to determine the rotors used in the ciphertext's Enigma key
+ * by evaluating different rotor combinations and scoring the resulting plaintext
+ * using the Index of Coincidence method.
+ *
+ * @param enigma Pointer to the Enigma machine configuration. This may contain known settings if applicable.
+ * @param ciphertext The ciphertext to be analyzed.
+ * @param plaintext Buffer to store the resulting plaintext. Must be at least `len + 1` bytes.
+ * @param len Length of the ciphertext.
+ * @param count The number of top results to keep track of.
+ */
 static void crack_rotors(enigma_t* enigma, const char* ciphertext, char* plaintext, int len, int count) {
     crack_result_t* results = malloc(sizeof(crack_result_t) * count);
     char* temp_plaintext = malloc(len + 1);
@@ -79,7 +92,6 @@ static void crack_rotors(enigma_t* enigma, const char* ciphertext, char* plainte
                     }
                 }
             }
-            enigma_init_default_config(enigma);
         }
     }
 }
