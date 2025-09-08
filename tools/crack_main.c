@@ -3,31 +3,104 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
-#include "enigma.h"
-#include "ioc.h"
+#include "enigma/common.h"
+#include "enigma/enigma.h"
+#include "enigma/ioc.h"
+
+enum {
+    MODE_BRUTE = 0,
+    MODE_IOC,
+    MODE_BIGRAM,
+    MODE_TRIGRAM,
+    MODE_QUADGRAM
+};
+
+enum {
+    TARGET_ROTORS = 0,
+    TARGET_POSITIONS,
+    TARGET_REFLECTOR,
+    TARGET_PLUGBOARD
+};
+
+enum {
+    LANG_ENGLISH = 0,
+    LANG_GERMAN
+};
 
 static void print_usage(const char* argv0);
 
 int main(int argc, char* argv[]) {
     int opt;
     enigma_t enigma;
-//    char *rotorpos = NULL;
+    int mode = -1;
+    int target = -1;
+    int maxPlugboardSettings = 10; // default
+    char* plaintext = NULL;
+    int plaintextPos = -1;
+    int lang = LANG_ENGLISH; // default
+    int threadCount = 8; // default
 
-    while ((opt = getopt(argc, argv, "p:s:u:w:t:c:C:")) != -1) {
+
+    while ((opt = getopt(argc, argv, "w:p:u:s:S:c:C:l:t:")) != -1) {
         switch (opt) {
+        case 'w': enigma_load_rotor_config(&enigma, optarg); break;
+        case 'p': enigma_load_rotor_positions(&enigma, optarg); break;
+        case 'u': enigma_load_reflector_config(&enigma, optarg); break;
         case 's': enigma.plugboard = optarg; break;
-//        case 'p': rotorpos = optarg; break;
-        case 'u': if (!load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
-        case 'w': if (!load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
-        default: print_usage(argv[0]); exit(EXIT_FAILURE);
+        case 'S': maxPlugboardSettings = atoi(optarg); break;
+        case 'c': plaintext = optarg; break;
+        case 'C': plaintextPos = atoi(optarg); break;
+        case 't': threadCount = atoi(optarg); break;
+        case 'l':
+            if (!strcmp(optarg, "english")) {
+                lang = LANG_ENGLISH;
+            } else if (!strcmp(optarg, "german")) {
+                lang = LANG_GERMAN;
+            } else {
+                print_usage(argv[0]);
+                exit(EXIT_FAILURE);
+            }
+            break;
         }
+    }
+
+    if (optind + 2 >= argc) {
+        print_usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (!strcmp(argv[optind], "brute")) {
+        mode = MODE_BRUTE;
+    } else if (!strcmp(argv[optind], "ioc")) {
+        mode = MODE_IOC;
+    } else if (!strcmp(argv[optind], "bigram")) {
+        mode = MODE_BIGRAM;
+    } else if (!strcmp(argv[optind], "trigram")) {
+        mode = MODE_TRIGRAM;
+    } else if (!strcmp(argv[optind], "quadgram")) {
+        mode = MODE_QUADGRAM;
+    } else {
+        print_usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (!strcmp(argv[optind + 1], "rotors")) {
+        target = TARGET_ROTORS;
+    } else if (!strcmp(argv[optind + 1], "positions")) {
+        target = TARGET_POSITIONS;
+    } else if (!strcmp(argv[optind + 1], "reflector")) {
+        target = TARGET_REFLECTOR;
+    } else if (!strcmp(argv[optind + 1], "plugboard")) {
+        target = TARGET_PLUGBOARD;
+    } else {
+        print_usage(argv[0]);
+        exit(EXIT_FAILURE);
     }
     return EXIT_SUCCESS;
 }
 
 /**
- * @brief Print usage information for the Bombe CLI.
+ * @brief Print usage information.
  *
  * This function prints the command line options and their descriptions.
  *
