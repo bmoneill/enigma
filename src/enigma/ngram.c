@@ -9,6 +9,61 @@
 #define TRIIDX(a, b, c) ((a << 10) | (b << 5) | c)
 #define QUADIDX(a, b, c, d) ((a << 15) | (b << 10) | (c << 5) | d)
 
+/**
+ * @brief Crack rotor configuration using n-gram scoring.
+ *
+ * Currently unimplemented.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ */
+void enigma_crack_rotors_ngram(enigma_crack_config_t* config) {
+    // TODO Implement
+}
+
+/**
+ * @brief Crack rotor positions using n-gram scoring.
+ *
+ * Currently unimplemented.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ */
+void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config) {
+    // TODO Implement
+}
+
+/**
+ * @brief Crack reflector using n-gram scoring.
+ *
+ * Currently unimplemented.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ * @todo Implement
+ */
+void enigma_crack_reflector_ngram(enigma_crack_config_t* config) {
+    // TODO Implement
+}
+
+/**
+ * @brief Crack plugboard settings using n-gram scoring.
+ *
+ * Currently unimplemented.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ * @todo Implement
+ */
+void enigma_crack_plugboard_ngram(enigma_crack_config_t* config) {
+    // TODO Implement
+}
+
+/**
+ * @brief Score text using bigram frequencies.
+ *
+ * @param text The text to score.
+ * @param textLen The length of the text.
+ * @param bigrams Array of bigram scores indexed by BIIDX(a, b).
+ *
+ * @return The total bigram score for the text.
+ */
 float enigma_bigram_score(const char* text, int textLen, const float* bigrams) {
     float total = 0.0f;
     int next = text[0] - 'A';
@@ -25,6 +80,15 @@ float enigma_bigram_score(const char* text, int textLen, const float* bigrams) {
     return total;
 }
 
+/**
+ * @brief Score text using trigram frequencies.
+ *
+ * @param text The text to score.
+ * @param textLen The length of the text.
+ * @param trigrams Array of trigram scores indexed by TRIIDX(a, b, c).
+ *
+ * @return The total trigram score for the text.
+ */
 float enigma_trigram_score(const char* text, int textLen, const float* trigrams) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
@@ -43,6 +107,15 @@ float enigma_trigram_score(const char* text, int textLen, const float* trigrams)
     return total;
 }
 
+/**
+ * @brief Score text using quadgram frequencies.
+ *
+ * @param text The text to score.
+ * @param textLen The length of the text.
+ * @param quadgrams Array of quadgram scores indexed by QUADIDX(a, b, c, d).
+ *
+ * @return The total quadgram score for the text.
+ */
 float enigma_quadram_score(const char* text, int textLen, const float* quadgrams) {
     float total = 0.0f;
     int next1 = text[0] - 'A';

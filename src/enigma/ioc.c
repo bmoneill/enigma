@@ -7,14 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void crack_plugboard(enigma_t*, const char*, char*, int, float);
-static void crack_reflector(enigma_t*, const char*, char*, int, float);
-static void crack_rotor_positions(enigma_t*, const char*, char*, int, float);
-static void encode_string(enigma_t*, const char*, char*, int);
-static void find_freq(int*, const char*, int len);
-static float find_ic(float, int*, int);
-
-float enigma_ic_score(const char* text, int len, void* placeholder) {
+float enigma_ioc_score(const char* text, int len, void* placeholder) {
     int freq[26] = { 0 };
     float total = 0.0f;
 
@@ -38,14 +31,11 @@ float enigma_ic_score(const char* text, int len, void* placeholder) {
  * by evaluating different rotor combinations and scoring the resulting plaintext
  * using the Index of Coincidence method.
  *
- * @param enigma Pointer to the Enigma machine configuration. This may contain known settings if applicable.
- * @param ciphertext The ciphertext to be analyzed.
- * @param plaintext Buffer to store the resulting plaintext. Must be at least `len + 1` bytes.
- * @param len Length of the ciphertext.
- * @param count The number of top results to keep track of.
+ * @param config Pointer to the cracking configuration structure.
  *
+ * @todo Fix for new enigma_crack_config_t structure.
  */
-int enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
+void enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
     int result_count = 0;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         memcpy(&enigma->rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
@@ -86,6 +76,56 @@ int enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
             }
         }
     }
-    free(temp_plaintext);
-    return results;
+}
+
+/**
+ * @brief Crack rotor positions using Index of Coincidence.
+ *
+ * Currently unimplemented.
+ *
+ * This function attempts to determine the rotor positions used in the ciphertext's Enigma key
+ * by evaluating different rotor combinations and scoring the resulting plaintext
+ * using the Index of Coincidence method.
+ *
+ * It is recommended that a suspected rotor configuration be set in the enigma structure.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ *
+ * @todo Implement
+ */
+void enigma_crack_rotor_positions_ioc(enigma_crack_config_t*) {
+    // TODO implement
+}
+
+/**
+ * @brief Crack reflector using Index of Coincidence.
+ *
+ * Currently unimplemented.
+ *
+ * This function attempts to determine the reflector used in the ciphertext's Enigma key
+ * by and scoring the resulting plaintext from all reflectors using the Index of Coincidence method.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ *
+ * @todo Implement
+ */
+void enigma_crack_reflector_ioc(enigma_crack_config_t* config) {
+    // TODO implement
+}
+
+/**
+ * @brief Crack plugboard using Index of Coincidence.
+ *
+ * Currently unimplemented.
+ *
+ * This function attempts to determine the plugboard settings used in the ciphertext's Enigma key
+ * by and scoring the resulting plaintext from all plugboard settings using the Index of Coincidence
+ * method.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ *
+ * @todo Implement
+ */
+void enigma_crack_plugboard_ioc(enigma_crack_config_t* config) {
+    // TODO implement
 }

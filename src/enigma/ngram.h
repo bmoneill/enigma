@@ -20,7 +20,6 @@ void enigma_crack_rotor_positions_ngram(enigma_crack_config_t*);
 void enigma_crack_reflector_ngram(enigma_crack_config_t*);
 void enigma_crack_plugboard_ngram(enigma_crack_config_t*);
 
-enigma_ngram_list_t* enigma_init_ngrams(const char* path);
 float enigma_bigram_score(const char* text, int textLen, const float* bigrams);
 float enigma_trigram_score(const char* text, int textLen, const float* trigrams);
 float enigma_quadram_score(const char* text, int textLen, const float* quadgrams);
