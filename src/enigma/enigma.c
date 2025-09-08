@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define ALPHA2IDX(c) ((c) - 'A')
 
@@ -137,8 +138,51 @@ void enigma_init_default_config(enigma_t* enigma) {
  * @todo Implement random configuration generation.
  */
 void enigma_init_random_config(enigma_t* enigma) {
-    // TODO Implement
-    enigma_init_default_config(enigma);
+    srand(time(NULL));
+
+    if (rand() % 2) {
+        enigma->rotor_count = 3;
+    } else {
+        enigma->rotor_count = 4;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        int unique = 0;
+        const enigma_rotor_t* candidate;
+        while (!unique) {
+            unique = 1;
+            candidate = enigma_rotors[rand() % ENIGMA_ROTOR_COUNT];
+            for (int j = 0; j < i; j++) {
+                if (strcmp(enigma->rotors[j].name, candidate->name) == 0) {
+                    unique = 0;
+                    break;
+                }
+            }
+        }
+        memcpy(&enigma->rotors[i], candidate, sizeof(enigma_rotor_t));
+        enigma->rotors[i].idx = rand() % ENIGMA_ALPHA_SIZE;
+        unique = 0;
+    }
+
+    memcpy(&enigma->reflector, enigma_reflectors[rand() % ENIGMA_REFLECTOR_COUNT], sizeof(enigma_reflector_t));
+
+    int plugboardSize = rand() % 11;
+    for (int i = 0; i < plugboardSize * 2; i++) {
+        int unique = 0;
+        char c = '\0';
+        while (!unique) {
+            unique = 1;
+            c = 'A' + (rand() % ENIGMA_ALPHA_SIZE);
+            for (int j = 0; j < i; j++) {
+                if (enigma->plugboard[j] == c) {
+                    unique = 0;
+                    break;
+                }
+            }
+        }
+        enigma->plugboard[i] = c;
+    }
+
 }
 
 /**

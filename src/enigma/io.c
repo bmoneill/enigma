@@ -220,13 +220,18 @@ int enigma_save_config(enigma_t* enigma, const char* path) {
 }
 
 /**
- * @brief Print the current Enigma machine configuration to stdout.
+ * @brief Print the current Enigma machine configuration to out.
  *
  * Currently unimplemented.
  *
  * @param enigma Pointer to the Enigma machine instance.
+ * @param out    Buffer to store the configuration string.
  * @todo Implement this function.
  */
-void enigma_print_config(enigma_t* enigma) {
-    // TODO implement
+void enigma_print_config(enigma_t* enigma, char* out) {
+    sprintf(out, "Rotors: %s (%c)  %s (%c), %s (%c) | Reflector: %s",
+            enigma->rotors[0].name, enigma->rotors[0].idx + 'A',
+            enigma->rotors[1].name, enigma->rotors[1].idx + 'A',
+            enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
+            enigma->reflector.name);
 }

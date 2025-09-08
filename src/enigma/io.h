@@ -14,6 +14,6 @@ int                  enigma_load_plugboard_config(enigma_t*, const char*);
 int                  enigma_load_reflector_config(enigma_t*, const char*);
 int                  enigma_load_rotor_config(enigma_t*, char*);
 int                  enigma_load_rotor_positions(enigma_t*, const char*);
-void                 enigma_print_config(enigma_t*);
+void                 enigma_print_config(enigma_t*, char*);
 
 #endif
