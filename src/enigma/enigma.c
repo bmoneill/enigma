@@ -127,6 +127,27 @@ void enigma_init_default_config(enigma_t* enigma) {
     enigma->plugboard = NULL;
 }
 
+/**
+ * @brief Load a random configuration for the Enigma machine.
+ *
+ * This function initializes the Enigma machine with a random configuration.
+ * Currently, it defaults to the standard configuration as a placeholder.
+ *
+ * @param enigma Pointer to the `enigma_t` to be initialized.
+ * @todo Implement random configuration generation.
+ */
+void enigma_init_random_config(enigma_t* enigma) {
+    // TODO Implement
+    enigma_init_default_config(enigma);
+}
+
+/**
+ * @brief Rotate a single rotor by one position.
+ *
+ * This function increments the rotor's index, wrapping around if it exceeds the alphabet size.
+ *
+ * @param rotor Pointer to the rotor to be rotated.
+ */
 static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor) {
     rotor->idx++;
     if (rotor->idx == ENIGMA_ALPHA_SIZE) {

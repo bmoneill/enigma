@@ -1,7 +1,7 @@
 #ifndef ENIGMA_BOMBE_H
 #define ENIGMA_BOMBE_H
 
-#include "enigma.h"
+#include "crack.h"
 
 typedef struct {
     char *crib;
@@ -9,6 +9,8 @@ typedef struct {
     int cribIndex;
     int numCribs;
 } enigma_bombe_t;
+
+void enigma_crack_bombe(enigma_crack_config_t*);
 
 void enigma_bombe_init(enigma_bombe_t*, char*, int);
 void enigma_bombe_run(const enigma_bombe_t*, const char*, int);

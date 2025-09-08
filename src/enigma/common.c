@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 
-bool enigma_verbose = false;
+static bool enigma_verbose = false;
 
 /**
  * @brief Load the reflector configuration from its string identifier.

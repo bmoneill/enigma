@@ -1,8 +1,6 @@
 #ifndef ENIGMA_COMMON_H
 #define ENIGMA_COMMON_H
 
-#include "enigma.h"
-
 #include <stdbool.h>
 
 #define ENIGMA_ALPHA_SIZE             26
@@ -45,11 +43,6 @@
 #define ENIGMA_ALWAYS_INLINE inline
 #endif
 
-
-int enigma_load_reflector_config(enigma_t*, const char*);
-int enigma_load_rotor_config(enigma_t*, char*);
-int enigma_load_rotor_positions(enigma_t*, char*);
-
-extern bool enigma_verbose;
+extern static bool enigma_verbose;
 
 #endif

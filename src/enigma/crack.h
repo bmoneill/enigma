@@ -5,8 +5,8 @@
 #include "ngram.h"
 
 typedef struct {
-    enigma_t enigma;
-    float    score;
+    enigma_t        enigma;
+    float           score;
 } enigma_score_t;
 
 typedef struct {
@@ -17,6 +17,7 @@ typedef struct {
     int             plaintextPos;
     float           minScore;
     float           maxScore;
+    int             n;
     enigma_ngram_t* ngrams;
     int             ngramCount;
     int             maxPlugboardSettings;

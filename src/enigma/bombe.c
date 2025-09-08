@@ -124,6 +124,12 @@ void enigma_bombe_run(const enigma_bombe_t* bombe, const char* ciphertext, int m
  *
  * This function generates a bombe_thread_args_t that contains the arguments for
  * process_chunk(), in order to pass them to the created thread.
+ *
+ * @param dst Pointer to the destination bombe_thread_args_t structure.
+ * @param bombe Pointer to the source enigma_bombe_t structure.
+ * @param enigma Pointer to the source enigma_t structure.
+ * @param ciphertext Pointer to the ciphertext string.
+ * @param ciphertextLength Length of the ciphertext string.
  */
 static void init_chunk_thread_args(bombe_thread_args_t* dst,
     const enigma_bombe_t* bombe,
@@ -179,8 +185,8 @@ static void process_chunk(enigma_bombe_t* bombe, enigma_t* enigma,
  *
  * This function is executed by each thread to process a chunk of the Bombe algorithm.
  *
- * @param args Pointer to the malloc()'d bombe_thread_args_t structure
- *             containing the arguments to process_chunk()
+ * @param args Pointer to the malloc()'d bombe_thread_args_t structure containing the arguments to
+ *             process_chunk()
  *
  * @return NULL
  */
