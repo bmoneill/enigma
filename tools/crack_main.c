@@ -4,21 +4,12 @@
 #include <string.h>
 
 #include "enigma/common.h"
+#include "enigma/crack.h"
 #include "enigma/enigma.h"
-#include "enigma/ioc.h"
 
 static void print_usage(const char* argv0);
 
 int main(int argc, char* argv[]) {
-    int opt;
-    enigma_t enigma;
-    int mode = -1;
-    int target = -1;
-    int maxPlugboardSettings = 10; // default
-    char* plaintext = NULL;
-    int plaintextPos = -1;
-    int lang = LANG_ENGLISH; // default
-    int threadCount = 8; // default
 }
 
 /**
@@ -31,6 +22,18 @@ int main(int argc, char* argv[]) {
  */
 static void print_usage(const char* argv0) {
     fprintf(stderr, "Usage: %s method [target] [options] [file]\n", argv0);
+    fprintf(stderr, "Methods:\n");
+    fprintf(stderr, "  bombe            Use a pseudo-Bombe for cryptanalysis (-c required)\n");
+    fprintf(stderr, "  brute            Use Brute Force for cryptanalysis\n");
+    fprintf(stderr, "  ioc              Use Index of Coincidence for cryptanalysis (target required)\n");
+    fprintf(stderr, "  bigram           Use Bigram analysis for cryptanalysis (target required)\n");
+    fprintf(stderr, "  trigram          Use Trigram analysis for cryptanalysis (target required)\n");
+    fprintf(stderr, "  quadgram         Use Quadgram analysis for cryptanalysis (target required)\n\n");
+    fprintf(stderr, "Targets:\n");
+    fprintf(stderr, "  rotors           Crack the rotor (Walzen) configuration\n");
+    fprintf(stderr, "  positions        Crack the initial rotor positions\n");
+    fprintf(stderr, "  reflector        Crack the reflector (Umkehrwalze) configuration\n");
+    fprintf(stderr, "  plugboard        Crack the plugboard (Steckerbrett) configuration\n\n");
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  Enigma Settings:\n");
     fprintf(stderr, "    -w rotors      Set the rotor (Walzen) configuration (e.g. 'I II III')\n");
@@ -49,18 +52,6 @@ static void print_usage(const char* argv0) {
     fprintf(stderr, "Other Options:\n");
     fprintf(stderr, "    -h             Show this help message\n");
     fprintf(stderr, "    -v             Show verbose output\n\n");
-    fprintf(stderr, "Methods:\n");
-    fprintf(stderr, "  bombe          Use a pseudo-Bombe for cryptanalysis (-c required)\n");
-    fprintf(stderr, "  brute          Use Brute Force for cryptanalysis\n");
-    fprintf(stderr, "  ioc            Use Index of Coincidence for cryptanalysis (target required)\n");
-    fprintf(stderr, "  bigram         Use Bigram analysis for cryptanalysis (target required)\n");
-    fprintf(stderr, "  trigram        Use Trigram analysis for cryptanalysis (target required)\n");
-    fprintf(stderr, "  quadgram       Use Quadgram analysis for cryptanalysis (target required)\n\n");
-    fprintf(stderr, "Targets:\n");
-    fprintf(stderr, "  rotors        Crack the rotor (Walzen) configuration\n");
-    fprintf(stderr, "  positions     Crack the initial rotor positions\n");
-    fprintf(stderr, "  reflector     Crack the reflector (Umkehrwalze) configuration\n");
-    fprintf(stderr, "  plugboard     Crack the plugboard (Steckerbrett) configuration\n\n");
     fprintf(stderr, "A file can be provided as the last argument to read the ciphertext from a file.\n");
     fprintf(stderr, "If no file is provided, the ciphertext will be read from standard input.\n\n");
     fprintf(stderr, "Available rotors: I, II, III, IV, V, VI, VII, VIII\n");
@@ -68,40 +59,47 @@ static void print_usage(const char* argv0) {
     exit(EXIT_FAILURE);
 }
 
-static void parse_arguments(int argc, char* argv[]) {
+static enigma_crack_config_t *parse_arguments(int argc, char* argv[]) {
     int opt;
-    int method = -1;
-    int target = -1;
 
-    enigma_t enigma;
+    enigma_crack_config_t *config = calloc(1, sizeof(enigma_crack_config_t));
+    if (!config) {
+        fprintf(stderr, "Failed to allocate memory for config\n");
+        exit(EXIT_FAILURE);
+    }
 
-    while ((opt = getopt(argc, argv, "w:p:u:s:c:C:l:m:M:n:S:t:")) != -1) {
+    while ((opt = getopt(argc, argv, "w:p:u:s:c:C:l:m:M:n:S:t:v")) != -1) {
         switch (opt) {
-        case 'w': load_rotor_config(&enigma, optarg); break;
-        case 'p': load_rotor_positions(&enigma, optarg); break;
-        case 'u': load_reflector_config(&enigma, optarg); break;
-        case 's': enigma.plugboard = optarg; break;
-        case 'c': plaintext = optarg; break;
-        case 'C': plaintextPos = atoi(optarg); break;
-        case 'l':
-            if (strcmp(optarg, "english") == 0) {
-                lang = LANG_ENGLISH;
-            } else if (strcmp(optarg, "german") == 0) {
-                lang = LANG_GERMAN;
-            } else {
-                fprintf(stderr, "Error: Invalid language '%s'. Use 'english' or 'german'.\n\n", optarg);
+        case 'w':
+            if (!enigma_load_rotor_config(&config->enigma, optarg)) {
+                fprintf(stderr, "Error: Invalid rotor configuration.\n");
                 print_usage(argv[0]);
             }
             break;
-        case 'm': minScore = atof(optarg); break;
-        case 'M': maxScore = atof(optarg); break;
-        case 'n': ngramFile = optarg; break;
-        case 'S': maxPlugboardSettings = atoi(optarg); break;
-        case 't': threadCount = atoi(optarg); break;
+        case 'p':
+            if (!enigma_load_rotor_positions(&config->enigma, optarg)) {
+                fprintf(stderr, "Error: Invalid rotor positions.\n");
+                print_usage(argv[0]);
+            }
+            break;
+        case 'u':
+            if (!enigma_load_reflector_config(&config->enigma, optarg)) {
+                fprintf(stderr, "Error: Invalid reflector configuration.\n");
+                print_usage(argv[0]);
+            }
+            break;
+        case 's': config->enigma.plugboard = optarg; break;
+        case 'c': config->plaintext = optarg; break;
+        case 'C': config->plaintextPos = atoi(optarg); break;
+        case 'l': load_language(config, optarg); break;
+        case 'm': config->minScore = atof(optarg); break;
+        case 'M': config->maxScore = atof(optarg); break;
+        case 'n': load_ngrams(&config->ngrams, &config->ngramCount, optarg); break;
+        case 'S': config->maxPlugboardSettings = atoi(optarg); break;
+        case 't': config->threadCount = atoi(optarg); break;
+        case 'v': enigma_verbose = true; break;
         default: print_usage(argv[0]);
         }
     }
-
-
-    return EXIT_SUCCESS;
+    return config;
 }

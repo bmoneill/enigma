@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
-#include "enigma.h"
-#include "rotors.h"
-#include "reflectors.h"
+#include "enigma/common.h"
+#include "enigma/enigma.h"
+#include "enigma/rotors.h"
+#include "enigma/reflectors.h"
 
 static void print_usage(const char*);
 
