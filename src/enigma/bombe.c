@@ -86,15 +86,15 @@ void enigma_bombe_run(const enigma_bombe_t* bombe, const char* ciphertext, int m
 
 
     // Loop through all unique rotor and reflector configurations
-    for (int i = 0; i < ROTOR_COUNT; i++) {
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         memcpy(&enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-        for (int j = 0; j < ROTOR_COUNT; j++) {
+        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
             memcpy(&enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-            for (int k = 0; k < ROTOR_COUNT; k++) {
+            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
                 if (i == j || j == k || i == k) continue;
                 memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
-                for (int l = 0; l < REFLECTOR_COUNT; l++) {
-                    memcpy(&enigma.reflector, enigma_reflectors[l], sizeof(reflector_t));
+                for (int l = 0; l < ENIGMA_REFLECTOR_COUNT; l++) {
+                    memcpy(&enigma.reflector, enigma_reflectors[l], sizeof(enigma_reflector_t));
 
                     // free()'d at end of thread_process_chunk
                     // Sloppy, but necessary to avoid race condition

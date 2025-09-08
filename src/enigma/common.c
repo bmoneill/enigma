@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <string.h>
 
+bool enigma_verbose = false;
+
 /**
  * @brief Load the reflector configuration from its string identifier.
  *
@@ -15,9 +17,9 @@
  * @return 1 if the reflector was found and loaded, 0 otherwise.
  */
 int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
-            memcpy(enigma->reflector, enigma_reflectors[i], sizeof(reflector_t));
+            memcpy(&enigma->reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
             return 1;
         }
     }
@@ -37,17 +39,16 @@ int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
  */
 int enigma_load_rotor_config(enigma_t* enigma, char* s) {
     enigma->rotor_count = 0;
-    int numRotors = 8;
 
     char* token = strtok(s, " ");
     while (token != NULL) {
-        for (int i = 0; i < numRotors; i++) {
+        for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
             if (!strcmp(enigma_rotors[i]->name, token)) {
                 enigma->rotors[enigma->rotor_count++] = *enigma_rotors[i];
                 break;
             }
 
-            if (i == numRotors - 1) {
+            if (i == ENIGMA_ROTOR_COUNT - 1) {
                 return 0;
             }
         }

@@ -4,15 +4,13 @@
 #include "reflectors.h"
 #include "rotors.h"
 
-#define ROTOR_COUNT 8
-#define REFLECTOR_COUNT 3
 
 typedef struct {
-    enigma_rotor_t rotors[4];
-    int rotor_flag;
-    int rotor_count;
-    reflector_t    reflector;
-    const char* plugboard;
+    enigma_rotor_t     rotors[4];
+    int                rotor_flag;
+    int                rotor_count;
+    enigma_reflector_t reflector;
+    const char*        plugboard;
 } enigma_t;
 
 char enigma_encode(enigma_t*, char);

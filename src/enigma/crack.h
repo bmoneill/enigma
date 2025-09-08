@@ -7,7 +7,6 @@
 typedef struct {
     enigma_t enigma;
     float    score;
-    int      target;
 } enigma_score_t;
 
 typedef struct {
@@ -22,6 +21,8 @@ typedef struct {
     int             ngramCount;
     int             maxPlugboardSettings;
     int             threadCount;
+    enigma_score_t* scores;
+    int             scoreCount;
 } enigma_crack_config_t;
 
 #endif

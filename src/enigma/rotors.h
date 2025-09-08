@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+#define ENIGMA_ROTOR_COUNT 8
+
 typedef struct {
     const char* name;
     int fwd_indices[ENIGMA_ALPHA_SIZE];

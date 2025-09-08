@@ -51,14 +51,14 @@ crack_result_t *crack_rotors(enigma_t* enigma, const char* ciphertext, char* pla
     char* temp_plaintext = malloc(len + 1);
 
     int result_count = 0;
-    for (int i = 0; i < ROTOR_COUNT; i++) {
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         memcpy(&enigma->rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-        for (int j = 0; j < ROTOR_COUNT; j++) {
+        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
             if (i == j) {
                 continue;
             }
             memcpy(&enigma->rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-            for (int k = 0; k < ROTOR_COUNT; k++) {
+            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
                 if (k == i || k == j) {
                     continue;
                 }

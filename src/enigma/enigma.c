@@ -1,25 +1,14 @@
+#include "enigma.h"
+
+#include "reflectors.h"
+#include "rotors.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "enigma.h"
-#include "reflectors.h"
-#include "rotors.h"
-
-#ifdef VERBOSE
-#define VERBOSE_PRINT(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)
-#else
-#define VERBOSE_PRINT(fmt, ...)
-#endif
-
 #define ALPHA2IDX(c) ((c) - 'A')
-
-#ifdef __GNUC__
-#define ENIGMA_ALWAYS_INLINE inline __attribute__((always_inline))
-#else
-#define ENIGMA_ALWAYS_INLINE inline
-#endif
 
 static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor);
 static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t*);
@@ -47,13 +36,13 @@ char enigma_encode(enigma_t* enigma, char c) {
 
     rotate_rotors(enigma);
 
-#ifdef VERBOSE
-    VERBOSE_PRINT("%s", "Rotor Positions:");
-    for (int i = 0; i < enigma->rotor_count; i++) {
-        VERBOSE_PRINT(" %c", enigma->rotors[i].idx + 'A');
+    if (enigma_verbose) {
+        VERBOSE_PRINT("%s", "Rotor Positions:");
+        for (int i = 0; i < enigma->rotor_count; i++) {
+            VERBOSE_PRINT(" %c", enigma->rotors[i].idx + 'A');
+        }
+        VERBOSE_PRINT("%s", "\n");
     }
-    VERBOSE_PRINT("%s", "\n");
-#endif
 
     // Plugboard
     c = substitute(enigma->plugboard, c);
@@ -66,13 +55,13 @@ char enigma_encode(enigma_t* enigma, char c) {
     }
 
     // Reflector
-    idx = enigma->reflector->indices[idx];
-    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector->name, idx, alphabet[idx]);
+    idx = enigma->reflector.indices[idx];
+    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector.name, idx, alphabet[idx]);
 
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
         idx = rotor_pass_reverse(&enigma->rotors[i], idx);
-        VERBOSE_PRINT("Rotor %s (index %d, offset %d): %c\n", enigma->rotors[i].alphabet, idx, enigma->rotors[i].idx, alphabet[idx]);
+        VERBOSE_PRINT("Rotor %s (index %d, offset %d): %c\n", enigma->rotors[i].name, idx, enigma->rotors[i].idx, alphabet[idx]);
     }
 
     // Plugboard again
@@ -129,7 +118,7 @@ void enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int coun
  * @param enigma Pointer to the `enigma_t` to be initialized.
  */
 void enigma_init_default_config(enigma_t* enigma) {
-    enigma->reflector = &enigma_UKW_B;
+    memcpy(&enigma->reflector, &enigma_UKW_B, sizeof(enigma_reflector_t));
     enigma->rotor_count = 3;
     enigma->rotors[2] = enigma_rotor_I;
     enigma->rotors[1] = enigma_rotor_II;
@@ -140,7 +129,7 @@ void enigma_init_default_config(enigma_t* enigma) {
 
 static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor) {
     rotor->idx++;
-    if (rotor->idx == ALPHA_SIZE) {
+    if (rotor->idx == ENIGMA_ALPHA_SIZE) {
         rotor->idx = 0;
     }
 }
@@ -185,15 +174,15 @@ static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t* enigma) {
  */
 static ENIGMA_ALWAYS_INLINE int rotor_pass_forward(enigma_rotor_t* rotor, int idx) {
     idx = idx + rotor->idx;
-    if (idx >= ALPHA_SIZE) {
-        idx -= ALPHA_SIZE;
+    if (idx >= ENIGMA_ALPHA_SIZE) {
+        idx -= ENIGMA_ALPHA_SIZE;
     }
 
     idx = rotor->fwd_indices[idx];
 
-    idx = (ALPHA_SIZE + idx - rotor->idx);
-    if (idx >= ALPHA_SIZE) {
-        idx -= ALPHA_SIZE;
+    idx = (ENIGMA_ALPHA_SIZE + idx - rotor->idx);
+    if (idx >= ENIGMA_ALPHA_SIZE) {
+        idx -= ENIGMA_ALPHA_SIZE;
     }
     return idx;
 }
@@ -208,15 +197,15 @@ static ENIGMA_ALWAYS_INLINE int rotor_pass_forward(enigma_rotor_t* rotor, int id
  */
 static ENIGMA_ALWAYS_INLINE int rotor_pass_reverse(enigma_rotor_t* rotor, int idx) {
     idx += rotor->idx;
-    if (idx >= ALPHA_SIZE) {
-        idx -= ALPHA_SIZE;
+    if (idx >= ENIGMA_ALPHA_SIZE) {
+        idx -= ENIGMA_ALPHA_SIZE;
     }
 
     idx = rotor->rev_indices[idx];
 
-    idx = (ALPHA_SIZE + idx - rotor->idx);
-    if (idx >= ALPHA_SIZE) {
-        idx -= ALPHA_SIZE;
+    idx = (ENIGMA_ALPHA_SIZE + idx - rotor->idx);
+    if (idx >= ENIGMA_ALPHA_SIZE) {
+        idx -= ENIGMA_ALPHA_SIZE;
     }
     return idx;
 }

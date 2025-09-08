@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUMROTORCONFIGURATIONS (ROTOR_COUNT * (ROTOR_COUNT - 1) * (ROTOR_COUNT - 2))
+#define NUMROTORCONFIGURATIONS (ENIGMA_ROTOR_COUNT * (ENIGMA_ROTOR_COUNT - 1) * (ENIGMA_ROTOR_COUNT - 2))
 
 static int score_compare(const void *a, const void *b);
 
@@ -32,14 +32,14 @@ enigma_score_t *enigma_rotor_configuration_score(const char *ciphertext, int len
     enigma_score_t *cur = &result[0];
     enigma_init_default_config(&cur->enigma);
 
-    for (int i = 0; i < ROTOR_COUNT; i++) {
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         memcpy(&cur->enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-        for (int j = 0; j < ROTOR_COUNT; j++) {
+        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
             if (i == j) {
                 continue;
             }
             memcpy(&cur->enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-            for (int k = 0; k < ROTOR_COUNT; k++) {
+            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
                 if (k == i || k == j) {
                     continue;
                 }
@@ -47,7 +47,6 @@ enigma_score_t *enigma_rotor_configuration_score(const char *ciphertext, int len
 
                 enigma_encode_string(&cur->enigma, ciphertext, plaintext, len);
                 //cur->score = ((float (*)(const char *, int, float *))scoreFunction)(plaintext, len, data);
-                cur->level = ENIGMA_ROTOR_POSITIONS;
                 cur++;
                 enigma_init_default_config(&cur->enigma);
             }
