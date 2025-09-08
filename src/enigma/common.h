@@ -13,12 +13,10 @@
 #define ENIGMA_DEFAULT_NGRAM_COUNT    100000
 
 /* Cracking methods */
-#define ENIGMA_MODE_BRUTE             0
-#define ENIGMA_MODE_BOMBE             1
-#define ENIGMA_MODE_BIGRAM            2
-#define ENIGMA_MODE_TRIGRAM           3
-#define ENIGMA_MODE_QUADGRAM          4
-#define ENIGMA_MODE_IOC               5
+#define ENIGMA_METHOD_BRUTE           0
+#define ENIGMA_METHOD_BOMBE           1
+#define ENIGMA_METHOD_NGRAM           2
+#define ENIGMA_METHOD_IOC             3
 
 /* Cracking targets */
 #define ENIGMA_TARGET_ROTORS          0
