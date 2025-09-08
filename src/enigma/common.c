@@ -3,8 +3,6 @@
 #include <ctype.h>
 #include <string.h>
 
-static bool enigma_verbose = false;
-
 /**
  * @brief Load the initial positions of the rotors from a string.
  *

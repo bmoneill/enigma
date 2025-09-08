@@ -41,6 +41,6 @@
 #define ENIGMA_ALWAYS_INLINE inline
 #endif
 
-extern static bool enigma_verbose;
+static bool enigma_verbose = false;
 
 #endif
