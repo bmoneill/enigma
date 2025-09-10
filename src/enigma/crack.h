@@ -22,7 +22,11 @@ typedef struct {
     int                  maxPlugboardSettings;
     int                  maxThreads;
     enigma_score_t*      scores;
+    char*                dictionary;
     int                  scoreCount;
 } enigma_crack_config_t;
+
+void enigma_find_potential_indices(const char*, const char*, int*);
+float enigma_freq(const char*, int);
 
 #endif

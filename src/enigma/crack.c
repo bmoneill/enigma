@@ -6,57 +6,45 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUMROTORCONFIGURATIONS (ENIGMA_ROTOR_COUNT * (ENIGMA_ROTOR_COUNT - 1) * (ENIGMA_ROTOR_COUNT - 2))
-
 static int score_compare(const void *a, const void *b);
 
 /**
- * @brief Calculate the score for a given rotor configuration.
- * This function evaluates each rotor configuration by encoding the ciphertext
- * and scoring the resulting plaintext using the provided scoring function.
- * It returns an array of enigma_score_t structures containing the scores
- * and configurations in descending order.
+ * @brief Finds potential indices in the ciphertext where the known plaintext may exist.
  *
- * The scoring function must take the "plaintext" string (as const char *),
- * the length of the plaintext, and a pointer to additional data (if needed),
- * or NULL if not.
+ * Due to the nature of the Enigma machine, a letter cannot be encoded to itself.
+ * This function checks the ciphertext for potential indices where the given string
+ * could potentially be in the plaintext.
  *
- * @param ciphertext The ciphertext to decode.
- * @param len The length of the ciphertext.
- * @param scoreFunction The function to score the plaintext.
- * @param data Additional data to pass to the scoring function.
+ * @param ciphertext The ciphertext to analyze
+ * @param plaintext The known plaintext string to test against the ciphertext
+ * @param indices Pointer to an array (length >= length of ciphertext) to store the indices (-1-terminated)
  */
-enigma_score_t *enigma_rotor_configuration_score(const char *ciphertext, int len, const void *scoreFunction, float *data) {
-    enigma_score_t *result = malloc(sizeof(enigma_score_t) * NUMROTORCONFIGURATIONS);
-    char *plaintext = malloc(len + 1);
-    enigma_score_t *cur = &result[0];
-    enigma_init_default_config(&cur->enigma);
+void enigma_find_potential_indices(const char* ciphertext, const char* plaintext, int* indices) {
+    int matchCount = 0;
+    int plaintextLen = strlen(plaintext);
+    int ciphertextLen = strlen(ciphertext);
 
-    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-        memcpy(&cur->enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
-            if (i == j) {
-                continue;
+    for (int i = 0; i < ciphertextLen - plaintextLen; i++) {
+        for (int j = 0; j < plaintextLen; j++) {
+            if (ciphertext[i + j] == plaintext[j]) {
+                break;
             }
-            memcpy(&cur->enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
-                if (k == i || k == j) {
-                    continue;
-                }
-                memcpy(&cur->enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
-
-                enigma_encode_string(&cur->enigma, ciphertext, plaintext, len);
-                //cur->score = ((float (*)(const char *, int, float *))scoreFunction)(plaintext, len, data);
-                cur++;
-                enigma_init_default_config(&cur->enigma);
+            if (j == plaintextLen - 1) {
+                indices[matchCount++] = i;
             }
         }
     }
 
-    qsort(result, NUMROTORCONFIGURATIONS, sizeof(enigma_score_t), score_compare);
-
-    free(plaintext);
-    return result;
+    indices[matchCount] = -1;
+}
+/**
+ * @brief Sort an array of enigma_score_t by score in descending order.
+ *
+ * @param scores The array of enigma_score_t to sort.
+ * @param count The number of elements in the scores array.
+ */
+void enigma_sort_scores(enigma_score_t *scores, int count) {
+    qsort(scores, count, sizeof(enigma_score_t), score_compare);
 }
 
 /**
@@ -76,4 +64,29 @@ static int score_compare(const void *a, const void *b) {
     } else {
         return 0;
     }
+}
+
+
+/**
+ * @brief Calculate the frequency of characters in the plaintext.
+ *
+ * This function calculates the frequency of each character in the plaintext
+ * and returns a score based on the frequencies.
+ *
+ * @param plaintext The plaintext to analyze
+ * @return The frequency score of the plaintext
+ */
+float enigma_freq(const char* plaintext, int len) {
+    int freq[26] = {0};
+    for (int i = 0; i < len; i++) {
+        if (plaintext[i] >= 'A' && plaintext[i] <= 'Z') {
+            freq[plaintext[i] - 'A']++;
+        }
+    }
+
+    float score = 0.0f;
+    for (int i = 0; i < 26; i++) {
+        score += (float)freq[i] * (freq[i] - 1);
+    }
+    return score / (len * (len - 1));
 }
