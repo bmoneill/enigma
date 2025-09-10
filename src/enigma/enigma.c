@@ -132,10 +132,8 @@ void enigma_init_default_config(enigma_t* enigma) {
  * @brief Load a random configuration for the Enigma machine.
  *
  * This function initializes the Enigma machine with a random configuration.
- * Currently, it defaults to the standard configuration as a placeholder.
  *
  * @param enigma Pointer to the `enigma_t` to be initialized.
- * @todo Implement random configuration generation.
  */
 void enigma_init_random_config(enigma_t* enigma) {
     srand(time(NULL));
