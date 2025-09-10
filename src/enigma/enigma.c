@@ -139,6 +139,8 @@ void enigma_init_default_config(enigma_t* enigma) {
  */
 void enigma_init_random_config(enigma_t* enigma) {
     srand(time(NULL));
+    bool unique = false;
+    char c = '\0';
 
     if (rand() % 2) {
         enigma->rotor_count = 3;
@@ -146,14 +148,13 @@ void enigma_init_random_config(enigma_t* enigma) {
         enigma->rotor_count = 4;
     }
 
-    for (int i = 0; i < 4; i++) {
-        int unique = 0;
-        const enigma_rotor_t* candidate;
+    for (int i = 0; i < enigma->rotor_count; i++) {
+        const enigma_rotor_t* candidate = NULL;
         while (!unique) {
             unique = 1;
             candidate = enigma_rotors[rand() % ENIGMA_ROTOR_COUNT];
             for (int j = 0; j < i; j++) {
-                if (strcmp(enigma->rotors[j].name, candidate->name) == 0) {
+                if (!strcmp(enigma->rotors[j].name, candidate->name)) {
                     unique = 0;
                     break;
                 }
@@ -167,15 +168,21 @@ void enigma_init_random_config(enigma_t* enigma) {
     memcpy(&enigma->reflector, enigma_reflectors[rand() % ENIGMA_REFLECTOR_COUNT], sizeof(enigma_reflector_t));
 
     int plugboardSize = rand() % 11;
+    if (plugboardSize == 0) {
+        enigma->plugboard = NULL;
+    } else {
+        enigma->plugboard = malloc((ENIGMA_ALPHA_SIZE + 1) * sizeof(char));
+    }
+
+    printf("%d\n", plugboardSize);
     for (int i = 0; i < plugboardSize * 2; i++) {
-        int unique = 0;
-        char c = '\0';
+        unique = false;
         while (!unique) {
-            unique = 1;
+            unique = true;
             c = 'A' + (rand() % ENIGMA_ALPHA_SIZE);
             for (int j = 0; j < i; j++) {
                 if (enigma->plugboard[j] == c) {
-                    unique = 0;
+                    unique = false;
                     break;
                 }
             }

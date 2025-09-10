@@ -229,9 +229,9 @@ int enigma_save_config(enigma_t* enigma, const char* path) {
  * @todo Implement this function.
  */
 void enigma_print_config(enigma_t* enigma, char* out) {
-    sprintf(out, "Rotors: %s (%c)  %s (%c), %s (%c) | Reflector: %s",
+    sprintf(out, "Rotors: %s (%c)  %s (%c), %s (%c) | Reflector: %s | Plugboard: %s\n",
             enigma->rotors[0].name, enigma->rotors[0].idx + 'A',
             enigma->rotors[1].name, enigma->rotors[1].idx + 'A',
             enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
-            enigma->reflector.name);
+            enigma->reflector.name, enigma->plugboard ? enigma->plugboard : "None");
 }
