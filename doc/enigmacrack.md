@@ -6,19 +6,45 @@
 enigmacrack method [target] [options] [ciphertext]
 ```
 
+## Options
+
+### Enigma Settings
+
+* `-w rotors`: Set the rotor configuration (e.g. 'I II III').
+* `-p positions`: Set the initial rotor positions (e.g. 'ABC').
+* `-u reflector`: Set the reflector (e.g. 'B').
+* `-s plugboard`: Set the plugboard pairs (e.g. 'ABCDEF').
+
+### Cryptanalysis Settings
+
+* `-c plaintext`: Set the known plaintext.
+* `-C position`: Set the position of known plaintext.
+* `-d path`: Load dictionary words from the given file.
+* `-l language`: Set the language ('english' or 'german', for IOC method).
+* `-m float`: Set the minimum score threshold.
+* `-M float`: Set the maximum score threshold.
+* `-n file`: Load n-grams from the given file.
+* `-S count`: Set the maximum number of plugboard settings to account for (default: 8).
+* `-t count`: Set the number of threads to use (default: 8).
+
+### Other Options
+
+* `-h`: Print a help string
+* `-v`: Show verbose output
+
 ## Methods
-
-### bombe
-
-Options required: `-c`, `-C`.
-
-Use a pseudo-Bombe for cryptanalysis. This assumes an empty plugboard.
 
 ### brute (WIP)
 
 Use brute force for cryptanalysis. This method runs through every possible Enigma configuration and
-matches the corresponding plaintext against a dictionary. This is *very* slow, even with today's
+corresponding plaintext against a dictionary. This is *very* slow, even with today's
 hardware capabilities (there are around **159 quintillion** possible Enigma configurations).
+
+If a dictionary file was set, plaintexts will be compared against the file and only results matching
+multiple dictionary words will be outputted.
+
+If a dictionary file is not set, it will use letter frequency scores to decide if a plaintext is worth
+analyzing. The `-m` and `-M` parameters may be used to set minimum and maximum letter frequency scores.
 
 ### ioc (WIP)
 
@@ -34,32 +60,7 @@ Use n-grams for cryptanalysis.
 
 ## Targets
 
-* `rotors`: Crack the rotor (Walzen) configuraiton
+* `rotors`: Crack the rotor (Walzen) configuration.
 * `positions`: Crack the initial rotor positions.
 * `reflector`: Crack the reflector (Umkehrwalze).
 * `plugboard`: Crack the plugboard (Steckerbrett) configuration.
-
-## Options
-
-### Enigma Settings
-
-* `-w rotors`: Set the rotor configuration (e.g. 'I II III')
-* `-p positions`: Set the initial rotor positions (e.g. 'ABC')
-* `-u reflector`: Set the reflector (e.g. 'B')
-* `-s plugboard`: Set the plugboard pairs (e.g. 'ABCDEF')
-
-### Cryptanalysis Settings
-
-* `-c plaintext`: Set the known plaintext
-* `-C position`: Set the position of known plaintext
-* `-l language`: Set the language ('english' or 'german', for IOC method)
-* `-m float`: Set the minimum score threshold (for n-gram and IOC methods)
-* `-M float`: Set the maximum score threshold (for n-gram and IOC methods)
-* `-n file`: Load n-grams from the given file
-* `-S count`: Set the maximum number of plugboard settings to account for (default: 8)
-* `-t count`: Set the number of threads to use (default: 8)
-
-### Other Options
-
-* `-h`: Print a help string
-* `-v`: Show verbose output
