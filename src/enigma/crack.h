@@ -3,6 +3,11 @@
 
 #include "enigma.h"
 
+#define ENIGMA_PREDEFINED_PLUGBOARD_SETTINGS 1
+#define ENIGMA_PREDEFINED_ROTOR_SETTINGS 2
+#define ENIGMA_PREDEFINED_ROTOR_POSITIONS 4
+#define ENIGMA_PREDEFINED_REFLECTOR 8
+
 typedef struct {
     enigma_t        enigma;
     float           score;
@@ -24,6 +29,7 @@ typedef struct {
     enigma_score_t*      scores;
     char*                dictionary;
     int                  scoreCount;
+    int                  flags;
 } enigma_crack_config_t;
 
 void enigma_find_potential_indices(const char*, const char*, int*);
