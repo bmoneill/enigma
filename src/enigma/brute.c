@@ -54,9 +54,9 @@ void enigma_brute_run(const enigma_crack_config_t* config) {
                     // Sloppy, but necessary to avoid race condition
                     brute_thread_args_t* args = malloc(sizeof(brute_thread_args_t));
 
-                    init_chunk_thread_args(args, config, &enigma, ciphertext, ciphertextLength);
+                    init_chunk_thread_args(args, config);
                     pthread_create(&threads[threadCount++], NULL, thread_process_chunk, args);
-                    if (threadCount >= maxThreads) {
+                    if (threadCount >= config->maxThreads) {
                         for (int t = 0; t < threadCount; t++) {
                             pthread_join(threads[t], NULL);
                         }
@@ -101,12 +101,10 @@ void enigma_crack_brute(enigma_crack_config_t* config) {
  * @param ciphertextLength Length of the ciphertext string.
  */
 static void init_chunk_thread_args(enigma_crack_config_t* dst,
-    const enigma_t* enigma,
-    const char* ciphertext,
-    int ciphertextLength) {
-    memcpy(&dst->config, config, sizeof(enigma_crack_config_t));
-    dst->plaintext = malloc(ciphertextLength + 1);
-    dst->plaintext[ciphertextLength] = '\0';
+    const enigma_crack_config_t* config) {
+    memcpy(dst, config, sizeof(enigma_crack_config_t));
+    dst->plaintext = malloc(config->ciphertextLen + 1);
+    dst->plaintext[config->ciphertextLen] = '\0';
 }
 
 
