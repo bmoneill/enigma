@@ -9,35 +9,40 @@
 #include "rotors.h"
 #include "reflectors.h"
 
+#define FLAG_REFLECTOR 1
+#define FLAG_ROTORS 2
+#define FLAG_POSITIONS 4
+#define FLAG_PLUGBOARD 8
+
 typedef struct {
     enigma_crack_config_t config;
-    enigma_t enigma;
-    const char* ciphertext;
-    int ciphertextLength;
-    char* plaintext;
+    int                   flag;
 } brute_thread_args_t;
 
 /* Changed the struct here, use enigma_crack_config_t instead of bombe_t. Need to fix all these errors. */
-
 static float freq(const char* plaintext);
-static void init_chunk_thread_args(enigma_crack_config_t*, const enigma_t*, const char*, int);
+static void init_chunk_thread_args(brute_thread_args_t*, const enigma_crack_config_t*, int);
 static void* thread_process_chunk(void*);
 static void process_chunk(enigma_crack_config_t*, enigma_t*, const char*, int, char*);
 static void process_single(enigma_crack_config_t*, enigma_t*, const char*, int, char*, const char*);
 
 /**
- * @brief Runs the Bombe algorithm with the provided cribs and configuration.
+ * @brief Runs the brute force algorithm with the provided configuration and preset values.
  *
- * @param bombe The bombe structure containing cribs and configuration
- * @param ciphertext The ciphertext to analyze
- * @param maxThreads The number of threads to use for processing
+ * @param config The config structure containing the predefined Enigma settings, ciphertext, and
+ *               other parameters
  */
-void enigma_brute_run(const enigma_crack_config_t* config) {
+void enigma_crack_brute(const enigma_crack_config_t* config) {
     enigma_t enigma;
     int ciphertextLength = strlen(config->ciphertext);
 
+    enigma_crack_config_t *config_copy = malloc(sizeof(enigma_crack_config_t));
+    memcpy(config_copy, config, sizeof(enigma_crack_config_t));
+
     pthread_t* threads = malloc(config->maxThreads * sizeof(pthread_t));
     int threadCount = 0;
+
+    int count = 0;
 
     // Loop through all unique rotor and reflector configurations
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
@@ -52,7 +57,7 @@ void enigma_brute_run(const enigma_crack_config_t* config) {
 
                     // free()'d at end of thread_process_chunk
                     // Sloppy, but necessary to avoid race condition
-                    brute_thread_args_t* args = malloc(sizeof(brute_thread_args_t));
+                    enigma_crack_config_t* args = malloc(sizeof(enigma_crack_config_t));
 
                     init_chunk_thread_args(args, config);
                     pthread_create(&threads[threadCount++], NULL, thread_process_chunk, args);
@@ -74,42 +79,30 @@ void enigma_brute_run(const enigma_crack_config_t* config) {
 }
 
 /**
- * @brief Crack the Enigma using the Bombe method.
+ * @brief Initialize the brute_thread_args_t structure with the given configuration.
  *
- * This function initializes the Bombe structure and runs the Bombe algorithm
- * using the provided configuration.
- *
- * @param config Pointer to the enigma_crack_config_t structure containing the configuration.
- */
-void enigma_crack_brute(enigma_crack_config_t* config) {
-    if (!config->ciphertext || !config->ciphertextLen) {
-        fprintf(stderr, "No ciphertext provided for brute force cracking.\n");
-        return;
-    }
-}
-
-/**
- * @brief Initialize the bombe_thread_args_t structure with the given configuration.
- *
- * This function generates a bombe_thread_args_t that contains the arguments for
+ * This function generates a brute_thread_args_t that contains the arguments for
  * process_chunk(), in order to pass them to the created thread.
  *
- * @param dst Pointer to the destination bombe_thread_args_t structure.
- * @param bombe Pointer to the source enigma_bombe_t structure.
- * @param enigma Pointer to the source enigma_t structure.
- * @param ciphertext Pointer to the ciphertext string.
- * @param ciphertextLength Length of the ciphertext string.
+ * The flag argument indicates what part of the Enigma configuration to vary.
+ *
+ * @param dst Pointer to the destination brute_thread_args_t structure.
+ * @param config Pointer to the source enigma_crack_config_t structure.
+ * @param flag Which part of the Enigma configuration to vary (FLAG_REFLECTOR, FLAG_ROTORS,
+ *             FLAG_POSITIONS, or FLAG_PLUGBOARD).
  */
-static void init_chunk_thread_args(enigma_crack_config_t* dst,
-    const enigma_crack_config_t* config) {
-    memcpy(dst, config, sizeof(enigma_crack_config_t));
-    dst->plaintext = malloc(config->ciphertextLen + 1);
-    dst->plaintext[config->ciphertextLen] = '\0';
+static void init_chunk_thread_args(brute_thread_args_t* dst,
+                                   const enigma_crack_config_t* config, int flag) {
+    memcpy(&dst->config, config, sizeof(enigma_crack_config_t));
+    dst->flag = flag;
+    dst->config.plaintext = malloc(config->ciphertextLen + 1);
+    dst->config.plaintext[config->ciphertextLen] = '\0';
 }
 
 
-static void run_thread(enigma_crack_config_t* config) {
-    init_chunk_thread_args(args, bombe, &enigma, ciphertext, ciphertextLength);
+static void run_thread(enigma_crack_config_t* config, int flag) {
+    enigma_crack_config_t* args = malloc(sizeof(enigma_crack_config_t));
+    init_chunk_thread_args(args, config, flag);
     pthread_create(&threads[threadCount++], NULL, thread_process_chunk, args);
     if (threadCount >= maxThreads) {
         for (int t = 0; t < threadCount; t++) {
@@ -121,36 +114,10 @@ static void run_thread(enigma_crack_config_t* config) {
 
 /**
  * @brief Process a rotor configuration chunk.
- *
- * Here we take a rotor, reflector, and plugboard configuration, minus rotor positions,
- * and loop through all possible rotor positions and check if any match our crib.
- *
- * @param bombe The bombe structure containing cribs and configuration
- * @param enigma The Enigma configuration to use for processing
- * @param ciphertext The ciphertext to analyze
- * @param ciphertextLength The length of the ciphertext
- * @param plaintext Buffer to store the decrypted plaintext (to avoid mallocing each time)
  */
-static void process_chunk(enigma_bombe_t* bombe, enigma_t* enigma,
-    const char* ciphertext, int ciphertextLength,
-    char* plaintext) {
+static void process_chunk(brute_thread_args_t* cfg) {
     char configString[256];
 
-    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-        for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
-            for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
-                enigma->rotors[2].idx = i;
-                enigma->rotors[1].idx = j;
-                enigma->rotors[0].idx = k;
-                sprintf(configString, "Rotors: %s (%c)  %s (%c), %s (%c) | Reflector: %s",
-                    enigma->rotors[0].name, enigma->rotors[0].idx + 'A',
-                    enigma->rotors[1].name, enigma->rotors[1].idx + 'A',
-                    enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
-                    enigma->reflector.name);
-
-                process_single(bombe, enigma, ciphertext, ciphertextLength, plaintext, configString);
-            }
-        }
     }
     free(plaintext);
 }
@@ -166,56 +133,53 @@ static void process_chunk(enigma_bombe_t* bombe, enigma_t* enigma,
  * @return NULL
  */
 static void* thread_process_chunk(void* args) {
-    bombe_thread_args_t* bombeArgs = (bombe_thread_args_t*)args;
-    process_chunk(&bombeArgs->bombe, &bombeArgs->enigma, bombeArgs->ciphertext,
-        bombeArgs->ciphertextLength, bombeArgs->plaintext);
-    free(bombeArgs);
+    enigma_crack_config_t* config = (enigma_crack_config_t*)args;
+    process_chunk(&config->enigma, config->ciphertext, config->ciphertextLength, config->plaintext);
+    free(config);
     return NULL;
 }
 
-/**
- * @brief Check the given enigma configuration against the ciphertext.
- *
- * This function checks if the given Enigma configuration results in a potential
- * plaintext. If it does, the function prints the configuration and plaintext to
- * stdout.
- *
- * @param bombe The bombe structure containing cribs and configuration
- * @param enigma The Enigma configuration to use for processing
- * @param ciphertext The ciphertext to analyze
- * @param ciphertextLength The length of the ciphertext
- * @param plaintext Buffer to store the decrypted plaintext
- * @param configString String representation of the current Enigma configuration
- */
-static void process_single(enigma_bombe_t* bombe, enigma_t* enigma,
-    const char* ciphertext, int ciphertextLength,
-    char* plaintext, const char* configString) {
-
-    int matching = 0;
-    for (int i = 0; i < ciphertextLength; i++) {
-        if (i > bombe->cribIndex && !matching) {
-            // No match found
-            return;
-        }
-
-        char decrypted = enigma_encode(enigma, ciphertext[i]);
-        plaintext[i] = decrypted;
-
-        if (matching == bombe->cribLength) {
-            for (int j = i + 1; j < ciphertextLength; j++) {
-                plaintext[j] = enigma_encode(enigma, ciphertext[j]);
+static void process_plugboard(enigma_crack_config_t* cfg) {
+    for (int i = 0; i < cfg->maxPlugboardSettings; i++) {
+        for (int j = 0; j < i; j += 2) {
+            for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
+                for (int l = 0; l < ENIGMA_ALPHA_SIZE; l++) {
+                    if (k == l) continue;
+                    cfg->enigma.plugboard[j] = l + 'A';
+                    cfg->enigma.plugboard[j+1] = k + 'A';
+                    process_single(cfg);
+                }
             }
-            break;
-        } else if (i == bombe->cribIndex && decrypted == bombe->crib[0]) {
-            matching = 1;
-        } else if (matching && decrypted == bombe->crib[matching]) {
-            matching++;
-        } else if (matching && decrypted != bombe->crib[matching]) {
-            return;
         }
     }
+}
 
-    printf("%f | %s | Plaintext: %s\n", freq(plaintext), configString, plaintext);
+static void process_rotors(enigma_crack_config_t* cfg) {
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+        memcpy(&cfg->enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
+        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
+            memcpy(&cfg->enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
+            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
+                if (i == j || j == k || i == k) continue;
+                memcpy(&cfg->enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+                // TODO figure out if we need to loop through rotor positions here
+                // Should also be multithreaded
+            }
+        }
+    }
+}
+
+static void process_positions(enigma_crack_config_t* cfg) {
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
+            for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
+                cfg->enigma.rotors[0].idx = i;
+                cfg->enigma.rotors[1].idx = j;
+                cfg->enigma.rotors[2].idx = k;
+                process_positions(cfg);
+            }
+        }
+    }
 }
 
 /**
