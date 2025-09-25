@@ -17,9 +17,10 @@ typedef struct {
     enigma_t             enigma;
     int                  method;
     int                  target;
-    char*                plaintext;
+    const char*          plaintext;
     int                  plaintextPos;
-    char*                ciphertext;
+    int                  plaintextLen;
+    const char*          ciphertext;
     int                  ciphertextLen;
     float                minScore;
     float                maxScore;
@@ -27,7 +28,7 @@ typedef struct {
     int                  maxPlugboardSettings;
     int                  maxThreads;
     enigma_score_t*      scores;
-    char*                dictionary;
+    const char*          dictionary;
     int                  scoreCount;
     int                  flags;
 } enigma_crack_config_t;
