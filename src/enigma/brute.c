@@ -119,10 +119,32 @@ static void thread_main(enigma_brute_config_t* cfg) {
             spawn(childCfg);
         }
     } else if (cfg->flags & FLAG_PLUGBOARD) {
-        for (int i = 0; i < cfg->maxPlugboardSettings; i++) {
-            // TODO figure out situation here
+        // No plugboard
+        childCfg = malloc(sizeof(enigma_brute_config_t));
+        memcpy(childCfg, cfg, sizeof(enigma_brute_config_t));
+        childCfg->flags &= ~FLAG_PLUGBOARD;
+        spawn(childCfg);
+
+        for (int i = 1; i < cfg->maxPlugboardSettings; i++) {
+            for (int j = 0; j < i; j++) {
+                for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
+                    for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
+                        if (a == b) continue;
+
+                        cfg->enigma.plugboard[j * 2] = 'A' + a;
+                        cfg->enigma.plugboard[j * 2 + 1] = 'A' + b;
+
+                        childCfg = malloc(sizeof(enigma_brute_config_t));
+                        memcpy(childCfg, cfg, sizeof(enigma_brute_config_t));
+                        childCfg->flags &= ~FLAG_PLUGBOARD;
+                        spawn(childCfg);
+                    }
+                }
+
+            }
         }
-    } else {
+    }
+    else {
         char* decrypted = malloc(cfg->ciphertextLen + 1);
         enigma_encode_string(&cfg->enigma, cfg->ciphertext, decrypted, cfg->ciphertextLen);
 
