@@ -77,6 +77,7 @@ static void spawn(enigma_brute_config_t* cfg) {
  * @brief Entry point for each thread.
  */
 static void thread_main(enigma_brute_config_t* cfg) {
+    #define NEWCFG(cfg) memcpy(malloc(sizeof(enigma_brute_config_t)), cfg, sizeof(enigma_brute_config_t))
     enigma_brute_config_t* childCfg = NULL;
 
     if (cfg->flags & FLAG_ROTORS) {
@@ -88,8 +89,7 @@ static void thread_main(enigma_brute_config_t* cfg) {
                     if (i == j || j == k || i == k) continue;
                     memcpy(&cfg->enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
 
-                    childCfg = malloc(sizeof(enigma_brute_config_t));
-                    memcpy(childCfg, cfg, sizeof(enigma_brute_config_t));
+                    childCfg = NEWCFG(cfg);
                     childCfg->flags &= ~FLAG_ROTORS;
                     spawn(childCfg);
                 }
@@ -103,8 +103,7 @@ static void thread_main(enigma_brute_config_t* cfg) {
                 for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
                     cfg->enigma.rotors[2].idx = k;
 
-                    childCfg = malloc(sizeof(enigma_brute_config_t));
-                    memcpy(childCfg, cfg, sizeof(enigma_brute_config_t));
+                    childCfg = NEWCFG(cfg);
                     childCfg->flags &= ~FLAG_POSITIONS;
                     spawn(childCfg);
                 }
@@ -113,15 +112,13 @@ static void thread_main(enigma_brute_config_t* cfg) {
     } else if (cfg->flags & FLAG_REFLECTOR) {
         for (int r = 0; r < ENIGMA_REFLECTOR_COUNT; r++) {
             memcpy(&cfg->enigma.reflector, enigma_reflectors[r], sizeof(enigma_reflector_t));
-            childCfg = malloc(sizeof(enigma_brute_config_t));
-            memcpy(childCfg, cfg, sizeof(enigma_brute_config_t));
+            childCfg = NEWCFG(cfg);
             childCfg->flags &= ~FLAG_REFLECTOR;
             spawn(childCfg);
         }
     } else if (cfg->flags & FLAG_PLUGBOARD) {
         // No plugboard
-        childCfg = malloc(sizeof(enigma_brute_config_t));
-        memcpy(childCfg, cfg, sizeof(enigma_brute_config_t));
+        childCfg = NEWCFG(cfg);
         childCfg->flags &= ~FLAG_PLUGBOARD;
         spawn(childCfg);
 
@@ -134,8 +131,7 @@ static void thread_main(enigma_brute_config_t* cfg) {
                         cfg->enigma.plugboard[j * 2] = 'A' + a;
                         cfg->enigma.plugboard[j * 2 + 1] = 'A' + b;
 
-                        childCfg = malloc(sizeof(enigma_brute_config_t));
-                        memcpy(childCfg, cfg, sizeof(enigma_brute_config_t));
+                        childCfg = NEWCFG(cfg);
                         childCfg->flags &= ~FLAG_PLUGBOARD;
                         spawn(childCfg);
                     }
