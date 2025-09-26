@@ -139,8 +139,7 @@ static void thread_main(enigma_brute_config_t* cfg) {
 
             }
         }
-    }
-    else {
+    } else {
         char* decrypted = malloc(cfg->ciphertextLen + 1);
         enigma_encode_string(&cfg->enigma, cfg->ciphertext, decrypted, cfg->ciphertextLen);
 
