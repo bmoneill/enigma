@@ -14,26 +14,14 @@
 #define FLAG_POSITIONS 4
 #define FLAG_PLUGBOARD 8
 
-// Subset of enigma_crack_config_t for brute forcing
-// Saves some memory by not including unnecessary fields
-typedef struct {
-    enigma_t             enigma;
-    const char*          plaintext;
-    int                  plaintextPos;
-    int                  plaintextLen;
-    const char*          ciphertext;
-    int                  ciphertextLen;
-    int                  maxPlugboardSettings;
-    int                  maxThreads;
-    const char*          dictionary;
-    int                  flags;
-} enigma_brute_config_t;
-
-static int thread_count = 0;
+static const enigma_crack_config_t* global_cfg = NULL;
+static enigma_t* enigmas = NULL;
+static char* plaintexts = NULL;
 static pthread_t* threads = NULL;
+static int threadCount = 0;
 
-static void spawn(enigma_brute_config_t* cfg);
-static void thread_main(enigma_brute_config_t* cfg);
+static void spawn(int,int);
+static void thread_main(int*);
 
 /**
  * @brief Runs the brute force algorithm with the provided configuration and preset values.
@@ -42,112 +30,97 @@ static void thread_main(enigma_brute_config_t* cfg);
  *               other parameters
  */
 void enigma_crack_brute(const enigma_crack_config_t* crackCfg) {
-    enigma_brute_config_t* cfg = malloc(sizeof(enigma_brute_config_t));
-    cfg->enigma = crackCfg->enigma;
-    cfg->plaintext = crackCfg->plaintext;
-    cfg->plaintextPos = crackCfg->plaintextPos;
-    cfg->ciphertext = crackCfg->ciphertext;
-    cfg->ciphertextLen = crackCfg->ciphertextLen;
-    cfg->maxPlugboardSettings = crackCfg->maxPlugboardSettings;
-    cfg->maxThreads = crackCfg->maxThreads;
-    cfg->dictionary = crackCfg->dictionary;
-    cfg->flags = crackCfg->flags;
+    global_cfg = crackCfg;
+    enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
+    plaintexts = malloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1) * sizeof(char));
+    threads = malloc(global_cfg->maxThreads * sizeof(pthread_t));
 
-    pthread_t* threads = malloc(cfg->maxThreads * sizeof(pthread_t));
+    spawn(global_cfg->flags, 0);
 
-    spawn(cfg);
-
-    for (int t = 0; t < thread_count; t++) {
+    for (int t = 0; t < threadCount; t++) {
         pthread_join(threads[t], NULL);
     }
+
     free(threads);
+    free(plaintexts);
+    free(enigmas);
 }
 
-static void spawn(enigma_brute_config_t* cfg) {
-    pthread_create(&threads[thread_count++], NULL, thread_main, cfg);
-    if (thread_count >= cfg->maxThreads) {
-        for (int t = 0; t < thread_count; t++) {
+static void spawn(int flags, int threadNum) {
+    int args[2] = { threadNum, flags };
+    threadCount++;
+    if (threadCount >= global_cfg->maxThreads) {
+        for (int t = 0; t < threadCount; t++) {
             pthread_join(threads[t], NULL);
         }
-        thread_count = 0;
+        threadCount = 0;
     }
+
+    memcpy(&enigmas[threadCount - 1], &enigmas[threadNum], sizeof(enigma_t));
+    pthread_create(&threads[threadCount - 1], NULL, thread_main, args);
 }
 
 /**
  * @brief Entry point for each thread.
  */
-static void thread_main(enigma_brute_config_t* cfg) {
-    #define NEWCFG(cfg) memcpy(malloc(sizeof(enigma_brute_config_t)), cfg, sizeof(enigma_brute_config_t))
-    enigma_brute_config_t* childCfg = NULL;
+static void thread_main(int* args) {
+    #define THREADNUM args[0]
+    #define FLAGS args[1]
+    #define MYENIGMA enigmas[THREADNUM - 1]
 
-    if (cfg->flags & FLAG_ROTORS) {
+    if (FLAGS & FLAG_ROTORS) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-            memcpy(&cfg->enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
+            memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
             for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
-                memcpy(&cfg->enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
+                memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
                 for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
                     if (i == j || j == k || i == k) continue;
-                    memcpy(&cfg->enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+                    memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
 
-                    childCfg = NEWCFG(cfg);
-                    childCfg->flags &= ~FLAG_ROTORS;
-                    spawn(childCfg);
+                    spawn(FLAGS & ~FLAG_ROTORS, THREADNUM);
                 }
             }
         }
-    } else if (cfg->flags & FLAG_POSITIONS) {
+    } else if (FLAGS & FLAG_POSITIONS) {
         for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-            cfg->enigma.rotors[0].idx = i;
+            MYENIGMA.rotors[0].idx = i;
             for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
-                cfg->enigma.rotors[1].idx = j;
+                MYENIGMA.rotors[1].idx = j;
                 for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
-                    cfg->enigma.rotors[2].idx = k;
-
-                    childCfg = NEWCFG(cfg);
-                    childCfg->flags &= ~FLAG_POSITIONS;
-                    spawn(childCfg);
+                    MYENIGMA.rotors[2].idx = k;
+                    spawn(FLAGS & ~FLAG_POSITIONS, THREADNUM);
                 }
             }
         }
-    } else if (cfg->flags & FLAG_REFLECTOR) {
+    } else if (FLAGS & FLAG_REFLECTOR) {
         for (int r = 0; r < ENIGMA_REFLECTOR_COUNT; r++) {
-            memcpy(&cfg->enigma.reflector, enigma_reflectors[r], sizeof(enigma_reflector_t));
-            childCfg = NEWCFG(cfg);
-            childCfg->flags &= ~FLAG_REFLECTOR;
-            spawn(childCfg);
+            memcpy(&MYENIGMA.reflector, enigma_reflectors[r], sizeof(enigma_reflector_t));
+            spawn(FLAGS & ~FLAG_REFLECTOR, THREADNUM);
         }
-    } else if (cfg->flags & FLAG_PLUGBOARD) {
+    } else if (FLAGS & FLAG_PLUGBOARD) {
         // No plugboard
-        childCfg = NEWCFG(cfg);
-        childCfg->flags &= ~FLAG_PLUGBOARD;
-        spawn(childCfg);
+        spawn(FLAGS & ~FLAG_PLUGBOARD, THREADNUM);
 
-        for (int i = 1; i < cfg->maxPlugboardSettings; i++) {
+        for (int i = 1; i < global_cfg->maxPlugboardSettings; i++) {
             for (int j = 0; j < i; j++) {
                 for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
                     for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
                         if (a == b) continue;
 
-                        cfg->enigma.plugboard[j * 2] = 'A' + a;
-                        cfg->enigma.plugboard[j * 2 + 1] = 'A' + b;
+                        MYENIGMA.plugboard[j * 2] = 'A' + a;
+                        MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
 
-                        childCfg = NEWCFG(cfg);
-                        childCfg->flags &= ~FLAG_PLUGBOARD;
-                        spawn(childCfg);
+                        spawn(FLAGS & ~FLAG_PLUGBOARD, THREADNUM);
                     }
                 }
 
             }
         }
     } else {
-        char* decrypted = malloc(cfg->ciphertextLen + 1);
-        enigma_encode_string(&cfg->enigma, cfg->ciphertext, decrypted, cfg->ciphertextLen);
+        char* decrypted = &plaintexts[THREADNUM - 1];
+        enigma_encode_string(&MYENIGMA, global_cfg->ciphertext, decrypted, global_cfg->ciphertextLen);
 
         // TODO Decide via dictionary lookup or frequency analysis whether this
         // decryption is a possible candidate
-
-        free(decrypted);
     }
-
-    free(cfg);
 }
