@@ -36,7 +36,7 @@ static void* thread_main(void*);
 void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
     global_cfg = crackCfg;
     enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
-    plaintexts = malloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1) * sizeof(char));
+    plaintexts = calloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1), sizeof(char));
     threads = malloc(global_cfg->maxThreads * sizeof(pthread_t));
     freeThreads = malloc(global_cfg->maxThreads * sizeof(int));
     threadArgs = malloc(global_cfg->maxThreads * 2 * sizeof(int));
@@ -62,8 +62,15 @@ void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
 
     thread_main((int[]){global_cfg->flags, 0});
 
-    for (int t = 0; t < threadCount; t++) {
-        pthread_join(threads[t], NULL);
+    while (1) {
+        int done = 0;
+        for (int i = 0; i < global_cfg->maxThreads; i++) {
+            done += freeThreads[i];
+        }
+
+        if (done == global_cfg->maxThreads) {
+            break;
+        }
     }
 
     free(freeThreads);
@@ -75,7 +82,6 @@ void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
 
 static void spawn(int flags, int parent) {
     pthread_mutex_lock(&spawn_mutex);
-    int args[2];
     int threadNum = -1;
 
     while (threadNum == -1) {
@@ -86,7 +92,6 @@ static void spawn(int flags, int parent) {
             }
         }
     }
-    printf("Spawning with flags %d\n", flags);
 
     threadArgs[threadNum * 2] = flags;
     threadArgs[threadNum * 2 + 1] = threadNum;
@@ -111,7 +116,6 @@ static void* thread_main(void* args) {
     #define FLAGS ((int*)args)[0]
     #define THREADNUM ((int*)args)[1]
     #define MYENIGMA enigmas[THREADNUM]
-    printf("Flags: %d\n", FLAGS);
 
     if (FLAGS & FLAG_ROTORS) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
@@ -164,12 +168,8 @@ static void* thread_main(void* args) {
     } else {
         char* decrypted = &plaintexts[THREADNUM];
         enigma_encode_string(&MYENIGMA, global_cfg->ciphertext, decrypted, global_cfg->ciphertextLen);
-        if (!strcmp(MYENIGMA.rotors[0].name, enigma_rotor_I.name) &&
-            !strcmp(MYENIGMA.rotors[1].name, enigma_rotor_II.name) &&
-            !strcmp(MYENIGMA.rotors[2].name, enigma_rotor_III.name)) {
-                printf("%s\n", decrypted);
-        }
 
+        /*
         if (global_cfg->dictionary) {
             int match_count = enigma_dict_match(decrypted, global_cfg);
             if (match_count) {
@@ -179,14 +179,13 @@ static void* thread_main(void* args) {
                        MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
             }
         } else {
-            printf("Got here\n");
-            if (enigma_letter_freq(decrypted, global_cfg->ciphertextLen, global_cfg->letterFreqTargets, global_cfg->letterFreqOffset) || 1) {
+            //if (enigma_letter_freq(decrypted, global_cfg->ciphertextLen, global_cfg->letterFreqTargets, global_cfg->letterFreqOffset) || 1) {
                 printf("%s %s %s %c%c%c %s %s: %s\n",
                        MYENIGMA.rotors[0].name, MYENIGMA.rotors[1].name, MYENIGMA.rotors[2].name,
                        MYENIGMA.rotors[0].idx + 'A', MYENIGMA.rotors[1].idx + 'A', MYENIGMA.rotors[2].idx + 'A',
                        MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
-            }
-        }
+            //}
+        }*/
     }
 
     freeThreads[THREADNUM] = 1;
