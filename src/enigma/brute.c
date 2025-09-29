@@ -29,13 +29,31 @@ static void* thread_main(void*);
  * @param config The config structure containing the predefined Enigma settings, ciphertext, and
  *               other parameters
  */
-void enigma_crack_brute(const enigma_crack_config_t* crackCfg) {
+void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
     global_cfg = crackCfg;
     enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
     plaintexts = malloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1) * sizeof(char));
     threads = malloc(global_cfg->maxThreads * sizeof(pthread_t));
 
-    spawn(global_cfg->flags, 0);
+    int flags = 0;
+    if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_SETTINGS)) {
+        flags |= FLAG_ROTORS;
+    }
+    if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_POSITIONS)) {
+        flags |= FLAG_POSITIONS;
+    }
+    if (!(global_cfg->flags & ENIGMA_PREDEFINED_REFLECTOR)) {
+        flags |= FLAG_REFLECTOR;
+    }
+    if (!(global_cfg->flags & ENIGMA_PREDEFINED_PLUGBOARD_SETTINGS)) {
+        flags |= FLAG_PLUGBOARD;
+    }
+
+    crackCfg->flags = flags;
+
+    memcpy(enigmas, &global_cfg->enigma, sizeof(enigma_t));
+
+    thread_main((int[]){global_cfg->flags, 0});
 
     for (int t = 0; t < threadCount; t++) {
         pthread_join(threads[t], NULL);
@@ -47,14 +65,18 @@ void enigma_crack_brute(const enigma_crack_config_t* crackCfg) {
 }
 
 static void spawn(int flags, int threadNum) {
-    int args[2] = { threadNum, flags };
+    int args[2];
     threadCount++;
-    if (threadCount >= global_cfg->maxThreads) {
+    if (threadCount > global_cfg->maxThreads) {
         for (int t = 0; t < threadCount; t++) {
+            if (t == threadNum) continue;
             pthread_join(threads[t], NULL);
         }
         threadCount = 0;
     }
+
+    args[0] = flags;
+    args[1] = threadCount - 1;
 
     memcpy(&enigmas[threadCount - 1], &enigmas[threadNum], sizeof(enigma_t));
     pthread_create(&threads[threadCount - 1], NULL, thread_main, args);
@@ -62,11 +84,19 @@ static void spawn(int flags, int threadNum) {
 
 /**
  * @brief Entry point for each thread.
+ *
+ * This function performs the brute force search by iterating through all possible configurations
+ * of the Enigma machine based on the flags provided. It decrypts the ciphertext and checks
+ * against the dictionary or frequency analysis criteria.
+ *
+ * @param args An array containing the flags and thread number.
+ * @return NULL
  */
 static void* thread_main(void* args) {
-    #define THREADNUM ((int*)args)[0]
-    #define FLAGS ((int*)args)[1]
-    #define MYENIGMA enigmas[THREADNUM - 1]
+    #define FLAGS ((int*)args)[0]
+    #define THREADNUM ((int*)args)[1]
+    #define MYENIGMA enigmas[THREADNUM]
+    printf("Thread %d started with flags %d %d %d %d\n", THREADNUM, FLAGS & FLAG_ROTORS, FLAGS & FLAG_POSITIONS, FLAGS & FLAG_REFLECTOR, FLAGS & FLAG_PLUGBOARD);
 
     if (FLAGS & FLAG_ROTORS) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
@@ -117,7 +147,7 @@ static void* thread_main(void* args) {
             }
         }
     } else {
-        char* decrypted = &plaintexts[THREADNUM - 1];
+        char* decrypted = &plaintexts[THREADNUM];
         enigma_encode_string(&MYENIGMA, global_cfg->ciphertext, decrypted, global_cfg->ciphertextLen);
 
         if (global_cfg->dictionary) {

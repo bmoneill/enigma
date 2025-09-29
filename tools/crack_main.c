@@ -147,6 +147,8 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
     enigma_crack_config_t *config;
 
     config = calloc(1, sizeof(enigma_crack_config_t));
+    enigma_init_default_config(&config->enigma);
+    config->maxThreads = 64;
 
     if (!strcmp(argv[1], "bombe")) {
         config->method = ENIGMA_METHOD_BOMBE;

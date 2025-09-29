@@ -3,6 +3,6 @@
 
 #include "crack.h"
 
-void enigma_crack_brute(const enigma_crack_config_t*);
+void enigma_crack_brute(enigma_crack_config_t*);
 
 #endif

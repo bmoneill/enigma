@@ -10,6 +10,8 @@ include(GNUInstallDirs)
 
 set(LIBRARY_BASE_PATH ".")
 
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+
 INCLUDE_DIRECTORIES (
 	"${LIBRARY_BASE_PATH}"
 )
