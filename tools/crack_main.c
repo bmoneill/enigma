@@ -66,6 +66,8 @@ int main(int argc, char* argv[]) {
     }
 
     free(ngramList);
+    free(config->letterFreqTargets);
+    free(config);
     return 0;
 }
 
@@ -191,13 +193,22 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
         case 'm': config->minScore = atof(optarg); break;
         case 'M': config->maxScore = atof(optarg); break;
         case 'n': ngramList = enigma_load_ngrams(optarg); break;
-        case 'p': result = enigma_load_rotor_positions(&config->enigma, optarg); break;
         case 's': config->enigma.plugboard = optarg; break;
         case 'S': config->maxPlugboardSettings = atoi(optarg); break;
         case 't': config->maxThreads = atoi(optarg); break;
-        case 'u': result = enigma_load_reflector_config(&config->enigma, optarg); break;
         case 'v': enigma_verbose = true; break;
-        case 'w': result = enigma_load_rotor_config(&config->enigma, optarg); break;
+        case 'p':
+            result = enigma_load_rotor_positions(&config->enigma, optarg) == 0;
+            config->flags |= ENIGMA_PREDEFINED_ROTOR_POSITIONS;
+            break;
+        case 'u':
+            result = enigma_load_reflector_config(&config->enigma, optarg) == 0;
+            config->flags |= ENIGMA_PREDEFINED_REFLECTOR;
+            break;
+        case 'w':
+            result = enigma_load_rotor_config(&config->enigma, optarg) == 0;
+            config->flags |= ENIGMA_PREDEFINED_ROTOR_SETTINGS;
+            break;
         default:  result = print_usage(argv[0]);
         }
     }
@@ -213,6 +224,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
 
     if (optind < argc) {
         config->ciphertext = argv[optind];
+        config->ciphertextLen = strlen(config->ciphertext);
     }
 
     return config;

@@ -19,7 +19,8 @@ static enigma_t* enigmas = NULL;
 static char* plaintexts = NULL;
 static pthread_t* threads = NULL;
 static int threadCount = 0;
-static int* waitingThreads = NULL;
+static int* freeThreads = NULL;
+static int* threadArgs = NULL;
 pthread_mutex_t spawn_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
@@ -37,7 +38,9 @@ void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
     enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
     plaintexts = malloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1) * sizeof(char));
     threads = malloc(global_cfg->maxThreads * sizeof(pthread_t));
-    waitingThreads = calloc(global_cfg->maxThreads, sizeof(int));
+    freeThreads = malloc(global_cfg->maxThreads * sizeof(int));
+    threadArgs = malloc(global_cfg->maxThreads * 2 * sizeof(int));
+    memset(freeThreads, 1, global_cfg->maxThreads * sizeof(int));
 
     int flags = 0;
     if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_SETTINGS)) {
@@ -63,30 +66,34 @@ void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
         pthread_join(threads[t], NULL);
     }
 
+    free(freeThreads);
     free(threads);
     free(plaintexts);
     free(enigmas);
+    free(threadArgs);
 }
 
-static void spawn(int flags, int threadNum) {
-    waitingThreads[threadNum] = 1;
+static void spawn(int flags, int parent) {
     pthread_mutex_lock(&spawn_mutex);
-    waitingThreads[threadNum] = 0;
     int args[2];
-    threadCount++;
-    if (threadCount > global_cfg->maxThreads) {
-        for (int t = 0; t < threadCount; t++) {
-            if (t == threadNum || waitingThreads[t]) continue;
-            pthread_join(threads[t], NULL);
+    int threadNum = -1;
+
+    while (threadNum == -1) {
+        for (int i = 0; i < global_cfg->maxThreads; i++) {
+            if (freeThreads[i]) {
+                threadNum = i;
+                break;
+            }
         }
-        threadCount = 0;
     }
+    printf("Spawning with flags %d\n", flags);
 
-    args[0] = flags;
-    args[1] = threadCount - 1;
+    threadArgs[threadNum * 2] = flags;
+    threadArgs[threadNum * 2 + 1] = threadNum;
 
-    memcpy(&enigmas[threadCount - 1], &enigmas[threadNum], sizeof(enigma_t));
-    pthread_create(&threads[threadCount - 1], NULL, thread_main, args);
+    memcpy(&enigmas[threadNum], &enigmas[parent], sizeof(enigma_t));
+    pthread_create(&threads[threadNum], NULL, thread_main, &threadArgs[threadNum * 2]);
+    freeThreads[threadNum] = 0;
     pthread_mutex_unlock(&spawn_mutex);
 }
 
@@ -104,7 +111,7 @@ static void* thread_main(void* args) {
     #define FLAGS ((int*)args)[0]
     #define THREADNUM ((int*)args)[1]
     #define MYENIGMA enigmas[THREADNUM]
-    printf("Thread %d started with flags %d %d %d %d\n", THREADNUM, FLAGS & FLAG_ROTORS, FLAGS & FLAG_POSITIONS, FLAGS & FLAG_REFLECTOR, FLAGS & FLAG_PLUGBOARD);
+    printf("Flags: %d\n", FLAGS);
 
     if (FLAGS & FLAG_ROTORS) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
@@ -137,7 +144,7 @@ static void* thread_main(void* args) {
         }
     } else if (FLAGS & FLAG_PLUGBOARD) {
         // No plugboard
-        spawn(FLAGS & ~FLAG_PLUGBOARD, THREADNUM);
+        spawn(0, THREADNUM);
 
         for (int i = 1; i < global_cfg->maxPlugboardSettings; i++) {
             for (int j = 0; j < i; j++) {
@@ -157,23 +164,31 @@ static void* thread_main(void* args) {
     } else {
         char* decrypted = &plaintexts[THREADNUM];
         enigma_encode_string(&MYENIGMA, global_cfg->ciphertext, decrypted, global_cfg->ciphertextLen);
+        if (!strcmp(MYENIGMA.rotors[0].name, enigma_rotor_I.name) &&
+            !strcmp(MYENIGMA.rotors[1].name, enigma_rotor_II.name) &&
+            !strcmp(MYENIGMA.rotors[2].name, enigma_rotor_III.name)) {
+                printf("%s\n", decrypted);
+        }
 
         if (global_cfg->dictionary) {
             int match_count = enigma_dict_match(decrypted, global_cfg);
             if (match_count) {
                 printf("%s %s %s %c%c%c %s %s: %s\n",
                        MYENIGMA.rotors[0].name, MYENIGMA.rotors[1].name, MYENIGMA.rotors[2].name,
-                       MYENIGMA.rotors[0].idx, MYENIGMA.rotors[1].idx, MYENIGMA.rotors[2].idx,
+                       MYENIGMA.rotors[0].idx + 'A', MYENIGMA.rotors[1].idx + 'A', MYENIGMA.rotors[2].idx + 'A',
                        MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
             }
         } else {
-            if (enigma_letter_freq(decrypted, global_cfg->ciphertextLen, global_cfg->letterFreqTargets, global_cfg->letterFreqOffset)) {
+            printf("Got here\n");
+            if (enigma_letter_freq(decrypted, global_cfg->ciphertextLen, global_cfg->letterFreqTargets, global_cfg->letterFreqOffset) || 1) {
                 printf("%s %s %s %c%c%c %s %s: %s\n",
                        MYENIGMA.rotors[0].name, MYENIGMA.rotors[1].name, MYENIGMA.rotors[2].name,
-                       MYENIGMA.rotors[0].idx, MYENIGMA.rotors[1].idx, MYENIGMA.rotors[2].idx,
+                       MYENIGMA.rotors[0].idx + 'A', MYENIGMA.rotors[1].idx + 'A', MYENIGMA.rotors[2].idx + 'A',
                        MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
             }
         }
     }
+
+    freeThreads[THREADNUM] = 1;
     return NULL;
 }
