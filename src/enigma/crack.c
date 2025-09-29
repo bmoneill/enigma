@@ -90,3 +90,26 @@ float enigma_freq(const char* plaintext, int len) {
     }
     return score / (len * (len - 1));
 }
+
+/**
+ * @brief Checks if multiple words from the dictionary are present in the plaintext.
+ *
+ * This function checks the plaintext against a dictionary of words and returns 1
+ * if multiple words are found, otherwise returns 0.
+ *
+ * @param plaintext The plaintext to check
+ * @param cfg The enigma_crack_config_t containing the dictionary and its size
+ *
+ */
+int enigma_dict_match(const char* plaintext, const enigma_crack_config_t* cfg) {
+    int match_count = 0;
+    for (int i = 0; i < cfg->dictSize; i++) {
+        if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
+            match_count++;
+            if (match_count > 1) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

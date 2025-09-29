@@ -21,7 +21,7 @@ static pthread_t* threads = NULL;
 static int threadCount = 0;
 
 static void spawn(int,int);
-static void thread_main(int*);
+static void* thread_main(void*);
 
 /**
  * @brief Runs the brute force algorithm with the provided configuration and preset values.
@@ -63,9 +63,9 @@ static void spawn(int flags, int threadNum) {
 /**
  * @brief Entry point for each thread.
  */
-static void thread_main(int* args) {
-    #define THREADNUM args[0]
-    #define FLAGS args[1]
+static void* thread_main(void* args) {
+    #define THREADNUM ((int*)args)[0]
+    #define FLAGS ((int*)args)[1]
     #define MYENIGMA enigmas[THREADNUM - 1]
 
     if (FLAGS & FLAG_ROTORS) {
@@ -120,7 +120,23 @@ static void thread_main(int* args) {
         char* decrypted = &plaintexts[THREADNUM - 1];
         enigma_encode_string(&MYENIGMA, global_cfg->ciphertext, decrypted, global_cfg->ciphertextLen);
 
-        // TODO Decide via dictionary lookup or frequency analysis whether this
-        // decryption is a possible candidate
+        if (global_cfg->dictionary) {
+            int match_count = enigma_dict_match(decrypted, global_cfg);
+            if (match_count) {
+                printf("%s %s %s %c%c%c %s %s: %s\n",
+                       MYENIGMA.rotors[0].name, MYENIGMA.rotors[1].name, MYENIGMA.rotors[2].name,
+                       MYENIGMA.rotors[0].idx, MYENIGMA.rotors[1].idx, MYENIGMA.rotors[2].idx,
+                       MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
+            }
+        } else {
+            float f = enigma_freq(decrypted, global_cfg->ciphertextLen);
+            if (f >= global_cfg->minScore && f <= global_cfg->maxScore) {
+                printf("%.2f %s %s %s %c%c%c %s %s: %s\n", f,
+                       MYENIGMA.rotors[0].name, MYENIGMA.rotors[1].name, MYENIGMA.rotors[2].name,
+                       MYENIGMA.rotors[0].idx, MYENIGMA.rotors[1].idx, MYENIGMA.rotors[2].idx,
+                       MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
+            }
+        }
     }
+    return NULL;
 }

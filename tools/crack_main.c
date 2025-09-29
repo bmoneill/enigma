@@ -1,4 +1,3 @@
-#include "enigma/bombe.h"
 #include "enigma/brute.h"
 #include "enigma/common.h"
 #include "enigma/crack.h"
@@ -32,7 +31,7 @@ int main(int argc, char* argv[]) {
     }
 
     switch (config->method) {
-    case ENIGMA_METHOD_BOMBE: enigma_crack_bombe(config); break;
+    //case ENIGMA_METHOD_BOMBE: enigma_crack_bombe(config); break;
     case ENIGMA_METHOD_BRUTE: enigma_crack_brute(config); break;
     case ENIGMA_METHOD_NGRAM:
         switch (config->target) {
