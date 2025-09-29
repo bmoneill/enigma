@@ -1,8 +1,15 @@
 #include "crack.h"
 
+#ifdef __STDC_ALLOC_LIB__
+#define __STDC_WANT_LIB_EXT2__ 1
+#else
+#define _POSIX_C_SOURCE 200809L
+#endif
+
 #include "enigma.h"
 #include "rotors.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,6 +44,28 @@ void enigma_find_potential_indices(const char* ciphertext, const char* plaintext
 
     indices[matchCount] = -1;
 }
+
+void enigma_load_dictionary(enigma_crack_config_t* cfg, FILE* dictFile) {
+    char line[BUFSIZ];
+    int index = 0;
+
+    while (fgets(line, sizeof(line), dictFile) != NULL) {
+        line[strcspn(line, "\n")] = 0;  // Remove newline character
+        cfg->dictionary[index] = strdup(line);
+        index++;
+    }
+    cfg->dictSize = index;
+}
+
+void enigma_free_dictionary(enigma_crack_config_t* cfg) {
+    for (int i = 0; i < cfg->dictSize; i++) {
+        free((void*) cfg->dictionary[i]);
+    }
+    free(cfg->dictionary);
+    cfg->dictionary = NULL;
+    cfg->dictSize = 0;
+}
+
 /**
  * @brief Sort an array of enigma_score_t by score in descending order.
  *
@@ -89,6 +118,39 @@ float enigma_freq(const char* plaintext, int len) {
         score += (float)freq[i] * (freq[i] - 1);
     }
     return score / (len * (len - 1));
+}
+
+/**
+ * @brief Check if the letter frequencies in the plaintext match target frequencies within an offset.
+ *
+ * This function checks if the frequency of each letter in the plaintext is within
+ * the specified offset of the target frequencies. If more than half of the letters
+ * deviate from the target frequencies, the function returns 0 (false). Otherwise,
+ * it returns 1 (true).
+ * 
+ * @param plaintext The plaintext to analyze
+ * @param len The length of the plaintext
+ * @param targets The target frequencies for each letter (array of 26 floats)
+ * @param offset The allowable deviation from the target frequencies
+ * @return 1 if over half of the letter frequencies match within the offset, 0 otherwise
+ */
+int enigma_letter_freq(const char* plaintext, int len,  float* targets, float offset) {
+    int letters[26] = {0};
+    int total = 0;
+    for (int i = 0; i < len; i++) {
+        letters[plaintext[i] - 'A']++;
+    }
+
+    for (int i = 0; i < 26; i++) {
+        float freq = (float)letters[i] / len * 100.0f;
+        if (freq < targets[i] - offset || freq > targets[i] + offset) {
+            total++;
+            if (total > 13) {
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
 
 /**

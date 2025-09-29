@@ -30,6 +30,20 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    config->letterFreqOffset = 0.01f;
+    config->letterFreqTargets = malloc(26 * sizeof(float));
+
+    // English letter frequency targets (from https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
+    // TODO make this an argument
+    // X is probably unreliable here due to possibly being used as a space substitute
+    float englishFreq[26] = {
+        0.0812f, 0.0149f, 0.0271f, 0.0432f, 0.1202f, 0.023f, 0.0203f, 0.0592f, 0.0731f, 0.0010f,
+        0.0069f, 0.0398f, 0.0261f, 0.0695f, 0.0768f, 0.0182f, 0.0011f, 0.0602f, 0.0628f, 0.0910f,
+        0.0288f, 0.0111f, 0.0209f, 0.0017f, 0.0211f, 0.0007f
+    };
+
+    memcpy(config->letterFreqTargets, englishFreq, 26 * sizeof(float));
+
     switch (config->method) {
     //case ENIGMA_METHOD_BOMBE: enigma_crack_bombe(config); break;
     case ENIGMA_METHOD_BRUTE: enigma_crack_brute(config); break;
@@ -109,9 +123,10 @@ static int print_usage(const char* argv0) {
     fprintf(stderr, "  Cryptanalysis Settings:\n");
     fprintf(stderr, "    -c plaintext   Set the known plaintext\n");
     fprintf(stderr, "    -C position    Set the position of known plaintext\n");
+    fprintf(stderr, "    -d             Set the dictionary file to use\n");
     fprintf(stderr, "    -l language    Language ('english' or 'german', for IOC method)\n");
-    fprintf(stderr, "    -m float       Minimum score threshold (for n-gram and IOC methods)\n");
-    fprintf(stderr, "    -M float       Maximum score threshold (for n-gram and IOC methods)\n");
+    fprintf(stderr, "    -m float       Minimum score threshold (for n-gram, IOC, and brute methods)\n");
+    fprintf(stderr, "    -M float       Maximum score threshold (for n-gram, IOC, and brute methods)\n");
     fprintf(stderr, "    -n file        n-gram bank to load\n\n");
     fprintf(stderr, "    -S count       Set the maximum number of plugboard settings (default: 8)\n");
     fprintf(stderr, "    -t threadCount Number of threads to use (default: 8)\n\n");
