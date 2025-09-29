@@ -19,6 +19,9 @@ static enigma_t* enigmas = NULL;
 static char* plaintexts = NULL;
 static pthread_t* threads = NULL;
 static int threadCount = 0;
+static int* waitingThreads = NULL;
+pthread_mutex_t spawn_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 
 static void spawn(int,int);
 static void* thread_main(void*);
@@ -34,6 +37,7 @@ void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
     enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
     plaintexts = malloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1) * sizeof(char));
     threads = malloc(global_cfg->maxThreads * sizeof(pthread_t));
+    waitingThreads = calloc(global_cfg->maxThreads, sizeof(int));
 
     int flags = 0;
     if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_SETTINGS)) {
@@ -65,11 +69,14 @@ void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
 }
 
 static void spawn(int flags, int threadNum) {
+    waitingThreads[threadNum] = 1;
+    pthread_mutex_lock(&spawn_mutex);
+    waitingThreads[threadNum] = 0;
     int args[2];
     threadCount++;
     if (threadCount > global_cfg->maxThreads) {
         for (int t = 0; t < threadCount; t++) {
-            if (t == threadNum) continue;
+            if (t == threadNum || waitingThreads[t]) continue;
             pthread_join(threads[t], NULL);
         }
         threadCount = 0;
@@ -80,6 +87,7 @@ static void spawn(int flags, int threadNum) {
 
     memcpy(&enigmas[threadCount - 1], &enigmas[threadNum], sizeof(enigma_t));
     pthread_create(&threads[threadCount - 1], NULL, thread_main, args);
+    pthread_mutex_unlock(&spawn_mutex);
 }
 
 /**
