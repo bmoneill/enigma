@@ -80,6 +80,7 @@ static void print_usage(const char* argv0) {
     fprintf(stderr, "  -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g., 'ABCDEF')\n");
     fprintf(stderr, "  -u reflector   Set the reflector (Umkehrwalze) configuration (e.g., 'B')\n");
     fprintf(stderr, "  -w rotors      Set the rotor (Walzen) configuration (e.g., 'I II III')\n");
+    fprintf(stderr, "  -r             Generate a random configuration\n");
     fprintf(stderr, "Available rotors: I, II, III, IV, V, VI, VII, VIII\n");
     fprintf(stderr, "Available reflectors: A, B, C\n");
     exit(EXIT_FAILURE);
