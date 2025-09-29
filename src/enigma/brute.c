@@ -159,9 +159,8 @@ static void* thread_main(void* args) {
                        MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
             }
         } else {
-            float f = enigma_freq(decrypted, global_cfg->ciphertextLen);
-            if (f >= global_cfg->minScore && f <= global_cfg->maxScore) {
-                printf("%.2f %s %s %s %c%c%c %s %s: %s\n", f,
+            if (enigma_letter_freq(decrypted, global_cfg->ciphertextLen, global_cfg->letterFreqTargets, global_cfg->letterFreqOffset)) {
+                printf("%s %s %s %c%c%c %s %s: %s\n",
                        MYENIGMA.rotors[0].name, MYENIGMA.rotors[1].name, MYENIGMA.rotors[2].name,
                        MYENIGMA.rotors[0].idx, MYENIGMA.rotors[1].idx, MYENIGMA.rotors[2].idx,
                        MYENIGMA.reflector.name, MYENIGMA.plugboard, decrypted);
