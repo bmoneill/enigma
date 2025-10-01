@@ -214,7 +214,7 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
  * @return 0 on success, non-zero on failure.
  * @todo Implement this function.
  */
-int enigma_save_config(enigma_t* enigma, const char* path) {
+int enigma_save_config(const enigma_t* enigma, const char* path) {
     // TODO implement
     return 1;
 }
@@ -222,13 +222,10 @@ int enigma_save_config(enigma_t* enigma, const char* path) {
 /**
  * @brief Print the current Enigma machine configuration to out.
  *
- * Currently unimplemented.
- *
  * @param enigma Pointer to the Enigma machine instance.
  * @param out    Buffer to store the configuration string.
- * @todo Implement this function.
  */
-void enigma_print_config(enigma_t* enigma, char* out) {
+void enigma_print_config(const enigma_t* enigma, char* out) {
     sprintf(out, "Rotors: %s (%c)  %s (%c), %s (%c) | Reflector: %s | Plugboard: %s\n",
             enigma->rotors[0].name, enigma->rotors[0].idx + 'A',
             enigma->rotors[1].name, enigma->rotors[1].idx + 'A',
