@@ -29,45 +29,30 @@ static ENIGMA_ALWAYS_INLINE char substitute(const char*, char);
  * @param c The character to encode.
  * @return The encoded character.
  */
-char enigma_encode(enigma_t* enigma, char c) {
-    const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int idx = c - 'A';
-
-    VERBOSE_PRINT("Keyboard Input: %c\n", c);
+char enigma_encode(enigma_t* enigma, int c) {
+    static const char* alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    c -= 'A';
 
     rotate_rotors(enigma);
 
-    if (enigma_verbose) {
-        VERBOSE_PRINT("%s", "Rotor Positions:");
-        for (int i = 0; i < enigma->rotor_count; i++) {
-            VERBOSE_PRINT(" %c", enigma->rotors[i].idx + 'A');
-        }
-        VERBOSE_PRINT("%s", "\n");
-    }
-
     // Plugboard
-    c = substitute(enigma->plugboard, c);
-    idx = ALPHA2IDX(c);
-    VERBOSE_PRINT("Plugboard: %c (index %d)\n", c, idx);
+    c = substitute(enigma->plugboard, c + 'A') - 'A';
 
     // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
-        idx = rotor_pass_forward(&enigma->rotors[i], idx);
+        c = rotor_pass_forward(&enigma->rotors[i], c);
     }
 
     // Reflector
-    idx = enigma->reflector.indices[idx];
-    VERBOSE_PRINT("Reflector %s (index %d): %c\n", enigma->reflector.name, idx, alphabet[idx]);
+    c = enigma->reflector.indices[c];
 
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
-        idx = rotor_pass_reverse(&enigma->rotors[i], idx);
-        VERBOSE_PRINT("Rotor %s (index %d, offset %d): %c\n", enigma->rotors[i].name, idx, enigma->rotors[i].idx, alphabet[idx]);
+        c = rotor_pass_reverse(&enigma->rotors[i], c);
     }
 
     // Plugboard again
-    c = substitute(enigma->plugboard, alphabet[idx]);
-    VERBOSE_PRINT("Plugboard: %c\n", c);
+    c = substitute(enigma->plugboard, alphabet[c]);
 
     return c;
 }
