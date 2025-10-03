@@ -1,6 +1,4 @@
-# Enigma machine simulator and Bombe
-
-This is a CLI M3 Enigma simulator and Bombe.
+# Enigma machine simulator and cryptanalysis tools
 
 ## Building
 
@@ -15,8 +13,6 @@ cmake .
 cmake --build .
 ```
 
-## Enigma Simulator
-
 ### About the Enigma
 
 The Enigma was a cipher device used by the Germans during World War II to encrypt military communication.
@@ -27,6 +23,10 @@ to its configuration. It then travels through three rotors, each further scrambl
 reaches the reflector, which further scrambles the signal. Then, the signal passes through the rotors again in reverse.
 Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
 The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.
+
+## enigmacli
+
+This is a CLI M3 Enigma simulator.
 
 ### Usage
 
@@ -54,97 +54,13 @@ MWQHY
 HELLO
 ```
 
-## Bombe
+## enigmacrack
 
-This is a program based on the machine used to crack Enigma during World War II.
-`bombe` must take at least 3 arguments: the crib, the index where the crib should be in
-the ciphertext, and the ciphertext. The crib is a piece of known plaintext. For example,
-during the war, it was common for the Germans to begin their messages with weather reports,
-so the German for "weather report" could be used to crack the message and get the
-day's Enigma configuration.
-
-`bombe` will output all Enigma configurations (with empty plugboards) containing the plaintext
-crib string at the given index, and the resulting plaintext. By default, it is fairly slow,
-so multithreading is supported.
-
-### Usage
-
-```shell
-$ bombe [-i index] [-t thread_count] -c crib ciphertext
-```
-
-The following options are supported:
-
-* `-c`: Crib string (required)
-* `-i`: Crib string index in plaintext
-* `-t`: Number of threads to use (default: 1)
-
-If the index is not provided, `bombe` will find all potential indices and run on
-each one. Indices are valid if each character in the crib string does not match
-the corresponding ciphertext character (a letter may not be encoded into itself).
-
-### Example
-
-```shell
-$ ./bombe -i 0 -c "HELLO" -t 32 "ILBDAAMTAZ"
-0.177778 Rotors: II (F)  VI (Y), V (E) | Reflector: B | Plaintext: HELLONLLON
-0.066667 Rotors: III (A)  I (C), V (E) | Reflector: C | Plaintext: HELLOJERSH
-0.088889 Rotors: III (A)  II (A), I (A) | Reflector: B | Plaintext: HELLOWORLD # actual plaintext
-0.022222 Rotors: III (A)  II (K), I (B) | Reflector: B | Plaintext: HELLOSVRTA
-0.088889 Rotors: III (A)  II (Z), I (Z) | Reflector: B | Plaintext: HELLOWORLD
-0.066667 Rotors: III (A)  IV (Y), V (K) | Reflector: C | Plaintext: HELLOJJRZH
-0.044444 Rotors: III (A)  VI (V), VIII (Q) | Reflector: C | Plaintext: HELLOSHRTF
-0.088889 Rotors: III (A)  VI (U), V (X) | Reflector: C | Plaintext: HELLOZHRMH
-0.044444 Rotors: III (A)  VI (B), V (Z) | Reflector: C | Plaintext: HELLOOBRXU
-0.022222 Rotors: IV (I)  VII (T), VI (E) | Reflector: C | Plaintext: HELLOKYBUA
-```
-
-Long ciphertext / short crib results can be sorted through via letter frequencies:
-
-```shell
-$ ./bombe -i 0 -c "THIS" -t 64 "QPAYCAAWNNCHFQATVOXQLTCLSVX" | sort -g | tail -1
-0.062678 Rotors: IV (D)  I (Z), III (T) | Reflector: C | Plaintext: THISISENCRYPTEDVERYSECURELY
-```
-
-### Performance/Multithreading
-
-Multithreading reduces the runtime by a significant margin. Since we are
-essentially looping through all the possible Enigma configurations, this is a
-task that is easily parallelizable.
-
-Inlining most of the arithmetic functions and using indices for the rotor/reflector
-alphabets cuts down the time significantly. Initially, on one thread, it took
-around 20 seconds to run.
-
-Below are single- and multi-threaded times on my 16-core i9-10885H.
-
-```shell
-$ time ./bombe -i 0 -c "THIS" -t 1 "QPAYCAAWNNCHFQATVOXQLTCLSVX" # 1 thread
-real    0m2.980s
-user    0m2.893s
-sys     0m0.045s
-$ time ./bombe -i 0 -c "THIS" -t 64 "QPAYCAAWNNCHFQATVOXQLTCLSVX" # 64 threads
-real    0m0.414s
-user    0m5.052s
-sys     0m0.070s
-$ time ./bombe -i 0 -c "THIS" -t 256 "QPAYCAAWNNCHFQATVOXQLTCLSVX" # 256 threads
-real    0m0.361s
-user    0m5.072s
-sys     0m0.078s
-```
-
-## enigmacrack (WIP)
-
-Currently a work in progress.
-
-This is a program to crack the Enigma using Index of Coincidence, n-grams, and brute force.
+This is a program to crack the Enigma using Index of Coincidence, n-grams, and brute force methods.
 Essentially, we run our ciphertext through each set of rotors and see if the resulting
 plaintext looks a bit more like English or whatever language the plaintext should be in,
 using letter frequencies and n-grams, or groups of letters. Then, we can do the same thing
-for the rotor positions, reflector, and plugboard. This requires a bit more user intervention
-but it works around the limited ability of bombe to work with the plugboard. Brute forcing the
-Enigma is an extremely computationally expensive endeavor, even with modern technology, so this
-is a good way to get around that.
+for the rotor positions, reflector, and plugboard.
 
 This tool is not fully automated. If no settings are known, you will likely have to run
 `enigmacrack` at least once for each component of an Enigma key. The output will contain the most
@@ -153,28 +69,39 @@ likely fits, but the top fit may not always be in the actual key.
 ### Usage
 
 ```shell
-enigmacrack [options...] method target [file]\n", argv0);
+enigmacrack method [target] [options] [ciphertext]
 ```
 
 The following options are supported:
+
+#### Enigma Options
+
+These options are for settings that are already known.
 
 * `-w rotors`: Set the rotor (Walzen) configuration (e.g. 'I II III')
 * `-p positions`: Set the initial rotor positions (e.g. 'ABC')
 * `-u reflector`: Set the reflector (Umkehrwalze) (e.g. 'B')
 * `-s plugboard`: Set the plugboard (Steckerbrett) configuration (e.g. 'ABCDEF')
+
+#### Cryptanalysis options
+
+* `-c plaintext`: Set the known plaintext
+* `-C position`: Set the known plaintext index
+* `-d file`: Set the dictionary file to use
+* `-l language`: Set the language to use ('english' or 'german')
+* `-m float`: Minimum score threshold for n-gram and IOC methods
+* `-M float`: Maximum score threshold for n-gram and IOC methods
+* `-n file`: n-gram bank to load
 * `-S count`: Set the maximum number of plugboard settings (e.g. '10')
-* `-c plaintext`: Known plaintext
-* `-C position`: Known plaintext index
-* `-l language`: Language ('english' or 'german')
-* `-t threadCount`: Number of threads to use
+* `-t threadCount`: Set the number of threads to use
 
 method must be one of the following:
 
 * `brute`: Brute force
-* `ioc`: Index of Coincidence
-* `bigram`: Bigram analysis
-* `trigram`: Trigram analysis
-* `quadgram`: Quadgram analysis
+* `ioc`: Index of Coincidence (currently unimplemented)
+* `bigram`: Bigram analysis (currently unimplemented)
+* `trigram`: Trigram analysis (currently unimplemented)
+* `quadgram`: Quadgram analysis (currently unimplemented)
 
 target must be one of the following:
 
@@ -184,18 +111,6 @@ target must be one of the following:
 * `reflector`: Reflector
 
 If a file is not given, `enigmacrack` will read from standard input.
-
-## Planned Features
-
-* Bombe should use a dictionary to highlight found plaintext containing more actual words.
-
-## Bugs
-
-* Bombe doesn't support a populated plugboard.
-* Probably others.
-
-If you find a bug not listed here, submit an issue, PR, or email me with a
-description and/or patch.
 
 ## Further Reading
 
