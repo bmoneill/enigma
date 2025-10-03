@@ -45,6 +45,6 @@ typedef struct {
 void enigma_find_potential_indices(const char*, const char*, int*);
 int enigma_dict_match(const char*, const enigma_crack_config_t*);
 float enigma_freq(const char*, int);
-int enigma_letter_freq(const char*, int,  float*, float);
+int enigma_letter_freq(const char*, int,  float*, float, float*);
 
 #endif

@@ -134,7 +134,7 @@ float enigma_freq(const char* plaintext, int len) {
  * @param offset The allowable deviation from the target frequencies
  * @return 1 if over half of the letter frequencies match within the offset, 0 otherwise
  */
-int enigma_letter_freq(const char* plaintext, int len,  float* targets, float offset) {
+int enigma_letter_freq(const char* plaintext, int len,  float* targets, float offset, float* result) {
     int letters[26] = {0};
     int total = 0;
     for (int i = 0; i < len; i++) {
@@ -150,6 +150,7 @@ int enigma_letter_freq(const char* plaintext, int len,  float* targets, float of
             }
         }
     }
+    *result = (float)total / 26.0f;
     return 1;
 }
 

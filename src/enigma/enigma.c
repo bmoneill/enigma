@@ -1,6 +1,7 @@
 #include "enigma.h"
 
 #include "reflectors.h"
+#include "io.h"
 #include "rotors.h"
 
 #include <ctype.h>
@@ -104,7 +105,7 @@ void enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int coun
  * @param enigma Pointer to the `enigma_t` to be initialized.
  */
 void enigma_init_default_config(enigma_t* enigma) {
-    memcpy(&enigma->reflector, &enigma_UKW_B, sizeof(enigma_reflector_t));
+    enigma->reflector = enigma_UKW_B;
     enigma->rotor_count = 3;
     enigma->rotors[2] = enigma_rotor_I;
     enigma->rotors[1] = enigma_rotor_II;
