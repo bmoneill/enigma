@@ -1,7 +1,6 @@
 #include "enigma.h"
 
 #include "reflectors.h"
-#include "io.h"
 #include "rotors.h"
 
 #include <ctype.h>
