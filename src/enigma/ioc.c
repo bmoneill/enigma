@@ -45,8 +45,6 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
  */
 void enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
     enigma_crack_multithreaded(config, (void* (*)(void*))rotor_thread_main);
-    int result_count = 0;
-    char* tempPlaintext = malloc(config->ciphertextLen + 1);
 }
 
 /**
