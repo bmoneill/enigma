@@ -14,6 +14,27 @@ pthread_mutex_t spawn_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void *(*enigma_thread_main)(void*);
 
+/**
+ * @brief Crack using multiple threads.
+ *
+ * This function sets up the necessary data structures and spawns threads to perform
+ * the cracking operation using the provided thread main function.
+ *
+ * This function sets up the following global variables:
+ * - global_cfg: Pointer to the cracking configuration structure.
+ * - enigma_enigmas: Array of enigma_t structures, one for each thread, indexed by thread number.
+ * - enigma_plaintexts: Array of plaintext buffers, one for each thread, indexed by thread number.
+ * - enigma_threads: Array of pthread_t structures, one for each thread, indexed by thread number.
+ * - enigma_freeThreads: Array of integers indicating whether each thread is free (1) or busy (0), indexed by thread number.
+ * - enigma_threadArgs: Array of integers, two per thread, where the first integer is the flags and the second integer is the thread index.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ * @param thread_main Pointer to the function to be executed by each thread. The function
+ *                    should accept a single void* argument and return a void*. The return
+ *                    value is ignored. The void* argument is a pointer to an integer array of size 2,
+ *                    where the first element is the flags and the second element is the thread index.
+ *                    enigma_freeThreads[thread_index] should be set to 1 when the thread's work is done.
+ */
 void enigma_crack_multithreaded(enigma_crack_config_t* config, void* (*thread_main)(void*)) {
     global_cfg = config;
     enigma_enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
@@ -63,6 +84,17 @@ void enigma_crack_multithreaded(enigma_crack_config_t* config, void* (*thread_ma
     free(enigma_threadArgs);
 }
 
+/**
+ * @brief Spawn a new thread to perform work.
+ *
+ * This function finds a free thread slot, copies the enigma configuration
+ * from the parent thread, and starts a new thread with the specified flags.
+ * The new thread will execute the function pointed to by enigma_thread_main.
+ * The thread number is passed to the thread function via enigma_threadArgs.
+ *
+ * @param flags Flags indicating which parts of the Enigma configuration to vary.
+ * @param parent The index of the parent thread from which to copy the Enigma configuration.
+ */
 void enigma_spawn(int flags, int parent) {
     pthread_mutex_lock(&spawn_mutex);
     int threadNum = -1;
