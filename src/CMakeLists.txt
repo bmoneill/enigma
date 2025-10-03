@@ -24,6 +24,7 @@ set(LIBRARY_PUBLIC_SRC
 	"${LIBRARY_BASE_PATH}/enigma/ioc.c"
 	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
 	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
+	"${LIBRARY_BASE_PATH}/enigma/threads.c"
 )
 
 set(LIBRARY_PUBLIC_HEADERS
@@ -36,6 +37,7 @@ set(LIBRARY_PUBLIC_HEADERS
 	"${LIBRARY_BASE_PATH}/enigma/ngram.h"
 	"${LIBRARY_BASE_PATH}/enigma/reflectors.h"
 	"${LIBRARY_BASE_PATH}/enigma/rotors.h"
+	"${LIBRARY_BASE_PATH}/enigma/threads.h"
 )
 
 add_library (

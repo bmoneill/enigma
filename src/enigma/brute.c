@@ -1,6 +1,5 @@
 #include "brute.h"
 
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,25 +8,14 @@
 #include "io.h"
 #include "rotors.h"
 #include "reflectors.h"
+#include "threads.h"
 
 #define FLAG_REFLECTOR 1
 #define FLAG_ROTORS 2
 #define FLAG_POSITIONS 4
 #define FLAG_PLUGBOARD 8
 
-static const enigma_crack_config_t* global_cfg = NULL;
-static enigma_t* enigmas = NULL;
-static char* plaintexts = NULL;
-static pthread_t* threads = NULL;
-static int threadCount = 0;
-static int* freeThreads = NULL;
-static int* threadArgs = NULL;
-pthread_mutex_t spawn_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-
-static void spawn(int,int);
 static void* thread_main(void*);
-
 /**
  * @brief Runs the brute force algorithm with the provided configuration and preset values.
  *
@@ -35,72 +23,7 @@ static void* thread_main(void*);
  *               other parameters
  */
 void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
-    global_cfg = crackCfg;
-    enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
-    plaintexts = calloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1), sizeof(char));
-    threads = malloc(global_cfg->maxThreads * sizeof(pthread_t));
-    freeThreads = calloc(global_cfg->maxThreads, sizeof(int));
-    threadArgs = malloc(global_cfg->maxThreads * 2 * sizeof(int));
-    memset(freeThreads, 1, global_cfg->maxThreads * sizeof(int));
-
-    int flags = 0;
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_SETTINGS)) {
-        flags |= FLAG_ROTORS;
-    }
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_POSITIONS)) {
-        flags |= FLAG_POSITIONS;
-    }
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_REFLECTOR)) {
-        flags |= FLAG_REFLECTOR;
-    }
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_PLUGBOARD_SETTINGS)) {
-        flags |= FLAG_PLUGBOARD;
-    }
-
-    crackCfg->flags = flags;
-
-    memcpy(enigmas, &global_cfg->enigma, sizeof(enigma_t));
-
-    thread_main((int[]){global_cfg->flags, 0});
-
-    while (1) {
-        int done = 0;
-        for (int i = 0; i < global_cfg->maxThreads; i++) {
-            done += freeThreads[i] ? 1 : 0;
-        }
-
-        if (done >= global_cfg->maxThreads) {
-            break;
-        }
-    }
-
-    free(freeThreads);
-    free(threads);
-    free(plaintexts);
-    free(enigmas);
-    free(threadArgs);
-}
-
-static void spawn(int flags, int parent) {
-    pthread_mutex_lock(&spawn_mutex);
-    int threadNum = -1;
-
-
-    while (threadNum == -1) {
-        for (int i = 1; i < global_cfg->maxThreads; i++) {
-            if (freeThreads[i]) {
-                threadNum = i;
-                break;
-            }
-        }
-    }
-    threadArgs[threadNum * 2] = flags;
-    threadArgs[threadNum * 2 + 1] = threadNum;
-
-    memcpy(&enigmas[threadNum], &enigmas[parent], sizeof(enigma_t));
-    pthread_create(&threads[threadNum], NULL, thread_main, &threadArgs[threadNum * 2]);
-    freeThreads[threadNum] = 0;
-    pthread_mutex_unlock(&spawn_mutex);
+    enigma_crack_multithreaded(crackCfg, thread_main);
 }
 
 /**
@@ -116,7 +39,7 @@ static void spawn(int flags, int parent) {
 static void* thread_main(void* args) {
     #define FLAGS ((int*)args)[0]
     #define THREADNUM ((int*)args)[1]
-    #define MYENIGMA enigmas[THREADNUM]
+    #define MYENIGMA enigma_enigmas[THREADNUM]
 
     if (FLAGS & FLAG_ROTORS) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
@@ -127,7 +50,7 @@ static void* thread_main(void* args) {
                     if (i == j || j == k || i == k) continue;
                     memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
 
-                    spawn(FLAGS & ~FLAG_ROTORS, THREADNUM);
+                    enigma_spawn(FLAGS & ~FLAG_ROTORS, THREADNUM);
                 }
             }
         }
@@ -138,18 +61,18 @@ static void* thread_main(void* args) {
                 MYENIGMA.rotors[1].idx = j;
                 for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
                     MYENIGMA.rotors[2].idx = k;
-                    spawn(FLAGS & ~FLAG_POSITIONS, THREADNUM);
+                    enigma_spawn(FLAGS & ~FLAG_POSITIONS, THREADNUM);
                 }
             }
         }
     } else if (FLAGS & FLAG_REFLECTOR) {
         for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
             memcpy(&MYENIGMA.reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
-            spawn(FLAGS & ~FLAG_REFLECTOR, THREADNUM);
+            enigma_spawn(FLAGS & ~FLAG_REFLECTOR, THREADNUM);
         }
     } else if (FLAGS & FLAG_PLUGBOARD) {
         // No plugboard
-        spawn(0, THREADNUM);
+        enigma_spawn(0, THREADNUM);
 
         for (int i = 1; i < global_cfg->maxPlugboardSettings; i++) {
             printf("Spawning plugboard with %d pairs\n", i);
@@ -161,14 +84,14 @@ static void* thread_main(void* args) {
                         MYENIGMA.plugboard[j * 2] = 'A' + a;
                         MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
 
-                        spawn(0, THREADNUM);
+                        enigma_spawn(0, THREADNUM);
                     }
                 }
 
             }
         }
     } else {
-        char* decrypted = &plaintexts[THREADNUM * (global_cfg->ciphertextLen + 1)];
+        char* decrypted = &enigma_plaintexts[THREADNUM * (global_cfg->ciphertextLen + 1)];
         char buf[80];
         int freq = 0;
         enigma_print_config(&MYENIGMA, buf);
@@ -184,6 +107,6 @@ static void* thread_main(void* args) {
         }
     }
 
-    freeThreads[THREADNUM] = 1;
+    enigma_freeThreads[THREADNUM] = 1;
     return NULL;
 }
