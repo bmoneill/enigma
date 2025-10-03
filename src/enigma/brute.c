@@ -22,8 +22,8 @@ static void* thread_main(void*);
  * @param config The config structure containing the predefined Enigma settings, ciphertext, and
  *               other parameters
  */
-void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
-    enigma_crack_multithreaded(crackCfg, thread_main);
+void enigma_crack_brute(enigma_crack_config_t* config) {
+    enigma_crack_multithreaded(config, thread_main);
 }
 
 /**
@@ -31,7 +31,7 @@ void enigma_crack_brute(enigma_crack_config_t* crackCfg) {
  *
  * This function performs the brute force search by iterating through all possible configurations
  * of the Enigma machine based on the flags provided. It decrypts the ciphertext and checks
- * against the dictionary or frequency analysis criteria.
+ * against the dictionary if provided, printing any matches found.
  *
  * @param args An array containing the flags and thread number.
  * @return NULL
