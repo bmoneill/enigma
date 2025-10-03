@@ -127,7 +127,7 @@ float enigma_freq(const char* plaintext, int len) {
  * the specified offset of the target frequencies. If more than half of the letters
  * deviate from the target frequencies, the function returns 0 (false). Otherwise,
  * it returns 1 (true).
- * 
+ *
  * @param plaintext The plaintext to analyze
  * @param len The length of the plaintext
  * @param targets The target frequencies for each letter (array of 26 floats)

@@ -13,7 +13,7 @@
 void enigma_crack_multithreaded(enigma_crack_config_t*, void*(*thread_main)(void*));
 void enigma_spawn(int, int);
 
-extern const enigma_crack_config_t* global_cfg;
+extern const enigma_crack_config_t* enigma_global_cfg;
 extern enigma_t* enigma_enigmas;
 extern char* enigma_plaintexts;
 extern pthread_t* enigma_threads;

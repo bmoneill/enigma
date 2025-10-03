@@ -74,7 +74,7 @@ static void* thread_main(void* args) {
         // No plugboard
         enigma_spawn(0, THREADNUM);
 
-        for (int i = 1; i < global_cfg->maxPlugboardSettings; i++) {
+        for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
             printf("Spawning plugboard with %d pairs\n", i);
             for (int j = 0; j < i; j++) {
                 for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
@@ -91,14 +91,14 @@ static void* thread_main(void* args) {
             }
         }
     } else {
-        char* decrypted = &enigma_plaintexts[THREADNUM * (global_cfg->ciphertextLen + 1)];
+        char* decrypted = &enigma_plaintexts[THREADNUM * (enigma_global_cfg->ciphertextLen + 1)];
         char buf[80];
         int freq = 0;
         enigma_print_config(&MYENIGMA, buf);
-        enigma_encode_string(&MYENIGMA, global_cfg->ciphertext, decrypted, global_cfg->ciphertextLen);
+        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, decrypted, enigma_global_cfg->ciphertextLen);
 
-        if (global_cfg->dictionary) {
-            int match_count = enigma_dict_match(decrypted, global_cfg);
+        if (enigma_global_cfg->dictionary) {
+            int match_count = enigma_dict_match(decrypted, enigma_global_cfg);
             if (match_count) {
                 printf("%s: %s\n", buf, decrypted);
             }
@@ -109,4 +109,8 @@ static void* thread_main(void* args) {
 
     enigma_freeThreads[THREADNUM] = 1;
     return NULL;
+
+    #undef MYENIGMA
+    #undef FLAGS
+    #undef THREADNUM
 }

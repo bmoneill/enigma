@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const enigma_crack_config_t* global_cfg = NULL;
+const enigma_crack_config_t* enigma_global_cfg = NULL;
 enigma_t* enigma_enigmas = NULL;
 char* enigma_plaintexts = NULL;
 pthread_t* enigma_threads = NULL;
@@ -36,43 +36,43 @@ void *(*enigma_thread_main)(void*);
  *                    enigma_freeThreads[thread_index] should be set to 1 when the thread's work is done.
  */
 void enigma_crack_multithreaded(enigma_crack_config_t* config, void* (*thread_main)(void*)) {
-    global_cfg = config;
-    enigma_enigmas = malloc(global_cfg->maxThreads * sizeof(enigma_t));
-    enigma_plaintexts = calloc(global_cfg->maxThreads * (global_cfg->ciphertextLen + 1), sizeof(char));
-    enigma_threads = malloc(global_cfg->maxThreads * sizeof(pthread_t));
-    enigma_freeThreads = calloc(global_cfg->maxThreads, sizeof(int));
-    enigma_threadArgs = malloc(global_cfg->maxThreads * 2 * sizeof(int));
-    memset(enigma_freeThreads, 1, global_cfg->maxThreads * sizeof(int));
+    enigma_global_cfg = config;
+    enigma_enigmas = malloc(enigma_global_cfg->maxThreads * sizeof(enigma_t));
+    enigma_plaintexts = calloc(enigma_global_cfg->maxThreads * (enigma_global_cfg->ciphertextLen + 1), sizeof(char));
+    enigma_threads = malloc(enigma_global_cfg->maxThreads * sizeof(pthread_t));
+    enigma_freeThreads = calloc(enigma_global_cfg->maxThreads, sizeof(int));
+    enigma_threadArgs = malloc(enigma_global_cfg->maxThreads * 2 * sizeof(int));
+    memset(enigma_freeThreads, 1, enigma_global_cfg->maxThreads * sizeof(int));
 
     int flags = 0;
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_SETTINGS)) {
+    if (!(enigma_global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_SETTINGS)) {
         flags |= ENIGMA_FLAG_ROTORS;
     }
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_POSITIONS)) {
+    if (!(enigma_global_cfg->flags & ENIGMA_PREDEFINED_ROTOR_POSITIONS)) {
         flags |= ENIGMA_FLAG_POSITIONS;
     }
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_REFLECTOR)) {
+    if (!(enigma_global_cfg->flags & ENIGMA_PREDEFINED_REFLECTOR)) {
         flags |= ENIGMA_FLAG_REFLECTOR;
     }
-    if (!(global_cfg->flags & ENIGMA_PREDEFINED_PLUGBOARD_SETTINGS)) {
+    if (!(enigma_global_cfg->flags & ENIGMA_PREDEFINED_PLUGBOARD_SETTINGS)) {
         flags |= ENIGMA_FLAG_PLUGBOARD;
     }
 
     config->flags = flags;
 
-    memcpy(enigma_enigmas, &global_cfg->enigma, sizeof(enigma_t));
+    memcpy(enigma_enigmas, &enigma_global_cfg->enigma, sizeof(enigma_t));
 
     enigma_thread_main = (void* (*)(void*))thread_main;
 
-    thread_main((int[]){global_cfg->flags, 0});
+    thread_main((int[]){enigma_global_cfg->flags, 0});
 
     while (1) {
         int done = 0;
-        for (int i = 0; i < global_cfg->maxThreads; i++) {
+        for (int i = 0; i < enigma_global_cfg->maxThreads; i++) {
             done += enigma_freeThreads[i] ? 1 : 0;
         }
 
-        if (done >= global_cfg->maxThreads) {
+        if (done >= enigma_global_cfg->maxThreads) {
             break;
         }
     }
@@ -100,7 +100,7 @@ void enigma_spawn(int flags, int parent) {
     int threadNum = -1;
 
     while (threadNum == -1) {
-        for (int i = 1; i < global_cfg->maxThreads; i++) {
+        for (int i = 1; i < enigma_global_cfg->maxThreads; i++) {
             if (enigma_freeThreads[i]) {
                 threadNum = i;
                 break;

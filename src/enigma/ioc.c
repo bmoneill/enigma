@@ -1,12 +1,22 @@
 #include "ioc.h"
 
 #include "enigma.h"
+#include "io.h"
+#include "threads.h"
 
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+static void* rotor_thread_main(void*);
+
+/**
+ * @brief Score text using Index of Coincidence.
+ *
+ * @param text The text to score.
+ * @param len The length of the text.
+ * @param placeholder Unused parameter, present for qsort function signature consistency.
+ */
 float enigma_ioc_score(const char* text, int len, void* placeholder) {
     int freq[26] = { 0 };
     float total = 0.0f;
@@ -32,48 +42,11 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
  * using the Index of Coincidence method.
  *
  * @param config Pointer to the cracking configuration structure.
- *
- * @todo Fix for new enigma_crack_config_t structure.
  */
 void enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
+    enigma_crack_multithreaded(config, (void* (*)(void*))rotor_thread_main);
     int result_count = 0;
-    char *tempPlaintext = malloc(config->ciphertextLen + 1);
-    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-        memcpy(&config->enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
-            if (i == j) {
-                continue;
-            }
-            memcpy(&config->enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
-                if (k == i || k == j) {
-                    continue;
-                }
-                memcpy(&config->enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
-
-                enigma_encode_string(&config->enigma, config->ciphertext, tempPlaintext, config->ciphertextLen);
-                float score = enigma_ioc_score(tempPlaintext, config->ciphertextLen, NULL);
-                if (result_count < config->scoreCount) {
-                    memcpy(&config->scores[result_count].enigma, &config->enigma, sizeof(enigma_t));
-                    config->scores[result_count].score = score;
-                    result_count++;
-                }
-                else {
-                    // Find the lowest score in results
-                    int min_index = 0;
-                    for (int r = 1; r < result_count; r++) {
-                        if (config->scores[r].score < config->scores[min_index].score) {
-                            min_index = r;
-                        }
-                    }
-                    if (score > config->scores[min_index].score) {
-                        memcpy(&config->scores[min_index].enigma, &config->enigma, sizeof(enigma_t));
-                        config->scores[min_index].score = score;
-                    }
-                }
-            }
-        }
-    }
+    char* tempPlaintext = malloc(config->ciphertextLen + 1);
 }
 
 /**
@@ -126,4 +99,44 @@ void enigma_crack_reflector_ioc(enigma_crack_config_t* config) {
  */
 void enigma_crack_plugboard_ioc(enigma_crack_config_t* config) {
     // TODO implement
+}
+
+static void* rotor_thread_main(void* args) {
+#define THREADNUM ((int*)args)[1]
+#define MYENIGMA enigma_enigmas[THREADNUM]
+
+
+    if (THREADNUM == 0) {
+        for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+            memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
+            for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
+                if (i == j) {
+                    continue;
+                }
+                memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
+                for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
+                    memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+                    if (j == k) {
+                        continue;
+                    }
+
+                    enigma_spawn(0, 0);
+                }
+            }
+        }
+    } else {
+        char* decrypted = &enigma_plaintexts[THREADNUM];
+        char buf[80];
+        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, decrypted, enigma_global_cfg->ciphertextLen);
+
+        float score = enigma_ioc_score(decrypted, enigma_global_cfg->ciphertextLen, NULL);
+        if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
+            enigma_print_config(&MYENIGMA, buf);
+            printf("%.6f\t%s\t%s\n", score, buf, decrypted);
+        }
+    }
+    enigma_freeThreads[THREADNUM] = 1;
+#undef THREADNUM
+#undef MYENIGMA
+    return NULL;
 }
