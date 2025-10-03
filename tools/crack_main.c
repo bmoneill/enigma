@@ -202,7 +202,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
             config->flags |= ENIGMA_PREDEFINED_ROTOR_POSITIONS;
             break;
         case 'u':
-            result = enigma_load_reflector_config(&config->enigma, optarg) == 0;
+            result = enigma_load_reflector_config(&config->enigma, optarg);
             config->flags |= ENIGMA_PREDEFINED_REFLECTOR;
             break;
         case 'w':

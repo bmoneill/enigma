@@ -50,6 +50,8 @@ int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
  *
  * @param enigma Pointer to the Enigma machine instance.
  * @param s      String representing rotor configuration.
+ * 
+ * @return 0 on success, non-zero on failure.
  */
 int enigma_load_rotor_config(enigma_t* enigma, char* s) {
     enigma->rotor_count = 0;
@@ -63,14 +65,14 @@ int enigma_load_rotor_config(enigma_t* enigma, char* s) {
             }
 
             if (i == ENIGMA_ROTOR_COUNT - 1) {
-                return 0;
+                return 1;
             }
         }
 
         token = strtok(NULL, " ");
     }
 
-    return 1;
+    return 0;
 }
 
 /**
@@ -87,14 +89,14 @@ int enigma_load_rotor_config(enigma_t* enigma, char* s) {
  */
 int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
     if (enigma->rotor_count == 0) {
-        return 0;
+        return 1;
     }
 
     for (int i = 0; i < enigma->rotor_count && s[i]; i++) {
         enigma->rotors[i].idx = toupper(s[i]) - 'A';
     }
 
-    return 1;
+    return 0;
 }
 
 /**

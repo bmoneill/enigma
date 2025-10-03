@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    if (rotorpos && !enigma_load_rotor_positions(&enigma, rotorpos)) {
+    if (rotorpos && enigma_load_rotor_positions(&enigma, rotorpos)) {
         print_usage(argv[0]);
         exit(EXIT_FAILURE);
     }
