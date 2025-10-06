@@ -15,6 +15,7 @@ static void* plugboard_thread_main(void* args);
 static void* positions_thread_main(void* args);
 static void* reflector_thread_main(void* args);
 static void* rotor_thread_main(void*);
+static void ioc_analyze(int);
 
 /**
  * @brief Crack rotor configuration using Index of Coincidence.
@@ -68,23 +69,6 @@ void enigma_crack_plugboard_ioc(enigma_crack_config_t* config) {
 }
 
 /**
- * @brief Analyze decrypted text using Index of Coincidence.
- *
- * This function scores the decrypted text using the Index of Coincidence method
- * and prints the configuration and score if it falls within the specified range.
- *
- * @param threadnum The thread number corresponding to the decrypted text to analyze.
- */
-void enigma_ioc_analyze(int threadnum) {
-    float score = enigma_ioc_score(&enigma_plaintexts[threadnum], enigma_global_cfg->ciphertextLen, NULL);
-    if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
-        char buf[80];
-        enigma_print_config(&enigma_enigmas[threadnum], buf);
-        printf("%.6f\t%s\t%s\n", score, buf, &enigma_plaintexts[threadnum]);
-    }
-}
-
-/**
  * @brief Score text using Index of Coincidence.
  *
  * @param text The text to score.
@@ -106,6 +90,25 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
         total += (float)freq[i] * (freq[i] - 1);
     }
     return total / (float)(len * (len - 1));
+}
+
+/**
+ * @brief Analyze decrypted text using Index of Coincidence.
+ *
+ * This function scores the decrypted text using the Index of Coincidence method
+ * and prints the configuration and score if it falls within the specified range.
+ *
+ * @param threadnum The thread number corresponding to the decrypted text to analyze.
+ *
+ * @todo We should store results in a list and sort them by score before printing.
+ */
+static void ioc_analyze(int threadnum) {
+    float score = enigma_ioc_score(&enigma_plaintexts[threadnum], enigma_global_cfg->ciphertextLen, NULL);
+    if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
+        char buf[80];
+        enigma_print_config(&enigma_enigmas[threadnum], buf);
+        printf("%.6f\t%s\t%s\n", score, buf, &enigma_plaintexts[threadnum]);
+    }
 }
 
 /**
@@ -142,7 +145,7 @@ static void* plugboard_thread_main(void* args) {
         }
     } else {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        enigma_ioc_analyze(THREADNUM);
+        ioc_analyze(THREADNUM);
     }
 
     enigma_freeThreads[THREADNUM] = 1;
@@ -175,7 +178,7 @@ static void* positions_thread_main(void* args) {
         }
     } else {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        enigma_ioc_analyze(THREADNUM);
+        ioc_analyze(THREADNUM);
     }
 
     enigma_freeThreads[THREADNUM] = 1;
@@ -202,7 +205,7 @@ static void* reflector_thread_main(void* args) {
         }
     } else {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        enigma_ioc_analyze(THREADNUM);
+        ioc_analyze(THREADNUM);
     }
 
     enigma_freeThreads[THREADNUM] = 1;
@@ -241,7 +244,7 @@ static void* rotor_thread_main(void* args) {
         }
     } else {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        enigma_ioc_analyze(THREADNUM);
+        ioc_analyze(THREADNUM);
     }
     enigma_freeThreads[THREADNUM] = 1;
     return NULL;
