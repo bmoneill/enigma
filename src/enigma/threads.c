@@ -13,7 +13,7 @@ int* enigma_freeThreads = NULL;
 int* enigma_threadArgs = NULL;
 pthread_mutex_t spawn_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-void *(*enigma_thread_main)(void*);
+void* (*enigma_thread_main)(void*);
 
 /**
  * @brief Crack using multiple threads.

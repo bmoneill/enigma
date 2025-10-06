@@ -10,7 +10,7 @@ typedef struct {
 } enigma_ngram_t;
 
 typedef struct {
-    enigma_ngram_t *ngrams;
+    enigma_ngram_t* ngrams;
     int count;
     int n;
 } enigma_ngram_list_t;

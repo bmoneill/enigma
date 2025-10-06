@@ -2,6 +2,7 @@
 /tools/enigmacrack
 /vgcore.*
 /gmon.out
+.vscode/
 *.o
 *.so
 *.a

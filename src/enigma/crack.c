@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int score_compare(const void *a, const void *b);
+static int score_compare(const void* a, const void* b);
 
 pthread_mutex_t score_mutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -119,8 +119,8 @@ void enigma_score_append(enigma_score_list_t* scoreList, float score) {
  * in descending order based on the score field.
  */
 static int score_compare(const void *a, const void *b) {
-    const enigma_score_t *scoreA = (const enigma_score_t *)a;
-    const enigma_score_t *scoreB = (const enigma_score_t *)b;
+    const enigma_score_t* scoreA = (const enigma_score_t*)a;
+    const enigma_score_t* scoreB = (const enigma_score_t*)b;
 
     if (scoreA->score < scoreB->score) {
         return 1;

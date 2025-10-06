@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     enigma_init_default_config(&enigma);
 
     // Parse command line options
-    char *rotorpos = NULL;
+    char* rotorpos = NULL;
     while ((opt = getopt(argc, argv, "s:p:u:w:r")) != -1) {
         switch (opt) {
         case 's': enigma.plugboard = optarg; break;
