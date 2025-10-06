@@ -1,5 +1,20 @@
 # Enigma machine simulator and cryptanalysis tools
 
+## About the Enigma
+
+The Enigma was a cipher device used by the Germans during World War II to encrypt military communication.
+It uses a very complex wiring system to scramble the input.
+
+When a key is pressed, the signal first passes through the plugboard, which swaps the letter with another according
+to its configuration. It then travels through three rotors, each further scrambling the signal. Next, the signal
+reaches the reflector, which further scrambles the signal. Then, the signal passes through the rotors again in reverse.
+Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
+The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.
+
+## About this Project
+
+This project aims to create a full-featured C99 library for simulating and cracking the Enigma.
+
 ## Building
 
 ### Linux
@@ -12,17 +27,6 @@
 cmake .
 cmake --build .
 ```
-
-### About the Enigma
-
-The Enigma was a cipher device used by the Germans during World War II to encrypt military communication.
-It uses a very complex wiring system to scramble the input.
-
-When a key is pressed, the signal first passes through the plugboard, which swaps the letter with another according
-to its configuration. It then travels through three rotors, each further scrambling the signal. Next, the signal
-reaches the reflector, which further scrambles the signal. Then, the signal passes through the rotors again in reverse.
-Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
-The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.
 
 ## enigmacli
 
@@ -98,10 +102,10 @@ These options are for settings that are already known.
 method must be one of the following:
 
 * `brute`: Brute force
-* `ioc`: Index of Coincidence (currently unimplemented)
-* `bigram`: Bigram analysis (currently unimplemented)
-* `trigram`: Trigram analysis (currently unimplemented)
-* `quadgram`: Quadgram analysis (currently unimplemented)
+* `ioc`: Index of Coincidence
+* `bigram`: Bigram analysis
+* `trigram`: Trigram analysis
+* `quadgram`: Quadgram analysis
 
 target must be one of the following:
 
