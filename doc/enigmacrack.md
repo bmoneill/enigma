@@ -48,13 +48,13 @@ analyzing. The `-m` and `-M` parameters may be used to set minimum and maximum l
 
 ### ioc
 
-Options required: `target`, `-m/-M` OR `-l`
+Options required: `target`, `-m/-M/-T` OR `-l`
 
 Use Index of Coincidence for cryptanalysis.
 
 ### ngram
 
-Options required: `target`, `-n`, `-m/-M`
+Options required: `target`, `-n`, `-m/-M/-T`
 
 Use n-grams for cryptanalysis.
 
