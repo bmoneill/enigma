@@ -88,8 +88,9 @@ static int load_language(enigma_crack_config_t *config, const char *language) {
         config->maxScore = enigma_ioc_english_max;
         return 0;
     } else if (!strcmp(language, "german")) {
-        // TODO load German scores
-        return 1;
+        config->minScore = enigma_ioc_german_min;
+        config->maxScore = enigma_ioc_german_max;
+        return 0;
     }
 
     return 1;
