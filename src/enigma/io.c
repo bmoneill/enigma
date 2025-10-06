@@ -212,7 +212,11 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
     }
 
     char buf[256];
-    fgets(buf, sizeof(buf), f);
+    if (!fgets(buf, sizeof(buf), f)) {
+        fprintf(stderr, "Failed to read config file: %s\n", path);
+        fclose(f);
+        return 1;
+    }
 
     char* rotors = strtok(buf, "|");
     char* positions = strtok(NULL, "|");
