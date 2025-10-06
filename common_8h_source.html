@@ -93,41 +93,42 @@ $(document).ready(function(){initNavTree('common_8h_source.html',''); initResiza
   <div class="headertitle"><div class="title">common.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="common_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef ENIGMA_COMMON_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define ENIGMA_COMMON_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="common_8h.html#a05dc1c61b68de7e05eed780cf93dc744">    4</a></span><span class="preprocessor">#define ENIGMA_ALPHA_SIZE             26</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="common_8h.html#a87bcd20ca86cee58b1359c973382777d">    5</a></span><span class="preprocessor">#define ENIGMA_MAX_CRIB_INDICES       256</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="common_8h.html#a0b0f4f73492c4f7934e2afdd6b2134d3">    6</a></span><span class="preprocessor">#define ENIGMA_MAX_ROTOR_COUNT        4</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/* Defaults */</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="common_8h.html#aeba7c68c98a0ac4102cab4d72f47ce32">    9</a></span><span class="preprocessor">#define ENIGMA_MAX_PLUGBOARD_SETTINGS 10</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="common_8h.html#af949519a40dca6ea54146843e914f0d3">   10</a></span><span class="preprocessor">#define ENIGMA_DEFAULT_THREAD_COUNT   8</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="common_8h.html#a2ea07e190984045ef3cef43ee8f907ee">   11</a></span><span class="preprocessor">#define ENIGMA_DEFAULT_NGRAM_COUNT    100000</span></div>
+<a href="common_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef ENIGMA_COMMON_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define ENIGMA_COMMON_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="common_8h.html#a05dc1c61b68de7e05eed780cf93dc744">    9</a></span><span class="preprocessor">#define ENIGMA_ALPHA_SIZE             26</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="common_8h.html#a87bcd20ca86cee58b1359c973382777d">   10</a></span><span class="preprocessor">#define ENIGMA_MAX_CRIB_INDICES       256</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="common_8h.html#a0b0f4f73492c4f7934e2afdd6b2134d3">   11</a></span><span class="preprocessor">#define ENIGMA_MAX_ROTOR_COUNT        4</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/* Cracking methods */</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="common_8h.html#ac150c898413621a0160a3c7cfb799707">   14</a></span><span class="preprocessor">#define ENIGMA_METHOD_BRUTE           0</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="common_8h.html#ad75688185433105b921e62cf7360a38b">   15</a></span><span class="preprocessor">#define ENIGMA_METHOD_BOMBE           1</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="common_8h.html#a33d1f313682db51a7088f99ff49b9e1f">   16</a></span><span class="preprocessor">#define ENIGMA_METHOD_NGRAM           2</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="common_8h.html#aaeef3ccc5d2ce6492245d08803d707fb">   17</a></span><span class="preprocessor">#define ENIGMA_METHOD_IOC             3</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">/* Cracking targets */</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="common_8h.html#acec6be6bab88e7bb3f7cd76df2c64d2a">   20</a></span><span class="preprocessor">#define ENIGMA_TARGET_ROTORS          0</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="common_8h.html#aeb7b707164da4f1f6703c00e2310a890">   21</a></span><span class="preprocessor">#define ENIGMA_TARGET_POSITIONS       1</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="common_8h.html#a0bcf83be0c927d2ea86a3dff4e50436d">   22</a></span><span class="preprocessor">#define ENIGMA_TARGET_REFLECTOR       2</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="common_8h.html#a226cfe0cd263eb644937bf01551c8210">   23</a></span><span class="preprocessor">#define ENIGMA_TARGET_PLUGBOARD       3</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">/* Languages */</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="common_8h.html#addcef18cf9d64e391e6497d552a2a434">   26</a></span><span class="preprocessor">#define ENIGMA_LANG_ENGLISH           0</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="common_8h.html#afc4649931c30b45970af727b3f64cd0d">   27</a></span><span class="preprocessor">#define ENIGMA_LANG_GERMAN            1</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#ifdef __GNUC__</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define ENIGMA_ALWAYS_INLINE inline __attribute__((always_inline))</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="common_8h.html#ae04b5fe2bfb2dda1dfcfe3ce84fb9750">   32</a></span><span class="preprocessor">#define ENIGMA_ALWAYS_INLINE inline</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/* Defaults */</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="common_8h.html#aeba7c68c98a0ac4102cab4d72f47ce32">   14</a></span><span class="preprocessor">#define ENIGMA_MAX_PLUGBOARD_SETTINGS 10</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="common_8h.html#af949519a40dca6ea54146843e914f0d3">   15</a></span><span class="preprocessor">#define ENIGMA_DEFAULT_THREAD_COUNT   8</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="common_8h.html#a2ea07e190984045ef3cef43ee8f907ee">   16</a></span><span class="preprocessor">#define ENIGMA_DEFAULT_NGRAM_COUNT    100000</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">/* Cracking methods */</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="common_8h.html#ac150c898413621a0160a3c7cfb799707">   19</a></span><span class="preprocessor">#define ENIGMA_METHOD_BRUTE           0</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="common_8h.html#ad75688185433105b921e62cf7360a38b">   20</a></span><span class="preprocessor">#define ENIGMA_METHOD_BOMBE           1</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="common_8h.html#a33d1f313682db51a7088f99ff49b9e1f">   21</a></span><span class="preprocessor">#define ENIGMA_METHOD_NGRAM           2</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="common_8h.html#aaeef3ccc5d2ce6492245d08803d707fb">   22</a></span><span class="preprocessor">#define ENIGMA_METHOD_IOC             3</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">/* Cracking targets */</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="common_8h.html#acec6be6bab88e7bb3f7cd76df2c64d2a">   25</a></span><span class="preprocessor">#define ENIGMA_TARGET_ROTORS          0</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="common_8h.html#aeb7b707164da4f1f6703c00e2310a890">   26</a></span><span class="preprocessor">#define ENIGMA_TARGET_POSITIONS       1</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="common_8h.html#a0bcf83be0c927d2ea86a3dff4e50436d">   27</a></span><span class="preprocessor">#define ENIGMA_TARGET_REFLECTOR       2</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="common_8h.html#a226cfe0cd263eb644937bf01551c8210">   28</a></span><span class="preprocessor">#define ENIGMA_TARGET_PLUGBOARD       3</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment">/* Languages */</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="common_8h.html#addcef18cf9d64e391e6497d552a2a434">   31</a></span><span class="preprocessor">#define ENIGMA_LANG_ENGLISH           0</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="common_8h.html#afc4649931c30b45970af727b3f64cd0d">   32</a></span><span class="preprocessor">#define ENIGMA_LANG_GERMAN            1</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#ifdef __GNUC__</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#define ENIGMA_ALWAYS_INLINE inline __attribute__((always_inline))</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="common_8h.html#ae04b5fe2bfb2dda1dfcfe3ce84fb9750">   37</a></span><span class="preprocessor">#define ENIGMA_ALWAYS_INLINE inline</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
