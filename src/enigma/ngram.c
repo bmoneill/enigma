@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define BIIDX(a, b) ((a << 5) | b)
 #define TRIIDX(a, b, c) ((a << 10) | (b << 5) | c)
