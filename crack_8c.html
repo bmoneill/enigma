@@ -92,13 +92,15 @@ $(document).ready(function(){initNavTree('crack_8c.html',''); initResizable(); }
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">crack.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="crack_8h_source.html">crack.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="enigma_8h_source.html">enigma.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rotors_8h_source.html">rotors.h</a>&quot;</code><br />
+<code>#include &lt;pthread.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
@@ -117,9 +119,15 @@ Functions</h2></td></tr>
 <tr class="separator:a1e18ae2ae88e1d5bc1f987db95df0bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dd9052e6c204a2ea437f8a6fed70c0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a2dd9052e6c204a2ea437f8a6fed70c0c">enigma_free_dictionary</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
 <tr class="separator:a2dd9052e6c204a2ea437f8a6fed70c0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d766b3ff183b66831550f2839736156"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a9d766b3ff183b66831550f2839736156">enigma_sort_scores</a> (<a class="el" href="structenigma__score__t.html">enigma_score_t</a> *scores, int count)</td></tr>
-<tr class="memdesc:a9d766b3ff183b66831550f2839736156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort an array of <a class="el" href="structenigma__score__t.html">enigma_score_t</a> by score in descending order.  <br /></td></tr>
-<tr class="separator:a9d766b3ff183b66831550f2839736156"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3832cd1663b567eaf19ca29c90d6c176"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a3832cd1663b567eaf19ca29c90d6c176">enigma_score_sort</a> (<a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *scoreList)</td></tr>
+<tr class="memdesc:a3832cd1663b567eaf19ca29c90d6c176"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort an array of <a class="el" href="structenigma__score__t.html">enigma_score_t</a> by score in descending order.  <br /></td></tr>
+<tr class="separator:a3832cd1663b567eaf19ca29c90d6c176"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dbf4b86bd945b66668a7b65665cb020"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a6dbf4b86bd945b66668a7b65665cb020">enigma_score_print</a> (const <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *scoreList)</td></tr>
+<tr class="memdesc:a6dbf4b86bd945b66668a7b65665cb020"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the scores in an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>.  <br /></td></tr>
+<tr class="separator:a6dbf4b86bd945b66668a7b65665cb020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2422b857724b719fa1b8c626358293d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#ae2422b857724b719fa1b8c626358293d">enigma_score_append</a> (<a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *scoreList, float score)</td></tr>
+<tr class="memdesc:ae2422b857724b719fa1b8c626358293d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a score to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>.  <br /></td></tr>
+<tr class="separator:ae2422b857724b719fa1b8c626358293d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff46e90c0d6462b6d34f6f92b1398010"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#aff46e90c0d6462b6d34f6f92b1398010">enigma_freq</a> (const char *plaintext, int len)</td></tr>
 <tr class="memdesc:aff46e90c0d6462b6d34f6f92b1398010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the frequency of characters in the plaintext.  <br /></td></tr>
 <tr class="separator:aff46e90c0d6462b6d34f6f92b1398010"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,6 +137,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ad8ab90e82d606925cf779f627e9f23a8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#ad8ab90e82d606925cf779f627e9f23a8">enigma_dict_match</a> (const char *plaintext, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
 <tr class="memdesc:ad8ab90e82d606925cf779f627e9f23a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if multiple words from the dictionary are present in the plaintext.  <br /></td></tr>
 <tr class="separator:ad8ab90e82d606925cf779f627e9f23a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:acf07a1979e925335a73b57d6fce27e9c"><td class="memItemLeft" align="right" valign="top">pthread_mutex_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#acf07a1979e925335a73b57d6fce27e9c">score_mutex</a> = PTHREAD_MUTEX_INITIALIZER</td></tr>
+<tr class="separator:acf07a1979e925335a73b57d6fce27e9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a3024ccd4a9af5109d24e6c57565d74a1" name="a3024ccd4a9af5109d24e6c57565d74a1"></a>
@@ -372,28 +385,82 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d766b3ff183b66831550f2839736156" name="a9d766b3ff183b66831550f2839736156"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d766b3ff183b66831550f2839736156">&#9670;&#160;</a></span>enigma_sort_scores()</h2>
+<a id="ae2422b857724b719fa1b8c626358293d" name="ae2422b857724b719fa1b8c626358293d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2422b857724b719fa1b8c626358293d">&#9670;&#160;</a></span>enigma_score_append()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void enigma_sort_scores </td>
+          <td class="memname">void enigma_score_append </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__score__t.html">enigma_score_t</a> *&#160;</td>
-          <td class="paramname"><em>scores</em>, </td>
+          <td class="paramtype"><a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *&#160;</td>
+          <td class="paramname"><em>scoreList</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>count</em>&#160;</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>score</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
           <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Append a score to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>. </p>
+<p>If the scores array is full, it will be resized to double its current size.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scoreList</td><td>Pointer to the <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> structure. </td></tr>
+    <tr><td class="paramname">score</td><td>The score to append. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6dbf4b86bd945b66668a7b65665cb020" name="a6dbf4b86bd945b66668a7b65665cb020"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dbf4b86bd945b66668a7b65665cb020">&#9670;&#160;</a></span>enigma_score_print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void enigma_score_print </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *&#160;</td>
+          <td class="paramname"><em>scoreList</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print the scores in an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scoreList</td><td>Pointer to the <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3832cd1663b567eaf19ca29c90d6c176" name="a3832cd1663b567eaf19ca29c90d6c176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3832cd1663b567eaf19ca29c90d6c176">&#9670;&#160;</a></span>enigma_score_sort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void enigma_score_sort </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *&#160;</td>
+          <td class="paramname"><em>scoreList</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -406,6 +473,21 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="acf07a1979e925335a73b57d6fce27e9c" name="acf07a1979e925335a73b57d6fce27e9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf07a1979e925335a73b57d6fce27e9c">&#9670;&#160;</a></span>score_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pthread_mutex_t score_mutex = PTHREAD_MUTEX_INITIALIZER</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

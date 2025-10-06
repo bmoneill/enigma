@@ -1,5 +1,6 @@
 var threads_8h =
 [
+    [ "ENIGMA_DEFAULT_SCORE_COUNT", "threads_8h.html#a04a2aa9a9cc4d182b86e9575579c1a3f", null ],
     [ "ENIGMA_FLAG_PLUGBOARD", "threads_8h.html#a5622f25e26292714cda2234775444b32", null ],
     [ "ENIGMA_FLAG_POSITIONS", "threads_8h.html#a8dc76ecb73e776860dfedc722da8fd1f", null ],
     [ "ENIGMA_FLAG_REFLECTOR", "threads_8h.html#a2a2762934a73e230eb6307d4bc0c5a43", null ],
@@ -10,6 +11,7 @@ var threads_8h =
     [ "enigma_freeThreads", "threads_8h.html#a06e91071b95284c267c8919d528a0bbf", null ],
     [ "enigma_global_cfg", "threads_8h.html#a0cd87dcebd074be0c680af43da53cb88", null ],
     [ "enigma_plaintexts", "threads_8h.html#ab7e58543315d70b5904f01737573d90f", null ],
+    [ "enigma_scores", "threads_8h.html#af3742e76e3a90a6678976f956aaeb56c", null ],
     [ "enigma_threadArgs", "threads_8h.html#ad482abb89e1ce48c07d3a9fe4afaaeaf", null ],
     [ "enigma_threadCount", "threads_8h.html#a9c9daad33bd813a669a4116ed6a59d9d", null ],
     [ "enigma_threads", "threads_8h.html#ae1de7abb1db8916184b5cc2e1ac66f68", null ]

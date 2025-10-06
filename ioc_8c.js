@@ -6,5 +6,5 @@ var ioc_8c =
     [ "enigma_crack_reflector_ioc", "ioc_8c.html#a8be42ff2e7ade5e453ad067b32fbc8fc", null ],
     [ "enigma_crack_rotor_positions_ioc", "ioc_8c.html#ae1c67232367e1a21386967da900f03c2", null ],
     [ "enigma_crack_rotors_ioc", "ioc_8c.html#a086fa18b3ffdfef4d0d5df9030504243", null ],
-    [ "enigma_ioc_score", "ioc_8c.html#a2d901f5f59a297945e2f0c3d1a82d524", null ]
+    [ "enigma_ioc_score", "ioc_8c.html#ab3e591ca0e837cafa921aad648d74368", null ]
 ];

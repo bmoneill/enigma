@@ -17,8 +17,6 @@ var structenigma__crack__config__t =
     [ "plaintext", "structenigma__crack__config__t.html#a71422f9ad6c13ad7012c3d81e95f13c3", null ],
     [ "plaintextLen", "structenigma__crack__config__t.html#aa954f9bf76e22c22bb66b0e8ee7d2125", null ],
     [ "plaintextPos", "structenigma__crack__config__t.html#a90880e98404ca4317049e6398ac397dc", null ],
-    [ "scoreCount", "structenigma__crack__config__t.html#a4dd0f203cd47552985686d92174e98a8", null ],
-    [ "scores", "structenigma__crack__config__t.html#a54f43207a3537f038d4888ee5cc9f468", null ],
     [ "target", "structenigma__crack__config__t.html#ae8aa5cb4faa95420993aad5d4f2e839f", null ],
     [ "targetScore", "structenigma__crack__config__t.html#a1d012efc9036d02dcef1eaa7eacecc1f", null ]
 ];

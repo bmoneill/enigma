@@ -95,8 +95,7 @@ $(document).ready(function(){initNavTree('common_8h.html',''); initResizable(); 
   <div class="headertitle"><div class="title">common.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
-</div>
+
 <p><a href="common_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -133,8 +132,6 @@ Macros</h2></td></tr>
 <tr class="separator:addcef18cf9d64e391e6497d552a2a434"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc4649931c30b45970af727b3f64cd0d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#afc4649931c30b45970af727b3f64cd0d">ENIGMA_LANG_GERMAN</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:afc4649931c30b45970af727b3f64cd0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67a1c80bf74fe7d8fa1359fd17837dc6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a67a1c80bf74fe7d8fa1359fd17837dc6">VERBOSE_PRINT</a>(fmt, ...)</td></tr>
-<tr class="separator:a67a1c80bf74fe7d8fa1359fd17837dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae04b5fe2bfb2dda1dfcfe3ce84fb9750"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#ae04b5fe2bfb2dda1dfcfe3ce84fb9750">ENIGMA_ALWAYS_INLINE</a>&#160;&#160;&#160;inline</td></tr>
 <tr class="separator:ae04b5fe2bfb2dda1dfcfe3ce84fb9750"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -375,39 +372,6 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a67a1c80bf74fe7d8fa1359fd17837dc6" name="a67a1c80bf74fe7d8fa1359fd17837dc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67a1c80bf74fe7d8fa1359fd17837dc6">&#9670;&#160;</a></span>VERBOSE_PRINT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VERBOSE_PRINT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">fmt, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> {                                       \</div>
-<div class="line">        if (enigma_verbose) {                         \</div>
-<div class="line">            fprintf(stderr, fmt, __VA_ARGS__); \</div>
-<div class="line">        }                                      \</div>
-<div class="line">    } <span class="keywordflow">while</span> (0)</div>
-</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

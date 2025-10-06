@@ -16,6 +16,5 @@ var common_8h =
     [ "ENIGMA_TARGET_PLUGBOARD", "common_8h.html#a226cfe0cd263eb644937bf01551c8210", null ],
     [ "ENIGMA_TARGET_POSITIONS", "common_8h.html#aeb7b707164da4f1f6703c00e2310a890", null ],
     [ "ENIGMA_TARGET_REFLECTOR", "common_8h.html#a0bcf83be0c927d2ea86a3dff4e50436d", null ],
-    [ "ENIGMA_TARGET_ROTORS", "common_8h.html#acec6be6bab88e7bb3f7cd76df2c64d2a", null ],
-    [ "VERBOSE_PRINT", "common_8h.html#a67a1c80bf74fe7d8fa1359fd17837dc6", null ]
+    [ "ENIGMA_TARGET_ROTORS", "common_8h.html#acec6be6bab88e7bb3f7cd76df2c64d2a", null ]
 ];

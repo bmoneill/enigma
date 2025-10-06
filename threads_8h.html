@@ -112,6 +112,8 @@ Macros</h2></td></tr>
 <tr class="separator:a8dc76ecb73e776860dfedc722da8fd1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5622f25e26292714cda2234775444b32"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threads_8h.html#a5622f25e26292714cda2234775444b32">ENIGMA_FLAG_PLUGBOARD</a>&#160;&#160;&#160;8</td></tr>
 <tr class="separator:a5622f25e26292714cda2234775444b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a2aa9a9cc4d182b86e9575579c1a3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threads_8h.html#a04a2aa9a9cc4d182b86e9575579c1a3f">ENIGMA_DEFAULT_SCORE_COUNT</a>&#160;&#160;&#160;1024</td></tr>
+<tr class="separator:a04a2aa9a9cc4d182b86e9575579c1a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -126,6 +128,8 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a0cd87dcebd074be0c680af43da53cb88"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threads_8h.html#a0cd87dcebd074be0c680af43da53cb88">enigma_global_cfg</a></td></tr>
 <tr class="separator:a0cd87dcebd074be0c680af43da53cb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3742e76e3a90a6678976f956aaeb56c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threads_8h.html#af3742e76e3a90a6678976f956aaeb56c">enigma_scores</a></td></tr>
+<tr class="separator:af3742e76e3a90a6678976f956aaeb56c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44079b01de5e120f6c2d225bce8b4938"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threads_8h.html#a44079b01de5e120f6c2d225bce8b4938">enigma_enigmas</a></td></tr>
 <tr class="separator:a44079b01de5e120f6c2d225bce8b4938"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7e58543315d70b5904f01737573d90f"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="threads_8h.html#ab7e58543315d70b5904f01737573d90f">enigma_plaintexts</a></td></tr>
@@ -140,6 +144,20 @@ Variables</h2></td></tr>
 <tr class="separator:ad482abb89e1ce48c07d3a9fe4afaaeaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a04a2aa9a9cc4d182b86e9575579c1a3f" name="a04a2aa9a9cc4d182b86e9575579c1a3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04a2aa9a9cc4d182b86e9575579c1a3f">&#9670;&#160;</a></span>ENIGMA_DEFAULT_SCORE_COUNT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_DEFAULT_SCORE_COUNT&#160;&#160;&#160;1024</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5622f25e26292714cda2234775444b32" name="a5622f25e26292714cda2234775444b32"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5622f25e26292714cda2234775444b32">&#9670;&#160;</a></span>ENIGMA_FLAG_PLUGBOARD</h2>
 
@@ -226,7 +244,8 @@ Variables</h2></td></tr>
 <p>Crack using multiple threads. </p>
 <p>This function sets up the necessary data structures and spawns threads to perform the cracking operation using the provided thread main function.</p>
 <p>This function sets up the following global variables:</p><ul>
-<li>global_cfg: Pointer to the cracking configuration structure.</li>
+<li>enigma_global_cfg: Pointer to the cracking configuration structure.</li>
+<li>enigma_scores: Pointer to the cracking score list structure.</li>
 <li>enigma_enigmas: Array of <a class="el" href="structenigma__t.html" title="Represents the state and configuration of an Enigma machine.">enigma_t</a> structures, one for each thread, indexed by thread number.</li>
 <li>enigma_plaintexts: Array of plaintext buffers, one for each thread, indexed by thread number.</li>
 <li>enigma_threads: Array of pthread_t structures, one for each thread, indexed by thread number.</li>
@@ -359,6 +378,28 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">char* enigma_plaintexts</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af3742e76e3a90a6678976f956aaeb56c" name="af3742e76e3a90a6678976f956aaeb56c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3742e76e3a90a6678976f956aaeb56c">&#9670;&#160;</a></span>enigma_scores</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>* enigma_scores</td>
         </tr>
       </table>
   </td>

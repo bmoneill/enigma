@@ -101,9 +101,9 @@ $(document).ready(function(){initNavTree('ioc_8h.html',''); initResizable(); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aabf75238ffdc7411a5958353bf2d9458"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8h.html#aabf75238ffdc7411a5958353bf2d9458">enigma_ioc_score</a> (const char *, int, void *)</td></tr>
-<tr class="memdesc:aabf75238ffdc7411a5958353bf2d9458"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using Index of Coincidence.  <br /></td></tr>
-<tr class="separator:aabf75238ffdc7411a5958353bf2d9458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0916904143f2c46afab8ef286ebba3a8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8h.html#a0916904143f2c46afab8ef286ebba3a8">enigma_ioc_score</a> (const char *, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *)</td></tr>
+<tr class="memdesc:a0916904143f2c46afab8ef286ebba3a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using Index of Coincidence.  <br /></td></tr>
+<tr class="separator:a0916904143f2c46afab8ef286ebba3a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84cd9d8c424f60718b75f67ba6b2d4d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8h.html#a84cd9d8c424f60718b75f67ba6b2d4d3">enigma_crack_rotors_ioc</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *)</td></tr>
 <tr class="memdesc:a84cd9d8c424f60718b75f67ba6b2d4d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack rotor configuration using Index of Coincidence.  <br /></td></tr>
 <tr class="separator:a84cd9d8c424f60718b75f67ba6b2d4d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -227,8 +227,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aabf75238ffdc7411a5958353bf2d9458" name="aabf75238ffdc7411a5958353bf2d9458"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabf75238ffdc7411a5958353bf2d9458">&#9670;&#160;</a></span>enigma_ioc_score()</h2>
+<a id="a0916904143f2c46afab8ef286ebba3a8" name="a0916904143f2c46afab8ef286ebba3a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0916904143f2c46afab8ef286ebba3a8">&#9670;&#160;</a></span>enigma_ioc_score()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -242,14 +242,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>len</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>placeholder</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -260,6 +254,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Score text using Index of Coincidence. </p>
+<p>This function calculates the Index of Coincidence for the given text and returns the absolute difference between the calculated score and the target score specified in the provided <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> structure.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">text</td><td>The text to score. </td></tr>

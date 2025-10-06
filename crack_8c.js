@@ -7,5 +7,8 @@ var crack_8c =
     [ "enigma_freq", "crack_8c.html#aff46e90c0d6462b6d34f6f92b1398010", null ],
     [ "enigma_letter_freq", "crack_8c.html#a7807908a86fcba833f6a78cf8fc105f8", null ],
     [ "enigma_load_dictionary", "crack_8c.html#a1e18ae2ae88e1d5bc1f987db95df0bfd", null ],
-    [ "enigma_sort_scores", "crack_8c.html#a9d766b3ff183b66831550f2839736156", null ]
+    [ "enigma_score_append", "crack_8c.html#ae2422b857724b719fa1b8c626358293d", null ],
+    [ "enigma_score_print", "crack_8c.html#a6dbf4b86bd945b66668a7b65665cb020", null ],
+    [ "enigma_score_sort", "crack_8c.html#a3832cd1663b567eaf19ca29c90d6c176", null ],
+    [ "score_mutex", "crack_8c.html#acf07a1979e925335a73b57d6fce27e9c", null ]
 ];

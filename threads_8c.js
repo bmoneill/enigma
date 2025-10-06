@@ -6,6 +6,7 @@ var threads_8c =
     [ "enigma_freeThreads", "threads_8c.html#a06e91071b95284c267c8919d528a0bbf", null ],
     [ "enigma_global_cfg", "threads_8c.html#a0cd87dcebd074be0c680af43da53cb88", null ],
     [ "enigma_plaintexts", "threads_8c.html#ab7e58543315d70b5904f01737573d90f", null ],
+    [ "enigma_scores", "threads_8c.html#af3742e76e3a90a6678976f956aaeb56c", null ],
     [ "enigma_thread_main", "threads_8c.html#aa7584d9b40d0b1312ea7bb41867c4574", null ],
     [ "enigma_threadArgs", "threads_8c.html#ad482abb89e1ce48c07d3a9fe4afaaeaf", null ],
     [ "enigma_threadCount", "threads_8c.html#a9c9daad33bd813a669a4116ed6a59d9d", null ],
