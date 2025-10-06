@@ -17,12 +17,6 @@ The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the 
 
 ## Building
 
-### Linux
-
-#### Prerequisites
-
-* cmake
-
 ```shell
 cmake .
 cmake --build .
