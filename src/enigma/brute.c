@@ -75,7 +75,6 @@ static void* thread_main(void* args) {
         enigma_spawn(0, THREADNUM);
 
         for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
-            printf("Spawning plugboard with %d pairs\n", i);
             for (int j = 0; j < i; j++) {
                 for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
                     for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
@@ -87,7 +86,6 @@ static void* thread_main(void* args) {
                         enigma_spawn(0, THREADNUM);
                     }
                 }
-
             }
         }
     } else {
