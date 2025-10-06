@@ -222,8 +222,6 @@ static void* reflector_thread_main(void* args) {
  * @return NULL
  */
 static void* rotor_thread_main(void* args) {
-#define THREADNUM ((int*)args)[1]
-#define MYENIGMA enigma_enigmas[THREADNUM]
     if (THREADNUM == 0) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
             memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
@@ -249,6 +247,3 @@ static void* rotor_thread_main(void* args) {
     enigma_freeThreads[THREADNUM] = 1;
     return NULL;
 }
-
-#undef THREADNUM
-#undef MYENIGMA
