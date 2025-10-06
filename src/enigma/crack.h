@@ -30,6 +30,7 @@ typedef struct {
     int                  ciphertextLen;
     float                minScore;
     float                maxScore;
+    float                targetScore;
     int                  ngramCount;
     int                  maxPlugboardSettings;
     int                  maxThreads;

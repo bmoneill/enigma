@@ -45,7 +45,6 @@ int main(int argc, char* argv[]) {
     memcpy(config->letterFreqTargets, englishFreq, 26 * sizeof(float));
 
     switch (config->method) {
-    //case ENIGMA_METHOD_BOMBE: enigma_crack_bombe(config); break;
     case ENIGMA_METHOD_BRUTE: enigma_crack_brute(config); break;
     case ENIGMA_METHOD_NGRAM:
         switch (config->target) {
@@ -130,6 +129,7 @@ static int print_usage(const char* argv0) {
     fprintf(stderr, "    -l language    Language ('english' or 'german', for IOC method)\n");
     fprintf(stderr, "    -m float       Minimum score threshold (for n-gram, IOC, and brute methods)\n");
     fprintf(stderr, "    -M float       Maximum score threshold (for n-gram, IOC, and brute methods)\n");
+    fprintf(stderr, "    -T float       Target score (for n-gram, IoC, and brute methods)\n\n");
     fprintf(stderr, "    -n file        n-gram bank to load\n\n");
     fprintf(stderr, "    -S count       Set the maximum number of plugboard settings (default: 8)\n");
     fprintf(stderr, "    -t threadCount Number of threads to use (default: 8)\n\n");
@@ -186,7 +186,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
         optind++;
     }
 
-    while ((opt = getopt(argc, argv, "c:C:l:m:M:n:p:s:S:t:u:vw:")) != -1) {
+    while ((opt = getopt(argc, argv, "c:C:l:m:M:n:p:s:S:t:T:u:vw:")) != -1) {
         switch (opt) {
         case 'c': config->plaintext = optarg; break;
         case 'C': config->plaintextPos = atoi(optarg); break;
@@ -197,6 +197,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
         case 's': config->enigma.plugboard = optarg; break;
         case 'S': config->maxPlugboardSettings = atoi(optarg); break;
         case 't': config->maxThreads = atoi(optarg); break;
+        case 'T': config->targetScore = atof(optarg); break;
         case 'v': enigma_verbose = true; break;
         case 'p':
             result = enigma_load_rotor_positions(&config->enigma, optarg) == 0;
