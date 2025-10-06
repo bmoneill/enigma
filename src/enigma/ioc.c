@@ -77,8 +77,7 @@ void enigma_crack_plugboard_ioc(enigma_crack_config_t* config) {
  * in the provided enigma_crack_config_t structure.
  *
  * @param text The text to score.
- * @param len The length of the text.
- * @param placeholder Unused parameter, present for qsort function signature consistency.
+ * @param cfg Pointer to the cracking configuration structure.
  */
 float enigma_ioc_score(const char* text, const enigma_crack_config_t* cfg) {
     int freq[26] = { 0 };
@@ -103,19 +102,13 @@ float enigma_ioc_score(const char* text, const enigma_crack_config_t* cfg) {
 /**
  * @brief Analyze decrypted text using Index of Coincidence.
  *
- * This function scores the decrypted text using the Index of Coincidence method
- * and prints the configuration and score if it falls within the specified range.
+ * This function scores the decrypted text using the Index of Coincidence method.
  *
  * @param threadnum The thread number corresponding to the decrypted text to analyze.
- *
- * @todo We should store results in a list and sort them by score before printing.
  */
 static void ioc_analyze(int threadnum) {
     float score = enigma_ioc_score(&enigma_plaintexts[threadnum], enigma_global_cfg);
-    if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
-        ENIGMA_PRINT_CONFIG(enigma_enigmas[threadnum]);
-        printf("%.6f %s\n", score, &enigma_plaintexts[threadnum]);
-    }
+    enigma_score_append(enigma_scores, score);
 }
 
 /**

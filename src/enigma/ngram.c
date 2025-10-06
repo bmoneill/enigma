@@ -160,8 +160,7 @@ float enigma_quadram_score(const char* text, const enigma_crack_config_t* cfg, c
 /**
  * @brief Analyze decrypted text using n-gram scoring.
  *
- * This function scores the decrypted text using the n-gram method
- * and prints the configuration and score if it falls within the specified range.
+ * This function scores the decrypted text using the n-gram method.
  *
  * @param threadnum The thread number corresponding to the decrypted text to analyze.
  */
@@ -176,9 +175,7 @@ static void ngram_analyze(int threadnum) {
         case 4: score = enigma_quadram_score(text, enigma_global_cfg, (const float*)global_ngram_list->ngrams); break;
     }
 
-    if (score >= enigma_global_cfg->minScore && score <= enigma_global_cfg->maxScore) {
-        enigma_score_append(enigma_scores, score);
-    }
+    enigma_score_append(enigma_scores, score);
 }
 
 /**
