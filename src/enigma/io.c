@@ -219,7 +219,7 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
     char* reflector = strtok(NULL, "|");
     char* plugboard = strtok(NULL, "|");
 
-    for (int i = 0; i < strlen(buf); i++) {
+    for (size_t i = 0; i < strlen(buf); i++) {
         if (buf[i] == '|') {
             buf[i] = '\0';
         }
