@@ -1,5 +1,7 @@
 # Enigma machine simulator and cryptanalysis tools
 
+[![Build Status](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml).
+
 This project aims to create a full-featured C99 library and toolset for simulating and cracking the Enigma.
 
 ## About the Enigma
@@ -28,13 +30,9 @@ cmake --build .
 
 ## Documentation
 
-## enigmacli
-
-See [doc/enigmacli.md] for information about the Enigma simulator.
-
-## enigmacrack
-
-See [doc/enigmacrack.md] for information about the Enigma cracking tools.
+* [Library Documentation](https://bmoneill.github.io/enigma/).
+* [Enigma Simulator Documentation](doc/enigmacli.md).
+* [Enigma Cracking Tools Documentation](doc/enigmacrack.md).
 
 
 ## Further Reading
