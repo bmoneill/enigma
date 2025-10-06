@@ -5,6 +5,7 @@
 #include "enigma/io.h"
 #include "enigma/ioc.h"
 #include "enigma/ngram.h"
+#include "enigma/threads.h"
 
 #include <getopt.h>
 #include <stdio.h>
@@ -53,6 +54,8 @@ int main(int argc, char* argv[]) {
         case ENIGMA_TARGET_REFLECTOR: enigma_crack_reflector_ngram(config, ngramList); break;
         case ENIGMA_TARGET_PLUGBOARD: enigma_crack_plugboard_ngram(config, ngramList); break;
         }
+        enigma_score_sort(enigma_scores);
+        enigma_score_print(enigma_scores);
         break;
     case ENIGMA_METHOD_IOC:
         switch (config->target) {
@@ -61,9 +64,15 @@ int main(int argc, char* argv[]) {
         case ENIGMA_TARGET_REFLECTOR: enigma_crack_reflector_ioc(config); break;
         case ENIGMA_TARGET_PLUGBOARD: enigma_crack_plugboard_ioc(config); break;
         }
+        enigma_score_sort(enigma_scores);
+        enigma_score_print(enigma_scores);
         break;
     }
 
+    if (enigma_scores) {
+        free(enigma_scores->scores);
+        free(enigma_scores);
+    }
     free(ngramList);
     free(config->letterFreqTargets);
     free(config);
@@ -135,7 +144,6 @@ static int print_usage(const char* argv0) {
     fprintf(stderr, "    -t threadCount Number of threads to use (default: 8)\n\n");
     fprintf(stderr, "Other Options:\n");
     fprintf(stderr, "    -h             Show this help message\n");
-    fprintf(stderr, "    -v             Show verbose output\n\n");
     fprintf(stderr, "A file can be provided as the last argument to read the ciphertext from a file.\n");
     fprintf(stderr, "If no file is provided, the ciphertext will be read from standard input.\n\n");
     fprintf(stderr, "Available languages: english, german\n");
