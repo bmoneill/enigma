@@ -22,9 +22,11 @@ Here is an example encryption/decryption with a custom rotor/plugboard configura
 
 ```shell
 $ enigmacli -s "ABCD" -w "I II IV" -u "B" -p "XYZ"
+Rotors: I (X)  II (Y), IV (Z) | Reflector: B | Plugboard: ABCD
 HELLO # user input
 MWQHY # output
 $ enigmacli -s "ABCD" -w "I II IV" -u "B" -p "XYZ" # same configuration
+Rotors: I (X)  II (Y), IV (Z) | Reflector: B | Plugboard: ABCD
 MWQHY
 HELLO
 ```

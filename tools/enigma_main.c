@@ -27,11 +27,7 @@ int main(int argc, char* argv[]) {
         case 'p': rotorpos = optarg; break;
         case 'u': if (enigma_load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
         case 'w': if (enigma_load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
-        case 'r':
-            enigma_init_random_config(&enigma);
-            enigma_print_config(&enigma, buf);
-            printf("%s\n", buf);
-            break;
+        case 'r': enigma_init_random_config(&enigma); break;
         default: print_usage(argv[0]); exit(EXIT_FAILURE);
         }
     }
@@ -40,6 +36,9 @@ int main(int argc, char* argv[]) {
         print_usage(argv[0]);
         exit(EXIT_FAILURE);
     }
+
+    enigma_print_config(&enigma, buf);
+    printf("%s", buf);
 
     // Main loop
     int c;
