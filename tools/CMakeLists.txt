@@ -19,5 +19,5 @@ target_compile_definitions(${CRACK_BINARY_NAME} PRIVATE VERSION="${GIT_COMMIT_HA
 # Include the source directory for the executables
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
-target_link_libraries(${ENIGMA_BINARY_NAME} enigma)
-target_link_libraries(${CRACK_BINARY_NAME} enigma)
+target_link_libraries(${ENIGMA_BINARY_NAME} enigma_static)
+target_link_libraries(${CRACK_BINARY_NAME} enigma_static)

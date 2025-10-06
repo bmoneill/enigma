@@ -3,7 +3,9 @@
 /vgcore.*
 /gmon.out
 *.o
+*.so
 *.a
+*.txt
 CMakeFiles
 Makefile
 CMakeCache.txt
