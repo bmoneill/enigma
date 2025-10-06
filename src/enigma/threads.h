@@ -1,5 +1,8 @@
 /**
  * @file enigma/threads.h
+ *
+ * This file declares functions for multithreading support
+ * in cracking Enigma configurations.
  */
 #ifndef ENIGMA_THREADS_H
 #define ENIGMA_THREADS_H

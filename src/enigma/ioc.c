@@ -1,5 +1,7 @@
 /**
  * @file enigma/ioc.c
+ *
+ * This file implements cracking functions using the Index of Coincidence method.
  */
 #include "ioc.h"
 

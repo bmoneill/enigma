@@ -1,5 +1,8 @@
 /**
  * @file enigma/ngram.h
+ *
+ * This file declares functions for cracking Enigma configurations
+ * using n-gram scoring.
  */
 #ifndef ENIGMA_NGRAM_H
 #define ENIGMA_NGRAM_H

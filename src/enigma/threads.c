@@ -1,5 +1,7 @@
 /**
  * @file enigma/threads.c
+ *
+ * This file implements multithreading support for cracking Enigma configurations.
  */
 #include "threads.h"
 

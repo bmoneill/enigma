@@ -1,5 +1,7 @@
 /**
  * @file enigma/ngram.c
+ *
+ * This file implements cracking functions using n-gram scoring.
  */
 #include "ngram.h"
 

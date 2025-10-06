@@ -1,5 +1,7 @@
 /**
  * @file enigma/reflectors.h
+ *
+ * This file defines the standard reflectors used in the Enigma machine.
  */
 #ifndef ENIGMA_REFLECTORS_H
 #define ENIGMA_REFLECTORS_H

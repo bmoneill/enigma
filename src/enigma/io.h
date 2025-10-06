@@ -1,5 +1,7 @@
 /**
  * @file enigma/io.h
+ *
+ * This file declares input/output functions.
  */
 #ifndef ENIGMA_IO_H
 #define ENIGMA_IO_H

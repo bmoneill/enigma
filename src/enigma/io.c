@@ -1,7 +1,8 @@
 /**
  * @file enigma/io.c
+ *
+ * This file implements input/output functions.
  */
-
 #include "io.h"
 
 #include "crack.h"

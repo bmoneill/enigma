@@ -1,5 +1,7 @@
 /**
  * @file enigma/rotors.h
+ *
+ * This file defines the standard rotors used in the Enigma machine.
  */
 #ifndef ENIGMA_ROTORS_H
 #define ENIGMA_ROTORS_H
