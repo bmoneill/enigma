@@ -1,8 +1,6 @@
 #ifndef ENIGMA_COMMON_H
 #define ENIGMA_COMMON_H
 
-#include <stdbool.h>
-
 #define ENIGMA_ALPHA_SIZE             26
 #define ENIGMA_MAX_CRIB_INDICES       256
 #define ENIGMA_MAX_ROTOR_COUNT        4
@@ -28,19 +26,10 @@
 #define ENIGMA_LANG_ENGLISH           0
 #define ENIGMA_LANG_GERMAN            1
 
-#define VERBOSE_PRINT(fmt, ...)                \
-    do {                                       \
-        if (enigma_verbose) {                         \
-            fprintf(stderr, fmt, __VA_ARGS__); \
-        }                                      \
-    } while (0)
-
 #ifdef __GNUC__
 #define ENIGMA_ALWAYS_INLINE inline __attribute__((always_inline))
 #else
 #define ENIGMA_ALWAYS_INLINE inline
 #endif
-
-static bool enigma_verbose = false;
 
 #endif

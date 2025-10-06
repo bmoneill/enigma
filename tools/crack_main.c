@@ -194,7 +194,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
         optind++;
     }
 
-    while ((opt = getopt(argc, argv, "c:C:l:m:M:n:p:s:S:t:T:u:vw:")) != -1) {
+    while ((opt = getopt(argc, argv, "c:C:l:m:M:n:p:s:S:t:T:u:w:")) != -1) {
         switch (opt) {
         case 'c': config->plaintext = optarg; break;
         case 'C': config->plaintextPos = atoi(optarg); break;
@@ -206,7 +206,6 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
         case 'S': config->maxPlugboardSettings = atoi(optarg); break;
         case 't': config->maxThreads = atoi(optarg); break;
         case 'T': config->targetScore = atof(optarg); break;
-        case 'v': enigma_verbose = true; break;
         case 'p':
             result = enigma_load_rotor_positions(&config->enigma, optarg) == 0;
             config->flags |= ENIGMA_PREDEFINED_ROTOR_POSITIONS;

@@ -15,7 +15,16 @@
 #define FLAG_POSITIONS 4
 #define FLAG_PLUGBOARD 8
 
-static void* thread_main(void*);
+#define FLAGS ((int*)args)[0]
+#define THREADNUM ((int*)args)[1]
+#define MYENIGMA enigma_enigmas[THREADNUM]
+
+static ENIGMA_ALWAYS_INLINE void  brute_force_plugboard(void*);
+static ENIGMA_ALWAYS_INLINE void  brute_force_positions(void*);
+static ENIGMA_ALWAYS_INLINE void  brute_force_reflector(void*);
+static ENIGMA_ALWAYS_INLINE void  brute_force_rotors(   void*);
+static                      void* thread_main(          void*);
+
 /**
  * @brief Runs the brute force algorithm with the provided configuration and preset values.
  *
@@ -24,6 +33,72 @@ static void* thread_main(void*);
  */
 void enigma_crack_brute(enigma_crack_config_t* config) {
     enigma_crack_multithreaded(config, thread_main);
+}
+
+/**
+ * @brief Brute forces the plugboard settings of the Enigma machine.
+ */
+static ENIGMA_ALWAYS_INLINE void brute_force_plugboard(void* args) {
+    // No plugboard
+    enigma_spawn(0, THREADNUM);
+
+    for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
+        for (int j = 0; j < i; j++) {
+            for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
+                for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
+                    if (a == b) continue;
+
+                    MYENIGMA.plugboard[j * 2] = 'A' + a;
+                    MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
+
+                    enigma_spawn(0, THREADNUM);
+                }
+            }
+        }
+    }
+}
+
+/**
+ * @brief Brute forces the rotor positions of the Enigma machine.
+ */
+static ENIGMA_ALWAYS_INLINE void brute_force_positions(void* args) {
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        MYENIGMA.rotors[0].idx = i;
+        for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
+            MYENIGMA.rotors[1].idx = j;
+            for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
+                MYENIGMA.rotors[2].idx = k;
+                enigma_spawn(FLAGS & ~FLAG_POSITIONS, THREADNUM);
+            }
+        }
+    }
+}
+
+/**
+ * @brief Brute forces the reflector settings of the Enigma machine.
+ */
+static ENIGMA_ALWAYS_INLINE void brute_force_reflector(void* args) {
+    for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
+        memcpy(&MYENIGMA.reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
+        enigma_spawn(FLAGS & ~FLAG_REFLECTOR, THREADNUM);
+    }
+}
+
+/**
+ * @brief Brute forces the rotor settings of the Enigma machine.
+ */
+static ENIGMA_ALWAYS_INLINE void brute_force_rotors(void* args) {
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+        memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
+        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
+            memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
+            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
+                if (i == j || j == k || i == k) continue;
+                memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+                enigma_spawn(FLAGS & ~FLAG_ROTORS, THREADNUM);
+            }
+        }
+    }
 }
 
 /**
@@ -37,57 +112,14 @@ void enigma_crack_brute(enigma_crack_config_t* config) {
  * @return NULL
  */
 static void* thread_main(void* args) {
-    #define FLAGS ((int*)args)[0]
-    #define THREADNUM ((int*)args)[1]
-    #define MYENIGMA enigma_enigmas[THREADNUM]
-
     if (FLAGS & FLAG_ROTORS) {
-        for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-            memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-            for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
-                memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-                for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
-                    if (i == j || j == k || i == k) continue;
-                    memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
-
-                    enigma_spawn(FLAGS & ~FLAG_ROTORS, THREADNUM);
-                }
-            }
-        }
+        brute_force_rotors(args);
     } else if (FLAGS & FLAG_POSITIONS) {
-        for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-            MYENIGMA.rotors[0].idx = i;
-            for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
-                MYENIGMA.rotors[1].idx = j;
-                for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
-                    MYENIGMA.rotors[2].idx = k;
-                    enigma_spawn(FLAGS & ~FLAG_POSITIONS, THREADNUM);
-                }
-            }
-        }
+        brute_force_positions(args);
     } else if (FLAGS & FLAG_REFLECTOR) {
-        for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
-            memcpy(&MYENIGMA.reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
-            enigma_spawn(FLAGS & ~FLAG_REFLECTOR, THREADNUM);
-        }
+        brute_force_reflector(args);
     } else if (FLAGS & FLAG_PLUGBOARD) {
-        // No plugboard
-        enigma_spawn(0, THREADNUM);
-
-        for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
-            for (int j = 0; j < i; j++) {
-                for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
-                    for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
-                        if (a == b) continue;
-
-                        MYENIGMA.plugboard[j * 2] = 'A' + a;
-                        MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
-
-                        enigma_spawn(0, THREADNUM);
-                    }
-                }
-            }
-        }
+        brute_force_plugboard(args);
     } else {
         char* decrypted = &enigma_plaintexts[THREADNUM * (enigma_global_cfg->ciphertextLen + 1)];
         char buf[80];
@@ -100,15 +132,12 @@ static void* thread_main(void* args) {
             if (match_count) {
                 printf("%s: %s\n", buf, decrypted);
             }
-        } else {
+        }
+        else {
             printf("%s: %s\n", buf, decrypted);
         }
     }
 
     enigma_freeThreads[THREADNUM] = 1;
     return NULL;
-
-    #undef MYENIGMA
-    #undef FLAGS
-    #undef THREADNUM
 }

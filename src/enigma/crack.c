@@ -14,9 +14,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-pthread_mutex_t score_mutex = PTHREAD_MUTEX_INITIALIZER;
-
 static int score_compare(const void *a, const void *b);
+
+pthread_mutex_t score_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /**
  * @brief Finds potential indices in the ciphertext where the known plaintext may exist.

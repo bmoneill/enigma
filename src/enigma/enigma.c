@@ -4,6 +4,7 @@
 #include "rotors.h"
 
 #include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,11 +12,11 @@
 
 #define ALPHA2IDX(c) ((c) - 'A')
 
-static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor);
-static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t*);
+static ENIGMA_ALWAYS_INLINE void rotate            (enigma_rotor_t*);
+static ENIGMA_ALWAYS_INLINE void rotate_rotors     (enigma_t*);
 static ENIGMA_ALWAYS_INLINE int  rotor_pass_forward(enigma_rotor_t*, int);
 static ENIGMA_ALWAYS_INLINE int  rotor_pass_reverse(enigma_rotor_t*, int);
-static ENIGMA_ALWAYS_INLINE char substitute(const char*, char);
+static ENIGMA_ALWAYS_INLINE char substitute        (const char*,     char);
 
 /**
  * @brief Encode a character using the Enigma machine.

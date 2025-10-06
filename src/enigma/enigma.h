@@ -28,10 +28,10 @@ typedef struct {
     char*              plugboard;
 } enigma_t;
 
-char enigma_encode(enigma_t*, int);
-void enigma_encode_string(enigma_t*, const char*, char*, int);
-void enigma_init_rotors(enigma_t*, const enigma_rotor_t*, int);
+char enigma_encode             (enigma_t*, int);
+void enigma_encode_string      (enigma_t*, const char*,           char*, int);
+void enigma_init_rotors        (enigma_t*, const enigma_rotor_t*, int);
 void enigma_init_default_config(enigma_t*);
-void enigma_init_random_config(enigma_t*);
+void enigma_init_random_config (enigma_t*);
 
 #endif

@@ -17,13 +17,13 @@
 #define THREADNUM ((int*)args)[1]
 #define MYENIGMA enigma_enigmas[THREADNUM]
 
-const enigma_ngram_list_t* global_ngram_list = NULL;
+static void  ngram_analyze        (int);
+static void* reflector_thread_main(void*);
+static void* rotor_thread_main    (void*);
+static void* plugboard_thread_main(void*);
+static void* positions_thread_main(void*);
 
-static void ngram_analyze(int threadnum);
-static void* reflector_thread_main(void* args);
-static void* rotor_thread_main(void* args);
-static void* plugboard_thread_main(void* args);
-static void* positions_thread_main(void* args);
+const enigma_ngram_list_t* global_ngram_list = NULL;
 
 /**
  * @brief Crack plugboard settings using n-gram scoring.
@@ -69,7 +69,6 @@ void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config, enigma_ng
  *
  * @param config Pointer to the cracking configuration structure.
  * @param ngramList Pointer to the n-gram list structure.
- * @todo Implement
  */
 void enigma_crack_reflector_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
     global_ngram_list = ngramList;
@@ -287,16 +286,11 @@ static void* rotor_thread_main(void* args) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
             memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
             for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
-                if (i == j) {
-                    continue;
-                }
+                if (i == j) continue;
                 memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
                 for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
+                    if (j == k) continue;
                     memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
-                    if (j == k) {
-                        continue;
-                    }
-
                     enigma_spawn(0, 0);
                 }
             }
@@ -305,6 +299,7 @@ static void* rotor_thread_main(void* args) {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
         ngram_analyze(THREADNUM);
     }
+
     enigma_freeThreads[THREADNUM] = 1;
     return NULL;
 }

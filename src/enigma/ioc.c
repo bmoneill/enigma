@@ -12,11 +12,11 @@
 #define THREADNUM ((int*)args)[1]
 #define MYENIGMA enigma_enigmas[THREADNUM]
 
-static void* plugboard_thread_main(void* args);
-static void* positions_thread_main(void* args);
-static void* reflector_thread_main(void* args);
-static void* rotor_thread_main(void*);
-static void ioc_analyze(int);
+static void* plugboard_thread_main(void*);
+static void* positions_thread_main(void*);
+static void* reflector_thread_main(void*);
+static void* rotor_thread_main    (void*);
+static void  ioc_analyze          (int);
 
 /**
  * @brief Crack rotor configuration using Index of Coincidence.

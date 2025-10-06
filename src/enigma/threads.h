@@ -13,15 +13,15 @@
 #define ENIGMA_DEFAULT_SCORE_COUNT 1024
 
 void enigma_crack_multithreaded(enigma_crack_config_t*, void*(*thread_main)(void*));
-void enigma_spawn(int, int);
+void enigma_spawn              (int,                    int);
 
 extern const enigma_crack_config_t* enigma_global_cfg;
-extern enigma_score_list_t* enigma_scores;
-extern enigma_t* enigma_enigmas;
-extern char* enigma_plaintexts;
-extern pthread_t* enigma_threads;
-extern int enigma_threadCount;
-extern int* enigma_freeThreads;
-extern int* enigma_threadArgs;
+extern       enigma_score_list_t*   enigma_scores;
+extern       enigma_t*              enigma_enigmas;
+extern       char*                  enigma_plaintexts;
+extern       pthread_t*             enigma_threads;
+extern       int                    enigma_threadCount;
+extern       int*                   enigma_freeThreads;
+extern       int*                   enigma_threadArgs;
 
 #endif
