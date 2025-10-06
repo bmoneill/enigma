@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
  * @brief Load language settings.
  *
  * This function sets the minimum and maximum score thresholds based on the specified language.
- * Currently, it only supports "english".
+ * Supports "english" and "german".
  *
  * @param config Pointer to the enigma_crack_config_t structure to update.
  * @param language The language to load settings for (e.g., "english").
