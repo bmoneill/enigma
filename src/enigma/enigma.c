@@ -165,7 +165,6 @@ void enigma_init_random_config(enigma_t* enigma) {
         enigma->plugboard = malloc((ENIGMA_ALPHA_SIZE + 1) * sizeof(char));
     }
 
-    printf("%d\n", plugboardSize);
     for (int i = 0; i < plugboardSize * 2; i++) {
         unique = false;
         while (!unique) {
