@@ -105,18 +105,21 @@ int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
 /**
  * @brief Load a custom rotor alphabet from the given alphabet, name, and notches.
  *
- * Currently unimplemented.
- *
  * @param rotor Pointer to the rotor structure to be populated.
- * @param alphabet The custom rotor alphabet.
+ * @param alphabet The custom rotor alphabet (must be 26 characters long).
  * @param name The name of the custom rotor.
  * @param notches Array of notch positions.
  * @param numNotches Number of notches.
- * @todo Implement this function.
  */
 int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const char* name,
                              int* notches, int numNotches) {
-    // TODO Implement
+    rotor->name = name;
+    rotor->numNotches = numNotches;
+    memcpy(rotor->notches, notches, numNotches * sizeof(int));
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        rotor->fwd_indices[i] = toupper(alphabet[i]) - 'A';
+        rotor->rev_indices[rotor->fwd_indices[i]] = i;
+    }
     return 1;
 }
 
@@ -126,14 +129,17 @@ int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const 
  * Currently unimplemented.
  *
  * @param reflector Pointer to the reflector structure to be populated.
- * @param alphabet The custom reflector alphabet.
+ * @param alphabet The custom reflector alphabet (must be 26 characters long).
  * @param name The name of the custom reflector.
  *
  * @return 0 on success, non-zero on failure.
  * @todo Implement this function.
  */
 int enigma_load_custom_reflector(enigma_reflector_t* reflector, const char* alphabet, const char* name) {
-    // TODO implement
+    reflector->name = name;
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        reflector->indices[i] = toupper(alphabet[i]) - 'A';
+    }
     return 1;
 }
 
