@@ -126,21 +126,18 @@ int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const 
 /**
  * @brief Load a custom reflector alphabet from the given alphabet and name.
  *
- * Currently unimplemented.
- *
  * @param reflector Pointer to the reflector structure to be populated.
  * @param alphabet The custom reflector alphabet (must be 26 characters long).
  * @param name The name of the custom reflector.
  *
  * @return 0 on success, non-zero on failure.
- * @todo Implement this function.
  */
 int enigma_load_custom_reflector(enigma_reflector_t* reflector, const char* alphabet, const char* name) {
     reflector->name = name;
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         reflector->indices[i] = toupper(alphabet[i]) - 'A';
     }
-    return 1;
+    return 0;
 }
 
 /**
@@ -203,31 +200,79 @@ enigma_ngram_list_t* enigma_load_ngrams(const char* path) {
 /**
  * @brief Load an Enigma machine configuration from a file.
  *
- * Currently unimplemented.
- *
  * @param enigma Pointer to the Enigma machine instance.
  * @param path Path to the configuration file.
  * @return 0 on success, non-zero on failure.
- * @todo Implement this function.
  */
 int enigma_load_config(enigma_t* enigma, const char* path) {
-    // TODO implement
-    return 1;
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        fprintf(stderr, "Failed to open config file: %s\n", path);
+        return 1;
+    }
+
+    char buf[256];
+    fgets(buf, sizeof(buf), f);
+
+    char* rotors = strtok(buf, "|");
+    char* positions = strtok(NULL, "|");
+    char* reflector = strtok(NULL, "|");
+    char* plugboard = strtok(NULL, "|");
+
+    for (int i = 0; i < strlen(buf); i++) {
+        if (buf[i] == '|') {
+            buf[i] = '\0';
+        }
+    }
+
+    if (enigma_load_rotor_config(enigma, rotors)) {
+        fprintf(stderr, "Invalid rotor configuration: %s\n", rotors);
+        fclose(f);
+        return 1;
+    }
+
+    if (enigma_load_rotor_positions(enigma, positions)) {
+        fprintf(stderr, "Invalid rotor positions: %s\n", positions);
+        fclose(f);
+        return 1;
+    }
+
+    if (enigma_load_reflector_config(enigma, reflector)) {
+        fprintf(stderr, "Invalid reflector configuration: %s\n", reflector);
+        fclose(f);
+        return 1;
+    }
+
+    if (strcmp(enigma->plugboard, "None")) {
+        enigma->plugboard = malloc(ENIGMA_ALPHA_SIZE + 1); // This won't be freed but it's okay
+        strcpy(enigma->plugboard, plugboard);
+    }
+
+
+    fclose(f);
+    return 0;
 }
 
 /**
  * @brief Save the current Enigma machine configuration to a file.
  *
- * Currently unimplemented.
- *
  * @param enigma Pointer to the Enigma machine instance.
  * @param path Path to the configuration file.
  * @return 0 on success, non-zero on failure.
- * @todo Implement this function.
  */
 int enigma_save_config(const enigma_t* enigma, const char* path) {
-    // TODO implement
-    return 1;
+    char buf[80];
+    FILE* f = fopen(path, "w");
+
+    if (!f) {
+        fprintf(stderr, "Failed to open config file for writing: %s\n", path);
+        return 1;
+    }
+
+    enigma_print_config(enigma, buf);
+    fprintf(f, "%s", buf);
+    fclose(f);
+    return 0;
 }
 
 /**
@@ -237,9 +282,8 @@ int enigma_save_config(const enigma_t* enigma, const char* path) {
  * @param out    Buffer to store the configuration string.
  */
 void enigma_print_config(const enigma_t* enigma, char* out) {
-    sprintf(out, "Rotors: %s (%c)  %s (%c), %s (%c) | Reflector: %s | Plugboard: %s\n",
-            enigma->rotors[0].name, enigma->rotors[0].idx + 'A',
-            enigma->rotors[1].name, enigma->rotors[1].idx + 'A',
-            enigma->rotors[2].name, enigma->rotors[2].idx + 'A',
+    sprintf(out, "%s %s %s|%c%c%c|%s|%s\n",
+            enigma->rotors[0].name, enigma->rotors[1].name, enigma->rotors[2].name,
+            enigma->rotors[0].idx + 'A', enigma->rotors[1].idx + 'A', enigma->rotors[2].idx + 'A',
             enigma->reflector.name, enigma->plugboard ? enigma->plugboard : "None");
 }
