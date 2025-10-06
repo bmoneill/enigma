@@ -279,7 +279,7 @@ int enigma_save_config(const enigma_t* enigma, const char* path) {
     }
 
     enigma_print_config(enigma, buf);
-    fprintf(f, "%s", buf);
+    fprintf(f, "%s\n", buf);
     fclose(f);
     return 0;
 }
@@ -291,7 +291,7 @@ int enigma_save_config(const enigma_t* enigma, const char* path) {
  * @param out    Buffer to store the configuration string.
  */
 void enigma_print_config(const enigma_t* enigma, char* out) {
-    sprintf(out, "%s %s %s|%c%c%c|%s|%s\n",
+    sprintf(out, "%s %s %s|%c%c%c|%s|%s",
             enigma->rotors[0].name, enigma->rotors[1].name, enigma->rotors[2].name,
             enigma->rotors[0].idx + 'A', enigma->rotors[1].idx + 'A', enigma->rotors[2].idx + 'A',
             enigma->reflector.name, enigma->plugboard ? enigma->plugboard : "None");
