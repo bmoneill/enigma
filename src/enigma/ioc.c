@@ -105,9 +105,8 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
 static void ioc_analyze(int threadnum) {
     float score = enigma_ioc_score(&enigma_plaintexts[threadnum], enigma_global_cfg->ciphertextLen, NULL);
     if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
-        char buf[80];
-        enigma_print_config(&enigma_enigmas[threadnum], buf);
-        printf("%.6f\t%s\t%s\n", score, buf, &enigma_plaintexts[threadnum]);
+        ENIGMA_PRINT_CONFIG(enigma_enigmas[threadnum]);
+        printf("%.6f %s\n", score, &enigma_plaintexts[threadnum]);
     }
 }
 
