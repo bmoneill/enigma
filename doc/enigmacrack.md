@@ -56,7 +56,8 @@ Use Index of Coincidence for cryptanalysis.
 
 Options required: `target`, `-n`, `-m/-M/-T`
 
-Use n-grams for cryptanalysis.
+Use n-grams for cryptanalysis. n-grams may be generated from a corpus using the [ngram.sh](../tools/ngram.sh)
+script.
 
 ## Targets
 
