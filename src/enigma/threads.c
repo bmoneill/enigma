@@ -1,3 +1,6 @@
+/**
+ * @file enigma/threads.c
+ */
 #include "threads.h"
 
 #include <stdlib.h>

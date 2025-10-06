@@ -1,3 +1,8 @@
+/**
+ * @file enigma/crack.h
+ *
+ * Header file for cracking Enigma machine configurations.
+ */
 #ifndef ENIGMA_CRACK_H
 #define ENIGMA_CRACK_H
 

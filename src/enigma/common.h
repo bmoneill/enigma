@@ -1,3 +1,8 @@
+/**
+ * @file enigma/common.h
+ *
+ * This file contains common definitions, macros, and constants used throughout libenigma.
+ */
 #ifndef ENIGMA_COMMON_H
 #define ENIGMA_COMMON_H
 

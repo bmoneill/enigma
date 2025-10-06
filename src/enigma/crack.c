@@ -1,3 +1,11 @@
+/**
+ * @file enigma/crack.c
+ *
+ * This file implements functions for cracking Enigma machine configurations
+ * using various methods such as brute force and n-gram analysis. It includes
+ * functions for loading dictionaries, scoring decrypted text, and finding potential
+ * indices in the ciphertext where known plaintext may exist.
+ */
 #include "crack.h"
 
 #ifdef __STDC_ALLOC_LIB__

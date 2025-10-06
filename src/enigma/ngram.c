@@ -1,3 +1,6 @@
+/**
+ * @file enigma/ngram.c
+ */
 #include "ngram.h"
 
 #include "common.h"

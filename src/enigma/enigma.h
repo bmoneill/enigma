@@ -1,3 +1,10 @@
+/**
+ * @file enigma/enigma.h
+ *
+ * This file defines the core structures and functions for the Enigma machine,
+ * including the main Enigma structure, encoding functions, and initialization
+ * routines for default and random configurations.
+ */
 #ifndef ENIGMA_H
 #define ENIGMA_H
 

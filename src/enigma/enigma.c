@@ -1,3 +1,10 @@
+/**
+ * @file enigma/enigma.c
+ *
+ * This file implements the core functionality of the Enigma machine,
+ * including encoding characters and strings, initializing rotors,
+ * and setting up default and random configurations.
+ */
 #include "enigma.h"
 
 #include "reflectors.h"

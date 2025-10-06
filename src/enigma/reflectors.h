@@ -1,3 +1,6 @@
+/**
+ * @file enigma/reflectors.h
+ */
 #ifndef ENIGMA_REFLECTORS_H
 #define ENIGMA_REFLECTORS_H
 
@@ -33,4 +36,5 @@ static const enigma_reflector_t* enigma_reflectors[] = {
     &enigma_UKW_B,
     &enigma_UKW_C,
 };
+
 #endif

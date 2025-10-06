@@ -1,3 +1,6 @@
+/**
+ * @file enigma/io.h
+ */
 #ifndef ENIGMA_IO_H
 #define ENIGMA_IO_H
 

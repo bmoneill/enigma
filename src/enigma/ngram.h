@@ -1,3 +1,6 @@
+/**
+ * @file enigma/ngram.h
+ */
 #ifndef ENIGMA_NGRAM_H
 #define ENIGMA_NGRAM_H
 

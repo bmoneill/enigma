@@ -1,3 +1,6 @@
+/**
+ * @file enigma/rotors.h
+ */
 #ifndef ENIGMA_ROTORS_H
 #define ENIGMA_ROTORS_H
 

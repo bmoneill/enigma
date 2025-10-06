@@ -1,3 +1,7 @@
+/**
+ * @file enigma/io.c
+ */
+
 #include "io.h"
 
 #include "crack.h"

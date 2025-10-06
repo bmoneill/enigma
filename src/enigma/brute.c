@@ -1,3 +1,10 @@
+/**
+ * @file enigma/brute.c
+ *
+ * This file implements a brute force attack on the Enigma machine by trying all possible
+ * configurations based on the provided flags. It supports brute forcing rotors, positions,
+ * reflectors, and plugboard settings. The results are evaluated against a dictionary if provided.
+ */
 #include "brute.h"
 
 #include <stdio.h>

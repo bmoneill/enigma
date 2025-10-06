@@ -1,3 +1,6 @@
+/**
+ * @file enigma/threads.h
+ */
 #ifndef ENIGMA_THREADS_H
 #define ENIGMA_THREADS_H
 
