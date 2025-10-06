@@ -4,6 +4,10 @@
 
 This project aims to create a full-featured C99 library and toolset for simulating and cracking the Enigma.
 
+The library and toolset currently supports simulating all common 3-rotor military Enigma configurations used
+in World War II. It also supports cracking ciphertext utilizing multithreaded Index of Coincidence, n-gram
+analysis, and brute force methods.
+
 ## About the Enigma
 
 The Enigma was a cipher device used by the Germans during World War II to encrypt military communication.
