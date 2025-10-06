@@ -8,7 +8,83 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define THREADNUM ((int*)args)[1]
+#define MYENIGMA enigma_enigmas[THREADNUM]
+
+static void* plugboard_thread_main(void* args);
+static void* positions_thread_main(void* args);
+static void* reflector_thread_main(void* args);
 static void* rotor_thread_main(void*);
+
+/**
+ * @brief Crack rotor configuration using Index of Coincidence.
+ *
+ * This function attempts to determine the rotors used in the ciphertext's Enigma key
+ * by evaluating different rotor combinations and scoring the resulting plaintext
+ * using the Index of Coincidence method.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ */
+void enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
+    enigma_crack_multithreaded(config, (void* (*)(void*))rotor_thread_main);
+}
+
+/**
+ * @brief Crack rotor positions using Index of Coincidence.
+ *
+ * This function attempts to determine the rotor positions used in the ciphertext's Enigma key
+ * by evaluating different rotor combinations and scoring the resulting plaintext
+ * using the Index of Coincidence method.
+ *
+ * It is recommended that a suspected rotor configuration be set in the enigma structure.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ */
+void enigma_crack_rotor_positions_ioc(enigma_crack_config_t* config) {
+    enigma_crack_multithreaded(config, (void* (*)(void*))positions_thread_main);
+}
+
+/**
+ * @brief Crack reflector using Index of Coincidence.
+ *
+ * This function attempts to determine the reflector used in the ciphertext's Enigma key
+ * by and scoring the resulting plaintext from all reflectors using the Index of Coincidence method.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ */
+void enigma_crack_reflector_ioc(enigma_crack_config_t* config) {
+    enigma_crack_multithreaded(config, (void* (*)(void*))reflector_thread_main);
+}
+
+/**
+ * @brief Crack plugboard using Index of Coincidence.
+ *
+ * This function attempts to determine the plugboard settings used in the ciphertext's Enigma key
+ * by and scoring the resulting plaintext from all plugboard settings using the Index of Coincidence
+ * method.
+ *
+ * @param config Pointer to the cracking configuration structure.
+ */
+void enigma_crack_plugboard_ioc(enigma_crack_config_t* config) {
+    enigma_crack_multithreaded(config, (void* (*)(void*))plugboard_thread_main);
+}
+
+/**
+ * @brief Analyze decrypted text using Index of Coincidence.
+ *
+ * This function scores the decrypted text using the Index of Coincidence method
+ * and prints the configuration and score if it falls within the specified range.
+ *
+ * @param threadnum The thread number corresponding to the decrypted text to analyze.
+ */
+void enigma_ioc_analyze(int threadnum) {
+    float score = enigma_ioc_score(&enigma_plaintexts[threadnum], enigma_global_cfg->ciphertextLen, NULL);
+    if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
+        char buf[80];
+        enigma_print_config(&enigma_enigmas[threadnum], buf);
+        printf("%.6f\t%s\t%s\n", score, buf, &enigma_plaintexts[threadnum]);
+    }
+}
 
 /**
  * @brief Score text using Index of Coincidence.
@@ -35,75 +111,81 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
 }
 
 /**
- * @brief Crack rotor configuration using Index of Coincidence.
- *
- * This function attempts to determine the rotors used in the ciphertext's Enigma key
- * by evaluating different rotor combinations and scoring the resulting plaintext
- * using the Index of Coincidence method.
- *
- * @param config Pointer to the cracking configuration structure.
+ * @brief Thread main function for plugboard cracking.
  */
-void enigma_crack_rotors_ioc(enigma_crack_config_t* config) {
-    enigma_crack_multithreaded(config, (void* (*)(void*))rotor_thread_main);
+static void* plugboard_thread_main(void* args) {
+    if (THREADNUM == 0) {
+        enigma_spawn(0, THREADNUM);
+
+        for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
+            for (int j = 0; j < i; j++) {
+                for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
+                    for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
+                        if (a == b) continue;
+
+                        MYENIGMA.plugboard[j * 2] = 'A' + a;
+                        MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
+
+                        enigma_spawn(0, THREADNUM);
+                    }
+                }
+            }
+        }
+    } else {
+        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
+        enigma_ioc_analyze(THREADNUM);
+    }
+    return NULL;
 }
 
 /**
- * @brief Crack rotor positions using Index of Coincidence.
- *
- * Currently unimplemented.
- *
- * This function attempts to determine the rotor positions used in the ciphertext's Enigma key
- * by evaluating different rotor combinations and scoring the resulting plaintext
- * using the Index of Coincidence method.
- *
- * It is recommended that a suspected rotor configuration be set in the enigma structure.
- *
- * @param config Pointer to the cracking configuration structure.
- *
- * @todo Implement
+ * @brief Thread main function for rotor position cracking.
  */
-void enigma_crack_rotor_positions_ioc(enigma_crack_config_t* config) {
-    // TODO implement
+static void* positions_thread_main(void* args) {
+    if (THREADNUM == 0) {
+        for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+            MYENIGMA.rotors[0].idx = i;
+            for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
+                MYENIGMA.rotors[1].idx = j;
+                for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
+                    MYENIGMA.rotors[2].idx = k;
+                    enigma_spawn(0, 0);
+                }
+            }
+        }
+    } else {
+        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
+        enigma_ioc_analyze(THREADNUM);
+    }
+
+    enigma_freeThreads[THREADNUM] = 1;
+    return NULL;
 }
 
 /**
- * @brief Crack reflector using Index of Coincidence.
- *
- * Currently unimplemented.
- *
- * This function attempts to determine the reflector used in the ciphertext's Enigma key
- * by and scoring the resulting plaintext from all reflectors using the Index of Coincidence method.
- *
- * @param config Pointer to the cracking configuration structure.
- *
- * @todo Implement
+ * @brief Thread main function for reflector cracking.
  */
-void enigma_crack_reflector_ioc(enigma_crack_config_t* config) {
-    // TODO implement
+static void* reflector_thread_main(void* args) {
+    if (THREADNUM == 0) {
+        for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
+            memcpy(&MYENIGMA.reflector, &enigma_reflectors[i], sizeof(enigma_reflector_t));
+            enigma_spawn(0, 0);
+        }
+    } else {
+        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
+        enigma_ioc_analyze(THREADNUM);
+    }
+
+    enigma_freeThreads[THREADNUM] = 1;
+    return NULL;
 }
 
 /**
- * @brief Crack plugboard using Index of Coincidence.
- *
- * Currently unimplemented.
- *
- * This function attempts to determine the plugboard settings used in the ciphertext's Enigma key
- * by and scoring the resulting plaintext from all plugboard settings using the Index of Coincidence
- * method.
- *
- * @param config Pointer to the cracking configuration structure.
- *
- * @todo Implement
+ * @brief Thread main function for rotor cracking.
  */
-void enigma_crack_plugboard_ioc(enigma_crack_config_t* config) {
-    // TODO implement
-}
-
 static void* rotor_thread_main(void* args) {
 #define THREADNUM ((int*)args)[1]
 #define MYENIGMA enigma_enigmas[THREADNUM]
-
-
     if (THREADNUM == 0) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
             memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
@@ -123,18 +205,12 @@ static void* rotor_thread_main(void* args) {
             }
         }
     } else {
-        char* decrypted = &enigma_plaintexts[THREADNUM];
-        char buf[80];
-        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, decrypted, enigma_global_cfg->ciphertextLen);
-
-        float score = enigma_ioc_score(decrypted, enigma_global_cfg->ciphertextLen, NULL);
-        if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
-            enigma_print_config(&MYENIGMA, buf);
-            printf("%.6f\t%s\t%s\n", score, buf, decrypted);
-        }
+        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
+        enigma_ioc_analyze(THREADNUM);
     }
     enigma_freeThreads[THREADNUM] = 1;
-#undef THREADNUM
-#undef MYENIGMA
     return NULL;
 }
+
+#undef THREADNUM
+#undef MYENIGMA
