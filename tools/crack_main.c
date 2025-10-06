@@ -13,9 +13,9 @@
 #include <string.h>
 #include <unistd.h>
 
-static int                    load_language(enigma_crack_config_t*, const char*);
-static int                    print_usage(const char*);
-static enigma_crack_config_t* parse_arguments(int, char**, enigma_ngram_list_t*);
+static int                    load_language  (enigma_crack_config_t*, const char*);
+static int                    print_usage    (const char*);
+static enigma_crack_config_t* parse_arguments(int,                    char**,     enigma_ngram_list_t*);
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {

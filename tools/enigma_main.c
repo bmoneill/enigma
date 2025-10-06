@@ -1,14 +1,14 @@
-#include <ctype.h>
-#include <getopt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "enigma/common.h"
 #include "enigma/enigma.h"
 #include "enigma/io.h"
 #include "enigma/rotors.h"
 #include "enigma/reflectors.h"
+
+#include <ctype.h>
+#include <getopt.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 static void print_usage(const char*);
 
