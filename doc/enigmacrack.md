@@ -34,7 +34,7 @@ enigmacrack method [target] [options] [ciphertext]
 
 ## Methods
 
-### brute (WIP)
+### brute
 
 Use brute force for cryptanalysis. This method runs through every possible Enigma configuration and
 corresponding plaintext against a dictionary. This is *very* slow, even with today's
@@ -46,13 +46,13 @@ multiple dictionary words will be outputted.
 If a dictionary file is not set, it will use letter frequency scores to decide if a plaintext is worth
 analyzing. The `-m` and `-M` parameters may be used to set minimum and maximum letter frequency scores.
 
-### ioc (WIP)
+### ioc
 
 Options required: `target`, `-m/-M` OR `-l`
 
 Use Index of Coincidence for cryptanalysis.
 
-### ngram (WIP)
+### ngram
 
 Options required: `target`, `-n`, `-m/-M`
 
