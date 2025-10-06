@@ -19,9 +19,7 @@ static void* rotor_thread_main(void*);
 /**
  * @brief Crack rotor configuration using Index of Coincidence.
  *
- * This function attempts to determine the rotors used in the ciphertext's Enigma key
- * by evaluating different rotor combinations and scoring the resulting plaintext
- * using the Index of Coincidence method.
+ * This is a wrapper for enigma_crack_multithreaded that uses the rotor_thread_main function.
  *
  * @param config Pointer to the cracking configuration structure.
  */
@@ -112,6 +110,17 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
 
 /**
  * @brief Thread main function for plugboard cracking.
+ *
+ * This function iterates through all possible plugboard settings with up to
+ * enigma_global_cfg->maxPlugboardSettings pairs and evaluates
+ * the resulting plaintext using the Index of Coincidence method.
+ *
+ * It is recommended that this be the last step in a cracking process, as it is the most
+ * computationally expensive. Suspected rotor configuration, positions, and reflector
+ * settings should be set in the global configuration's enigma structure.
+ *
+ * @param args Integer thread arguments, where the second element is the thread number.
+ * @return NULL
  */
 static void* plugboard_thread_main(void* args) {
     if (THREADNUM == 0) {
@@ -142,6 +151,15 @@ static void* plugboard_thread_main(void* args) {
 
 /**
  * @brief Thread main function for rotor position cracking.
+ *
+ * This function iterates through all possible rotor positions
+ * and evaluates the resulting plaintext using the Index of Coincidence method.
+ *
+ * It is recommended that a suspected rotor configuration be set in global configuration's enigma
+ * structure.
+ *
+ * @param args Integer thread arguments, where the second element is the thread number.
+ * @return NULL
  */
 static void* positions_thread_main(void* args) {
     if (THREADNUM == 0) {
@@ -166,6 +184,15 @@ static void* positions_thread_main(void* args) {
 
 /**
  * @brief Thread main function for reflector cracking.
+ *
+ * This function iterates through all possible reflectors
+ * and evaluates the resulting plaintext using the Index of Coincidence method.
+ *
+ * It is recommended that a suspected rotor configuration and positions be set in the
+ * global configuration's enigma structure.
+ *
+ * @param args Integer thread arguments, where the second element is the thread number.
+ * @return NULL
  */
 static void* reflector_thread_main(void* args) {
     if (THREADNUM == 0) {
@@ -184,6 +211,12 @@ static void* reflector_thread_main(void* args) {
 
 /**
  * @brief Thread main function for rotor cracking.
+ *
+ * This function iterates through all possible rotor combinations
+ * and evaluates the resulting plaintext using the Index of Coincidence method.
+ *
+ * @param args Integer thread arguments, where the second element is the thread number.
+ * @return NULL
  */
 static void* rotor_thread_main(void* args) {
 #define THREADNUM ((int*)args)[1]
