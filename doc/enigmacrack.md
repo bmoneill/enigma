@@ -3,7 +3,7 @@
 ## Usage
 
 ```shell
-enigmacrack method [target] [options] [ciphertext]
+enigmacrack method [target] [options] ciphertext
 ```
 
 ## Options
@@ -43,18 +43,24 @@ hardware capabilities (there are around **159 quintillion** possible Enigma conf
 If a dictionary file was set, plaintexts will be compared against the file and only results matching
 multiple dictionary words will be outputted.
 
-If a dictionary file is not set, it will use letter frequency scores to decide if a plaintext is worth
-analyzing. The `-m` and `-M` parameters may be used to set minimum and maximum letter frequency scores.
+If a dictionary file is not set, it will use letter frequency scores to decide if a plaintext is
+worth analyzing. The `-m` and `-M` parameters may be used to set minimum and maximum letter
+frequency scores.
 
 ### ioc
 
-Options required: `target`, `-m/-M/-T` OR `-l`
+**Options required: `target`, `-m/-M/-T` OR `-l`.**
 
-Use Index of Coincidence for cryptanalysis.
+This method uses Index of Coincidence for cryptanalysis. The Index of Coincidence measures how
+likely it is to draw two random letters from a given text. As correct settings are discovered,
+intermediary plaintexts should approach the established Index of Coincidence value for its language.
+
+Utilizing this method, it is possible to decrypt ciphertext with no known settings in a short amount of time,
+given we know the language the source text was written in. This requires some user intervention, however.
 
 ### ngram
 
-Options required: `target`, `-n`, `-m/-M/-T`
+**Options required: `target`, `-n`, `-m/-M/-T`.**
 
 Use n-grams for cryptanalysis. n-grams may be generated from a corpus using the [ngram.sh](../tools/ngram.sh)
 script.
