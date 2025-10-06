@@ -135,6 +135,8 @@ static void* plugboard_thread_main(void* args) {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
         enigma_ioc_analyze(THREADNUM);
     }
+
+    enigma_freeThreads[THREADNUM] = 1;
     return NULL;
 }
 
