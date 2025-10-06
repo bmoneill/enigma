@@ -9,9 +9,12 @@
 #include "enigma.h"
 #include "rotors.h"
 
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+pthread_mutex_t score_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int score_compare(const void *a, const void *b);
 
@@ -72,8 +75,41 @@ void enigma_free_dictionary(enigma_crack_config_t* cfg) {
  * @param scores The array of enigma_score_t to sort.
  * @param count The number of elements in the scores array.
  */
-void enigma_sort_scores(enigma_score_t *scores, int count) {
-    qsort(scores, count, sizeof(enigma_score_t), score_compare);
+void enigma_score_sort(enigma_score_list_t *scoreList) {
+    qsort(scoreList->scores, scoreList->scoreCount, sizeof(enigma_score_t), score_compare);
+}
+
+/**
+ * @brief Print the scores in an enigma_score_list_t.
+ *
+ * @param scoreList Pointer to the enigma_score_list_t structure.
+ */
+void enigma_score_print(const enigma_score_list_t* scoreList) {
+    for (int i = 0; i < scoreList->scoreCount; i++) {
+        ENIGMA_PRINT_CONFIG(scoreList->scores[i].enigma);
+        printf("%.6f\n", scoreList->scores[i].score);
+    }
+}
+
+/**
+ * @brief Append a score to an enigma_score_list_t.
+ *
+ * If the scores array is full, it will be resized to double its current size.
+ *
+ * @param scoreList Pointer to the enigma_score_list_t structure.
+ * @param score The score to append.
+ */
+void enigma_score_append(enigma_score_list_t* scoreList, float score) {
+    pthread_mutex_lock(&score_mutex);
+    if (scoreList->scoreCount >= scoreList->maxScores) {
+        scoreList->maxScores *= 2;
+        scoreList->scores = realloc(scoreList->scores, scoreList->maxScores * sizeof(enigma_score_t));
+    }
+
+    scoreList->scores[scoreList->scoreCount].score = score;
+    scoreList->scoreCount++;
+
+    pthread_mutex_unlock(&score_mutex);
 }
 
 /**
@@ -94,7 +130,6 @@ static int score_compare(const void *a, const void *b) {
         return 0;
     }
 }
-
 
 /**
  * @brief Calculate the frequency of characters in the plaintext.

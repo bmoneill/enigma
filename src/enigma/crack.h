@@ -12,12 +12,19 @@
 #define ENIGMA_PRINT_CONFIG(e) printf("%s %s %s %c%c%c %s %s", \
                                       e.rotors[0].name, e.rotors[1].name, e.rotors[2].name, \
                                       e.rotors[0].idx, e.rotors[1].idx, e.rotors[2].idx, \
-                                      e.reflector.name, e.plugboard)
+                                      e.reflector.name, e.plugboard);
+
 
 typedef struct {
     enigma_t        enigma;
     float           score;
 } enigma_score_t;
+
+typedef struct {
+    enigma_score_t*       scores;
+    int                   scoreCount;
+    int                   maxScores;
+} enigma_score_list_t;
 
 typedef struct {
     enigma_t             enigma;
@@ -34,10 +41,8 @@ typedef struct {
     int                  ngramCount;
     int                  maxPlugboardSettings;
     int                  maxThreads;
-    enigma_score_t*      scores;
     const char**         dictionary;
     int                  dictSize;
-    int                  scoreCount;
     int                  flags;
     float*               letterFreqTargets;
     float                letterFreqOffset;
@@ -47,5 +52,8 @@ void enigma_find_potential_indices(const char*, const char*, int*);
 int enigma_dict_match(const char*, const enigma_crack_config_t*);
 float enigma_freq(const char*, int);
 int enigma_letter_freq(const char*, int,  float*, float, float*);
+void enigma_score_append(enigma_score_list_t*, float);
+void enigma_score_print(const enigma_score_list_t*);
+void enigma_score_sort(enigma_score_list_t*);
 
 #endif

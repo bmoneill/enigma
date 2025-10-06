@@ -15,14 +15,14 @@ typedef struct {
     int n;
 } enigma_ngram_list_t;
 
-void enigma_crack_rotors_ngram(enigma_crack_config_t*, enigma_ngram_list_t*);
-void enigma_crack_rotor_positions_ngram(enigma_crack_config_t*, enigma_ngram_list_t*);
-void enigma_crack_reflector_ngram(enigma_crack_config_t*, enigma_ngram_list_t*);
-void enigma_crack_plugboard_ngram(enigma_crack_config_t*, enigma_ngram_list_t*);
+void  enigma_crack_rotors_ngram         (enigma_crack_config_t*, enigma_ngram_list_t*);
+void  enigma_crack_rotor_positions_ngram(enigma_crack_config_t*, enigma_ngram_list_t*);
+void  enigma_crack_reflector_ngram      (enigma_crack_config_t*, enigma_ngram_list_t*);
+void  enigma_crack_plugboard_ngram      (enigma_crack_config_t*, enigma_ngram_list_t*);
 
-float enigma_bigram_score(const char* text,  int textLen, const float* bigrams);
-float enigma_trigram_score(const char* text, int textLen, const float* trigrams);
-float enigma_quadram_score(const char* text, int textLen, const float* quadgrams);
+float enigma_bigram_score               (const char*,            const enigma_crack_config_t*, const float*);
+float enigma_trigram_score              (const char*,            const enigma_crack_config_t*, const float*);
+float enigma_quadram_score              (const char*,            const enigma_crack_config_t*, const float*);
 
 
 #endif

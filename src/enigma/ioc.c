@@ -4,6 +4,7 @@
 #include "io.h"
 #include "threads.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,15 +72,19 @@ void enigma_crack_plugboard_ioc(enigma_crack_config_t* config) {
 /**
  * @brief Score text using Index of Coincidence.
  *
+ * This function calculates the Index of Coincidence for the given text and returns
+ * the absolute difference between the calculated score and the target score specified
+ * in the provided enigma_crack_config_t structure.
+ *
  * @param text The text to score.
  * @param len The length of the text.
  * @param placeholder Unused parameter, present for qsort function signature consistency.
  */
-float enigma_ioc_score(const char* text, int len, void* placeholder) {
+float enigma_ioc_score(const char* text, const enigma_crack_config_t* cfg) {
     int freq[26] = { 0 };
     float total = 0.0f;
 
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < cfg->ciphertextLen; i++) {
         if (text[i] < 'A' || text[i] > 'Z') {
             continue;
         }
@@ -89,7 +94,10 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
     for (int i = 0; i < 26; i++) {
         total += (float)freq[i] * (freq[i] - 1);
     }
-    return total / (float)(len * (len - 1));
+
+    float score = total / (float)(cfg->ciphertextLen * (cfg->ciphertextLen - 1));
+    return fabs(score - cfg->targetScore);
+
 }
 
 /**
@@ -103,7 +111,7 @@ float enigma_ioc_score(const char* text, int len, void* placeholder) {
  * @todo We should store results in a list and sort them by score before printing.
  */
 static void ioc_analyze(int threadnum) {
-    float score = enigma_ioc_score(&enigma_plaintexts[threadnum], enigma_global_cfg->ciphertextLen, NULL);
+    float score = enigma_ioc_score(&enigma_plaintexts[threadnum], enigma_global_cfg);
     if (score > enigma_global_cfg->minScore && score < enigma_global_cfg->maxScore) {
         ENIGMA_PRINT_CONFIG(enigma_enigmas[threadnum]);
         printf("%.6f %s\n", score, &enigma_plaintexts[threadnum]);

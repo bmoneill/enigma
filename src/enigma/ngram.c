@@ -5,6 +5,7 @@
 #include "io.h"
 #include "threads.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,7 +17,7 @@
 #define THREADNUM ((int*)args)[1]
 #define MYENIGMA enigma_enigmas[THREADNUM]
 
-const enigma_ngram_list_t* globalNgramList = NULL;
+const enigma_ngram_list_t* global_ngram_list = NULL;
 
 static void ngram_analyze(int threadnum);
 static void* reflector_thread_main(void* args);
@@ -27,11 +28,17 @@ static void* positions_thread_main(void* args);
 /**
  * @brief Crack plugboard settings using n-gram scoring.
  *
+ * This function attempts to determine the plugboard settings used in the ciphertext's Enigma key
+ * by evaluating different plugboard combinations and scoring the resulting plaintext
+ * using n-gram frequencies.
+ *
+ * Resulting scores and configurations are printed in descending order.
+ *
  * @param config Pointer to the cracking configuration structure.
  * @param ngramList Pointer to the n-gram list structure.
  */
 void enigma_crack_plugboard_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    globalNgramList = ngramList;
+    global_ngram_list = ngramList;
     enigma_crack_multithreaded(config, (void* (*)(void*))plugboard_thread_main);
 }
 
@@ -42,7 +49,7 @@ void enigma_crack_plugboard_ngram(enigma_crack_config_t* config, enigma_ngram_li
  * @param ngramList Pointer to the n-gram list structure.
  */
 void enigma_crack_rotors_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    globalNgramList = ngramList;
+    global_ngram_list = ngramList;
     enigma_crack_multithreaded(config, (void* (*)(void*))rotor_thread_main);
 }
 
@@ -53,7 +60,7 @@ void enigma_crack_rotors_ngram(enigma_crack_config_t* config, enigma_ngram_list_
  * @param ngramList Pointer to the n-gram list structure.
  */
 void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    globalNgramList = ngramList;
+    global_ngram_list = ngramList;
     enigma_crack_multithreaded(config, (void* (*)(void*))positions_thread_main);
 }
 
@@ -65,7 +72,7 @@ void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config, enigma_ng
  * @todo Implement
  */
 void enigma_crack_reflector_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    globalNgramList = ngramList;
+    global_ngram_list = ngramList;
     enigma_crack_multithreaded(config, (void* (*)(void*))reflector_thread_main);
 }
 
@@ -73,16 +80,16 @@ void enigma_crack_reflector_ngram(enigma_crack_config_t* config, enigma_ngram_li
  * @brief Score text using bigram frequencies.
  *
  * @param text The text to score.
- * @param textLen The length of the text.
+ * @param cfg Pointer to the cracking configuration structure.
  * @param bigrams Array of bigram scores indexed by BIIDX(a, b).
  *
- * @return The total bigram score for the text.
+ * @return The absolute difference between the total bigram score and the target score.
  */
-float enigma_bigram_score(const char* text, int textLen, const float* bigrams) {
+float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg, const float* bigrams) {
     float total = 0.0f;
     int next = text[0] - 'A';
 
-    for (int i = 1; i < textLen; i++) {
+    for (int i = 1; i < cfg->ciphertextLen; i++) {
         int cur = next;
         next = text[i] - 'A';
         if (cur < 0 || cur >= 26 || next < 0 || next >= 26) {
@@ -91,24 +98,24 @@ float enigma_bigram_score(const char* text, int textLen, const float* bigrams) {
         total += bigrams[BIIDX(cur, next)];
     }
 
-    return total;
+    return fabs(total - cfg->targetScore);
 }
 
 /**
  * @brief Score text using trigram frequencies.
  *
  * @param text The text to score.
- * @param textLen The length of the text.
+ * @param cfg Pointer to the cracking configuration structure.
  * @param trigrams Array of trigram scores indexed by TRIIDX(a, b, c).
  *
- * @return The total trigram score for the text.
+ * @return The absolute difference between the total trigram score and the target score.
  */
-float enigma_trigram_score(const char* text, int textLen, const float* trigrams) {
+float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg, const float* trigrams) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
     int next2 = text[1] - 'A';
 
-    for (int i = 2; i < textLen; i++) {
+    for (int i = 2; i < cfg->ciphertextLen; i++) {
         int cur = next1;
         next1 = next2;
         next2 = text[i] - 'A';
@@ -118,25 +125,25 @@ float enigma_trigram_score(const char* text, int textLen, const float* trigrams)
         total += trigrams[TRIIDX(cur, next1, next2)];
     }
 
-    return total;
+    return fabs(total - cfg->targetScore);
 }
 
 /**
  * @brief Score text using quadgram frequencies.
  *
  * @param text The text to score.
- * @param textLen The length of the text.
+ * @param cfg Pointer to the cracking configuration structure.
  * @param quadgrams Array of quadgram scores indexed by QUADIDX(a, b, c, d).
  *
- * @return The total quadgram score for the text.
+ * @return The absolute difference between the total quadgram score and the target score.
  */
-float enigma_quadram_score(const char* text, int textLen, const float* quadgrams) {
+float enigma_quadram_score(const char* text, const enigma_crack_config_t* cfg, const float* quadgrams) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
     int next2 = text[1] - 'A';
     int next3 = text[2] - 'A';
 
-    for (int i = 3; i < textLen; i++) {
+    for (int i = 3; i < cfg->ciphertextLen; i++) {
         int cur = next1;
         next1 = next2;
         next2 = next3;
@@ -148,7 +155,7 @@ float enigma_quadram_score(const char* text, int textLen, const float* quadgrams
         total += quadgrams[QUADIDX(cur, next1, next2, next3)];
     }
 
-    return total;
+    return fabs(total - cfg->targetScore);
 }
 
 /**
@@ -158,23 +165,20 @@ float enigma_quadram_score(const char* text, int textLen, const float* quadgrams
  * and prints the configuration and score if it falls within the specified range.
  *
  * @param threadnum The thread number corresponding to the decrypted text to analyze.
- *
- * @todo We should store results in a list and sort them by score before printing.
  */
 static void ngram_analyze(int threadnum) {
     float score = 0.0f;
     const char* text = &enigma_plaintexts[threadnum];
     int textLen = enigma_global_cfg->ciphertextLen;
 
-    switch (globalNgramList->n) {
-        case 2: score = enigma_bigram_score(text, textLen, (const float*)globalNgramList->ngrams); break;
-        case 3: score = enigma_trigram_score(text, textLen, (const float*)globalNgramList->ngrams); break;
-        case 4: score = enigma_quadram_score(text, textLen, (const float*)globalNgramList->ngrams); break;
+    switch (global_ngram_list->n) {
+        case 2: score = enigma_bigram_score(text, enigma_global_cfg, (const float*)global_ngram_list->ngrams); break;
+        case 3: score = enigma_trigram_score(text, enigma_global_cfg, (const float*)global_ngram_list->ngrams); break;
+        case 4: score = enigma_quadram_score(text, enigma_global_cfg, (const float*)global_ngram_list->ngrams); break;
     }
 
     if (score >= enigma_global_cfg->minScore && score <= enigma_global_cfg->maxScore) {
-        ENIGMA_PRINT_CONFIG(enigma_enigmas[threadnum]);
-        printf("%.6f %s\n", score, &enigma_plaintexts[threadnum]);
+        enigma_score_append(enigma_scores, score);
     }
 }
 

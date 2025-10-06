@@ -11,7 +11,7 @@ static const float enigma_ioc_english_max = 0.07692; // 2.0/26
 static const float enigma_ioc_german_min = 0.06730; // 1.75/26
 static const float enigma_ioc_german_max = 0.08654; // 2.25/26
 
-float enigma_ioc_score(const char*, int, void*);
+float enigma_ioc_score(const char*, const enigma_crack_config_t*);
 void enigma_crack_rotors_ioc(enigma_crack_config_t*);
 void enigma_crack_rotor_positions_ioc(enigma_crack_config_t*);
 void enigma_crack_reflector_ioc(enigma_crack_config_t*);

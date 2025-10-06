@@ -4,6 +4,7 @@
 #include <string.h>
 
 const enigma_crack_config_t* enigma_global_cfg = NULL;
+enigma_score_list_t* enigma_scores = NULL;
 enigma_t* enigma_enigmas = NULL;
 char* enigma_plaintexts = NULL;
 pthread_t* enigma_threads = NULL;
@@ -21,7 +22,8 @@ void *(*enigma_thread_main)(void*);
  * the cracking operation using the provided thread main function.
  *
  * This function sets up the following global variables:
- * - global_cfg: Pointer to the cracking configuration structure.
+ * - enigma_global_cfg: Pointer to the cracking configuration structure.
+ * - enigma_scores: Pointer to the cracking score list structure.
  * - enigma_enigmas: Array of enigma_t structures, one for each thread, indexed by thread number.
  * - enigma_plaintexts: Array of plaintext buffers, one for each thread, indexed by thread number.
  * - enigma_threads: Array of pthread_t structures, one for each thread, indexed by thread number.
@@ -37,6 +39,9 @@ void *(*enigma_thread_main)(void*);
  */
 void enigma_crack_multithreaded(enigma_crack_config_t* config, void* (*thread_main)(void*)) {
     enigma_global_cfg = config;
+    enigma_scores = malloc(sizeof(enigma_score_list_t));
+    enigma_scores->scores = malloc(ENIGMA_DEFAULT_SCORE_COUNT * sizeof(enigma_score_t));
+    enigma_scores->scoreCount = 0;
     enigma_enigmas = malloc(enigma_global_cfg->maxThreads * sizeof(enigma_t));
     enigma_plaintexts = calloc(enigma_global_cfg->maxThreads * (enigma_global_cfg->ciphertextLen + 1), sizeof(char));
     enigma_threads = malloc(enigma_global_cfg->maxThreads * sizeof(pthread_t));
