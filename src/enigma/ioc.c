@@ -20,8 +20,8 @@
 static void* plugboard_thread_main(void*);
 static void* positions_thread_main(void*);
 static void* reflector_thread_main(void*);
-static void* rotor_thread_main    (void*);
-static void  ioc_analyze          (int);
+static void* rotor_thread_main(void*);
+static void  ioc_analyze(int);
 
 /**
  * @brief Crack rotor configuration using Index of Coincidence.
@@ -132,18 +132,29 @@ static void ioc_analyze(int threadnum) {
  */
 static void* plugboard_thread_main(void* args) {
     if (THREADNUM == 0) {
-        enigma_spawn(0, THREADNUM);
+        if (enigma_global_cfg->target_param > 0) {
+            int p = enigma_global_cfg->target_param - 1;
+            for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+                for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
+                    if (i == j) continue;
 
-        for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
-            for (int j = 0; j < i; j++) {
-                for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
-                    for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
-                        if (a == b) continue;
+                    MYENIGMA.plugboard[(p - 1) * 2] = 'A' + i;
+                    MYENIGMA.plugboard[(p - 1) * 2 + 1] = 'A' + j;
 
-                        MYENIGMA.plugboard[j * 2] = 'A' + a;
-                        MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
-
-                        enigma_spawn(0, THREADNUM);
+                    enigma_spawn(0, 0);
+                }
+            }
+        } else {
+            enigma_spawn(0, THREADNUM);
+            for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
+                for (int j = 0; j < i; j++) {
+                    for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
+                        for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
+                            if (a == b) continue;
+                            MYENIGMA.plugboard[j * 2] = 'A' + a;
+                            MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
+                            enigma_spawn(0, THREADNUM);
+                        }
                     }
                 }
             }
@@ -171,13 +182,20 @@ static void* plugboard_thread_main(void* args) {
  */
 static void* positions_thread_main(void* args) {
     if (THREADNUM == 0) {
-        for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-            MYENIGMA.rotors[0].idx = i;
-            for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
-                MYENIGMA.rotors[1].idx = j;
-                for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
-                    MYENIGMA.rotors[2].idx = k;
-                    enigma_spawn(0, 0);
+        if (enigma_global_cfg->target_param > 0) {
+            for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+                MYENIGMA.rotors[enigma_global_cfg->target_param - 1].idx = i;
+                enigma_spawn(0, 0);
+            }
+        } else {
+            for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+                MYENIGMA.rotors[0].idx = i;
+                for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
+                    MYENIGMA.rotors[1].idx = j;
+                    for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
+                        MYENIGMA.rotors[2].idx = k;
+                        enigma_spawn(0, 0);
+                    }
                 }
             }
         }
@@ -228,20 +246,23 @@ static void* reflector_thread_main(void* args) {
  */
 static void* rotor_thread_main(void* args) {
     if (THREADNUM == 0) {
-        for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-            memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-            for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
-                if (i == j) {
-                    continue;
-                }
-                memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-                for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
-                    memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
-                    if (j == k) {
-                        continue;
+        if (enigma_global_cfg->target_param > 0) {
+            int p = enigma_global_cfg->target_param - 1;
+            for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+                memcpy(&MYENIGMA.rotors[p], enigma_rotors[i], sizeof(enigma_rotor_t));
+                enigma_spawn(0, 0);
+            }
+        } else {
+            for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+                memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
+                for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
+                    if (i == j) continue;
+                    memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
+                    for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
+                        memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+                        if (j == k) continue;
+                        enigma_spawn(0, 0);
                     }
-
-                    enigma_spawn(0, 0);
                 }
             }
         }
