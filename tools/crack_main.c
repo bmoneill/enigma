@@ -14,8 +14,9 @@
 #include <unistd.h>
 
 static void                   free_dictionary(char**,                 int);
-static void                   load_dictionary(enigma_crack_config_t*, const char* path);
+static void                   load_dictionary(enigma_crack_config_t*, const char*);
 static int                    load_language  (enigma_crack_config_t*, const char*);
+static void                   load_target    (enigma_crack_config_t*, const char*);
 static int                    print_usage    (const char*);
 static enigma_crack_config_t* parse_arguments(int,                    char**,     enigma_ngram_list_t*);
 
@@ -139,11 +140,11 @@ static int load_language(enigma_crack_config_t *config, const char *language) {
     return 1;
 }
 
-static void load_target(enigma_crack_config_t *config, const char *target) {
+static void load_target(enigma_crack_config_t* config, const char* target) {
     const char* targets[] = {"rotor", "position", "reflector", "plugboard"};
     if (config->method == ENIGMA_METHOD_IOC || config->method == ENIGMA_METHOD_NGRAM) {
         for (int i = 0; i < 4; i++) {
-            if (!strcmp(target, targets[i]) || !strcmp(target, targets[i] "s")) {
+            if (!strcmp(target, targets[i])) {
                 config->target = i;
                 config->target_param = target[strlen(target) - 1] - '0';
                 return;
