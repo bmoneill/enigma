@@ -67,7 +67,7 @@ script.
 
 ## Targets
 
-* `rotors`: Crack the rotor (Walzen) configuration.
-* `positions`: Crack the initial rotor positions.
+* `rotors[1-3]`: Crack the rotor (Walzen) configuration. Optional index indicates which rotor to crack.
+* `positions[1-3]`: Crack the initial rotor positions. Optional index indicates which rotor to crack positions of.
 * `reflector`: Crack the reflector (Umkehrwalze).
 * `plugboard`: Crack the plugboard (Steckerbrett) configuration.
