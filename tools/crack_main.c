@@ -140,6 +140,15 @@ static int load_language(enigma_crack_config_t *config, const char *language) {
     return 1;
 }
 
+/**
+ * @brief Load target settings.
+ *
+ * This function sets the target and target_param fields in the enigma_crack_config_t structure
+ * based on the specified target string.
+ *
+ * @param config Pointer to the enigma_crack_config_t structure to update.
+ * @param target The target string
+ */
 static void load_target(enigma_crack_config_t* config, const char* target) {
     const char* targets[] = {"rotor", "position", "reflector", "plugboard"};
     if (config->method == ENIGMA_METHOD_IOC || config->method == ENIGMA_METHOD_NGRAM) {
@@ -166,7 +175,6 @@ static void load_target(enigma_crack_config_t* config, const char* target) {
 static int print_usage(const char* argv0) {
     fprintf(stderr, "Usage: %s method [target] [options] [ciphertext]\n", argv0);
     fprintf(stderr, "Methods:\n");
-    fprintf(stderr, "  bombe            Use a pseudo-Bombe for cryptanalysis (-c, -C required)\n");
     fprintf(stderr, "  brute            Use Brute Force for cryptanalysis\n");
     fprintf(stderr, "  ioc              Use Index of Coincidence for cryptanalysis (target, -m/-M OR -l required)\n");
     fprintf(stderr, "  ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n");
