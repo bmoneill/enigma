@@ -35,6 +35,7 @@ typedef struct {
     enigma_t             enigma;
     int                  method;
     int                  target;
+    int                  target_param;
     const char*          plaintext;
     int                  plaintextPos;
     int                  plaintextLen;

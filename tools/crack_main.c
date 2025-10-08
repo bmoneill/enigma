@@ -13,6 +13,8 @@
 #include <string.h>
 #include <unistd.h>
 
+static void                   free_dictionary(char**,                 int);
+static void                   load_dictionary(enigma_crack_config_t*, const char* path);
 static int                    load_language  (enigma_crack_config_t*, const char*);
 static int                    print_usage    (const char*);
 static enigma_crack_config_t* parse_arguments(int,                    char**,     enigma_ngram_list_t*);
@@ -69,6 +71,9 @@ int main(int argc, char* argv[]) {
         break;
     }
 
+    if (config->dictionary) {
+        free_dictionary((char**)config->dictionary, config->dictSize);
+    }
     if (enigma_scores) {
         free(enigma_scores->scores);
         free(enigma_scores);
@@ -77,6 +82,36 @@ int main(int argc, char* argv[]) {
     free(config->letterFreqTargets);
     free(config);
     return 0;
+}
+
+static void free_dictionary(char** dictionary, int size) {
+    for (int i = 0; i < size; i++) {
+        free(dictionary[i]);
+    }
+    free(dictionary);
+}
+
+static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
+    int alloced = 10000;
+    cfg->dictionary = malloc(alloced * sizeof(char*));
+    cfg->dictSize = 0;
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        fprintf(stderr, "Failed to open dictionary file: %s\n", path);
+        return;
+    }
+
+    char line[BUFSIZ];
+    while ((fgets(line, sizeof(line), f)) != NULL) {
+        if (cfg->dictSize >= alloced) {
+            alloced *= 2;
+            cfg->dictionary = realloc(cfg->dictionary, alloced * sizeof(char*));
+        }
+        line[strcspn(line, "\n")] = 0;
+        cfg->dictionary[cfg->dictSize] = strdup(line);
+        cfg->dictSize++;
+    }
+    fclose(f);
 }
 
 /**
@@ -102,6 +137,20 @@ static int load_language(enigma_crack_config_t *config, const char *language) {
     }
 
     return 1;
+}
+
+static void load_target(enigma_crack_config_t *config, const char *target) {
+    const char* targets[] = {"rotor", "position", "reflector", "plugboard"};
+    if (config->method == ENIGMA_METHOD_IOC || config->method == ENIGMA_METHOD_NGRAM) {
+        for (int i = 0; i < 4; i++) {
+            if (!strcmp(target, targets[i]) || !strcmp(target, targets[i] "s")) {
+                config->target = i;
+                config->target_param = target[strlen(target) - 1] - '0';
+                return;
+            }
+        }
+    }
+
 }
 
 /**
@@ -134,7 +183,7 @@ static int print_usage(const char* argv0) {
     fprintf(stderr, "  Cryptanalysis Settings:\n");
     fprintf(stderr, "    -c plaintext   Set the known plaintext\n");
     fprintf(stderr, "    -C position    Set the position of known plaintext\n");
-    fprintf(stderr, "    -d             Set the dictionary file to use\n");
+    fprintf(stderr, "    -d file        Set the dictionary file to use\n");
     fprintf(stderr, "    -l language    Language ('english' or 'german', for IOC method)\n");
     fprintf(stderr, "    -m float       Minimum score threshold (for n-gram, IOC, and brute methods)\n");
     fprintf(stderr, "    -M float       Maximum score threshold (for n-gram, IOC, and brute methods)\n");
@@ -176,17 +225,14 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
     }
 
     optind++;
-
     if (config->method == ENIGMA_METHOD_IOC || config->method == ENIGMA_METHOD_NGRAM) {
-        if (!strcmp(argv[2], "rotors")) {
-            config->target = ENIGMA_TARGET_ROTORS;
-        } else if (!strcmp(argv[2], "positions")) {
-            config->target = ENIGMA_TARGET_POSITIONS;
-        } else if (!strcmp(argv[2], "reflector")) {
-            config->target = ENIGMA_TARGET_REFLECTOR;
-        } else if (!strcmp(argv[2], "plugboard")) {
-            config->target = ENIGMA_TARGET_PLUGBOARD;
-        } else {
+        if (optind >= argc) {
+            free(config);
+            print_usage(argv[0]);
+            return NULL;
+        }
+        load_target(config, argv[optind]);
+        if (config->target < 0) {
             free(config);
             print_usage(argv[0]);
             return NULL;
@@ -194,10 +240,11 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
         optind++;
     }
 
-    while ((opt = getopt(argc, argv, "c:C:l:m:M:n:p:s:S:t:T:u:w:")) != -1) {
+    while ((opt = getopt(argc, argv, "c:C:d:l:m:M:n:p:s:S:t:T:u:w:")) != -1) {
         switch (opt) {
         case 'c': config->plaintext = optarg; break;
         case 'C': config->plaintextPos = atoi(optarg); break;
+        case 'd': load_dictionary(config, optarg); break;
         case 'l': result = load_language(config, optarg); break;
         case 'm': config->minScore = atof(optarg); break;
         case 'M': config->maxScore = atof(optarg); break;
@@ -222,8 +269,7 @@ static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngr
         }
     }
 
-    if (result || (config->method == ENIGMA_METHOD_BOMBE && (!config->plaintext || config->plaintextPos < 0)) ||
-        ((config->method == ENIGMA_METHOD_NGRAM || config->method == ENIGMA_METHOD_IOC) &&
+    if (result || ((config->method == ENIGMA_METHOD_NGRAM || config->method == ENIGMA_METHOD_IOC) &&
          (config->target < 0 || (!config->minScore && !config->maxScore && !config->ngramCount))) ||
         (config->method == ENIGMA_METHOD_NGRAM && !ngramList)) {
         free(config);

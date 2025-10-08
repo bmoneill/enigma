@@ -203,6 +203,8 @@ int enigma_letter_freq(const char* plaintext, int len,  float* targets, float of
  * This function checks the plaintext against a dictionary of words and returns 1
  * if multiple words are found, otherwise returns 0.
  *
+ * The dictionary must be uppercase.
+ *
  * @param plaintext The plaintext to check
  * @param cfg The enigma_crack_config_t containing the dictionary and its size
  *
