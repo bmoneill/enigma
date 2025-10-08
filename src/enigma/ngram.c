@@ -208,26 +208,23 @@ static void* plugboard_thread_main(void* args) {
                 }
             }
         } else {
+            enigma_spawn(0, THREADNUM);
+            for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
+                for (int j = 0; j < i; j++) {
+                    for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
+                        for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
+                            if (a == b) continue;
 
-        enigma_spawn(0, THREADNUM);
+                            MYENIGMA.plugboard[j * 2] = 'A' + a;
+                            MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
 
-        for (int i = 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
-            for (int j = 0; j < i; j++) {
-                for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
-                    for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
-                        if (a == b) continue;
-
-                        MYENIGMA.plugboard[j * 2] = 'A' + a;
-                        MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
-
-                        enigma_spawn(0, THREADNUM);
+                            enigma_spawn(0, THREADNUM);
+                        }
                     }
                 }
             }
         }
-    }
-    }
-    else {
+    } else {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
         ngram_analyze(THREADNUM);
     }
@@ -288,8 +285,7 @@ static void* reflector_thread_main(void* args) {
             memcpy(&MYENIGMA.reflector, &enigma_reflectors[i], sizeof(enigma_reflector_t));
             enigma_spawn(0, 0);
         }
-    }
-    else {
+    } else {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
         ngram_analyze(THREADNUM);
     }
@@ -314,8 +310,7 @@ static void* rotor_thread_main(void* args) {
                 memcpy(&MYENIGMA.rotors[enigma_global_cfg->target_param - 1], enigma_rotors[i], sizeof(enigma_rotor_t));
                 enigma_spawn(0, 0);
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
                 memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
                 for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
@@ -329,8 +324,7 @@ static void* rotor_thread_main(void* args) {
                 }
             }
         }
-    }
-    else {
+    } else {
         enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
         ngram_analyze(THREADNUM);
     }
