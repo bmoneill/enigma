@@ -24,6 +24,34 @@ static void* rotor_thread_main(void*);
 static void  ioc_analyze(int);
 
 /**
+ * @brief Crack a specific rotor using Index of Coincidence.
+ *
+ * This function attempts to determine the rotor used in the specified position
+ * of the Enigma machine by evaluating all possible rotors and scoring the resulting
+ * plaintext using the Index of Coincidence method.
+ *
+ * It is recommended that suspected rotor positions, reflector, and plugboard settings
+ * be set in the enigma structure.
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param targetRotor The index of the rotor to crack (0-based).
+ */
+void enigma_crack_rotor_ioc(enigma_crack_config_t* cfg, int targetRotor) {
+    enigma_t enigma;
+    memcpy(&enigma, cfg->enigma, sizeof(enigma_t));
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+        memcpy(&enigma.rotors[targetRotor], enigma_rotors[i], sizeof(enigma_rotor_t));
+        enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+        float score = enigma_ioc_score(plaintext, cfg);
+        printf("Rotor %s: Score %.6f\n", enigma.rotors[targetRotor].name, score);
+    }
+
+    free(plaintext);
+}
+
+/**
  * @brief Crack rotor configuration using Index of Coincidence.
  *
  * This is a wrapper for enigma_crack_multithreaded that uses the rotor_thread_main function.
