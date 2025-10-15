@@ -19,17 +19,6 @@
 #define TRIIDX(a, b, c) ((a << 10) | (b << 5) | c)
 #define QUADIDX(a, b, c, d) ((a << 15) | (b << 10) | (c << 5) | d)
 
-#define THREADNUM ((int*)args)[1]
-#define MYENIGMA enigma_enigmas[THREADNUM]
-
-static void  ngram_analyze(int);
-static void* reflector_thread_main(void*);
-static void* rotor_thread_main(void*);
-static void* plugboard_thread_main(void*);
-static void* positions_thread_main(void*);
-
-const enigma_ngram_list_t* global_ngram_list = NULL;
-
 /**
  * @brief Crack plugboard settings using n-gram scoring.
  *
@@ -42,9 +31,8 @@ const enigma_ngram_list_t* global_ngram_list = NULL;
  * @param config Pointer to the cracking configuration structure.
  * @param ngramList Pointer to the n-gram list structure.
  */
-void enigma_crack_plugboard_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    global_ngram_list = ngramList;
-    enigma_crack_multithreaded(config, (void* (*)(void*))plugboard_thread_main);
+void enigma_crack_plugboard_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
+    // TODO Implement for one setting at a time
 }
 
 /**
@@ -53,9 +41,8 @@ void enigma_crack_plugboard_ngram(enigma_crack_config_t* config, enigma_ngram_li
  * @param config Pointer to the cracking configuration structure.
  * @param ngramList Pointer to the n-gram list structure.
  */
-void enigma_crack_rotors_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    global_ngram_list = ngramList;
-    enigma_crack_multithreaded(config, (void* (*)(void*))rotor_thread_main);
+void enigma_crack_rotors_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
+    // TODO Implement for one rotor at a time
 }
 
 /**
@@ -64,9 +51,8 @@ void enigma_crack_rotors_ngram(enigma_crack_config_t* config, enigma_ngram_list_
  * @param config Pointer to the cracking configuration structure.
  * @param ngramList Pointer to the n-gram list structure.
  */
-void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    global_ngram_list = ngramList;
-    enigma_crack_multithreaded(config, (void* (*)(void*))positions_thread_main);
+void enigma_crack_rotor_positions_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
+    // TODO Implement for one rotor position at a time
 }
 
 /**
@@ -75,9 +61,8 @@ void enigma_crack_rotor_positions_ngram(enigma_crack_config_t* config, enigma_ng
  * @param config Pointer to the cracking configuration structure.
  * @param ngramList Pointer to the n-gram list structure.
  */
-void enigma_crack_reflector_ngram(enigma_crack_config_t* config, enigma_ngram_list_t* ngramList) {
-    global_ngram_list = ngramList;
-    enigma_crack_multithreaded(config, (void* (*)(void*))reflector_thread_main);
+void enigma_crack_reflector_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
+    // TODO Re-implement
 }
 
 /**
@@ -167,161 +152,19 @@ float enigma_quadram_score(const char* text, const enigma_crack_config_t* cfg, c
  *
  * This function scores the decrypted text using the n-gram method.
  *
- * @param threadnum The thread number corresponding to the decrypted text to analyze.
+ * @param plaintext The decrypted text to analyze.
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param ngramList Pointer to the n-gram list structure.
  */
-static void ngram_analyze(int threadnum) {
+void enigma_ngram_analyze(const char* plaintext, const enigma_crack_config_t* cfg, const enigma_ngram_list_t* ngramList) {
     float score = 0.0f;
-    const char* text = &enigma_plaintexts[threadnum];
-    int textLen = enigma_global_cfg->ciphertextLen;
+    int textLen = cfg->ciphertextLen;
 
-    switch (global_ngram_list->n) {
-    case 2: score = enigma_bigram_score(text, enigma_global_cfg, (const float*)global_ngram_list->ngrams); break;
-    case 3: score = enigma_trigram_score(text, enigma_global_cfg, (const float*)global_ngram_list->ngrams); break;
-    case 4: score = enigma_quadram_score(text, enigma_global_cfg, (const float*)global_ngram_list->ngrams); break;
+    switch (ngramList->n) {
+    case 2: score = enigma_bigram_score(plaintext, cfg, (const float*)ngramList->ngrams); break;
+    case 3: score = enigma_trigram_score(plaintext, cfg, (const float*)ngramList->ngrams); break;
+    case 4: score = enigma_quadram_score(plaintext, cfg, (const float*)ngramList->ngrams); break;
     }
 
     enigma_score_append(enigma_scores, score);
-}
-
-/**
- * @brief Thread main function for plugboard cracking.
- *
- * This function iterates through all possible plugboard settings with up to
- * the maximum number of settings specified in the global configuration.
- * It evaluates the resulting plaintext using n-gram scoring.
- *
- * @param args Integer thread arguments, where the second element is the thread number.
- * @return NULL
- */
-static void* plugboard_thread_main(void* args) {
-    if (THREADNUM == 0) {
-        int existingPairs = 0;
-        if (enigma_global_cfg->enigma.plugboard) {
-            existingPairs = strlen(enigma_global_cfg->enigma.plugboard) / 2;
-        }
-        enigma_spawn(0, 0);
-        for (int i = existingPairs + 1; i < enigma_global_cfg->maxPlugboardSettings; i++) {
-            for (int j = 0; j < i; j++) {
-                for (int a = 0; a < ENIGMA_ALPHA_SIZE; a++) {
-                    for (int b = 0; b < ENIGMA_ALPHA_SIZE; b++) {
-                        if (a == b) continue;
-                        MYENIGMA.plugboard[j * 2] = 'A' + a;
-                        MYENIGMA.plugboard[j * 2 + 1] = 'A' + b;
-                        enigma_spawn(0, 0);
-                    }
-                }
-            }
-        }
-    } else {
-        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        ngram_analyze(THREADNUM);
-    }
-
-    enigma_freeThreads[THREADNUM] = 1;
-    return NULL;
-}
-
-/**
- * @brief Thread main function for rotor cracking.
- *
- * This function iterates through all possible rotor combinations
- * and evaluates the resulting plaintext using n-gram scoring.
- *
- * @param args Integer thread arguments, where the second element is the thread number.
- * @return NULL
- */
-static void* positions_thread_main(void* args) {
-    if (THREADNUM == 0) {
-        if (enigma_global_cfg->target_param > 0) {
-            for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-                MYENIGMA.rotors[enigma_global_cfg->target_param - 1].idx = i;
-                enigma_spawn(0, 0);
-            }
-        }
-        else {
-            for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-                MYENIGMA.rotors[0].idx = i;
-                for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
-                    MYENIGMA.rotors[1].idx = j;
-                    for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
-                        MYENIGMA.rotors[2].idx = k;
-                        enigma_spawn(0, 0);
-                    }
-                }
-            }
-        }
-    }
-    else {
-        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        ngram_analyze(THREADNUM);
-    }
-
-    enigma_freeThreads[THREADNUM] = 1;
-    return NULL;
-}
-
-/**
- * @brief Thread main function for reflector cracking.
- *
- * This function iterates through all possible reflectors
- * and evaluates the resulting plaintext using n-gram scoring.
- *
- * @param args Integer thread arguments, where the second element is the thread number.
- * @return NULL
- */
-static void* reflector_thread_main(void* args) {
-    if (THREADNUM == 0) {
-        for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
-            memcpy(&MYENIGMA.reflector, &enigma_reflectors[i], sizeof(enigma_reflector_t));
-            enigma_spawn(0, 0);
-        }
-    }
-    else {
-        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        ngram_analyze(THREADNUM);
-    }
-
-    enigma_freeThreads[THREADNUM] = 1;
-    return NULL;
-}
-
-/**
- * @brief Thread main function for rotor cracking.
- *
- * This function iterates through all possible rotor combinations
- * and evaluates the resulting plaintext using n-gram scoring.
- *
- * @param args Integer thread arguments, where the second element is the thread number.
- * @return NULL
- */
-static void* rotor_thread_main(void* args) {
-    if (THREADNUM == 0) {
-        if (enigma_global_cfg->target_param > 0) {
-            for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-                memcpy(&MYENIGMA.rotors[enigma_global_cfg->target_param - 1], enigma_rotors[i], sizeof(enigma_rotor_t));
-                enigma_spawn(0, 0);
-            }
-        }
-        else {
-            for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-                memcpy(&MYENIGMA.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-                for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
-                    if (i == j) continue;
-                    memcpy(&MYENIGMA.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-                    for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
-                        if (j == k) continue;
-                        memcpy(&MYENIGMA.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
-                        enigma_spawn(0, 0);
-                    }
-                }
-            }
-        }
-    }
-    else {
-        enigma_encode_string(&MYENIGMA, enigma_global_cfg->ciphertext, &enigma_plaintexts[THREADNUM], enigma_global_cfg->ciphertextLen);
-        ngram_analyze(THREADNUM);
-    }
-
-    enigma_freeThreads[THREADNUM] = 1;
-    return NULL;
 }
