@@ -25,11 +25,6 @@ enigmacrack method target [options] ciphertext
 * `-M float`: Set the maximum score threshold (**REQUIRED**).
 * `-n file`: Load n-grams from the given file.
 
-### Other Options
-
-* `-h`: Print a help string
-* `-v`: Show verbose output
-
 ## Methods
 
 ### ioc
@@ -52,4 +47,3 @@ script.
 * `positions`: Crack the initial rotor positions.
 * `reflector`: Crack the reflector (Umkehrwalze).
 * `plugboard`: Crack a plugboard (Steckerbrett) setting.
-
