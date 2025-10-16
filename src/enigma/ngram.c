@@ -15,20 +15,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BIIDX(a, b) ((a << 5) | b)
-#define TRIIDX(a, b, c) ((a << 10) | (b << 5) | c)
-#define QUADIDX(a, b, c, d) ((a << 15) | (b << 10) | (c << 5) | d)
-
 /**
  * @brief Score text using bigram frequencies.
  *
  * @param text The text to score.
  * @param cfg Pointer to the cracking configuration structure.
- * @param bigrams Array of bigram scores indexed by BIIDX(a, b).
+ * @param bigrams Array of bigram scores indexed by ENIGMA_BIIDX(a, b).
  *
  * @return The absolute difference between the total bigram score and the target score.
  */
-float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg, const float* bigrams) {
+float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg) {
     float total = 0.0f;
     int next = text[0] - 'A';
 
@@ -38,7 +34,7 @@ float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg, co
         if (cur < 0 || cur >= 26 || next < 0 || next >= 26) {
             continue;
         }
-        total += bigrams[BIIDX(cur, next)];
+        total += cfg->ngrams[ENIGMA_BIIDX(cur, next)];
     }
 
     return fabs(total - cfg->targetScore);
@@ -49,11 +45,11 @@ float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg, co
  *
  * @param text The text to score.
  * @param cfg Pointer to the cracking configuration structure.
- * @param trigrams Array of trigram scores indexed by TRIIDX(a, b, c).
+ * @param trigrams Array of trigram scores indexed by ENIGMA_TRIIDX(a, b, c).
  *
  * @return The absolute difference between the total trigram score and the target score.
  */
-float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg, const float* trigrams) {
+float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
     int next2 = text[1] - 'A';
@@ -65,7 +61,7 @@ float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg, c
         if (cur < 0 || cur >= 26 || next1 < 0 || next1 >= 26 || next2 < 0 || next2 >= 26) {
             continue;
         }
-        total += trigrams[TRIIDX(cur, next1, next2)];
+        total += cfg->ngrams[ENIGMA_TRIIDX(cur, next1, next2)];
     }
 
     return fabs(total - cfg->targetScore);
@@ -76,11 +72,11 @@ float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg, c
  *
  * @param text The text to score.
  * @param cfg Pointer to the cracking configuration structure.
- * @param quadgrams Array of quadgram scores indexed by QUADIDX(a, b, c, d).
+ * @param quadgrams Array of quadgram scores indexed by ENIGMA_QUADIDX(a, b, c, d).
  *
  * @return The absolute difference between the total quadgram score and the target score.
  */
-float enigma_quadram_score(const char* text, const enigma_crack_config_t* cfg, const float* quadgrams) {
+float enigma_quadram_score(const char* text, const enigma_crack_config_t* cfg) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
     int next2 = text[1] - 'A';
@@ -95,30 +91,8 @@ float enigma_quadram_score(const char* text, const enigma_crack_config_t* cfg, c
             next3 < 0 || next3 >= 26) {
             continue;
         }
-        total += quadgrams[QUADIDX(cur, next1, next2, next3)];
+        total += cfg->ngrams[ENIGMA_QUADIDX(cur, next1, next2, next3)];
     }
 
     return fabs(total - cfg->targetScore);
-}
-
-/**
- * @brief Analyze decrypted text using n-gram scoring.
- *
- * This function scores the decrypted text using the n-gram method.
- *
- * @param plaintext The decrypted text to analyze.
- * @param cfg Pointer to the cracking configuration structure.
- * @param ngramList Pointer to the n-gram list structure.
- */
-void enigma_ngram_analyze(const char* plaintext, const enigma_crack_config_t* cfg, const enigma_ngram_list_t* ngramList) {
-    float score = 0.0f;
-    int textLen = cfg->ciphertextLen;
-
-    switch (ngramList->n) {
-    case 2: score = enigma_bigram_score(plaintext, cfg, (const float*)ngramList->ngrams); break;
-    case 3: score = enigma_trigram_score(plaintext, cfg, (const float*)ngramList->ngrams); break;
-    case 4: score = enigma_quadram_score(plaintext, cfg, (const float*)ngramList->ngrams); break;
-    }
-
-    enigma_score_append(cfg->scores, score);
 }

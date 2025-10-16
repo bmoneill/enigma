@@ -11,7 +11,7 @@
 
 /* Defaults */
 #define ENIGMA_MAX_PLUGBOARD_SETTINGS 10
-#define ENIGMA_DEFAULT_NGRAM_COUNT    100000
+#define ENIGMA_DEFAULT_NGRAM_COUNT    (26*26*26*26)
 
 /* Languages */
 #define ENIGMA_LANG_ENGLISH           0

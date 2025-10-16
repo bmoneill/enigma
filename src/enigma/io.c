@@ -8,6 +8,7 @@
 #include "crack.h"
 
 #include <ctype.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -155,8 +156,9 @@ int enigma_load_custom_reflector(enigma_reflector_t* reflector, const char* alph
  * @param path Path to the ngram file.
  * @return enigma_ngram_list_t* Pointer to the loaded ngram list, or NULL on failure.
  */
-enigma_ngram_list_t* enigma_load_ngrams(const char* path) {
+int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
     char line[16];
+    int n = 0;
     int lineCount = 0;
     int reallocCount = 0;
     FILE* f = fopen(path, "r");
@@ -164,42 +166,45 @@ enigma_ngram_list_t* enigma_load_ngrams(const char* path) {
         fprintf(stderr, "Failed to open ngram file: %s\n", path);
     }
 
-    enigma_ngram_list_t* ngram_list = malloc(sizeof(enigma_ngram_list_t));
-    ngram_list->ngrams = malloc(ENIGMA_DEFAULT_NGRAM_COUNT * sizeof(enigma_ngram_t));
-    ngram_list->count = 0;
-    ngram_list->n = -1;
 
     if (fgets(line, sizeof(line), f)) {
         // First line should be n value and line count of original text
-        if (sscanf(line, "%d %d", &ngram_list->n, &lineCount) != 2) {
+        if (sscanf(line, "%d %d", &n, &lineCount) != 2) {
             fprintf(stderr, "Invalid ngram file format: %s\n", path);
-            free(ngram_list->ngrams);
-            free(ngram_list);
             fclose(f);
-            return NULL;
+            return 0;
         }
-    }
-    else {
+    } else {
         fprintf(stderr, "Failed to read ngram file: %s\n", path);
-        free(ngram_list->ngrams);
-        free(ngram_list);
+        free(cfg->ngrams);
         fclose(f);
-        return NULL;
+        return 0;
     }
 
+    if (n > 4 || n < 1) {
+        fprintf(stderr, "N-grams must be of size 2-4. Unsupported size: %d\n", n);
+        free(cfg->ngrams);
+        fclose(f);
+        return 0;
+    }
+    cfg->ngrams = calloc(pow(26, n), sizeof(float));
+
+    char s[5];
+    int count = 0;
     while (fgets(line, sizeof(line), f)) {
-        if (ngram_list->count >= ENIGMA_DEFAULT_NGRAM_COUNT * (reallocCount + 1)) {
-            ngram_list->ngrams = realloc(ngram_list->ngrams,
-                                         (ngram_list->count + ENIGMA_DEFAULT_NGRAM_COUNT
-                                          * ++reallocCount) * sizeof(enigma_ngram_t));
-        }
-        if (sscanf(line, "%d %4s", &ngram_list->ngrams[ngram_list->count].count, ngram_list->ngrams[ngram_list->count].ngram) == 2) {
-            ngram_list->count++;
+        if (sscanf(line, "%d %4s", &count, s) == 2) {
+            switch (n) {
+                case 2: cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float)count / lineCount; break;
+                case 3: cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float)count / lineCount; break;
+                case 4: cfg->ngrams[ENIGMA_QUADIDX(s[0], s[1], s[2], s[3])] = (float)count / lineCount; break;
+            }
+        } else {
+            break;
         }
     }
 
     fclose(f);
-    return ngram_list;
+    return 1;
 }
 
 /**

@@ -18,18 +18,6 @@
 
 
 typedef struct {
-    char ngram[5];
-    float score;
-    int count;
-} enigma_ngram_t;
-
-typedef struct {
-    enigma_ngram_t* ngrams;
-    int count;
-    int n;
-} enigma_ngram_list_t;
-
-typedef struct {
     enigma_t        enigma;
     float           score;
     int             flags;
@@ -42,11 +30,12 @@ typedef struct {
 } enigma_score_list_t;
 
 typedef struct {
-    enigma_ngram_list_t* ngrams;
     enigma_score_list_t* scores;
     const char**         dictionary;
     int                  dictSize;
     int                  frequencies;
+    float* ngrams;
+    int ngramLen;
     enigma_t             enigma;
     const char*          ciphertext;
     int                  ciphertextLen;
@@ -80,7 +69,8 @@ void  enigma_find_potential_indices(const char*,                                
 int   enigma_dict_match            (const char*,                                          const enigma_crack_config_t*);
 float enigma_freq                  (const char*,                                          int);
 int   enigma_letter_freq           (const char*,                                          const enigma_crack_config_t*);
-void  enigma_score_append          (enigma_score_list_t*,                                 float);
+void enigma_score_append           (enigma_crack_config_t*,                               const char*,
+                                    float);
 void  enigma_score_print           (const enigma_score_list_t*);
 void  enigma_score_sort            (enigma_score_list_t*);
 int   enigma_score_flags           (const char*,                                          const enigma_crack_config_t*);
