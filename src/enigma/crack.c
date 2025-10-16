@@ -31,7 +31,6 @@ static int score_compare(const void* a, const void* b);
  * using the provided scoring function.
  *
  * @param cfg Pointer to the cracking configuration structure.
- * @param scoreList Pointer to an enigma_score_list_t to store the scores.
  * @param scoreFunc Function pointer to the scoring function to use.
  */
 void enigma_crack_plugboard(enigma_crack_config_t* cfg, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
@@ -102,7 +101,6 @@ void enigma_crack_reflector(enigma_crack_config_t* cfg, float (*scoreFunc)(const
  *
  * @param cfg Pointer to the cracking configuration structure.
  * @param targetRotor The index of the rotor to crack (0-based).
- * @param scoreList Pointer to an enigma_score_list_t to store the scores.
  * @param scoreFunc Function pointer to the scoring function to use.
  */
 void enigma_crack_rotor(enigma_crack_config_t* cfg, int targetRotor, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
@@ -119,6 +117,16 @@ void enigma_crack_rotor(enigma_crack_config_t* cfg, int targetRotor, float (*sco
     free(plaintext);
 }
 
+/**
+ * @brief Crack the rotor order using a scoring function.
+ *
+ * This function attempts to determine the order of rotors used in the Enigma machine
+ * by evaluating all possible rotor orders and scoring the resulting plaintext
+ * using the provided scoring function.
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param scoreFunc Function pointer to the scoring function to use.
+ */
 void enigma_crack_rotors(enigma_crack_config_t* cfg, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
     enigma_t enigma;
     memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
@@ -148,6 +156,9 @@ void enigma_crack_rotors(enigma_crack_config_t* cfg, float (*scoreFunc)(const ch
  * This function attempts to determine the rotor starting positions of the Enigma machine
  * by evaluating all possible rotor positions and scoring the resulting plaintext
  * using the provided scoring function.
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param scoreFunc Function pointer to the scoring function to use.
  */
 void enigma_crack_rotor_positions(enigma_crack_config_t* cfg, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
     enigma_t enigma;
@@ -232,6 +243,7 @@ void enigma_find_potential_indices(const char* ciphertext, const char* plaintext
  * and returns a score based on the frequencies.
  *
  * @param plaintext The plaintext to analyze
+ * @param len The length of the plaintext
  * @return The frequency score of the plaintext
  */
 float enigma_freq(const char* plaintext, int len) {
@@ -285,7 +297,8 @@ int enigma_letter_freq(const char* plaintext, const enigma_crack_config_t* cfg) 
  *
  * If the scores array is full, it will be resized to double its current size.
  *
- * @param scoreList Pointer to the enigma_score_list_t structure.
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param plaintext The plaintext corresponding to the score.
  * @param score The score to append.
  */
 void enigma_score_append(enigma_crack_config_t* cfg, const char* plaintext, float score) {
@@ -355,7 +368,6 @@ void enigma_score_print(const enigma_score_list_t* scoreList) {
  * @brief Sort an array of enigma_score_t by score in descending order.
  *
  * @param scores The array of enigma_score_t to sort.
- * @param count The number of elements in the scores array.
  */
 void enigma_score_sort(enigma_score_list_t *scoreList) {
     qsort(scoreList->scores, scoreList->scoreCount, sizeof(enigma_score_t), score_compare);

@@ -214,8 +214,9 @@ int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
  * First line: <n> <lineCount>
  * Subsequent lines: <count> <ngram>
  *
+ * @param cfg Pointer to the cracking configuration structure.
  * @param path Path to the ngram file.
- * @return enigma_ngram_list_t* Pointer to the loaded ngram list, or NULL on failure.
+ * @return 0 on success, non-zero on failure.
  */
 int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
     char line[16];
@@ -233,20 +234,20 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
         if (sscanf(line, "%d %d", &n, &lineCount) != 2) {
             fprintf(stderr, "Invalid ngram file format: %s\n", path);
             fclose(f);
-            return 0;
+            return 1;
         }
     } else {
         fprintf(stderr, "Failed to read ngram file: %s\n", path);
         free(cfg->ngrams);
         fclose(f);
-        return 0;
+        return 1;
     }
 
     if (n > 4 || n < 1) {
         fprintf(stderr, "N-grams must be of size 2-4. Unsupported size: %d\n", n);
         free(cfg->ngrams);
         fclose(f);
-        return 0;
+        return 1;
     }
     cfg->ngrams = calloc(pow(26, n), sizeof(float));
     cfg->n = n;
@@ -266,7 +267,7 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
     }
 
     fclose(f);
-    return 1;
+    return 0;
 }
 
 /**
