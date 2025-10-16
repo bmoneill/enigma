@@ -11,7 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 \
-#define USAGE "Usage: %s method target [options] [ciphertext]\n\
+#define USAGE "Usage: %s method target [options] ciphertext\n\
     Methods:\n\
       ioc              Use Index of Coincidence for cryptanalysis (target, -m/-M OR -l required)\n\
       ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n\
@@ -32,7 +32,6 @@
         -l language    Language ('english' or 'german', for IOC method)\n\
         -m float       Minimum score threshold\n\
         -M float       Maximum score threshold\n\
-        -T float       Target score\n\n\
         -n file        n-gram bank to load\n\n\
     A file can be provided as the last argument to read the ciphertext from a file.\n\
     If no file is provided, the ciphertext will be read from standard input.\n\n\
@@ -104,7 +103,7 @@ int main(int argc, char* argv[]) {
 
     optind += 2;
     int opt;
-    while ((opt = getopt(argc, argv, "w:p:u:s:c:d:l:m:M:T:n:f:")) != -1) {
+    while ((opt = getopt(argc, argv, "w:p:u:s:c:d:l:m:M:n:f:")) != -1) {
         switch (opt) {
         case 'w': enigma_load_rotor_config(&cfg->enigma, optarg); break;
         case 'p': enigma_load_rotor_positions(&cfg->enigma, optarg); break;
@@ -123,7 +122,6 @@ int main(int argc, char* argv[]) {
             break;
         case 'm': cfg->minScore = atof(optarg); break;
         case 'M': cfg->maxScore = atof(optarg); break;
-        case 'T': cfg->targetScore = atof(optarg); break;
         case 'n': enigma_load_ngrams(cfg, optarg); break;
         case 'f': load_frequencies(cfg, optarg); break;
         default: clean_exit("Error: Unknown option", argv[0], cfg, 1);
