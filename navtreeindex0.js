@@ -153,9 +153,9 @@ var NAVTREEINDEX0 =
 "structenigma__score__t.html#ac8bf36fe0577cba66bccda3a6f7e80a4":[0,0,4,1],
 "structenigma__score__t.html#acdb21ef647e84fad94dc442902a8eb8a":[0,0,4,0],
 "structenigma__t.html":[0,0,5],
-"structenigma__t.html#a0b47ef22745d3cafe45ebc751e8adbb2":[0,0,5,0],
 "structenigma__t.html#a2d2ef9cd184c09efdd343e8d9bafaaa1":[0,0,5,4],
 "structenigma__t.html#a4d023dc9c5dfe3d96c2dda16cbcf64f9":[0,0,5,3],
 "structenigma__t.html#a5ac2464ce9f5e486ba5709b104ac48c3":[0,0,5,2],
+"structenigma__t.html#a6747f9c3bac7960c1519a38b96a31759":[0,0,5,0],
 "structenigma__t.html#ae5732f09f38e16e0f6705bd3df2287e9":[0,0,5,1]
 };
