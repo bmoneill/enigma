@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: src/enigma/brute.h Source File</title>
+<title>libenigma: src/enigma/hybrid.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('brute_8h_source.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('hybrid_8c.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -90,27 +90,45 @@ $(document).ready(function(){initNavTree('brute_8h_source.html',''); initResizab
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">brute.h</div></div>
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">hybrid.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="brute_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef ENIGMA_BRUTE_H</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define ENIGMA_BRUTE_H</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="crack_8h.html">crack.h</a>&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keywordtype">void</span> <a class="code hl_function" href="brute_8h.html#a3125862c4e18e4e591f43737dcee0803">enigma_crack_brute</a>(<a class="code hl_struct" href="structenigma__crack__config__t.html">enigma_crack_config_t</a>*);</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="abrute_8h_html_a3125862c4e18e4e591f43737dcee0803"><div class="ttname"><a href="brute_8h.html#a3125862c4e18e4e591f43737dcee0803">enigma_crack_brute</a></div><div class="ttdeci">void enigma_crack_brute(enigma_crack_config_t *)</div><div class="ttdoc">Runs the brute force algorithm with the provided configuration and preset values.</div><div class="ttdef"><b>Definition:</b> brute.c:41</div></div>
-<div class="ttc" id="acrack_8h_html"><div class="ttname"><a href="crack_8h.html">crack.h</a></div></div>
-<div class="ttc" id="astructenigma__crack__config__t_html"><div class="ttname"><a href="structenigma__crack__config__t.html">enigma_crack_config_t</a></div><div class="ttdef"><b>Definition:</b> crack.h:34</div></div>
-</div><!-- fragment --></div><!-- contents -->
+<div class="textblock"><code>#include &quot;<a class="el" href="hybrid_8h_source.html">hybrid.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ioc_8h_source.html">ioc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ngram_8h_source.html">ngram.h</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab70e3b6f4aa61031dd8156d53ace5d2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hybrid_8c.html#ab70e3b6f4aa61031dd8156d53ace5d2c">enigma_crack_rotor_hybrid</a> (void)</td></tr>
+<tr class="separator:ab70e3b6f4aa61031dd8156d53ace5d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ab70e3b6f4aa61031dd8156d53ace5d2c" name="ab70e3b6f4aa61031dd8156d53ace5d2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab70e3b6f4aa61031dd8156d53ace5d2c">&#9670;&#160;</a></span>enigma_crack_rotor_hybrid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void enigma_crack_rotor_hybrid </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_afa9d67d7be824863403988bd03a861d.html">enigma</a></li><li class="navelem"><a class="el" href="brute_8h.html">brute.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_afa9d67d7be824863403988bd03a861d.html">enigma</a></li><li class="navelem"><a class="el" href="hybrid_8c.html">hybrid.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

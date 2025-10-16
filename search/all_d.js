@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quadidx_0',['QUADIDX',['../ngram_8c.html#ae72bbc062fa1db0c7c77417c0d3a6c92',1,'ngram.c']]]
+  ['targetscore_0',['targetScore',['../structenigma__crack__config__t.html#a1d012efc9036d02dcef1eaa7eacecc1f',1,'enigma_crack_config_t']]]
 ];

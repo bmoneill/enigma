@@ -91,7 +91,6 @@ $(document).ready(function(){initNavTree('ioc_8c.html',''); initResizable(); });
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ioc.c File Reference</div></div>
 </div><!--header-->
@@ -99,178 +98,21 @@ $(document).ready(function(){initNavTree('ioc_8c.html',''); initResizable(); });
 <div class="textblock"><code>#include &quot;<a class="el" href="ioc_8h_source.html">ioc.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="enigma_8h_source.html">enigma.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="io_8h_source.html">io.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="threads_8h_source.html">threads.h</a>&quot;</code><br />
+<code>#include &quot;threads.h&quot;</code><br />
 <code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a0255d42226fc6b188b2ee4068c3df143"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8c.html#a0255d42226fc6b188b2ee4068c3df143">THREADNUM</a>&#160;&#160;&#160;((int*)args)[1]</td></tr>
-<tr class="separator:a0255d42226fc6b188b2ee4068c3df143"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2dd3179ee9c81ed146f81c983f8eaf75"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8c.html#a2dd3179ee9c81ed146f81c983f8eaf75">MYENIGMA</a>&#160;&#160;&#160;<a class="el" href="threads_8c.html#a44079b01de5e120f6c2d225bce8b4938">enigma_enigmas</a>[<a class="el" href="brute_8c.html#a0255d42226fc6b188b2ee4068c3df143">THREADNUM</a>]</td></tr>
-<tr class="separator:a2dd3179ee9c81ed146f81c983f8eaf75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a086fa18b3ffdfef4d0d5df9030504243"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8c.html#a086fa18b3ffdfef4d0d5df9030504243">enigma_crack_rotors_ioc</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *config)</td></tr>
-<tr class="memdesc:a086fa18b3ffdfef4d0d5df9030504243"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack rotor configuration using Index of Coincidence.  <br /></td></tr>
-<tr class="separator:a086fa18b3ffdfef4d0d5df9030504243"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1c67232367e1a21386967da900f03c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8c.html#ae1c67232367e1a21386967da900f03c2">enigma_crack_rotor_positions_ioc</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *config)</td></tr>
-<tr class="memdesc:ae1c67232367e1a21386967da900f03c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack rotor positions using Index of Coincidence.  <br /></td></tr>
-<tr class="separator:ae1c67232367e1a21386967da900f03c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8be42ff2e7ade5e453ad067b32fbc8fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8c.html#a8be42ff2e7ade5e453ad067b32fbc8fc">enigma_crack_reflector_ioc</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *config)</td></tr>
-<tr class="memdesc:a8be42ff2e7ade5e453ad067b32fbc8fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack reflector using Index of Coincidence.  <br /></td></tr>
-<tr class="separator:a8be42ff2e7ade5e453ad067b32fbc8fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bc9c5f3bbe6f6650b7daa5b3d453668"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8c.html#a3bc9c5f3bbe6f6650b7daa5b3d453668">enigma_crack_plugboard_ioc</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *config)</td></tr>
-<tr class="memdesc:a3bc9c5f3bbe6f6650b7daa5b3d453668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack plugboard using Index of Coincidence.  <br /></td></tr>
-<tr class="separator:a3bc9c5f3bbe6f6650b7daa5b3d453668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3e591ca0e837cafa921aad648d74368"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ioc_8c.html#ab3e591ca0e837cafa921aad648d74368">enigma_ioc_score</a> (const char *text, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
 <tr class="memdesc:ab3e591ca0e837cafa921aad648d74368"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using Index of Coincidence.  <br /></td></tr>
 <tr class="separator:ab3e591ca0e837cafa921aad648d74368"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file implements cracking functions using the Index of Coincidence method. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a2dd3179ee9c81ed146f81c983f8eaf75" name="a2dd3179ee9c81ed146f81c983f8eaf75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2dd3179ee9c81ed146f81c983f8eaf75">&#9670;&#160;</a></span>MYENIGMA</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define MYENIGMA&#160;&#160;&#160;<a class="el" href="threads_8c.html#a44079b01de5e120f6c2d225bce8b4938">enigma_enigmas</a>[<a class="el" href="brute_8c.html#a0255d42226fc6b188b2ee4068c3df143">THREADNUM</a>]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0255d42226fc6b188b2ee4068c3df143" name="a0255d42226fc6b188b2ee4068c3df143"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0255d42226fc6b188b2ee4068c3df143">&#9670;&#160;</a></span>THREADNUM</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define THREADNUM&#160;&#160;&#160;((int*)args)[1]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a3bc9c5f3bbe6f6650b7daa5b3d453668" name="a3bc9c5f3bbe6f6650b7daa5b3d453668"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bc9c5f3bbe6f6650b7daa5b3d453668">&#9670;&#160;</a></span>enigma_crack_plugboard_ioc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void enigma_crack_plugboard_ioc </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
-          <td class="paramname"><em>config</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Crack plugboard using Index of Coincidence. </p>
-<p>This function attempts to determine the plugboard settings used in the ciphertext's Enigma key by and scoring the resulting plaintext from all plugboard settings using the Index of Coincidence method.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>Pointer to the cracking configuration structure. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a8be42ff2e7ade5e453ad067b32fbc8fc" name="a8be42ff2e7ade5e453ad067b32fbc8fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8be42ff2e7ade5e453ad067b32fbc8fc">&#9670;&#160;</a></span>enigma_crack_reflector_ioc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void enigma_crack_reflector_ioc </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
-          <td class="paramname"><em>config</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Crack reflector using Index of Coincidence. </p>
-<p>This function attempts to determine the reflector used in the ciphertext's Enigma key by and scoring the resulting plaintext from all reflectors using the Index of Coincidence method.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>Pointer to the cracking configuration structure. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ae1c67232367e1a21386967da900f03c2" name="ae1c67232367e1a21386967da900f03c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1c67232367e1a21386967da900f03c2">&#9670;&#160;</a></span>enigma_crack_rotor_positions_ioc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void enigma_crack_rotor_positions_ioc </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
-          <td class="paramname"><em>config</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Crack rotor positions using Index of Coincidence. </p>
-<p>This function attempts to determine the rotor positions used in the ciphertext's Enigma key by evaluating different rotor combinations and scoring the resulting plaintext using the Index of Coincidence method.</p>
-<p>It is recommended that a suspected rotor configuration be set in the enigma structure.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>Pointer to the cracking configuration structure. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a086fa18b3ffdfef4d0d5df9030504243" name="a086fa18b3ffdfef4d0d5df9030504243"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a086fa18b3ffdfef4d0d5df9030504243">&#9670;&#160;</a></span>enigma_crack_rotors_ioc()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void enigma_crack_rotors_ioc </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
-          <td class="paramname"><em>config</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Crack rotor configuration using Index of Coincidence. </p>
-<p>This is a wrapper for enigma_crack_multithreaded that uses the rotor_thread_main function.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">config</td><td>Pointer to the cracking configuration structure. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="ab3e591ca0e837cafa921aad648d74368" name="ab3e591ca0e837cafa921aad648d74368"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3e591ca0e837cafa921aad648d74368">&#9670;&#160;</a></span>enigma_ioc_score()</h2>
 

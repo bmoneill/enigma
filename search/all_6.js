@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['flag_5fplugboard_0',['FLAG_PLUGBOARD',['../brute_8c.html#a625f9f30561977f5baff334cef036e08',1,'brute.c']]],
-  ['flag_5fpositions_1',['FLAG_POSITIONS',['../brute_8c.html#a744552f1a82cea3f8b6f52ed9e7a1b58',1,'brute.c']]],
-  ['flag_5freflector_2',['FLAG_REFLECTOR',['../brute_8c.html#a479fb2bf85085f2f58df9c0f68df9615',1,'brute.c']]],
-  ['flag_5frotors_3',['FLAG_ROTORS',['../brute_8c.html#adaaa394b258679356055270d651265e8',1,'brute.c']]],
-  ['flags_4',['flags',['../structenigma__crack__config__t.html#ac8bf36fe0577cba66bccda3a6f7e80a4',1,'enigma_crack_config_t']]],
-  ['flags_5',['FLAGS',['../brute_8c.html#a6ccad09b4a2a06ae178418fdccf5940d',1,'brute.c']]],
-  ['fwd_5findices_6',['fwd_indices',['../structenigma__rotor__t.html#ad6cb4d26efa809b129c10563b36a4b54',1,'enigma_rotor_t']]]
+  ['hybrid_2ec_0',['hybrid.c',['../hybrid_8c.html',1,'']]],
+  ['hybrid_2eh_1',['hybrid.h',['../hybrid_8h.html',1,'']]]
 ];

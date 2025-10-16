@@ -98,12 +98,22 @@ $(document).ready(function(){initNavTree('io_8c.html',''); initResizable(); });
 <div class="textblock"><code>#include &quot;<a class="el" href="io_8h_source.html">io.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="crack_8h_source.html">crack.h</a>&quot;</code><br />
 <code>#include &lt;ctype.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a164cdf9a0f8266106a31b56a4333e6c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a164cdf9a0f8266106a31b56a4333e6c4">enigma_load_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *path)</td></tr>
+<tr class="memdesc:a164cdf9a0f8266106a31b56a4333e6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a file.  <br /></td></tr>
+<tr class="separator:a164cdf9a0f8266106a31b56a4333e6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10aa84b260b06fe58fbababdc39807c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a10aa84b260b06fe58fbababdc39807c7">enigma_load_custom_reflector</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *reflector, const char *alphabet, const char *name)</td></tr>
+<tr class="memdesc:a10aa84b260b06fe58fbababdc39807c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom reflector alphabet from the given alphabet and name.  <br /></td></tr>
+<tr class="separator:a10aa84b260b06fe58fbababdc39807c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae30c889b3fa39297158725097e2a5b6d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#ae30c889b3fa39297158725097e2a5b6d">enigma_load_custom_rotor</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *rotor, const char *alphabet, const char *name, int *notches, int numNotches)</td></tr>
+<tr class="memdesc:ae30c889b3fa39297158725097e2a5b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom rotor alphabet from the given alphabet, name, and notches.  <br /></td></tr>
+<tr class="separator:ae30c889b3fa39297158725097e2a5b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade6b820f800878272820fa169252be06"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#ade6b820f800878272820fa169252be06">enigma_load_plugboard_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *s)</td></tr>
 <tr class="memdesc:ade6b820f800878272820fa169252be06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load plugboard configuration from a string.  <br /></td></tr>
 <tr class="separator:ade6b820f800878272820fa169252be06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -116,24 +126,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a663fd3060474508bf8d1ef981203ef0b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a663fd3060474508bf8d1ef981203ef0b">enigma_load_rotor_positions</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *s)</td></tr>
 <tr class="memdesc:a663fd3060474508bf8d1ef981203ef0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load rotor starting positions from a string.  <br /></td></tr>
 <tr class="separator:a663fd3060474508bf8d1ef981203ef0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae30c889b3fa39297158725097e2a5b6d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#ae30c889b3fa39297158725097e2a5b6d">enigma_load_custom_rotor</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *rotor, const char *alphabet, const char *name, int *notches, int numNotches)</td></tr>
-<tr class="memdesc:ae30c889b3fa39297158725097e2a5b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom rotor alphabet from the given alphabet, name, and notches.  <br /></td></tr>
-<tr class="separator:ae30c889b3fa39297158725097e2a5b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10aa84b260b06fe58fbababdc39807c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a10aa84b260b06fe58fbababdc39807c7">enigma_load_custom_reflector</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *reflector, const char *alphabet, const char *name)</td></tr>
-<tr class="memdesc:a10aa84b260b06fe58fbababdc39807c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom reflector alphabet from the given alphabet and name.  <br /></td></tr>
-<tr class="separator:a10aa84b260b06fe58fbababdc39807c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b7a22270e7fd810caefb662eb3252c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structenigma__ngram__list__t.html">enigma_ngram_list_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a5b7a22270e7fd810caefb662eb3252c3">enigma_load_ngrams</a> (const char *path)</td></tr>
-<tr class="memdesc:a5b7a22270e7fd810caefb662eb3252c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
-<tr class="separator:a5b7a22270e7fd810caefb662eb3252c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a164cdf9a0f8266106a31b56a4333e6c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a164cdf9a0f8266106a31b56a4333e6c4">enigma_load_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *path)</td></tr>
-<tr class="memdesc:a164cdf9a0f8266106a31b56a4333e6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a file.  <br /></td></tr>
-<tr class="separator:a164cdf9a0f8266106a31b56a4333e6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a163a3ed190f576547be44ea7547cd0e6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a163a3ed190f576547be44ea7547cd0e6">enigma_save_config</a> (const <a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *path)</td></tr>
-<tr class="memdesc:a163a3ed190f576547be44ea7547cd0e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the current Enigma machine configuration to a file.  <br /></td></tr>
-<tr class="separator:a163a3ed190f576547be44ea7547cd0e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a623ccdc79ebe922c5ce2a804578fe2fb">enigma_load_ngrams</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *path)</td></tr>
+<tr class="memdesc:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
+<tr class="separator:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb02ca2236940cd5cbfbc418caec754b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#afb02ca2236940cd5cbfbc418caec754b">enigma_print_config</a> (const <a class="el" href="structenigma__t.html">enigma_t</a> *enigma, char *out)</td></tr>
 <tr class="memdesc:afb02ca2236940cd5cbfbc418caec754b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the current Enigma machine configuration to out.  <br /></td></tr>
 <tr class="separator:afb02ca2236940cd5cbfbc418caec754b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a163a3ed190f576547be44ea7547cd0e6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a163a3ed190f576547be44ea7547cd0e6">enigma_save_config</a> (const <a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *path)</td></tr>
+<tr class="memdesc:a163a3ed190f576547be44ea7547cd0e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the current Enigma machine configuration to a file.  <br /></td></tr>
+<tr class="separator:a163a3ed190f576547be44ea7547cd0e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file implements input/output functions. </p>
@@ -279,18 +280,28 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5b7a22270e7fd810caefb662eb3252c3" name="a5b7a22270e7fd810caefb662eb3252c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b7a22270e7fd810caefb662eb3252c3">&#9670;&#160;</a></span>enigma_load_ngrams()</h2>
+<a id="a623ccdc79ebe922c5ce2a804578fe2fb" name="a623ccdc79ebe922c5ce2a804578fe2fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a623ccdc79ebe922c5ce2a804578fe2fb">&#9670;&#160;</a></span>enigma_load_ngrams()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structenigma__ngram__list__t.html">enigma_ngram_list_t</a> * enigma_load_ngrams </td>
+          <td class="memname">int enigma_load_ngrams </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">

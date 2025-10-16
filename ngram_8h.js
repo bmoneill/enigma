@@ -1,12 +1,9 @@
 var ngram_8h =
 [
-    [ "enigma_ngram_t", "structenigma__ngram__t.html", "structenigma__ngram__t" ],
-    [ "enigma_ngram_list_t", "structenigma__ngram__list__t.html", "structenigma__ngram__list__t" ],
-    [ "enigma_bigram_score", "ngram_8h.html#a13136a6ad5f8a4eecc16545f040c230a", null ],
-    [ "enigma_crack_plugboard_ngram", "ngram_8h.html#aa36263376fac7b9bd0d87b2940498341", null ],
-    [ "enigma_crack_reflector_ngram", "ngram_8h.html#a8b4e747f9e31d082c9ea11f4c3bb269b", null ],
-    [ "enigma_crack_rotor_positions_ngram", "ngram_8h.html#a89302e774b964a4f9ea2022fdbdce011", null ],
-    [ "enigma_crack_rotors_ngram", "ngram_8h.html#a596b47eedb0a8aedefc707f800be5ba3", null ],
-    [ "enigma_quadram_score", "ngram_8h.html#a6482d0bdf321f43e66c9a6c5aeb8c8c5", null ],
-    [ "enigma_trigram_score", "ngram_8h.html#a348432d1b3c9945f1cca287c909e1fd0", null ]
+    [ "ENIGMA_BIIDX", "ngram_8h.html#ad355dd4d4c3e0241c25050038e8aaa7c", null ],
+    [ "ENIGMA_QUADIDX", "ngram_8h.html#aaf493239f088308a16708233f187dd33", null ],
+    [ "ENIGMA_TRIIDX", "ngram_8h.html#ad2d03ddb165565c8493e9fcf0cb33a73", null ],
+    [ "enigma_bigram_score", "ngram_8h.html#a3b0548630b897f78d58a22ab754d0232", null ],
+    [ "enigma_quadgram_score", "ngram_8h.html#a3377f00667f7a43f30694604e54d16c0", null ],
+    [ "enigma_trigram_score", "ngram_8h.html#a5effa403dc4b56e3ef7e5947d0116e26", null ]
 ];

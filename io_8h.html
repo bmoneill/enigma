@@ -115,9 +115,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a7bc18aedb203054dec7b74f2ecdb64fe"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a7bc18aedb203054dec7b74f2ecdb64fe">enigma_load_custom_rotor</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, const char *, const char *, int *, int)</td></tr>
 <tr class="memdesc:a7bc18aedb203054dec7b74f2ecdb64fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom rotor alphabet from the given alphabet, name, and notches.  <br /></td></tr>
 <tr class="separator:a7bc18aedb203054dec7b74f2ecdb64fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f8cc2c32e33dfc977025cea6a644e69"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structenigma__ngram__list__t.html">enigma_ngram_list_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a3f8cc2c32e33dfc977025cea6a644e69">enigma_load_ngrams</a> (const char *)</td></tr>
-<tr class="memdesc:a3f8cc2c32e33dfc977025cea6a644e69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
-<tr class="separator:a3f8cc2c32e33dfc977025cea6a644e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10d3a6e951c2ef1498a756f338b0ef6f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a10d3a6e951c2ef1498a756f338b0ef6f">enigma_load_ngrams</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *, const char *)</td></tr>
+<tr class="memdesc:a10d3a6e951c2ef1498a756f338b0ef6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
+<tr class="separator:a10d3a6e951c2ef1498a756f338b0ef6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9eb42ac82b5d6299c26391163b0303ad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a9eb42ac82b5d6299c26391163b0303ad">enigma_load_plugboard_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
 <tr class="memdesc:a9eb42ac82b5d6299c26391163b0303ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load plugboard configuration from a string.  <br /></td></tr>
 <tr class="separator:a9eb42ac82b5d6299c26391163b0303ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -278,18 +278,28 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3f8cc2c32e33dfc977025cea6a644e69" name="a3f8cc2c32e33dfc977025cea6a644e69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f8cc2c32e33dfc977025cea6a644e69">&#9670;&#160;</a></span>enigma_load_ngrams()</h2>
+<a id="a10d3a6e951c2ef1498a756f338b0ef6f" name="a10d3a6e951c2ef1498a756f338b0ef6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10d3a6e951c2ef1498a756f338b0ef6f">&#9670;&#160;</a></span>enigma_load_ngrams()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structenigma__ngram__list__t.html">enigma_ngram_list_t</a> * enigma_load_ngrams </td>
+          <td class="memname">int enigma_load_ngrams </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
