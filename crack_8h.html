@@ -127,6 +127,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:afbb9d7d6eda32521a06a0baaa4dc54dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack the rotor using a scoring function.  <br /></td></tr>
 <tr class="separator:afbb9d7d6eda32521a06a0baaa4dc54dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9bccd0d35373141606030602ce645be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#ac9bccd0d35373141606030602ce645be">enigma_crack_rotors</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *, float(*)(const char *, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *))</td></tr>
+<tr class="memdesc:ac9bccd0d35373141606030602ce645be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack the rotor order using a scoring function.  <br /></td></tr>
 <tr class="separator:ac9bccd0d35373141606030602ce645be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47bb74fa73a2fee7664ffd9568a8172d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a47bb74fa73a2fee7664ffd9568a8172d">enigma_crack_rotor_positions</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *, float(*)(const char *, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *))</td></tr>
 <tr class="memdesc:a47bb74fa73a2fee7664ffd9568a8172d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack the rotor positions using a scoring function.  <br /></td></tr>
@@ -261,7 +262,6 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
-    <tr><td class="paramname">scoreList</td><td>Pointer to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> to store the scores. </td></tr>
     <tr><td class="paramname">scoreFunc</td><td>Function pointer to the scoring function to use. </td></tr>
   </table>
   </dd>
@@ -345,7 +345,6 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
     <tr><td class="paramname">targetRotor</td><td>The index of the rotor to crack (0-based). </td></tr>
-    <tr><td class="paramname">scoreList</td><td>Pointer to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> to store the scores. </td></tr>
     <tr><td class="paramname">scoreFunc</td><td>Function pointer to the scoring function to use. </td></tr>
   </table>
   </dd>
@@ -380,7 +379,14 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Crack the rotor positions using a scoring function. </p>
-<p>This function attempts to determine the rotor starting positions of the Enigma machine by evaluating all possible rotor positions and scoring the resulting plaintext using the provided scoring function. </p>
+<p>This function attempts to determine the rotor starting positions of the Enigma machine by evaluating all possible rotor positions and scoring the resulting plaintext using the provided scoring function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
+    <tr><td class="paramname">scoreFunc</td><td>Function pointer to the scoring function to use. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -409,6 +415,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Crack the rotor order using a scoring function. </p>
+<p>This function attempts to determine the order of rotors used in the Enigma machine by evaluating all possible rotor orders and scoring the resulting plaintext using the provided scoring function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
+    <tr><td class="paramname">scoreFunc</td><td>Function pointer to the scoring function to use. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -527,6 +543,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">plaintext</td><td>The plaintext to analyze </td></tr>
+    <tr><td class="paramname">len</td><td>The length of the plaintext </td></tr>
   </table>
   </dd>
 </dl>
@@ -609,7 +626,8 @@ Functions</h2></td></tr>
 <p>If the scores array is full, it will be resized to double its current size.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">scoreList</td><td>Pointer to the <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> structure. </td></tr>
+    <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
+    <tr><td class="paramname">plaintext</td><td>The plaintext corresponding to the score. </td></tr>
     <tr><td class="paramname">score</td><td>The score to append. </td></tr>
   </table>
   </dd>
@@ -702,7 +720,6 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">scores</td><td>The array of <a class="el" href="structenigma__score__t.html">enigma_score_t</a> to sort. </td></tr>
-    <tr><td class="paramname">count</td><td>The number of elements in the scores array. </td></tr>
   </table>
   </dd>
 </dl>
