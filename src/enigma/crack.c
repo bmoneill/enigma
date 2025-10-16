@@ -121,6 +121,143 @@ void enigma_score_append(enigma_score_list_t* scoreList, float score) {
 }
 
 /**
+ * @brief Crack the rotor using a scoring function.
+ *
+ * This function attempts to determine the rotor used in the Enigma machine
+ * by evaluating all possible rotors and scoring the resulting plaintext
+ * using the provided scoring function.
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param targetRotor The index of the rotor to crack (0-based).
+ * @param scoreList Pointer to an enigma_score_list_t to store the scores.
+ * @param scoreFunc Function pointer to the scoring function to use.
+ */
+void enigma_crack_rotor(const enigma_crack_config_t* cfg, int targetRotor, enigma_score_list_t* scoreList, float (*scoreFunc)(const char*)) {
+    enigma_t enigma;
+    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+        memcpy(&enigma.rotors[targetRotor], enigma_rotors[i], sizeof(enigma_rotor_t));
+        enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+        enigma_score_append(scoreList, scoreFunc(plaintext));
+    }
+
+    free(plaintext);
+}
+
+void enigma_crack_rotors(const enigma_crack_config_t* cfg, enigma_score_list_t* scoreList, float (*scoreFunc)(const char*)) {
+    enigma_t enigma;
+    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+
+    for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
+        for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
+            if (i == j) continue;
+            for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
+                if (j == k || i == k) continue;
+                memcpy(&enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
+                memcpy(&enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
+                memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+
+                enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+                enigma_score_append(scoreList, scoreFunc(plaintext));
+            }
+        }
+    }
+
+    free(plaintext);
+}
+
+/**
+ * @brief Crack the rotor positions using a scoring function.
+ *
+ * This function attempts to determine the rotor starting positions of the Enigma machine
+ * by evaluating all possible rotor positions and scoring the resulting plaintext
+ * using the provided scoring function.
+ */
+void enigma_crack_rotor_positions(const enigma_crack_config_t* cfg, enigma_score_list_t* scoreList, float (*scoreFunc)(const char*)) {
+    enigma_t enigma;
+    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
+            for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
+                enigma.rotors[0].idx = i;
+                enigma.rotors[1].idx = j;
+                enigma.rotors[2].idx = k;
+
+                enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+                enigma_score_append(scoreList, scoreFunc(plaintext));
+            }
+        }
+    }
+
+    free(plaintext);
+}
+
+void enigma_crack_reflector(const enigma_crack_config_t* cfg, enigma_score_list_t* scoreList, float (*scoreFunc)(const char*)) {
+    enigma_t enigma;
+    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+
+    for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
+        memcpy(&enigma.reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
+        enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+        enigma_score_append(scoreList, scoreFunc(plaintext));
+    }
+
+    free(plaintext);
+}
+
+/**
+ * @brief Crack the plugboard using a scoring function.
+ *
+ * This function attempts to determine the plugboard settings used in the Enigma machine
+ * by evaluating all possible plugboard configurations and scoring the resulting plaintext
+ * using the provided scoring function.
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param scoreList Pointer to an enigma_score_list_t to store the scores.
+ * @param scoreFunc Function pointer to the scoring function to use.
+ */
+void enigma_crack_plugboard(const enigma_crack_config_t* cfg, enigma_score_list_t* scoreList, float (*scoreFunc)(const char*)) {
+    enigma_t enigma;
+    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    int curSettings = strlen(enigma.plugboard) / 2;
+
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+    char* remaining = malloc((ENIGMA_ALPHA_SIZE - curSettings * 2 + 1) * sizeof(char));
+    memcpy(remaining, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ENIGMA_ALPHA_SIZE);
+
+    for (int i = 0; i < curSettings * 2; i++) {
+        remaining[enigma.plugboard[i] - 'A'] = '\0';
+    }
+
+    for (char a = 'A'; a < 'Z'; a++) {
+        if (!remaining[a - 'A']) {
+            continue;
+        }
+        for (char b = 'A'; b <= 'Z'; b++) {
+            if (a == b || !remaining[b - 'A']) {
+                continue;
+            }
+
+            enigma.plugboard[curSettings * 2] = a;
+            enigma.plugboard[curSettings * 2 + 1] = b;
+            enigma.plugboard[curSettings * 2 + 2] = '\0';
+
+            enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+            enigma_score_append(scoreList, scoreFunc(plaintext));
+        }
+    }
+
+    free(plaintext);
+    free(remaining);
+}
+
+/**
  * @brief Compare function for sorting enigma_score_t by score.
  *
  * This function is used by qsort to sort an array of enigma_score_t structures

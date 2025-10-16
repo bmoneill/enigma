@@ -20,52 +20,6 @@
 #define QUADIDX(a, b, c, d) ((a << 15) | (b << 10) | (c << 5) | d)
 
 /**
- * @brief Crack plugboard settings using n-gram scoring.
- *
- * This function attempts to determine the plugboard settings used in the ciphertext's Enigma key
- * by evaluating different plugboard combinations and scoring the resulting plaintext
- * using n-gram frequencies.
- *
- * Resulting scores and configurations are printed in descending order.
- *
- * @param config Pointer to the cracking configuration structure.
- * @param ngramList Pointer to the n-gram list structure.
- */
-void enigma_crack_plugboard_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
-    // TODO Implement for one setting at a time
-}
-
-/**
- * @brief Crack rotor configuration using n-gram scoring.
- *
- * @param config Pointer to the cracking configuration structure.
- * @param ngramList Pointer to the n-gram list structure.
- */
-void enigma_crack_rotors_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
-    // TODO Implement for one rotor at a time
-}
-
-/**
- * @brief Crack rotor positions using n-gram scoring.
- *
- * @param config Pointer to the cracking configuration structure.
- * @param ngramList Pointer to the n-gram list structure.
- */
-void enigma_crack_rotor_positions_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
-    // TODO Implement for one rotor position at a time
-}
-
-/**
- * @brief Crack reflector using n-gram scoring.
- *
- * @param config Pointer to the cracking configuration structure.
- * @param ngramList Pointer to the n-gram list structure.
- */
-void enigma_crack_reflector_ngram(const enigma_crack_config_t* config, const enigma_ngram_list_t* ngramList) {
-    // TODO Re-implement
-}
-
-/**
  * @brief Score text using bigram frequencies.
  *
  * @param text The text to score.
