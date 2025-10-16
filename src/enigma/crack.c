@@ -355,14 +355,18 @@ int enigma_dict_match(const char* plaintext, const enigma_crack_config_t* cfg) {
 int enigma_score_flags(const char* plaintext, const enigma_crack_config_t* cfg) {
     int ret = 0;
     if (cfg->flags & ENIGMA_FLAG_DICTIONARY_MATCH && enigma_dict_match(plaintext, cfg)) {
-        ret += ENIGMA_FLAG_DICTIONARY_MATCH;
+        ret |= ENIGMA_FLAG_DICTIONARY_MATCH;
     }
 
     if (cfg->flags & ENIGMA_FLAG_FREQUENCY) {
         float freqScore;
         if (enigma_letter_freq(plaintext, cfg)) {
-            ret += ENIGMA_FLAG_FREQUENCY;
+            ret |= ENIGMA_FLAG_FREQUENCY;
         }
+    }
+
+    if (cfg->flags & ENIGMA_FLAG_KNOWN_PLAINTEXT && strstr(plaintext, cfg->ciphertext)) {
+        ret |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
     }
     return ret;
 }

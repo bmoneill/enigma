@@ -15,6 +15,6 @@
 
 float enigma_bigram_score (const char*,                  const enigma_crack_config_t*);
 float enigma_trigram_score(const char*,                  const enigma_crack_config_t*);
-float enigma_quadram_score(const char*,                  const enigma_crack_config_t*);
+float enigma_quadgram_score(const char*,                  const enigma_crack_config_t*);
 
 #endif

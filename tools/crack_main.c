@@ -1,88 +1,208 @@
-#include "enigma/brute.h"
 #include "enigma/common.h"
 #include "enigma/crack.h"
 #include "enigma/enigma.h"
 #include "enigma/io.h"
 #include "enigma/ioc.h"
 #include "enigma/ngram.h"
-#include "enigma/threads.h"
 
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+\
+#define USAGE "Usage: %s method target [options] [ciphertext]\n\
+    Methods:\n\
+      ioc              Use Index of Coincidence for cryptanalysis (target, -m/-M OR -l required)\n\
+      ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n\
+    Targets:\n\
+      rotor[1-3]       Crack a rotor (Walzen) configuration\n\
+      positions        Crack the initial rotor positions\n\
+      reflector        Crack the reflector (Umkehrwalze) configuration\n\
+      plugboard        Crack a plugboard (Steckerbrett) setting\n\n\
+    Options:\n\
+      Enigma Settings:\n\
+        -w rotors      Set the rotor (Walzen) configuration (e.g. 'I II III')\n\
+        -p positions   Set the initial rotor positions (e.g. 'ABC')\n\
+        -u reflector   Set the reflector (Umkehrwalze) (e.g. 'B')\n\
+        -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g. 'ABCDEF')\n\
+      Cryptanalysis Settings:\n\
+        -c plaintext   Set the known plaintext\n\
+        -d file        Set the dictionary file to use\n\
+        -l language    Language ('english' or 'german', for IOC method)\n\
+        -m float       Minimum score threshold\n\
+        -M float       Maximum score threshold\n\
+        -T float       Target score\n\n\
+        -n file        n-gram bank to load\n\n\
+    A file can be provided as the last argument to read the ciphertext from a file.\n\
+    If no file is provided, the ciphertext will be read from standard input.\n\n\
+    Available languages: english, german\n\
+    Available rotors: I, II, III, IV, V, VI, VII, VIII\n\
+    Available reflectors: A, B, C\n"
 
-static void                   free_dictionary(char**,                 int);
-static void                   load_dictionary(enigma_crack_config_t*, const char*);
-static int                    load_language  (enigma_crack_config_t*, const char*);
-static void                   load_target    (enigma_crack_config_t*, const char*);
-static int                    print_usage    (const char*);
-static enigma_crack_config_t* parse_arguments(int,                    char**,     enigma_ngram_list_t*);
+static void clean_exit(const char*, const char*, enigma_crack_config_t*, int);
+static void free_dictionary(char**, int);\
+static void load_dictionary(enigma_crack_config_t*, const char*);
+static void load_frequencies(enigma_crack_config_t*, const char*);
+static int  load_language(enigma_crack_config_t*, const char*);
+static void load_target(enigma_crack_config_t*, const char*);
+
+#define METHOD_IOC    1
+#define METHOD_NGRAM  2
+
+#define TARGET_ROTOR      1
+#define TARGET_POSITIONS  2
+#define TARGET_REFLECTOR  3
+#define TARGET_PLUGBOARD  4
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        print_usage(argv[0]);
+    if (argc < 3) {
+        fprintf(stderr, USAGE, argv[0]);
         return 1;
     }
 
-    enigma_ngram_list_t* ngramList = malloc(sizeof(enigma_ngram_list_t));
-    enigma_crack_config_t* config = parse_arguments(argc, argv, ngramList);
+    enigma_crack_config_t* cfg = calloc(1, sizeof(enigma_crack_config_t));
+    enigma_init_default_config(&cfg->enigma);
+    int method = 0;
+    int target = 0;
+    int param = 0;
 
-    if (!config) {
-        free(ngramList);
+    if (strcmp(argv[1], "ioc")) {
+        method = METHOD_IOC;
+    }
+    else if (strcmp(argv[1], "ngram")) {
+        method = METHOD_NGRAM;
+    }
+    else {
+        fprintf(stderr, "Unknown method: %s\n", argv[1]);
+        fprintf(stderr, USAGE, argv[0]);
+        free(cfg);
         return 1;
     }
 
-    config->letterFreqOffset = 0.01f;
-    config->letterFreqTargets = malloc(26 * sizeof(float));
-
-    // English letter frequency targets (from https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
-    // TODO make this an argument
-    // X is probably unreliable here due to possibly being used as a space substitute
-    float englishFreq[26] = {
-        0.0812f, 0.0149f, 0.0271f, 0.0432f, 0.1202f, 0.023f, 0.0203f, 0.0592f, 0.0731f, 0.0010f,
-        0.0069f, 0.0398f, 0.0261f, 0.0695f, 0.0768f, 0.0182f, 0.0011f, 0.0602f, 0.0628f, 0.0910f,
-        0.0288f, 0.0111f, 0.0209f, 0.0017f, 0.0211f, 0.0007f
-    };
-
-    memcpy(config->letterFreqTargets, englishFreq, 26 * sizeof(float));
-
-    switch (config->method) {
-    case ENIGMA_METHOD_BRUTE: enigma_crack_brute(config); break;
-    case ENIGMA_METHOD_NGRAM:
-        switch (config->target) {
-        case ENIGMA_TARGET_ROTORS: enigma_crack_rotors_ngram(config, ngramList); break;
-        case ENIGMA_TARGET_POSITIONS: enigma_crack_rotor_positions_ngram(config, ngramList); break;
-        case ENIGMA_TARGET_REFLECTOR: enigma_crack_reflector_ngram(config, ngramList); break;
-        case ENIGMA_TARGET_PLUGBOARD: enigma_crack_plugboard_ngram(config, ngramList); break;
+    if (!strcmp(argv[2], "rotor")) {
+        target = TARGET_ROTOR;
+        if (strlen(argv[2]) > strlen("rotor")) {
+            param = argv[2][strlen("rotor")] - '0';
         }
-        enigma_score_sort(enigma_scores);
-        enigma_score_print(enigma_scores);
-        break;
-    case ENIGMA_METHOD_IOC:
-        switch (config->target) {
-        case ENIGMA_TARGET_ROTORS: enigma_crack_rotors_ioc(config); break;
-        case ENIGMA_TARGET_POSITIONS: enigma_crack_rotor_positions_ioc(config); break;
-        case ENIGMA_TARGET_REFLECTOR: enigma_crack_reflector_ioc(config); break;
-        case ENIGMA_TARGET_PLUGBOARD: enigma_crack_plugboard_ioc(config); break;
-        }
-        enigma_score_sort(enigma_scores);
-        enigma_score_print(enigma_scores);
-        break;
+    }
+    else if (!strcmp(argv[2], "positions")) {
+        target = TARGET_POSITIONS;
+    }
+    else if (!strcmp(argv[2], "reflector")) {
+        target = TARGET_REFLECTOR;
+    }
+    else if (!strcmp(argv[2], "plugboard")) {
+        target = TARGET_PLUGBOARD;
+    }
+    else {
+        fprintf(stderr, "Unknown target: %s\n", argv[2]);
+        fprintf(stderr, USAGE, argv[0]);
+        free(cfg);
+        return 1;
     }
 
-    if (config->dictionary) {
-        free_dictionary((char**)config->dictionary, config->dictSize);
+    optind += 2;
+    int opt;
+    while ((opt = getopt(argc, argv, "w:p:u:s:c:d:l:m:M:T:n:f:")) != -1) {
+        switch (opt) {
+        case 'w': enigma_load_rotor_config(&cfg->enigma, optarg); break;
+        case 'p': enigma_load_rotor_positions(&cfg->enigma, optarg); break;
+        case 'u': enigma_load_reflector_config(&cfg->enigma, optarg); break;
+        case 's': cfg->enigma.plugboard = optarg; break;
+        case 'c':
+            cfg->flags |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
+            cfg->plaintext = optarg;
+            break;
+        case 'd': load_dictionary(cfg, optarg); break;
+        case 'l':
+            if (load_language(cfg, optarg)) {
+                fprintf(stderr, "Unknown language: %s\n", optarg);
+                clean_exit(NULL, argv[0], cfg, 1);
+            }
+            break;
+        case 'm': cfg->minScore = atof(optarg); break;
+        case 'M': cfg->maxScore = atof(optarg); break;
+        case 'T': cfg->targetScore = atof(optarg); break;
+        case 'n': enigma_load_ngrams(cfg, optarg); break;
+        case 'f': load_frequencies(cfg, optarg); break;
+        default: clean_exit("Error: Unknown option", argv[0], cfg, 1);
+        }
     }
-    if (enigma_scores) {
-        free(enigma_scores->scores);
-        free(enigma_scores);
+
+    switch (method) {
+    case METHOD_IOC:
+        if (!cfg->minScore || !cfg->maxScore) {
+            clean_exit("IOC method requires -m and -M options (or -l to set language)\n", argv[0], cfg, 1);
+        }
+
+        switch (target) {
+        case TARGET_ROTOR:
+            if (param < 1 || param > 3) {
+                clean_exit("Rotor target requires rotor number (1-3)\n", argv[0], cfg, 1);
+            }
+            enigma_crack_rotor(cfg, param - 1, enigma_ioc_score);
+            break;
+        case TARGET_POSITIONS: enigma_crack_rotor_positions(cfg, enigma_ioc_score); break;
+        case TARGET_REFLECTOR: enigma_crack_reflector(cfg, enigma_ioc_score); break;
+        case TARGET_PLUGBOARD: enigma_crack_plugboard(cfg, enigma_ioc_score); break;
+        }
+        break;
+    case METHOD_NGRAM:
+        if (!cfg->ngrams) {
+            clean_exit("N-gram method requires -n option\n", argv[0], cfg, 1);
+        }
+
+        switch (target) {
+        case TARGET_ROTOR:
+            if (param < 1 || param > 3) {
+                clean_exit("Rotor target requires rotor number (1-3)\n", argv[0], cfg, 1);
+            }
+            switch (cfg->n) {
+                case 2: enigma_crack_rotor(cfg, param - 1, enigma_bigram_score); break;
+                case 3: enigma_crack_rotor(cfg, param - 1, enigma_trigram_score); break;
+                case 4: enigma_crack_rotor(cfg, param - 1, enigma_quadgram_score); break;
+            }
+            break;
+        case TARGET_POSITIONS:
+            switch (cfg->n) {
+                case 2: enigma_crack_rotor_positions(cfg, enigma_bigram_score); break;
+                case 3: enigma_crack_rotor_positions(cfg, enigma_trigram_score); break;
+                case 4: enigma_crack_rotor_positions(cfg, enigma_quadgram_score); break;
+            }
+            break;
+        case TARGET_REFLECTOR:
+            switch (cfg->n) {
+                case 2: enigma_crack_reflector(cfg, enigma_bigram_score); break;
+                case 3: enigma_crack_reflector(cfg, enigma_trigram_score); break;
+                case 4: enigma_crack_reflector(cfg, enigma_quadgram_score); break;
+            }
+            break;
+        case TARGET_PLUGBOARD:
+            switch (cfg->n) {
+                case 2: enigma_crack_plugboard(cfg, enigma_bigram_score); break;
+                case 3: enigma_crack_plugboard(cfg, enigma_trigram_score); break;
+                case 4: enigma_crack_plugboard(cfg, enigma_quadgram_score); break;
+            }
+            break;
     }
-    free(ngramList);
-    free(config->letterFreqTargets);
-    free(config);
+    break;
+    }
+
+    free(cfg);
     return 0;
+}
+
+static void clean_exit(const char* msg, const char* argv0, enigma_crack_config_t* cfg, int code) {
+    if (msg) {
+        fprintf(stderr, "%s", msg);
+    }
+    fprintf(stderr, USAGE, argv0);
+    if (cfg->dictionary) {
+        free_dictionary((char**) cfg->dictionary, cfg->dictSize);
+    }
+    free(cfg);
+    exit(code);
 }
 
 static void free_dictionary(char** dictionary, int size) {
@@ -126,12 +246,13 @@ static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
  *
  * @return 0 on success, 1 if the language is not recognized.
  */
-static int load_language(enigma_crack_config_t *config, const char *language) {
+static int load_language(enigma_crack_config_t* config, const char* language) {
     if (!strcmp(language, "english")) {
         config->minScore = enigma_ioc_english_min;
         config->maxScore = enigma_ioc_english_max;
         return 0;
-    } else if (!strcmp(language, "german")) {
+    }
+    else if (!strcmp(language, "german")) {
         config->minScore = enigma_ioc_german_min;
         config->maxScore = enigma_ioc_german_max;
         return 0;
@@ -140,157 +261,7 @@ static int load_language(enigma_crack_config_t *config, const char *language) {
     return 1;
 }
 
-/**
- * @brief Load target settings.
- *
- * This function sets the target and target_param fields in the enigma_crack_config_t structure
- * based on the specified target string.
- *
- * @param config Pointer to the enigma_crack_config_t structure to update.
- * @param target The target string
- */
-static void load_target(enigma_crack_config_t* config, const char* target) {
-    const char* targets[] = {"rotor", "position", "reflector", "plugboard"};
-    if (config->method == ENIGMA_METHOD_IOC || config->method == ENIGMA_METHOD_NGRAM) {
-        for (int i = 0; i < 4; i++) {
-            if (!strcmp(target, targets[i])) {
-                config->target = i;
-                config->target_param = target[strlen(target) - 1] - '0';
-                return;
-            }
-        }
-    }
-
+static void load_frequencies(enigma_crack_config_t* config, const char* path) {
+    // TODO Implement
+    fprintf(stderr, "Frequency analysis not yet implemented.\n");
 }
-
-/**
- * @brief Print usage information.
- *
- * This function prints the command line options and their descriptions.
- *
- * @param argv0 The name of the program, typically `argv[0]`.
- *
- * @return 1
- */
-static int print_usage(const char* argv0) {
-    fprintf(stderr, "Usage: %s method [target] [options] [ciphertext]\n", argv0);
-    fprintf(stderr, "Methods:\n");
-    fprintf(stderr, "  brute            Use Brute Force for cryptanalysis\n");
-    fprintf(stderr, "  ioc              Use Index of Coincidence for cryptanalysis (target, -m/-M OR -l required)\n");
-    fprintf(stderr, "  ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n");
-    fprintf(stderr, "Targets:\n");
-    fprintf(stderr, "  rotors           Crack the rotor (Walzen) configuration\n");
-    fprintf(stderr, "  positions        Crack the initial rotor positions\n");
-    fprintf(stderr, "  reflector        Crack the reflector (Umkehrwalze) configuration\n");
-    fprintf(stderr, "  plugboard        Crack the plugboard (Steckerbrett) configuration\n\n");
-    fprintf(stderr, "Options:\n");
-    fprintf(stderr, "  Enigma Settings:\n");
-    fprintf(stderr, "    -w rotors      Set the rotor (Walzen) configuration (e.g. 'I II III')\n");
-    fprintf(stderr, "    -p positions   Set the initial rotor positions (e.g. 'ABC')\n");
-    fprintf(stderr, "    -u reflector   Set the reflector (Umkehrwalze) (e.g. 'B')\n");
-    fprintf(stderr, "    -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g. 'ABCDEF')\n");
-    fprintf(stderr, "  Cryptanalysis Settings:\n");
-    fprintf(stderr, "    -c plaintext   Set the known plaintext\n");
-    fprintf(stderr, "    -C position    Set the position of known plaintext\n");
-    fprintf(stderr, "    -d file        Set the dictionary file to use\n");
-    fprintf(stderr, "    -l language    Language ('english' or 'german', for IOC method)\n");
-    fprintf(stderr, "    -m float       Minimum score threshold (for n-gram, IOC, and brute methods)\n");
-    fprintf(stderr, "    -M float       Maximum score threshold (for n-gram, IOC, and brute methods)\n");
-    fprintf(stderr, "    -T float       Target score (for n-gram, IoC, and brute methods)\n\n");
-    fprintf(stderr, "    -n file        n-gram bank to load\n\n");
-    fprintf(stderr, "    -S count       Set the maximum number of plugboard settings (default: 8)\n");
-    fprintf(stderr, "    -t threadCount Number of threads to use (default: 8)\n\n");
-    fprintf(stderr, "Other Options:\n");
-    fprintf(stderr, "    -h             Show this help message\n");
-    fprintf(stderr, "A file can be provided as the last argument to read the ciphertext from a file.\n");
-    fprintf(stderr, "If no file is provided, the ciphertext will be read from standard input.\n\n");
-    fprintf(stderr, "Available languages: english, german\n");
-    fprintf(stderr, "Available rotors: I, II, III, IV, V, VI, VII, VIII\n");
-    fprintf(stderr, "Available reflectors: A, B, C\n");
-    return 1;
-}
-
-static enigma_crack_config_t *parse_arguments(int argc, char* argv[], enigma_ngram_list_t* ngramList) {
-    int opt;
-    int result = 0;
-    enigma_crack_config_t *config;
-
-    config = calloc(1, sizeof(enigma_crack_config_t));
-    enigma_init_default_config(&config->enigma);
-    config->maxThreads = 64;
-
-    if (!strcmp(argv[1], "bombe")) {
-        config->method = ENIGMA_METHOD_BOMBE;
-    } else if (!strcmp(argv[1], "brute")) {
-        config->method = ENIGMA_METHOD_BRUTE;
-    } else if (!strcmp(argv[1], "ioc")) {
-        config->method = ENIGMA_METHOD_IOC;
-    } else if (!strcmp(argv[1], "ngram")) {
-        config->method = ENIGMA_METHOD_NGRAM;
-    } else {
-        free(config);
-        print_usage(argv[0]);
-        return NULL;
-    }
-
-    optind++;
-    if (config->method == ENIGMA_METHOD_IOC || config->method == ENIGMA_METHOD_NGRAM) {
-        if (optind >= argc) {
-            free(config);
-            print_usage(argv[0]);
-            return NULL;
-        }
-        load_target(config, argv[optind]);
-        if (config->target < 0) {
-            free(config);
-            print_usage(argv[0]);
-            return NULL;
-        }
-        optind++;
-    }
-
-    while ((opt = getopt(argc, argv, "c:C:d:l:m:M:n:p:s:S:t:T:u:w:")) != -1) {
-        switch (opt) {
-        case 'c': config->plaintext = optarg; break;
-        case 'C': config->plaintextPos = atoi(optarg); break;
-        case 'd': load_dictionary(config, optarg); break;
-        case 'l': result = load_language(config, optarg); break;
-        case 'm': config->minScore = atof(optarg); break;
-        case 'M': config->maxScore = atof(optarg); break;
-        case 'n': ngramList = enigma_load_ngrams(optarg); break;
-        case 's': config->enigma.plugboard = optarg; break;
-        case 'S': config->maxPlugboardSettings = atoi(optarg); break;
-        case 't': config->maxThreads = atoi(optarg); break;
-        case 'T': config->targetScore = atof(optarg); break;
-        case 'p':
-            result = enigma_load_rotor_positions(&config->enigma, optarg) == 0;
-            config->flags |= ENIGMA_PREDEFINED_ROTOR_POSITIONS;
-            break;
-        case 'u':
-            result = enigma_load_reflector_config(&config->enigma, optarg);
-            config->flags |= ENIGMA_PREDEFINED_REFLECTOR;
-            break;
-        case 'w':
-            result = enigma_load_rotor_config(&config->enigma, optarg) == 0;
-            config->flags |= ENIGMA_PREDEFINED_ROTOR_SETTINGS;
-            break;
-        default:  result = print_usage(argv[0]);
-        }
-    }
-
-    if (result || ((config->method == ENIGMA_METHOD_NGRAM || config->method == ENIGMA_METHOD_IOC) &&
-         (config->target < 0 || (!config->minScore && !config->maxScore && !config->ngramCount))) ||
-        (config->method == ENIGMA_METHOD_NGRAM && !ngramList)) {
-        free(config);
-        print_usage(argv[0]);
-        return NULL;
-    }
-
-    if (optind < argc) {
-        config->ciphertext = argv[optind];
-        config->ciphertextLen = strlen(config->ciphertext);
-    }
-
-    return config;
-}
-

@@ -76,7 +76,7 @@ float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg) {
  *
  * @return The absolute difference between the total quadgram score and the target score.
  */
-float enigma_quadram_score(const char* text, const enigma_crack_config_t* cfg) {
+float enigma_quadgram_score(const char* text, const enigma_crack_config_t* cfg) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
     int next2 = text[1] - 'A';

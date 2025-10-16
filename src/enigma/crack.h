@@ -10,6 +10,7 @@
 
 #define ENIGMA_FLAG_DICTIONARY_MATCH         1
 #define ENIGMA_FLAG_FREQUENCY                2
+#define ENIGMA_FLAG_KNOWN_PLAINTEXT          4
 
 #define ENIGMA_PRINT_CONFIG(e) printf("%s %s %s %c%c%c %s %s", \
                                       e.rotors[0].name, e.rotors[1].name, e.rotors[2].name, \
@@ -35,6 +36,7 @@ typedef struct {
     int                  dictSize;
     int                  frequencies;
     float* ngrams;
+    int n;
     int ngramLen;
     enigma_t             enigma;
     const char*          ciphertext;
@@ -45,6 +47,7 @@ typedef struct {
     float                minFreq;
     float                maxFreq;
     float*               freqTargets;
+    const char*          plaintext;
     int                  flags;
 } enigma_crack_config_t;
 

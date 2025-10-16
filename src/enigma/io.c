@@ -188,6 +188,7 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
         return 0;
     }
     cfg->ngrams = calloc(pow(26, n), sizeof(float));
+    cfg->n = n;
 
     char s[5];
     int count = 0;
