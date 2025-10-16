@@ -66,16 +66,15 @@ void enigma_crack_rotors           (enigma_crack_config_t*,                     
 void enigma_crack_rotor_positions  (enigma_crack_config_t*,                               float (*)(const char*, const enigma_crack_config_t*));
 void enigma_crack_reflector        (enigma_crack_config_t*,                               float (*)(const char*, const enigma_crack_config_t*));
 void enigma_crack_plugboard        (enigma_crack_config_t*,                               float (*)(const char*, const enigma_crack_config_t*));
-
+int   enigma_dict_match            (const char*,                                          const enigma_crack_config_t*);
 void  enigma_find_potential_indices(const char*,                                          const char*,
                                     int*);
-int   enigma_dict_match            (const char*,                                          const enigma_crack_config_t*);
 float enigma_freq                  (const char*,                                          int);
 int   enigma_letter_freq           (const char*,                                          const enigma_crack_config_t*);
 void enigma_score_append           (enigma_crack_config_t*,                               const char*,
                                     float);
+int   enigma_score_flags           (const char*,                                          const enigma_crack_config_t*);
 void  enigma_score_print           (const enigma_score_list_t*);
 void  enigma_score_sort            (enigma_score_list_t*);
-int   enigma_score_flags           (const char*,                                          const enigma_crack_config_t*);
 
 #endif

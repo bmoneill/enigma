@@ -17,7 +17,6 @@
 #include "enigma.h"
 #include "rotors.h"
 
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,95 +24,73 @@
 static int score_compare(const void* a, const void* b);
 
 /**
- * @brief Finds potential indices in the ciphertext where the known plaintext may exist.
+ * @brief Crack the plugboard using a scoring function.
  *
- * Due to the nature of the Enigma machine, a letter cannot be encoded to itself.
- * This function checks the ciphertext for potential indices where the given string
- * could potentially be in the plaintext.
+ * This function attempts to determine the plugboard settings used in the Enigma machine
+ * by evaluating all possible plugboard configurations and scoring the resulting plaintext
+ * using the provided scoring function.
  *
- * @param ciphertext The ciphertext to analyze
- * @param plaintext The known plaintext string to test against the ciphertext
- * @param indices Pointer to an array (length >= length of ciphertext) to store the indices (-1-terminated)
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param scoreList Pointer to an enigma_score_list_t to store the scores.
+ * @param scoreFunc Function pointer to the scoring function to use.
  */
-void enigma_find_potential_indices(const char* ciphertext, const char* plaintext, int* indices) {
-    int matchCount = 0;
-    int plaintextLen = strlen(plaintext);
-    int ciphertextLen = strlen(ciphertext);
+void enigma_crack_plugboard(enigma_crack_config_t* cfg, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
+    enigma_t enigma;
+    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    int curSettings = strlen(enigma.plugboard) / 2;
 
-    for (int i = 0; i < ciphertextLen - plaintextLen; i++) {
-        for (int j = 0; j < plaintextLen; j++) {
-            if (ciphertext[i + j] == plaintext[j]) {
-                break;
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+    char* remaining = malloc((ENIGMA_ALPHA_SIZE - curSettings * 2 + 1) * sizeof(char));
+    memcpy(remaining, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ENIGMA_ALPHA_SIZE);
+
+    for (int i = 0; i < curSettings * 2; i++) {
+        remaining[enigma.plugboard[i] - 'A'] = '\0';
+    }
+
+    for (char a = 'A'; a < 'Z'; a++) {
+        if (!remaining[a - 'A']) {
+            continue;
+        }
+        for (char b = 'A'; b <= 'Z'; b++) {
+            if (a == b || !remaining[b - 'A']) {
+                continue;
             }
-            if (j == plaintextLen - 1) {
-                indices[matchCount++] = i;
-            }
+
+            enigma.plugboard[curSettings * 2] = a;
+            enigma.plugboard[curSettings * 2 + 1] = b;
+            enigma.plugboard[curSettings * 2 + 2] = '\0';
+
+            enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+            enigma_score_append(cfg, plaintext, scoreFunc(plaintext, cfg));
         }
     }
 
-    indices[matchCount] = -1;
-}
-
-void enigma_load_dictionary(enigma_crack_config_t* cfg, FILE* dictFile) {
-    char line[BUFSIZ];
-    int index = 0;
-
-    while (fgets(line, sizeof(line), dictFile) != NULL) {
-        line[strcspn(line, "\n")] = 0;  // Remove newline character
-        cfg->dictionary[index] = strdup(line);
-        index++;
-    }
-    cfg->dictSize = index;
-}
-
-void enigma_free_dictionary(enigma_crack_config_t* cfg) {
-    for (int i = 0; i < cfg->dictSize; i++) {
-        free((void*) cfg->dictionary[i]);
-    }
-    free(cfg->dictionary);
-    cfg->dictionary = NULL;
-    cfg->dictSize = 0;
+    free(plaintext);
+    free(remaining);
 }
 
 /**
- * @brief Sort an array of enigma_score_t by score in descending order.
+ * @brief Crack the reflector using a scoring function.
  *
- * @param scores The array of enigma_score_t to sort.
- * @param count The number of elements in the scores array.
+ * This function attempts to determine the reflector used in the Enigma machine
+ * by evaluating all possible reflectors and scoring the resulting plaintext
+ * using the provided scoring function.
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param scoreFunc Function pointer to the scoring function to use.
  */
-void enigma_score_sort(enigma_score_list_t *scoreList) {
-    qsort(scoreList->scores, scoreList->scoreCount, sizeof(enigma_score_t), score_compare);
-}
+void enigma_crack_reflector(enigma_crack_config_t* cfg, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
+    enigma_t enigma;
+    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
 
-/**
- * @brief Print the scores in an enigma_score_list_t.
- *
- * @param scoreList Pointer to the enigma_score_list_t structure.
- */
-void enigma_score_print(const enigma_score_list_t* scoreList) {
-    for (int i = 0; i < scoreList->scoreCount; i++) {
-        ENIGMA_PRINT_CONFIG(scoreList->scores[i].enigma);
-        printf("%.6f\n", scoreList->scores[i].score);
-    }
-}
-
-/**
- * @brief Append a score to an enigma_score_list_t.
- *
- * If the scores array is full, it will be resized to double its current size.
- *
- * @param scoreList Pointer to the enigma_score_list_t structure.
- * @param score The score to append.
- */
-void enigma_score_append(enigma_crack_config_t* cfg, const char* plaintext, float score) {
-    if (cfg->scores->scoreCount >= cfg->scores->maxScores) {
-        cfg->scores->maxScores *= 2;
-        cfg->scores->scores = realloc(cfg->scores->scores, cfg->scores->maxScores * sizeof(enigma_score_t));
+    for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
+        memcpy(&enigma.reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
+        enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+        enigma_score_append(cfg, plaintext, scoreFunc(plaintext, cfg));
     }
 
-    cfg->scores->scores[cfg->scores->scoreCount].score = score;
-    cfg->scores->scores[cfg->scores->scoreCount].flags = enigma_score_flags(plaintext, cfg);
-    cfg->scores->scoreCount++;
+    free(plaintext);
 }
 
 /**
@@ -193,83 +170,59 @@ void enigma_crack_rotor_positions(enigma_crack_config_t* cfg, float (*scoreFunc)
     free(plaintext);
 }
 
-void enigma_crack_reflector(enigma_crack_config_t* cfg, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
-    enigma_t enigma;
-    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
-    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
-
-    for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
-        memcpy(&enigma.reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
-        enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
-        enigma_score_append(cfg, plaintext, scoreFunc(plaintext, cfg));
-    }
-
-    free(plaintext);
-}
-
 /**
- * @brief Crack the plugboard using a scoring function.
+ * @brief Checks if multiple words from the dictionary are present in the plaintext.
  *
- * This function attempts to determine the plugboard settings used in the Enigma machine
- * by evaluating all possible plugboard configurations and scoring the resulting plaintext
- * using the provided scoring function.
+ * This function checks the plaintext against a dictionary of words and returns 1
+ * if multiple words are found, otherwise returns 0.
  *
- * @param cfg Pointer to the cracking configuration structure.
- * @param scoreList Pointer to an enigma_score_list_t to store the scores.
- * @param scoreFunc Function pointer to the scoring function to use.
+ * The dictionary must be uppercase.
+ *
+ * @param plaintext The plaintext to check
+ * @param cfg The enigma_crack_config_t containing the dictionary and its size
+ *
  */
-void enigma_crack_plugboard(enigma_crack_config_t* cfg, float (*scoreFunc)(const char*, const enigma_crack_config_t*)) {
-    enigma_t enigma;
-    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
-    int curSettings = strlen(enigma.plugboard) / 2;
-
-    char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
-    char* remaining = malloc((ENIGMA_ALPHA_SIZE - curSettings * 2 + 1) * sizeof(char));
-    memcpy(remaining, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ENIGMA_ALPHA_SIZE);
-
-    for (int i = 0; i < curSettings * 2; i++) {
-        remaining[enigma.plugboard[i] - 'A'] = '\0';
-    }
-
-    for (char a = 'A'; a < 'Z'; a++) {
-        if (!remaining[a - 'A']) {
-            continue;
-        }
-        for (char b = 'A'; b <= 'Z'; b++) {
-            if (a == b || !remaining[b - 'A']) {
-                continue;
+int enigma_dict_match(const char* plaintext, const enigma_crack_config_t* cfg) {
+    int match_count = 0;
+    for (int i = 0; i < cfg->dictSize; i++) {
+        if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
+            match_count++;
+            if (match_count > 1) {
+                return 1;
             }
-
-            enigma.plugboard[curSettings * 2] = a;
-            enigma.plugboard[curSettings * 2 + 1] = b;
-            enigma.plugboard[curSettings * 2 + 2] = '\0';
-
-            enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
-            enigma_score_append(cfg, plaintext, scoreFunc(plaintext, cfg));
         }
     }
-
-    free(plaintext);
-    free(remaining);
+    return 0;
 }
 
 /**
- * @brief Compare function for sorting enigma_score_t by score.
+ * @brief Finds potential indices in the ciphertext where the known plaintext may exist.
  *
- * This function is used by qsort to sort an array of enigma_score_t structures
- * in descending order based on the score field.
+ * Due to the nature of the Enigma machine, a letter cannot be encoded to itself.
+ * This function checks the ciphertext for potential indices where the given string
+ * could potentially be in the plaintext.
+ *
+ * @param ciphertext The ciphertext to analyze
+ * @param plaintext The known plaintext string to test against the ciphertext
+ * @param indices Pointer to an array (length >= length of ciphertext) to store the indices (-1-terminated)
  */
-static int score_compare(const void *a, const void *b) {
-    const enigma_score_t* scoreA = (const enigma_score_t*)a;
-    const enigma_score_t* scoreB = (const enigma_score_t*)b;
+void enigma_find_potential_indices(const char* ciphertext, const char* plaintext, int* indices) {
+    int matchCount = 0;
+    int plaintextLen = strlen(plaintext);
+    int ciphertextLen = strlen(ciphertext);
 
-    if (scoreA->score < scoreB->score) {
-        return 1;
-    } else if (scoreA->score > scoreB->score) {
-        return -1;
-    } else {
-        return 0;
+    for (int i = 0; i < ciphertextLen - plaintextLen; i++) {
+        for (int j = 0; j < plaintextLen; j++) {
+            if (ciphertext[i + j] == plaintext[j]) {
+                break;
+            }
+            if (j == plaintextLen - 1) {
+                indices[matchCount++] = i;
+            }
+        }
     }
+
+    indices[matchCount] = -1;
 }
 
 /**
@@ -328,30 +281,35 @@ int enigma_letter_freq(const char* plaintext, const enigma_crack_config_t* cfg) 
 }
 
 /**
- * @brief Checks if multiple words from the dictionary are present in the plaintext.
+ * @brief Append a score to an enigma_score_list_t.
  *
- * This function checks the plaintext against a dictionary of words and returns 1
- * if multiple words are found, otherwise returns 0.
+ * If the scores array is full, it will be resized to double its current size.
  *
- * The dictionary must be uppercase.
- *
- * @param plaintext The plaintext to check
- * @param cfg The enigma_crack_config_t containing the dictionary and its size
- *
+ * @param scoreList Pointer to the enigma_score_list_t structure.
+ * @param score The score to append.
  */
-int enigma_dict_match(const char* plaintext, const enigma_crack_config_t* cfg) {
-    int match_count = 0;
-    for (int i = 0; i < cfg->dictSize; i++) {
-        if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
-            match_count++;
-            if (match_count > 1) {
-                return 1;
-            }
-        }
+void enigma_score_append(enigma_crack_config_t* cfg, const char* plaintext, float score) {
+    if (cfg->scores->scoreCount >= cfg->scores->maxScores) {
+        cfg->scores->maxScores *= 2;
+        cfg->scores->scores = realloc(cfg->scores->scores, cfg->scores->maxScores * sizeof(enigma_score_t));
     }
-    return 0;
+
+    cfg->scores->scores[cfg->scores->scoreCount].score = score;
+    cfg->scores->scores[cfg->scores->scoreCount].flags = enigma_score_flags(plaintext, cfg);
+    cfg->scores->scoreCount++;
 }
 
+/**
+ * @brief Get the flags for a given plaintext based on the crack configuration.
+ *
+ * This function checks the plaintext against the criteria specified in the
+ * enigma_crack_config_t and returns a bitmask of flags indicating which criteria
+ * were met.
+ *
+ * @param plaintext The plaintext to evaluate.
+ * @param cfg The enigma_crack_config_t containing the criteria and flags.
+ * @return A bitmask of flags indicating which criteria were met.
+ */
 int enigma_score_flags(const char* plaintext, const enigma_crack_config_t* cfg) {
     int ret = 0;
     if (cfg->flags & ENIGMA_FLAG_DICTIONARY_MATCH && enigma_dict_match(plaintext, cfg)) {
@@ -370,3 +328,55 @@ int enigma_score_flags(const char* plaintext, const enigma_crack_config_t* cfg) 
     }
     return ret;
 }
+/**
+ * @brief Print the scores in an enigma_score_list_t.
+ *
+ * @param scoreList Pointer to the enigma_score_list_t structure.
+ */
+void enigma_score_print(const enigma_score_list_t* scoreList) {
+    for (int i = 0; i < scoreList->scoreCount; i++) {
+        printf("%.6f ", scoreList->scores[i].score);
+        if (scoreList->scores[i].flags & ENIGMA_FLAG_DICTIONARY_MATCH) {
+            printf("D");
+        } else {
+            printf("-");
+        }
+        if (scoreList->scores[i].flags & ENIGMA_FLAG_FREQUENCY) {
+            printf("F ");
+        } else {
+            printf("- ");
+        }
+        ENIGMA_PRINT_CONFIG(scoreList->scores[i].enigma);
+        printf("\n");
+    }
+}
+
+/**
+ * @brief Sort an array of enigma_score_t by score in descending order.
+ *
+ * @param scores The array of enigma_score_t to sort.
+ * @param count The number of elements in the scores array.
+ */
+void enigma_score_sort(enigma_score_list_t *scoreList) {
+    qsort(scoreList->scores, scoreList->scoreCount, sizeof(enigma_score_t), score_compare);
+}
+
+/**
+ * @brief Compare function for sorting enigma_score_t by score.
+ *
+ * This function is used by qsort to sort an array of enigma_score_t structures
+ * in descending order based on the score field.
+ */
+static int score_compare(const void *a, const void *b) {
+    const enigma_score_t* scoreA = (const enigma_score_t*)a;
+    const enigma_score_t* scoreB = (const enigma_score_t*)b;
+
+    if (scoreA->score < scoreB->score) {
+        return 1;
+    } else if (scoreA->score > scoreB->score) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
