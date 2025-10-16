@@ -304,33 +304,30 @@ float enigma_freq(const char* plaintext, int len) {
  * @brief Check if the letter frequencies in the plaintext match target frequencies within an offset.
  *
  * This function checks if the frequency of each letter in the plaintext is within
- * the specified offset of the target frequencies. If more than half of the letters
+ * the specified offset of the target frequencies. If more than ten letters
  * deviate from the target frequencies, the function returns 0 (false). Otherwise,
  * it returns 1 (true).
  *
  * @param plaintext The plaintext to analyze
- * @param len The length of the plaintext
- * @param targets The target frequencies for each letter (array of 26 floats)
- * @param offset The allowable deviation from the target frequencies
+ * @param cfg       The enigma_crack_config_t containing the target frequencies and offset
  * @return 1 if over half of the letter frequencies match within the offset, 0 otherwise
  */
-int enigma_letter_freq(const char* plaintext, int len,  float* targets, float offset, float* result) {
+int enigma_letter_freq(const char* plaintext, const enigma_crack_config_t* cfg) {
     int letters[26] = {0};
     int total = 0;
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < cfg->ciphertextLen; i++) {
         letters[plaintext[i] - 'A']++;
     }
 
     for (int i = 0; i < 26; i++) {
-        float freq = (float)letters[i] / len * 100.0f;
-        if (freq < targets[i] - offset || freq > targets[i] + offset) {
+        float freq = (float)letters[i] / cfg->ciphertextLen * 100.0f;
+        if (freq < cfg->freqTargets[i] - cfg->minFreq || freq > cfg->freqTargets[i] + cfg->maxFreq) {
             total++;
-            if (total > 13) {
+            if (total > 10) {
                 return 0;
             }
         }
     }
-    *result = (float)total / 26.0f;
     return 1;
 }
 
@@ -357,4 +354,19 @@ int enigma_dict_match(const char* plaintext, const enigma_crack_config_t* cfg) {
         }
     }
     return 0;
+}
+
+int enigma_score_flags(const char* plaintext, const enigma_crack_config_t* cfg) {
+    int ret = 0;
+    if (cfg->flags & ENIGMA_FLAG_DICTIONARY_MATCH && enigma_dict_match(plaintext, cfg)) {
+        ret += ENIGMA_FLAG_DICTIONARY_MATCH;
+    }
+
+    if (cfg->flags & ENIGMA_FLAG_FREQUENCY) {
+        float freqScore;
+        if (enigma_letter_freq(plaintext, cfg)) {
+            ret += ENIGMA_FLAG_FREQUENCY;
+        }
+    }
+    return ret;
 }
