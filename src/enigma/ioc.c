@@ -40,6 +40,6 @@ float enigma_ioc_score(const char* text, const enigma_crack_config_t* cfg) {
     }
 
     float score = total / (float)(cfg->ciphertextLen * (cfg->ciphertextLen - 1));
-    return fabs(score - cfg->targetScore);
+    return score;
 
 }

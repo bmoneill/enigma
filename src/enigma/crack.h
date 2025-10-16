@@ -71,8 +71,8 @@ void  enigma_find_potential_indices(const char*,                                
                                     int*);
 float enigma_freq                  (const char*,                                          int);
 int   enigma_letter_freq           (const char*,                                          const enigma_crack_config_t*);
-void  enigma_score_append          (enigma_crack_config_t*,                               const char*,
-                                    float);
+void  enigma_score_append          (enigma_crack_config_t*,                               enigma_t*,
+                                    const char*,                                          float);
 int   enigma_score_flags           (const char*,                                          const enigma_crack_config_t*);
 void  enigma_score_print           (const enigma_score_list_t*);
 void  enigma_score_sort            (enigma_score_list_t*);

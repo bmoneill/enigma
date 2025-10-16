@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     }
 
     enigma_print_config(&enigma, buf);
-    printf("%s", buf);
+    printf("%s\n", buf);
 
     // Main loop
     int c;

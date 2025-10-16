@@ -62,14 +62,16 @@ int main(int argc, char* argv[]) {
 
     enigma_crack_config_t* cfg = calloc(1, sizeof(enigma_crack_config_t));
     enigma_init_default_config(&cfg->enigma);
+    cfg->ciphertext = argv[argc - 1];
+    cfg->ciphertextLen = strlen(cfg->ciphertext);
     int method = 0;
     int target = 0;
     int param = 0;
 
-    if (strcmp(argv[1], "ioc")) {
+    if (!strcmp(argv[1], "ioc")) {
         method = METHOD_IOC;
     }
-    else if (strcmp(argv[1], "ngram")) {
+    else if (!strcmp(argv[1], "ngram")) {
         method = METHOD_NGRAM;
     }
     else {
@@ -79,22 +81,18 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if (!strcmp(argv[2], "rotor")) {
+    if (!strncmp(argv[2], "rotor", strlen("rotor"))) {
         target = TARGET_ROTOR;
         if (strlen(argv[2]) > strlen("rotor")) {
             param = argv[2][strlen("rotor")] - '0';
         }
-    }
-    else if (!strcmp(argv[2], "positions")) {
+    } else if (!strcmp(argv[2], "positions")) {
         target = TARGET_POSITIONS;
-    }
-    else if (!strcmp(argv[2], "reflector")) {
+    } else if (!strcmp(argv[2], "reflector")) {
         target = TARGET_REFLECTOR;
-    }
-    else if (!strcmp(argv[2], "plugboard")) {
+    } else if (!strcmp(argv[2], "plugboard")) {
         target = TARGET_PLUGBOARD;
-    }
-    else {
+    } else {
         fprintf(stderr, "Unknown target: %s\n", argv[2]);
         fprintf(stderr, USAGE, argv[0]);
         free(cfg);
@@ -127,6 +125,11 @@ int main(int argc, char* argv[]) {
         default: clean_exit("Error: Unknown option", argv[0], cfg, 1);
         }
     }
+
+    cfg->scores = malloc(sizeof(enigma_score_list_t));
+    cfg->scores->scores = malloc(100 * sizeof(enigma_score_t));
+    cfg->scores->scoreCount = 0;
+    cfg->scores->maxScores = 100;
 
     switch (method) {
     case METHOD_IOC:
@@ -186,6 +189,8 @@ int main(int argc, char* argv[]) {
     }
     break;
     }
+
+    enigma_score_print(cfg->scores);
 
     free(cfg);
     return 0;
