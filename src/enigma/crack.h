@@ -8,17 +8,26 @@
 
 #include "enigma.h"
 
-#define ENIGMA_PREDEFINED_PLUGBOARD_SETTINGS 1
-#define ENIGMA_PREDEFINED_ROTOR_SETTINGS     2
-#define ENIGMA_PREDEFINED_ROTOR_POSITIONS    4
-#define ENIGMA_PREDEFINED_REFLECTOR          8
-#define ENIGMA_FLAG_X_SPACED                 16
+#define ENIGMA_FLAG_DICTIONARY_MATCH         1
+#define ENIGMA_FLAG_FREQUENCY                2
 
 #define ENIGMA_PRINT_CONFIG(e) printf("%s %s %s %c%c%c %s %s", \
                                       e.rotors[0].name, e.rotors[1].name, e.rotors[2].name, \
                                       e.rotors[0].idx, e.rotors[1].idx, e.rotors[2].idx, \
                                       e.reflector.name, e.plugboard);
 
+
+typedef struct {
+    char ngram[5];
+    float score;
+    int count;
+} enigma_ngram_t;
+
+typedef struct {
+    enigma_ngram_t* ngrams;
+    int count;
+    int n;
+} enigma_ngram_list_t;
 
 typedef struct {
     enigma_t        enigma;
@@ -32,34 +41,26 @@ typedef struct {
 } enigma_score_list_t;
 
 typedef struct {
+    enigma_ngram_list_t* ngrams;
+    enigma_score_list_t* scores;
+    const char**         dictionary;
+    int                  dictSize;
+    int                  frequencies;
     enigma_t             enigma;
-    int                  method;
-    int                  target;
-    int                  target_param;
-    const char*          plaintext;
-    int                  plaintextPos;
-    int                  plaintextLen;
     const char*          ciphertext;
     int                  ciphertextLen;
     float                minScore;
     float                maxScore;
     float                targetScore;
-    int                  ngramCount;
-    int                  maxPlugboardSettings;
-    int                  maxThreads;
-    const char**         dictionary;
-    int                  dictSize;
     int                  flags;
-    float*               letterFreqTargets;
-    float                letterFreqOffset;
 } enigma_crack_config_t;
 
-void enigma_crack_rotor            (const enigma_crack_config_t*,  int,                           enigma_score_list_t*,
-                                    float (*)(const char*));
-void enigma_crack_rotors           (const enigma_crack_config_t*,  enigma_score_list_t*,          float (*)(const char*));
-void enigma_crack_rotor_positions  (const enigma_crack_config_t*,  enigma_score_list_t*,          float (*)(const char*));
-void enigma_crack_reflector        (const enigma_crack_config_t*,  enigma_score_list_t*,          float (*)(const char*));
-void enigma_crack_plugboard        (const enigma_crack_config_t*,  enigma_score_list_t*,          float (*)(const char*));
+void enigma_crack_rotor            (enigma_crack_config_t*,  int,
+                                    float (*)(const char*, const enigma_crack_config_t*));
+void enigma_crack_rotors           (enigma_crack_config_t*,  float (*)(const char*, const enigma_crack_config_t*));
+void enigma_crack_rotor_positions  (enigma_crack_config_t*,  float (*)(const char*, const enigma_crack_config_t*));
+void enigma_crack_reflector        (enigma_crack_config_t*,  float (*)(const char*, const enigma_crack_config_t*));
+void enigma_crack_plugboard        (enigma_crack_config_t*,  float (*)(const char*, const enigma_crack_config_t*));
 
 void  enigma_find_potential_indices(const char*,                    const char*,                  int*);
 int   enigma_dict_match            (const char*,                    const enigma_crack_config_t*);

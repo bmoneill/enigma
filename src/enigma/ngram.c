@@ -120,5 +120,5 @@ void enigma_ngram_analyze(const char* plaintext, const enigma_crack_config_t* cf
     case 4: score = enigma_quadram_score(plaintext, cfg, (const float*)ngramList->ngrams); break;
     }
 
-    enigma_score_append(enigma_scores, score);
+    enigma_score_append(cfg->scores, score);
 }
