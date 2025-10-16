@@ -118,7 +118,7 @@ void enigma_init_default_config(enigma_t* enigma) {
     enigma->rotors[1] = enigma_rotor_II;
     enigma->rotors[0] = enigma_rotor_III;
     enigma->rotor_flag = 0;
-    enigma->plugboard = NULL;
+    memset(enigma->plugboard, 0, 27);
 }
 
 /**
@@ -159,12 +159,6 @@ void enigma_init_random_config(enigma_t* enigma) {
     memcpy(&enigma->reflector, enigma_reflectors[rand() % ENIGMA_REFLECTOR_COUNT], sizeof(enigma_reflector_t));
 
     int plugboardSize = rand() % 11;
-    if (plugboardSize == 0) {
-        enigma->plugboard = NULL;
-    } else {
-        enigma->plugboard = malloc((ENIGMA_ALPHA_SIZE + 1) * sizeof(char));
-    }
-
     for (int i = 0; i < plugboardSize * 2; i++) {
         unique = false;
         while (!unique) {

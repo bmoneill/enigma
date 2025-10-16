@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
     enigma_init_default_config(&cfg->enigma);
     cfg->ciphertext = argv[argc - 1];
     cfg->ciphertextLen = strlen(cfg->ciphertext);
+    cfg->enigma.plugboard[0] = '\0';
     int method = 0;
     int target = 0;
     int param = 0;
@@ -106,7 +107,7 @@ int main(int argc, char* argv[]) {
         case 'w': enigma_load_rotor_config(&cfg->enigma, optarg); break;
         case 'p': enigma_load_rotor_positions(&cfg->enigma, optarg); break;
         case 'u': enigma_load_reflector_config(&cfg->enigma, optarg); break;
-        case 's': cfg->enigma.plugboard = optarg; break;
+        case 's': strcpy(cfg->enigma.plugboard, optarg); break;
         case 'c':
             cfg->flags |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
             cfg->plaintext = optarg;

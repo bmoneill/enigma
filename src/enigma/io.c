@@ -64,7 +64,6 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
     }
 
     if (strcmp(enigma->plugboard, "None")) {
-        enigma->plugboard = malloc(ENIGMA_ALPHA_SIZE + 1); // This won't be freed but it's okay
         strcpy(enigma->plugboard, plugboard);
     }
 
@@ -280,7 +279,7 @@ void enigma_print_config(const enigma_t* enigma, char* out) {
     sprintf(out, "%s %s %s|%c%c%c|%s|%s",
             enigma->rotors[0].name, enigma->rotors[1].name, enigma->rotors[2].name,
             enigma->rotors[0].idx + 'A', enigma->rotors[1].idx + 'A', enigma->rotors[2].idx + 'A',
-            enigma->reflector.name, enigma->plugboard ? enigma->plugboard : "None");
+            enigma->reflector.name, enigma->plugboard[0] == '\0' ? enigma->plugboard : "None");
 }
 
 /**

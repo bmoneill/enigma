@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     char* rotorpos = NULL;
     while ((opt = getopt(argc, argv, "s:p:u:w:r")) != -1) {
         switch (opt) {
-        case 's': enigma.plugboard = optarg; break;
+        case 's': strcpy(enigma.plugboard, optarg); break;
         case 'p': rotorpos = optarg; break;
         case 'u': if (enigma_load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
         case 'w': if (enigma_load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;

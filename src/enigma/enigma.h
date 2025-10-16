@@ -32,7 +32,7 @@ typedef struct {
     int                rotor_flag;
     int                rotor_count;
     enigma_reflector_t reflector;
-    char*              plugboard;
+    char               plugboard[27];
 } enigma_t;
 
 char enigma_encode             (enigma_t*, int);
