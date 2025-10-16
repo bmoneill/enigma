@@ -10,7 +10,7 @@ var crack_8c =
     [ "enigma_find_potential_indices", "crack_8c.html#ad85d040b3242a0eb68c0204b3314d7f3", null ],
     [ "enigma_freq", "crack_8c.html#aff46e90c0d6462b6d34f6f92b1398010", null ],
     [ "enigma_letter_freq", "crack_8c.html#a2980724a6c96d19ab16aaf1df5c7221e", null ],
-    [ "enigma_score_append", "crack_8c.html#a37895aaeb3e59d0da6351ac53f08c517", null ],
+    [ "enigma_score_append", "crack_8c.html#aa2bde322034d6efbdf3d0db7e73ef5fb", null ],
     [ "enigma_score_flags", "crack_8c.html#a7cd48d751b26dc23ebf8984cb81fe4d7", null ],
     [ "enigma_score_print", "crack_8c.html#a6dbf4b86bd945b66668a7b65665cb020", null ],
     [ "enigma_score_sort", "crack_8c.html#a3832cd1663b567eaf19ca29c90d6c176", null ]

@@ -137,9 +137,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2980724a6c96d19ab16aaf1df5c7221e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a2980724a6c96d19ab16aaf1df5c7221e">enigma_letter_freq</a> (const char *plaintext, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
 <tr class="memdesc:a2980724a6c96d19ab16aaf1df5c7221e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the letter frequencies in the plaintext match target frequencies within an offset.  <br /></td></tr>
 <tr class="separator:a2980724a6c96d19ab16aaf1df5c7221e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37895aaeb3e59d0da6351ac53f08c517"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a37895aaeb3e59d0da6351ac53f08c517">enigma_score_append</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *plaintext, float score)</td></tr>
-<tr class="memdesc:a37895aaeb3e59d0da6351ac53f08c517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a score to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>.  <br /></td></tr>
-<tr class="separator:a37895aaeb3e59d0da6351ac53f08c517"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2bde322034d6efbdf3d0db7e73ef5fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#aa2bde322034d6efbdf3d0db7e73ef5fb">enigma_score_append</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, <a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *plaintext, float score)</td></tr>
+<tr class="memdesc:aa2bde322034d6efbdf3d0db7e73ef5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a score to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>.  <br /></td></tr>
+<tr class="separator:aa2bde322034d6efbdf3d0db7e73ef5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cd48d751b26dc23ebf8984cb81fe4d7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a7cd48d751b26dc23ebf8984cb81fe4d7">enigma_score_flags</a> (const char *plaintext, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
 <tr class="memdesc:a7cd48d751b26dc23ebf8984cb81fe4d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the flags for a given plaintext based on the crack configuration.  <br /></td></tr>
 <tr class="separator:a7cd48d751b26dc23ebf8984cb81fe4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -527,8 +527,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a37895aaeb3e59d0da6351ac53f08c517" name="a37895aaeb3e59d0da6351ac53f08c517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37895aaeb3e59d0da6351ac53f08c517">&#9670;&#160;</a></span>enigma_score_append()</h2>
+<a id="aa2bde322034d6efbdf3d0db7e73ef5fb" name="aa2bde322034d6efbdf3d0db7e73ef5fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2bde322034d6efbdf3d0db7e73ef5fb">&#9670;&#160;</a></span>enigma_score_append()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -538,6 +538,12 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
           <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -564,6 +570,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
+    <tr><td class="paramname">enigma</td><td>Pointer to the <a class="el" href="structenigma__t.html" title="Represents the state and configuration of an Enigma machine.">enigma_t</a> structure representing the scored configuration. </td></tr>
     <tr><td class="paramname">plaintext</td><td>The plaintext corresponding to the score. </td></tr>
     <tr><td class="paramname">score</td><td>The score to append. </td></tr>
   </table>
