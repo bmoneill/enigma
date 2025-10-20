@@ -104,6 +104,10 @@ int enigma_load_config_s(enigma_t* enigma, const char* s) {
  * @return 0 on success, non-zero on failure.
  */
 int enigma_load_custom_reflector(enigma_reflector_t* reflector, const char* alphabet, const char* name) {
+    if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
+        return 1;
+    }
+
     reflector->name = name;
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         reflector->indices[i] = toupper(alphabet[i]) - 'A';
@@ -135,6 +139,69 @@ int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const 
         rotor->rev_indices[rotor->fwd_indices[i]] = i;
     }
 
+    return 0;
+}
+
+/**
+ * @brief Load ngrams from a file.
+ *
+ * The file should have the following format:
+ * First line: <n> <lineCount>
+ * Subsequent lines: <count> <ngram>
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param path Path to the ngram file.
+ * @return 0 on success, non-zero on failure.
+ */
+int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
+    char line[16];
+    int n = 0;
+    int lineCount = 0;
+    int reallocCount = 0;
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        fprintf(stderr, "Failed to open ngram file: %s\n", path);
+    }
+
+
+    if (fgets(line, sizeof(line), f)) {
+        // First line should be n value and line count of original text
+        if (sscanf(line, "%d %d", &n, &lineCount) != 2) {
+            fprintf(stderr, "Invalid ngram file format: %s\n", path);
+            fclose(f);
+            return 1;
+        }
+    } else {
+        fprintf(stderr, "Failed to read ngram file: %s\n", path);
+        free(cfg->ngrams);
+        fclose(f);
+        return 1;
+    }
+
+    if (n > 4 || n < 1) {
+        fprintf(stderr, "N-grams must be of size 2-4. Unsupported size: %d\n", n);
+        free(cfg->ngrams);
+        fclose(f);
+        return 1;
+    }
+    cfg->ngrams = calloc(pow(26, n), sizeof(float));
+    cfg->n = n;
+
+    char s[5];
+    int count = 0;
+    while (fgets(line, sizeof(line), f)) {
+        if (sscanf(line, "%d %4s", &count, s) == 2) {
+            switch (n) {
+                case 2: cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float)count / lineCount; break;
+                case 3: cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float)count / lineCount; break;
+                case 4: cfg->ngrams[ENIGMA_QUADIDX(s[0], s[1], s[2], s[3])] = (float)count / lineCount; break;
+            }
+        } else {
+            break;
+        }
+    }
+
+    fclose(f);
     return 0;
 }
 
@@ -231,69 +298,6 @@ int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
         enigma->rotors[i].idx = toupper(s[i]) - 'A';
     }
 
-    return 0;
-}
-
-/**
- * @brief Load ngrams from a file.
- *
- * The file should have the following format:
- * First line: <n> <lineCount>
- * Subsequent lines: <count> <ngram>
- *
- * @param cfg Pointer to the cracking configuration structure.
- * @param path Path to the ngram file.
- * @return 0 on success, non-zero on failure.
- */
-int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
-    char line[16];
-    int n = 0;
-    int lineCount = 0;
-    int reallocCount = 0;
-    FILE* f = fopen(path, "r");
-    if (!f) {
-        fprintf(stderr, "Failed to open ngram file: %s\n", path);
-    }
-
-
-    if (fgets(line, sizeof(line), f)) {
-        // First line should be n value and line count of original text
-        if (sscanf(line, "%d %d", &n, &lineCount) != 2) {
-            fprintf(stderr, "Invalid ngram file format: %s\n", path);
-            fclose(f);
-            return 1;
-        }
-    } else {
-        fprintf(stderr, "Failed to read ngram file: %s\n", path);
-        free(cfg->ngrams);
-        fclose(f);
-        return 1;
-    }
-
-    if (n > 4 || n < 1) {
-        fprintf(stderr, "N-grams must be of size 2-4. Unsupported size: %d\n", n);
-        free(cfg->ngrams);
-        fclose(f);
-        return 1;
-    }
-    cfg->ngrams = calloc(pow(26, n), sizeof(float));
-    cfg->n = n;
-
-    char s[5];
-    int count = 0;
-    while (fgets(line, sizeof(line), f)) {
-        if (sscanf(line, "%d %4s", &count, s) == 2) {
-            switch (n) {
-                case 2: cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float)count / lineCount; break;
-                case 3: cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float)count / lineCount; break;
-                case 4: cfg->ngrams[ENIGMA_QUADIDX(s[0], s[1], s[2], s[3])] = (float)count / lineCount; break;
-            }
-        } else {
-            break;
-        }
-    }
-
-    fclose(f);
     return 0;
 }
 
