@@ -155,15 +155,14 @@ void test_enigma_print_config(void) {
     enigma_t enigma;
     char buf[128];
 
-    // Setup a simple configuration
     enigma.rotor_count = 2;
-    enigma.rotors[0] = *enigma_rotors[0]; // Rotor I
-    enigma.rotors[0].idx = 0;             // Position A
-    enigma.rotors[1] = *enigma_rotors[1]; // Rotor II
-    enigma.rotors[1].idx = 1;             // Position B
-    enigma.rotors[2] = *enigma_rotors[2]; // Rotor III
-    enigma.rotors[2].idx = 2;             // Position C
-    enigma.reflector = *enigma_reflectors[1]; // Reflector B
+    enigma.rotors[0] = *enigma_rotors[0];
+    enigma.rotors[0].idx = 0;
+    enigma.rotors[1] = *enigma_rotors[1];
+    enigma.rotors[1].idx = 1;
+    enigma.rotors[2] = *enigma_rotors[2];
+    enigma.rotors[2].idx = 2;
+    enigma.reflector = *enigma_reflectors[1];
     strcpy(enigma.plugboard, "ABCDEF");
 
     enigma_print_config(&enigma, buf);
