@@ -5,26 +5,17 @@
  */
 #include "ngram.h"
 
-#include "common.h"
 #include "crack.h"
-#include "io.h"
-#include "threads.h"
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /**
  * @brief Score text using bigram frequencies.
  *
- * @param text The text to score.
  * @param cfg Pointer to the cracking configuration structure.
- * @param bigrams Array of bigram scores indexed by ENIGMA_BIIDX(a, b).
+ * @param text The text to score.
  *
  * @return The total bigram score.
  */
-float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg) {
+float enigma_bigram_score(const enigma_crack_config_t* cfg, const char* text) {
     float total = 0.0f;
     int next = text[0] - 'A';
 
@@ -43,13 +34,12 @@ float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg) {
 /**
  * @brief Score text using trigram frequencies.
  *
- * @param text The text to score.
  * @param cfg Pointer to the cracking configuration structure.
- * @param trigrams Array of trigram scores indexed by ENIGMA_TRIIDX(a, b, c).
+ * @param text The text to score.
  *
  * @return The total trigram score.
  */
-float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg) {
+float enigma_trigram_score(const enigma_crack_config_t* cfg, const char* text) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
     int next2 = text[1] - 'A';
@@ -70,13 +60,12 @@ float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg) {
 /**
  * @brief Score text using quadgram frequencies.
  *
- * @param text The text to score.
  * @param cfg Pointer to the cracking configuration structure.
- * @param quadgrams Array of quadgram scores indexed by ENIGMA_QUADIDX(a, b, c, d).
+ * @param text The text to score.
  *
  * @return The total quadgram score.
  */
-float enigma_quadgram_score(const char* text, const enigma_crack_config_t* cfg) {
+float enigma_quadgram_score(const enigma_crack_config_t* cfg, const char* text) {
     float total = 0.0f;
     int next1 = text[0] - 'A';
     int next2 = text[1] - 'A';

@@ -5,21 +5,18 @@
  */
 #include "ioc.h"
 
-#include <stdio.h>
-#include <string.h>
-
 /**
  * @brief Score text using Index of Coincidence.
  *
  * This function calculates the Index of Coincidence for the given text and returns
  *
- * @param text The text to score.
  * @param cfg Pointer to the cracking configuration structure.
+ * @param text The text to score.
  */
-float enigma_ioc_score(const char* text, const enigma_crack_config_t* cfg) {
+float enigma_ioc_score(const enigma_crack_config_t* cfg, const char* text) {
     int freq[26] = { 0 };
     float total = 0.0f;
-    int len = strlen(text);
+    int len = cfg->ciphertextLen;
 
     for (int i = 0; i < len; i++) {
         if (text[i] < 'A' || text[i] > 'Z') {
@@ -32,9 +29,7 @@ float enigma_ioc_score(const char* text, const enigma_crack_config_t* cfg) {
         total += (float)freq[i] * (freq[i] - 1);
     }
 
-    printf("Total: %.2f, Len: %d\n", total, len);
     float score = total / (float)(len * (len - 1));
-    printf("Total: %.2f, Len: %d, Score: %.4f\n", total, len, score);
     return score;
 
 }
