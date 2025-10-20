@@ -1,16 +1,17 @@
 #include "unity.h"
 #include "enigma/io.h"
 
+#include <stdlib.h>
 #include <string.h>
 
 void setUp(void) { }
 
 void tearDown(void) { }
 
-void test_enigma_load_config_s(void) {
+void test_enigma_load_config(void) {
     const char* configStr = "I II III|XYZ|B|ABCDEF";
     enigma_t enigma;
-    int result = enigma_load_config_s(&enigma, configStr);
+    int result = enigma_load_config(&enigma, configStr);
 
     TEST_ASSERT_EQUAL_INT(0, result);
     TEST_ASSERT_EQUAL_INT(3, enigma.rotor_count);
@@ -63,6 +64,33 @@ void test_enigma_load_custom_rotor(void) {
     TEST_ASSERT_NOT_EQUAL(0, result);
 }
 
+void test_load_ngrams(void) {
+    // Assumes test/files/bigrams.txt contains:
+    // 2 500
+    // 10 TH
+    // 5 CH
+    // 1 EA
+    // 50 HE
+    // 20 AR
+
+    int charCount = 500;
+
+    const char* ngramFilePath = "test/files/bigrams.txt";
+    enigma_crack_config_t cfg;
+
+    int result = enigma_load_ngrams(&cfg, ngramFilePath);
+    TEST_ASSERT_EQUAL(0, result);
+    TEST_ASSERT_EQUAL_INT(2, cfg.n);
+    TEST_ASSERT_NOT_NULL(cfg.ngrams);
+    TEST_ASSERT_EQUAL_FLOAT(10.0/charCount, cfg.ngrams[ENIGMA_BIIDX('T', 'H')]);
+    TEST_ASSERT_EQUAL_FLOAT(5.0/charCount, cfg.ngrams[ENIGMA_BIIDX('C', 'H')]);
+    TEST_ASSERT_EQUAL_FLOAT(1.0/charCount, cfg.ngrams[ENIGMA_BIIDX('E', 'A')]);
+    TEST_ASSERT_EQUAL_FLOAT(50.0/charCount, cfg.ngrams[ENIGMA_BIIDX('H', 'E')]);
+    TEST_ASSERT_EQUAL_FLOAT(20.0/charCount, cfg.ngrams[ENIGMA_BIIDX('A', 'R')]);
+
+    free(cfg.ngrams);
+}
+
 void test_enigma_load_plugboard_config(void) {
     const char* plugboardConfig = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const char* longPlugboardConfig = "ABCDEFGHIJKLMNOPQRSTUVWXYZA"; // 27 characters
@@ -105,8 +133,8 @@ void test_enigma_load_rotor_config(void) {
     TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1].name);
     TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[2].name);
 
-//    result = enigma_load_rotor_config(&enigma, "NonExistentRotor");
-//    TEST_ASSERT_NOT_EQUAL(0, result);
+    result = enigma_load_rotor_config(&enigma, "NonExistentRotor");
+    TEST_ASSERT_NOT_EQUAL(0, result);
 }
 
 void test_enigma_load_rotor_positions(void) {
@@ -123,16 +151,38 @@ void test_enigma_load_rotor_positions(void) {
     TEST_ASSERT_NOT_EQUAL(0, result);
 }
 
+void test_enigma_print_config(void) {
+    enigma_t enigma;
+    char buf[128];
+
+    // Setup a simple configuration
+    enigma.rotor_count = 2;
+    enigma.rotors[0] = *enigma_rotors[0]; // Rotor I
+    enigma.rotors[0].idx = 0;             // Position A
+    enigma.rotors[1] = *enigma_rotors[1]; // Rotor II
+    enigma.rotors[1].idx = 1;             // Position B
+    enigma.rotors[2] = *enigma_rotors[2]; // Rotor III
+    enigma.rotors[2].idx = 2;             // Position C
+    enigma.reflector = *enigma_reflectors[1]; // Reflector B
+    strcpy(enigma.plugboard, "ABCDEF");
+
+    enigma_print_config(&enigma, buf);
+
+    TEST_ASSERT_EQUAL_STRING("I II III|ABC|B|ABCDEF", buf);
+}
+
 int main(void) {
     UNITY_BEGIN();
 
-    RUN_TEST(test_enigma_load_config_s);
+    RUN_TEST(test_enigma_load_config);
     RUN_TEST(test_enigma_load_custom_reflector);
     RUN_TEST(test_enigma_load_custom_rotor);
+    RUN_TEST(test_load_ngrams);
     RUN_TEST(test_enigma_load_plugboard_config);
     RUN_TEST(test_enigma_load_reflector_config);
     RUN_TEST(test_enigma_load_rotor_config);
     RUN_TEST(test_enigma_load_rotor_positions);
+    RUN_TEST(test_enigma_print_config);
 
     return UNITY_END();
 }
