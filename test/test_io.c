@@ -75,7 +75,7 @@ void test_load_ngrams(void) {
 
     int charCount = 500;
 
-    const char* ngramFilePath = "test/data/bigrams.txt";
+    const char* ngramFilePath = "data/bigrams.txt";
     enigma_crack_config_t cfg;
 
     int result = enigma_load_ngrams(&cfg, ngramFilePath);
