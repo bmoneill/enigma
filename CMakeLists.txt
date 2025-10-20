@@ -14,7 +14,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -D_DEFAULT_SOURCE -D_BSD_
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
 
 # Debugging and Profiling
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg")
 
 function(Enable_Tests)
   set(TEST ON CACHE INTERNAL "")

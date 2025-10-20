@@ -19,11 +19,11 @@
 
 #define ALPHA2IDX(c) ((c) - 'A')
 
-static ENIGMA_ALWAYS_INLINE void rotate            (enigma_rotor_t*);
+static ENIGMA_ALWAYS_INLINE void rotate            (int*);
 static ENIGMA_ALWAYS_INLINE void rotate_rotors     (enigma_t*);
-static ENIGMA_ALWAYS_INLINE int  rotor_pass_forward(enigma_rotor_t*, int);
-static ENIGMA_ALWAYS_INLINE int  rotor_pass_reverse(enigma_rotor_t*, int);
-static ENIGMA_ALWAYS_INLINE char substitute        (const char*,     char);
+static ENIGMA_ALWAYS_INLINE int  rotor_pass_forward(const enigma_rotor_t*, int,  int);
+static ENIGMA_ALWAYS_INLINE int  rotor_pass_reverse(const enigma_rotor_t*, int,  int);
+static ENIGMA_ALWAYS_INLINE char substitute        (const char*,           char);
 
 /**
  * @brief Encode a character using the Enigma machine.
@@ -48,15 +48,15 @@ char enigma_encode(enigma_t* enigma, int c) {
 
     // Rotors
     for (int i = 0; i < enigma->rotor_count; i++) {
-        c = rotor_pass_forward(&enigma->rotors[i], c);
+        c = rotor_pass_forward(enigma->rotors[i], enigma->rotor_indices[i], c);
     }
 
     // Reflector
-    c = enigma->reflector.indices[c];
+    c = enigma->reflector->indices[c];
 
     // Rotors in reverse
     for (int i = enigma->rotor_count - 1; i >= 0; i--) {
-        c = rotor_pass_reverse(&enigma->rotors[i], c);
+        c = rotor_pass_reverse(enigma->rotors[i], enigma->rotor_indices[i], c);
     }
 
     // Plugboard again
@@ -96,7 +96,9 @@ void enigma_encode_string(enigma_t* enigma, const char* input, char* output, int
  */
 void enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int count) {
     enigma->rotor_flag = 0;
-    memcpy(enigma->rotors, rotors, count * sizeof(enigma_rotor_t));
+    for (int i = 0; i < count; i++) {
+        enigma->rotors[i] = &rotors[i];
+    }
     enigma->rotor_count = count;
 }
 
@@ -112,11 +114,14 @@ void enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int coun
  * @param enigma Pointer to the `enigma_t` to be initialized.
  */
 void enigma_init_default_config(enigma_t* enigma) {
-    enigma->reflector = enigma_UKW_B;
+    enigma->reflector = &enigma_UKW_B;
     enigma->rotor_count = 3;
-    enigma->rotors[2] = enigma_rotor_I;
-    enigma->rotors[1] = enigma_rotor_II;
-    enigma->rotors[0] = enigma_rotor_III;
+    enigma->rotors[2] = &enigma_rotor_I;
+    enigma->rotors[1] = &enigma_rotor_II;
+    enigma->rotors[0] = &enigma_rotor_III;
+    enigma->rotor_indices[0] = 0;
+    enigma->rotor_indices[1] = 0;
+    enigma->rotor_indices[2] = 0;
     enigma->rotor_flag = 0;
     memset(enigma->plugboard, 0, 27);
 }
@@ -145,18 +150,18 @@ void enigma_init_random_config(enigma_t* enigma) {
             unique = 1;
             candidate = enigma_rotors[rand() % ENIGMA_ROTOR_COUNT];
             for (int j = 0; j < i; j++) {
-                if (!strcmp(enigma->rotors[j].name, candidate->name)) {
+                if (!strcmp(enigma->rotors[j]->name, candidate->name)) {
                     unique = 0;
                     break;
                 }
             }
         }
-        memcpy(&enigma->rotors[i], candidate, sizeof(enigma_rotor_t));
-        enigma->rotors[i].idx = rand() % ENIGMA_ALPHA_SIZE;
+        enigma->rotors[i] = candidate;
+        enigma->rotor_indices[i] = rand() % ENIGMA_ALPHA_SIZE;
         unique = 0;
     }
 
-    memcpy(&enigma->reflector, enigma_reflectors[rand() % ENIGMA_REFLECTOR_COUNT], sizeof(enigma_reflector_t));
+    enigma->reflector = enigma_reflectors[rand() % ENIGMA_REFLECTOR_COUNT];
 
     int plugboardSize = rand() % 11;
     for (int i = 0; i < plugboardSize * 2; i++) {
@@ -185,10 +190,10 @@ void enigma_init_random_config(enigma_t* enigma) {
  *
  * @param rotor Pointer to the rotor to be rotated.
  */
-static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor) {
-    rotor->idx++;
-    if (rotor->idx == ENIGMA_ALPHA_SIZE) {
-        rotor->idx = 0;
+static ENIGMA_ALWAYS_INLINE void rotate(int* idx) {
+    (*idx)++;
+    if (*idx == ENIGMA_ALPHA_SIZE) {
+        *idx = 0;
     }
 }
 
@@ -202,43 +207,44 @@ static ENIGMA_ALWAYS_INLINE void rotate(enigma_rotor_t* rotor) {
  */
 static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t* enigma) {
     int turned = 0;
-    for (int i = 0; i < enigma->rotors[1].numNotches; i++) {
-        if (enigma->rotors[1].fwd_indices[enigma->rotors[1].idx] == enigma->rotors[1].notches[i]) {
-            rotate(&enigma->rotors[1]);
-            rotate(&enigma->rotors[2]);
+    for (int i = 0; i < enigma->rotors[1]->numNotches; i++) {
+        if (enigma->rotors[1]->fwd_indices[enigma->rotor_indices[1]] == enigma->rotors[1]->notches[i]) {
+            rotate(&enigma->rotor_indices[1]);
+            rotate(&enigma->rotor_indices[2]);
             turned = 1;
             break;
         }
     }
 
     if (!turned) {
-        for (int i = 0; i < enigma->rotors[0].numNotches; i++) {
-            if (enigma->rotors[0].fwd_indices[enigma->rotors[0].idx] == enigma->rotors[0].notches[i]) {
-                rotate(&enigma->rotors[1]);
+        for (int i = 0; i < enigma->rotors[0]->numNotches; i++) {
+            if (enigma->rotors[0]->fwd_indices[enigma->rotor_indices[0]] == enigma->rotors[0]->notches[i]) {
+                rotate(&enigma->rotor_indices[1]);
                 break;
             }
         }
     }
-    rotate(&enigma->rotors[0]);
+    rotate(&enigma->rotor_indices[0]);
 }
 
 /**
  * @brief Pass through a rotor in the forward direction.
  *
- * @param rotor Pointer to the `rotor_t`.
+ * @param rotor Pointer to the rotor struct.
+ * @param rotIdx The rotor's current index.
  * @param idx The index of the character in the alphabet.
  *
  * @return The index of the character after passing through the rotor.
  */
-static ENIGMA_ALWAYS_INLINE int rotor_pass_forward(enigma_rotor_t* rotor, int idx) {
-    idx = idx + rotor->idx;
+static ENIGMA_ALWAYS_INLINE int rotor_pass_forward(const enigma_rotor_t* rotor, int rotIdx, int idx) {
+    idx = idx + rotIdx;
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;
     }
 
     idx = rotor->fwd_indices[idx];
 
-    idx = (ENIGMA_ALPHA_SIZE + idx - rotor->idx);
+    idx = (ENIGMA_ALPHA_SIZE + idx - rotIdx);
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;
     }
@@ -248,20 +254,21 @@ static ENIGMA_ALWAYS_INLINE int rotor_pass_forward(enigma_rotor_t* rotor, int id
 /**
  * @brief Pass through a rotor in the reverse direction.
  *
- * @param rotor Pointer to the `rotor_t`.
+ * @param rotor Pointer to the rotor struct.
+ * @param rotIdx The rotor's current index.
  * @param idx The index of the character in the alphabet.
  *
  * @return The index of the character after passing through the rotor.
  */
-static ENIGMA_ALWAYS_INLINE int rotor_pass_reverse(enigma_rotor_t* rotor, int idx) {
-    idx += rotor->idx;
+static ENIGMA_ALWAYS_INLINE int rotor_pass_reverse(const enigma_rotor_t* rotor, int rotIdx, int idx) {
+    idx += rotIdx;
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;
     }
 
     idx = rotor->rev_indices[idx];
 
-    idx = (ENIGMA_ALPHA_SIZE + idx - rotor->idx);
+    idx = (ENIGMA_ALPHA_SIZE + idx - rotIdx);
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;
     }

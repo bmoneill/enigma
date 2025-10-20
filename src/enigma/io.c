@@ -8,10 +8,11 @@
 #include "crack.h"
 
 #include <ctype.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+static int ipow(int, int);
 
 /**
  * @brief Load an Enigma machine configuration from a string.
@@ -34,7 +35,7 @@ int enigma_load_config(enigma_t* enigma, const char* s) {
         fprintf(stderr, "Configuration string too long\n");
         return 1;
     }
-    strncpy(buf, s, sizeof(buf));
+    strcpy(buf, s);
 
     char* rotors = strtok(buf, "|");
     char* positions = strtok(NULL, "|");
@@ -159,7 +160,7 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
         fclose(f);
         return 1;
     }
-    cfg->ngrams = calloc(pow(26, n), sizeof(float));
+    cfg->ngrams = calloc(ipow(26, n), sizeof(float));
     cfg->n = n;
 
     char s[5];
@@ -212,7 +213,7 @@ int enigma_load_plugboard_config(enigma_t* enigma, const char* s) {
 int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
-            memcpy(&enigma->reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
+            enigma->reflector = enigma_reflectors[i];
             return 0;
         }
     }
@@ -234,7 +235,7 @@ int enigma_load_rotor_config(enigma_t* enigma, char* s) {
     while (token != NULL) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
             if (!strcmp(enigma_rotors[i]->name, token)) {
-                enigma->rotors[enigma->rotor_count++] = *enigma_rotors[i];
+                enigma->rotors[enigma->rotor_count++] = enigma_rotors[i];
                 break;
             }
 
@@ -270,7 +271,7 @@ int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
         if (!isalpha(s[i])) {
             return 1;
         }
-        enigma->rotors[i].idx = toupper(s[i]) - 'A';
+        enigma->rotor_indices[i] = toupper(s[i]) - 'A';
     }
 
     return 0;
@@ -284,7 +285,22 @@ int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
  */
 void enigma_print_config(const enigma_t* enigma, char* out) {
     sprintf(out, "%s %s %s|%c%c%c|%s|%s",
-            enigma->rotors[0].name, enigma->rotors[1].name, enigma->rotors[2].name,
-            enigma->rotors[0].idx + 'A', enigma->rotors[1].idx + 'A', enigma->rotors[2].idx + 'A',
-            enigma->reflector.name, enigma->plugboard[0] == '\0' ? "None" : enigma->plugboard);
+            enigma->rotors[0]->name, enigma->rotors[1]->name, enigma->rotors[2]->name,
+            enigma->rotor_indices[0] + 'A', enigma->rotor_indices[1] + 'A', enigma->rotor_indices[2] + 'A',
+            enigma->reflector->name, enigma->plugboard[0] == '\0' ? "None" : enigma->plugboard);
+}
+
+/**
+ * @brief Calculate base raised to the power of exp.
+ *
+ * @param base The base integer.
+ * @param exp The exponent integer.
+ * @return The result of base raised to the power of exp.
+ */
+static int ipow(int base, int exp) {
+    int result = 1;
+    for (int i = 0; i < exp; i++) {
+        result *= base;
+    }
+    return result;
 }

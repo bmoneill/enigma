@@ -12,12 +12,6 @@
 #define ENIGMA_FLAG_FREQUENCY                2
 #define ENIGMA_FLAG_KNOWN_PLAINTEXT          4
 
-#define ENIGMA_PRINT_CONFIG(e) printf("%s %s %s %c%c%c %s %s", \
-                                      e.rotors[0].name, e.rotors[1].name, e.rotors[2].name, \
-                                      e.rotors[0].idx, e.rotors[1].idx, e.rotors[2].idx, \
-                                      e.reflector.name, e.plugboard);
-
-
 typedef struct {
     enigma_t        enigma;
     float           score;
@@ -31,6 +25,7 @@ typedef struct {
 } enigma_score_list_t;
 
 typedef struct {
+    enigma_t             enigma;
     enigma_score_list_t* scores;
     const char**         dictionary;
     int                  dictSize;
@@ -38,7 +33,6 @@ typedef struct {
     float* ngrams;
     int n;
     int ngramLen;
-    enigma_t             enigma;
     const char*          ciphertext;
     int                  ciphertextLen;
     float                minScore;

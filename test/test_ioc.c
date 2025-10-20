@@ -1,4 +1,5 @@
 #include "unity.h"
+#include "enigma/crack.h"
 #include "enigma/ioc.h"
 
 #include <stdlib.h>
@@ -15,6 +16,7 @@ void test_enigma_ioc_score(void) {
 
     float score = enigma_ioc_score(text, cfg);
     TEST_ASSERT_GREATER_THAN(0, score);
+
     free(cfg);
 }
 

@@ -15,13 +15,13 @@ void test_enigma_load_config(void) {
 
     TEST_ASSERT_EQUAL_INT(0, result);
     TEST_ASSERT_EQUAL_INT(3, enigma.rotor_count);
-    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[0].name);
-    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1].name);
-    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[2].name);
-    TEST_ASSERT_EQUAL_CHAR('X', enigma.rotors[0].idx + 'A');
-    TEST_ASSERT_EQUAL_CHAR('Y', enigma.rotors[1].idx + 'A');
-    TEST_ASSERT_EQUAL_CHAR('Z', enigma.rotors[2].idx + 'A');
-    TEST_ASSERT_EQUAL_STRING("B", enigma.reflector.name);
+    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[0]->name);
+    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1]->name);
+    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[2]->name);
+    TEST_ASSERT_EQUAL_CHAR('X', enigma.rotor_indices[0] + 'A');
+    TEST_ASSERT_EQUAL_CHAR('Y', enigma.rotor_indices[1] + 'A');
+    TEST_ASSERT_EQUAL_CHAR('Z', enigma.rotor_indices[2] + 'A');
+    TEST_ASSERT_EQUAL_STRING("B", enigma.reflector->name);
     TEST_ASSERT_EQUAL_STRING("ABCDEF", enigma.plugboard);
 }
 
@@ -112,10 +112,10 @@ void test_enigma_load_reflector_config(void) {
 
     int result = enigma_load_reflector_config(&enigma, "B");
     TEST_ASSERT_EQUAL(0, result);
-    TEST_ASSERT_EQUAL_STRING("B", enigma.reflector.name);
+    TEST_ASSERT_EQUAL_STRING("B", enigma.reflector->name);
 
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-        TEST_ASSERT_EQUAL_INT(enigma_reflectors[1]->indices[i], enigma.reflector.indices[i]);
+        TEST_ASSERT_EQUAL_INT(enigma_reflectors[1]->indices[i], enigma.reflector->indices[i]);
     }
 
     result = enigma_load_reflector_config(&enigma, "NonExistentReflector");
@@ -129,9 +129,9 @@ void test_enigma_load_rotor_config(void) {
 
     int result = enigma_load_rotor_config(&enigma, buf);
     TEST_ASSERT_EQUAL(0, result);
-    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[0].name);
-    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1].name);
-    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[2].name);
+    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[0]->name);
+    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1]->name);
+    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[2]->name);
 
     result = enigma_load_rotor_config(&enigma, "NonExistentRotor");
     TEST_ASSERT_NOT_EQUAL(0, result);
@@ -143,9 +143,9 @@ void test_enigma_load_rotor_positions(void) {
 
     int result = enigma_load_rotor_positions(&enigma, "XYZ");
     TEST_ASSERT_EQUAL(0, result);
-    TEST_ASSERT_EQUAL_CHAR('X', enigma.rotors[0].idx + 'A');
-    TEST_ASSERT_EQUAL_CHAR('Y', enigma.rotors[1].idx + 'A');
-    TEST_ASSERT_EQUAL_CHAR('Z', enigma.rotors[2].idx + 'A');
+    TEST_ASSERT_EQUAL_CHAR('X', enigma.rotor_indices[0] + 'A');
+    TEST_ASSERT_EQUAL_CHAR('Y', enigma.rotor_indices[1] + 'A');
+    TEST_ASSERT_EQUAL_CHAR('Z', enigma.rotor_indices[2] + 'A');
 
     result = enigma_load_rotor_positions(&enigma, "X1Z");
     TEST_ASSERT_NOT_EQUAL(0, result);
@@ -155,14 +155,14 @@ void test_enigma_print_config(void) {
     enigma_t enigma;
     char buf[128];
 
-    enigma.rotor_count = 2;
-    enigma.rotors[0] = *enigma_rotors[0];
-    enigma.rotors[0].idx = 0;
-    enigma.rotors[1] = *enigma_rotors[1];
-    enigma.rotors[1].idx = 1;
-    enigma.rotors[2] = *enigma_rotors[2];
-    enigma.rotors[2].idx = 2;
-    enigma.reflector = *enigma_reflectors[1];
+    enigma.rotor_count = 3;
+    enigma.rotors[0] = enigma_rotors[0];
+    enigma.rotor_indices[0] = 0;
+    enigma.rotors[1] = enigma_rotors[1];
+    enigma.rotor_indices[1] = 1;
+    enigma.rotors[2] = enigma_rotors[2];
+    enigma.rotor_indices[2] = 2;
+    enigma.reflector = enigma_reflectors[1];
     strcpy(enigma.plugboard, "ABCDEF");
 
     enigma_print_config(&enigma, buf);

@@ -16,7 +16,6 @@ typedef struct {
     int rev_indices[ENIGMA_ALPHA_SIZE];
     int notches[2];
     int numNotches;
-    int idx;
 } enigma_rotor_t;
 
 // Indices here are entered manually to avoid extra calculation at runtime.
@@ -32,7 +31,6 @@ static const enigma_rotor_t enigma_rotor_I = {
     .rev_indices = { 20, 22, 24, 6, 0, 3, 5, 15, 21, 25, 1, 4, 2, 10, 12, 19, 7, 23, 18, 11, 17, 8, 13, 16, 14, 9 },
     .notches = { 16 },
     .numNotches = 1,
-    .idx = 0,
 };
 
 // Alphabet: "AJDKSIRUXBLHWTMCQGZNPYFVOE"
@@ -43,7 +41,6 @@ static const enigma_rotor_t enigma_rotor_II = {
     .rev_indices = { 0, 9, 15, 2, 25, 22, 17, 11, 5, 1, 3, 10, 14, 19, 24, 20, 16, 6, 4, 13, 7, 23, 12, 8, 21, 18 },
     .notches = { 4 },
     .numNotches = 1,
-    .idx = 0,
 };
 
 // Alphabet: "BDFHJLCPRTXVZNYEIWGAKMUSQO"
@@ -54,7 +51,6 @@ static const enigma_rotor_t enigma_rotor_III = {
     .rev_indices = { 19, 0, 6, 1, 15, 2, 18, 3, 16, 4, 20, 5, 21, 13, 25, 7, 24, 8, 23, 9, 22, 11, 17, 10, 14, 12 },
     .notches = { 21 },
     .numNotches = 1,
-    .idx = 0,
 };
 
 // Alphabet: "ESOVPZJAYQUIRHXLNFTGKDCMWB"
@@ -65,7 +61,6 @@ static const enigma_rotor_t enigma_rotor_IV = {
     .rev_indices = { 7, 25, 22, 21, 0, 17, 19, 13, 11, 6, 20, 15, 23, 16, 2, 4, 9, 12, 1, 18, 10, 3, 24, 14, 8, 5 },
     .notches = { 17 },
     .numNotches = 1,
-    .idx = 0,
 };
 
 // Alphabet: "VZBRGITYUPSDNHLXAWMJQOFECK"
@@ -76,7 +71,6 @@ static const enigma_rotor_t enigma_rotor_V = {
     .rev_indices = { 16, 2, 24, 11, 23, 22, 4, 13, 5, 19, 25, 14, 18, 12, 21, 9, 20, 3, 10, 6, 8, 0, 17, 15, 7, 1 },
     .notches = { 25 },
     .numNotches = 1,
-    .idx = 0,
 };
 
 // Alphabet = "JPGVOUMFYQBENHZRDKASXLICTW"
@@ -87,7 +81,6 @@ static const enigma_rotor_t enigma_rotor_VI = {
     .rev_indices = { 18, 10, 23, 16, 11, 7, 2, 13, 22, 0, 17, 21, 6, 12, 4, 1, 9, 15, 19, 24, 5, 3, 25, 20, 8, 14 },
     .notches = { 25, 12 },
     .numNotches = 2,
-    .idx = 0,
 };
 
 // Alphabet: "NZJHGRCXMYSWBOUFAIVLPEKQDT"
@@ -98,7 +91,6 @@ static const enigma_rotor_t enigma_rotor_VII = {
     .rev_indices = { 16, 12, 6, 24, 21, 15, 4, 3, 17, 2, 22, 19, 8, 0, 13, 20, 23, 5, 10, 25, 14, 18, 11, 7, 9, 1 },
     .notches = { 25, 12 },
     .numNotches = 2,
-    .idx = 0,
 };
 
 // Alphabet: "FKQHTLXOCBJSPDZRAMEWNIUYGV"
@@ -109,7 +101,6 @@ static const enigma_rotor_t enigma_rotor_VIII = {
     .rev_indices = { 16, 9, 8, 13, 18, 0, 24, 3, 21, 10, 1, 5, 17, 20, 7, 12, 2, 15, 11, 4, 22, 25, 19, 6, 23, 14 },
     .notches = { 25, 12 },
     .numNotches = 2,
-    .idx = 0,
 };
 
 static const enigma_rotor_t* enigma_rotors[] = {

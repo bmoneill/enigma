@@ -28,11 +28,12 @@
  * defined in `reflectors.h` and `rotors.h`.
  */
 typedef struct {
-    enigma_rotor_t     rotors[4];
-    int                rotor_flag;
-    int                rotor_count;
-    enigma_reflector_t reflector;
-    char               plugboard[27];
+    const enigma_rotor_t*     rotors[4];
+    int                       rotor_indices[4];
+    int                       rotor_flag;
+    int                       rotor_count;
+    const enigma_reflector_t* reflector;
+    char                plugboard[27];
 } enigma_t;
 
 char enigma_encode             (enigma_t*, int);

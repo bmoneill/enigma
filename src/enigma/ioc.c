@@ -5,14 +5,7 @@
  */
 #include "ioc.h"
 
-#include "enigma.h"
-#include "io.h"
-#include "threads.h"
-
-#include <math.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /**
  * @brief Score text using Index of Coincidence.

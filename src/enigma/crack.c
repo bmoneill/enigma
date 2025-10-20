@@ -15,6 +15,7 @@
 #endif
 
 #include "enigma.h"
+#include "io.h"
 #include "rotors.h"
 
 #include <stdio.h>
@@ -84,7 +85,7 @@ void enigma_crack_reflector(enigma_crack_config_t* cfg, float (*scoreFunc)(const
     char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
 
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
-        memcpy(&enigma.reflector, enigma_reflectors[i], sizeof(enigma_reflector_t));
+        enigma.reflector = enigma_reflectors[i];
         enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(plaintext, cfg));
     }
@@ -109,7 +110,7 @@ void enigma_crack_rotor(enigma_crack_config_t* cfg, int targetRotor, float (*sco
     char* plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
 
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
-        memcpy(&enigma.rotors[targetRotor], enigma_rotors[i], sizeof(enigma_rotor_t));
+        enigma.rotors[targetRotor] = enigma_rotors[i];
         enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(plaintext, cfg));
     }
@@ -137,9 +138,9 @@ void enigma_crack_rotors(enigma_crack_config_t* cfg, float (*scoreFunc)(const ch
             if (i == j) continue;
             for (int k = 0; k < ENIGMA_ROTOR_COUNT; k++) {
                 if (j == k || i == k) continue;
-                memcpy(&enigma.rotors[0], enigma_rotors[i], sizeof(enigma_rotor_t));
-                memcpy(&enigma.rotors[1], enigma_rotors[j], sizeof(enigma_rotor_t));
-                memcpy(&enigma.rotors[2], enigma_rotors[k], sizeof(enigma_rotor_t));
+                enigma.rotors[0] = enigma_rotors[i];
+                enigma.rotors[1] = enigma_rotors[j];
+                enigma.rotors[2] = enigma_rotors[k];
 
                 enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
                 enigma_score_append(cfg, &enigma, plaintext, scoreFunc(plaintext, cfg));
@@ -168,9 +169,9 @@ void enigma_crack_rotor_positions(enigma_crack_config_t* cfg, float (*scoreFunc)
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
             for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
-                enigma.rotors[0].idx = i;
-                enigma.rotors[1].idx = j;
-                enigma.rotors[2].idx = k;
+                enigma.rotor_indices[0] = i;
+                enigma.rotor_indices[1] = j;
+                enigma.rotor_indices[2] = k;
 
                 enigma_encode_string(&enigma, cfg->ciphertext, plaintext, cfg->ciphertextLen);
                 enigma_score_append(cfg, &enigma, plaintext, scoreFunc(plaintext, cfg));
@@ -349,6 +350,7 @@ int enigma_score_flags(const char* plaintext, const enigma_crack_config_t* cfg) 
  * @param scoreList Pointer to the enigma_score_list_t structure.
  */
 void enigma_score_print(const enigma_score_list_t* scoreList) {
+    char buf[64];
     for (int i = 0; i < scoreList->scoreCount; i++) {
         printf("%.6f ", scoreList->scores[i].score);
         if (scoreList->scores[i].flags & ENIGMA_FLAG_DICTIONARY_MATCH) {
@@ -361,8 +363,8 @@ void enigma_score_print(const enigma_score_list_t* scoreList) {
         } else {
             printf("- ");
         }
-        ENIGMA_PRINT_CONFIG(scoreList->scores[i].enigma);
-        printf("\n");
+        enigma_print_config(&scoreList->scores[i].enigma, buf);
+        printf("%s\n", buf);
     }
 }
 

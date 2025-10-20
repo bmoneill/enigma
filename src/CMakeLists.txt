@@ -11,11 +11,11 @@ include(GNUInstallDirs)
 set(LIBRARY_BASE_PATH ".")
 
 # Math library
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lm")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 
 # Warnings
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-missing-field-initializers -Wmissing-prototypes -Wshadow -Wold-style-declaration")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-missing-field-initializers -Wmissing-prototypes -Wshadow")
 
 # Optimization
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
