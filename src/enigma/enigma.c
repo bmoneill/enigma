@@ -174,6 +174,8 @@ void enigma_init_random_config(enigma_t* enigma) {
         enigma->plugboard[i] = c;
     }
 
+    enigma->plugboard[plugboardSize * 2] = '\0';
+
 }
 
 /**
