@@ -29,20 +29,20 @@ typedef struct {
     enigma_score_list_t* scores;
     const char**         dictionary;
     int                  dictSize;
-    int                  frequencies;
-    float* ngrams;
-    int n;
-    int ngramLen;
+    float*               ngrams;
+    int                  n;
+    int                  ngramLen;
     const char*          ciphertext;
     int                  ciphertextLen;
+    int                  flags;
+    float                freqTargets[26];
     float                minScore;
     float                maxScore;
     float                targetScore;
     float                minFreq;
     float                maxFreq;
-    float*               freqTargets;
-    const char*          plaintext;
-    int                  flags;
+    float                targetFreq;
+    char*               plaintext;
 } enigma_crack_config_t;
 
 // English letter frequency targets (from https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)

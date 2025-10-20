@@ -10,20 +10,17 @@ void setUp(void) { }
 void tearDown(void) { }
 
 void test_enigma_ioc_score(void) {
-    enigma_crack_config_t* cfg = malloc(sizeof(enigma_crack_config_t));
-    const char* text = "HELLOTHERE";
-    cfg->ciphertextLen = strlen(text);
+    enigma_crack_config_t cfg;
+    const char* text = "HELLOWORLD";
 
-    float score = enigma_ioc_score(text, cfg);
-    TEST_ASSERT_GREATER_THAN(0, score);
-
-    free(cfg);
+    float score = enigma_ioc_score(text, &cfg);
+    TEST_ASSERT_GREATER_THAN_FLOAT(0.0f, score);
 }
 
 int main(void) {
     UNITY_BEGIN();
 
-    test_enigma_ioc_score();
+    RUN_TEST(test_enigma_ioc_score);
 
     return UNITY_END();
 }

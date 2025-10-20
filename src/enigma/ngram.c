@@ -22,7 +22,7 @@
  * @param cfg Pointer to the cracking configuration structure.
  * @param bigrams Array of bigram scores indexed by ENIGMA_BIIDX(a, b).
  *
- * @return The absolute difference between the total bigram score and the target score.
+ * @return The total bigram score.
  */
 float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg) {
     float total = 0.0f;
@@ -37,7 +37,7 @@ float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg) {
         total += cfg->ngrams[ENIGMA_BIIDX(cur, next)];
     }
 
-    return fabs(total - cfg->targetScore);
+    return total / cfg->ciphertextLen;
 }
 
 /**
@@ -47,7 +47,7 @@ float enigma_bigram_score(const char* text, const enigma_crack_config_t* cfg) {
  * @param cfg Pointer to the cracking configuration structure.
  * @param trigrams Array of trigram scores indexed by ENIGMA_TRIIDX(a, b, c).
  *
- * @return The absolute difference between the total trigram score and the target score.
+ * @return The total trigram score.
  */
 float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg) {
     float total = 0.0f;
@@ -64,7 +64,7 @@ float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg) {
         total += cfg->ngrams[ENIGMA_TRIIDX(cur, next1, next2)];
     }
 
-    return fabs(total - cfg->targetScore);
+    return total / cfg->ciphertextLen;
 }
 
 /**
@@ -74,7 +74,7 @@ float enigma_trigram_score(const char* text, const enigma_crack_config_t* cfg) {
  * @param cfg Pointer to the cracking configuration structure.
  * @param quadgrams Array of quadgram scores indexed by ENIGMA_QUADIDX(a, b, c, d).
  *
- * @return The absolute difference between the total quadgram score and the target score.
+ * @return The total quadgram score.
  */
 float enigma_quadgram_score(const char* text, const enigma_crack_config_t* cfg) {
     float total = 0.0f;
@@ -94,5 +94,5 @@ float enigma_quadgram_score(const char* text, const enigma_crack_config_t* cfg) 
         total += cfg->ngrams[ENIGMA_QUADIDX(cur, next1, next2, next3)];
     }
 
-    return fabs(total - cfg->targetScore);
+    return total / cfg->ciphertextLen;
 }
