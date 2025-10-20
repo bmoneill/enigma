@@ -50,6 +50,9 @@ jobs:
         name: build
         path: ${{ github.workspace }}/build
 
+    - name: Copy test data
+      run: cp -r ${{ github.workspace }}/test/data ${{ github.workspace }}/build/test/data
+
     - name: Restore execute permissions to test binaries
       run: chmod -R +x ${{ github.workspace }}/build
 
