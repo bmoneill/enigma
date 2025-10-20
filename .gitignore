@@ -1,14 +1,14 @@
 /tools/enigmacli
 /tools/enigmacrack
-/vgcore.*
-/gmon.out
+vgcore.*
+gmon.out
 .vscode/
 *.o
 *.so
 *.a
-*.txt
 CMakeFiles
 Makefile
 CMakeCache.txt
 *.cmake
 DartConfiguration.tcl
+/test/*_tests
