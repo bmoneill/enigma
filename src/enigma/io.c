@@ -14,31 +14,6 @@
 #include <string.h>
 
 /**
- * @brief Load an Enigma machine configuration from a file.
- *
- * @param enigma Pointer to the Enigma machine instance.
- * @param path Path to the configuration file.
- * @return 0 on success, non-zero on failure.
- */
-int enigma_load_config(enigma_t* enigma, const char* path) {
-    FILE* f = fopen(path, "r");
-    if (!f) {
-        fprintf(stderr, "Failed to open config file: %s\n", path);
-        return 1;
-    }
-
-    char buf[256];
-    if (!fgets(buf, sizeof(buf), f)) {
-        fprintf(stderr, "Failed to read config file: %s\n", path);
-        fclose(f);
-        return 1;
-    }
-    fclose(f);
-
-    return enigma_load_config_s(enigma, buf);
-}
-
-/**
  * @brief Load an Enigma machine configuration from a string.
  *
  * The configuration string should be in the format:
@@ -53,7 +28,7 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
  * @param s      String representing the Enigma configuration.
  * @return       0 on success, non-zero on failure.
  */
-int enigma_load_config_s(enigma_t* enigma, const char* s) {
+int enigma_load_config(enigma_t* enigma, const char* s) {
     char buf[64];
     if (strlen(s) >= sizeof(buf)) {
         fprintf(stderr, "Configuration string too long\n");
@@ -146,7 +121,7 @@ int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const 
  * @brief Load ngrams from a file.
  *
  * The file should have the following format:
- * First line: <n> <lineCount>
+ * First line: <n> <charCount>
  * Subsequent lines: <count> <ngram>
  *
  * @param cfg Pointer to the cracking configuration structure.
@@ -156,7 +131,7 @@ int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const 
 int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
     char line[16];
     int n = 0;
-    int lineCount = 0;
+    int charCount = 0;
     int reallocCount = 0;
     FILE* f = fopen(path, "r");
     if (!f) {
@@ -165,8 +140,8 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
 
 
     if (fgets(line, sizeof(line), f)) {
-        // First line should be n value and line count of original text
-        if (sscanf(line, "%d %d", &n, &lineCount) != 2) {
+        // First line should be n value and character count of original text
+        if (sscanf(line, "%d %d", &n, &charCount) != 2) {
             fprintf(stderr, "Invalid ngram file format: %s\n", path);
             fclose(f);
             return 1;
@@ -192,9 +167,9 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
     while (fgets(line, sizeof(line), f)) {
         if (sscanf(line, "%d %4s", &count, s) == 2) {
             switch (n) {
-                case 2: cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float)count / lineCount; break;
-                case 3: cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float)count / lineCount; break;
-                case 4: cfg->ngrams[ENIGMA_QUADIDX(s[0], s[1], s[2], s[3])] = (float)count / lineCount; break;
+                case 2: cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float)count / charCount; break;
+                case 3: cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float)count / charCount; break;
+                case 4: cfg->ngrams[ENIGMA_QUADIDX(s[0], s[1], s[2], s[3])] = (float)count / charCount; break;
             }
         } else {
             break;
@@ -311,7 +286,7 @@ void enigma_print_config(const enigma_t* enigma, char* out) {
     sprintf(out, "%s %s %s|%c%c%c|%s|%s",
             enigma->rotors[0].name, enigma->rotors[1].name, enigma->rotors[2].name,
             enigma->rotors[0].idx + 'A', enigma->rotors[1].idx + 'A', enigma->rotors[2].idx + 'A',
-            enigma->reflector.name, enigma->plugboard[0] == '\0' ? enigma->plugboard : "None");
+            enigma->reflector.name, enigma->plugboard[0] == '\0' ? "None" : enigma->plugboard);
 }
 
 /**
