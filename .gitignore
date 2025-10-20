@@ -12,3 +12,4 @@ CMakeCache.txt
 *.cmake
 DartConfiguration.tcl
 /test/*_tests
+Testing/
