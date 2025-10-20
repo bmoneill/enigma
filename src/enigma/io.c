@@ -288,25 +288,3 @@ void enigma_print_config(const enigma_t* enigma, char* out) {
             enigma->rotors[0].idx + 'A', enigma->rotors[1].idx + 'A', enigma->rotors[2].idx + 'A',
             enigma->reflector.name, enigma->plugboard[0] == '\0' ? "None" : enigma->plugboard);
 }
-
-/**
- * @brief Save the current Enigma machine configuration to a file.
- *
- * @param enigma Pointer to the Enigma machine instance.
- * @param path Path to the configuration file.
- * @return 0 on success, non-zero on failure.
- */
-int enigma_save_config(const enigma_t* enigma, const char* path) {
-    char buf[80];
-    FILE* f = fopen(path, "w");
-
-    if (!f) {
-        fprintf(stderr, "Failed to open config file for writing: %s\n", path);
-        return 1;
-    }
-
-    enigma_print_config(enigma, buf);
-    fprintf(f, "%s\n", buf);
-    fclose(f);
-    return 0;
-}
