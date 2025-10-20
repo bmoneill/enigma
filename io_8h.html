@@ -104,11 +104,8 @@ $(document).ready(function(){initNavTree('io_8h.html',''); initResizable(); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a060fb9c5169be80429a9dd67444fc6cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a060fb9c5169be80429a9dd67444fc6cb">enigma_load_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
-<tr class="memdesc:a060fb9c5169be80429a9dd67444fc6cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a file.  <br /></td></tr>
+<tr class="memdesc:a060fb9c5169be80429a9dd67444fc6cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a string.  <br /></td></tr>
 <tr class="separator:a060fb9c5169be80429a9dd67444fc6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af87c09b23d8899a0023152c1c2d05fdb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#af87c09b23d8899a0023152c1c2d05fdb">enigma_load_config_s</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
-<tr class="memdesc:af87c09b23d8899a0023152c1c2d05fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a string.  <br /></td></tr>
-<tr class="separator:af87c09b23d8899a0023152c1c2d05fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b29f5d3bbe3d2c03794f4e94347841f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a0b29f5d3bbe3d2c03794f4e94347841f">enigma_load_custom_reflector</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *, const char *, const char *)</td></tr>
 <tr class="memdesc:a0b29f5d3bbe3d2c03794f4e94347841f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom reflector alphabet from the given alphabet and name.  <br /></td></tr>
 <tr class="separator:a0b29f5d3bbe3d2c03794f4e94347841f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,44 +142,6 @@ Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">int enigma_load_config </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
-          <td class="paramname"><em>enigma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>path</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Load an Enigma machine configuration from a file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine instance. </td></tr>
-    <tr><td class="paramname">path</td><td>Path to the configuration file. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
-
-</div>
-</div>
-<a id="af87c09b23d8899a0023152c1c2d05fdb" name="af87c09b23d8899a0023152c1c2d05fdb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af87c09b23d8899a0023152c1c2d05fdb">&#9670;&#160;</a></span>enigma_load_config_s()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int enigma_load_config_s </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
           <td class="paramname"><em>enigma</em>, </td>
@@ -345,7 +304,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Load ngrams from a file. </p>
-<p>The file should have the following format: First line: &lt;n&gt; &lt;lineCount&gt; Subsequent lines: &lt;count&gt; &lt;ngram&gt;</p>
+<p>The file should have the following format: First line: &lt;n&gt; &lt;charCount&gt; Subsequent lines: &lt;count&gt; &lt;ngram&gt;</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>

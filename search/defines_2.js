@@ -11,9 +11,8 @@ var searchData=
   ['enigma_5flang_5fgerman_8',['ENIGMA_LANG_GERMAN',['../common_8h.html#afc4649931c30b45970af727b3f64cd0d',1,'common.h']]],
   ['enigma_5fmax_5fplugboard_5fsettings_9',['ENIGMA_MAX_PLUGBOARD_SETTINGS',['../common_8h.html#aeba7c68c98a0ac4102cab4d72f47ce32',1,'common.h']]],
   ['enigma_5fmax_5frotor_5fcount_10',['ENIGMA_MAX_ROTOR_COUNT',['../common_8h.html#a0b0f4f73492c4f7934e2afdd6b2134d3',1,'common.h']]],
-  ['enigma_5fprint_5fconfig_11',['ENIGMA_PRINT_CONFIG',['../crack_8h.html#ae594493376010886f093b420a4728fbc',1,'crack.h']]],
-  ['enigma_5fquadidx_12',['ENIGMA_QUADIDX',['../ngram_8h.html#aaf493239f088308a16708233f187dd33',1,'ngram.h']]],
-  ['enigma_5freflector_5fcount_13',['ENIGMA_REFLECTOR_COUNT',['../reflectors_8h.html#a076c516101d818406c4cf369d70095c8',1,'reflectors.h']]],
-  ['enigma_5frotor_5fcount_14',['ENIGMA_ROTOR_COUNT',['../rotors_8h.html#a67c66686a2da6a8327fea9aa638df064',1,'rotors.h']]],
-  ['enigma_5ftriidx_15',['ENIGMA_TRIIDX',['../ngram_8h.html#ad2d03ddb165565c8493e9fcf0cb33a73',1,'ngram.h']]]
+  ['enigma_5fquadidx_11',['ENIGMA_QUADIDX',['../ngram_8h.html#aaf493239f088308a16708233f187dd33',1,'ngram.h']]],
+  ['enigma_5freflector_5fcount_12',['ENIGMA_REFLECTOR_COUNT',['../reflectors_8h.html#a076c516101d818406c4cf369d70095c8',1,'reflectors.h']]],
+  ['enigma_5frotor_5fcount_13',['ENIGMA_ROTOR_COUNT',['../rotors_8h.html#a67c66686a2da6a8327fea9aa638df064',1,'rotors.h']]],
+  ['enigma_5ftriidx_14',['ENIGMA_TRIIDX',['../ngram_8h.html#ad2d03ddb165565c8493e9fcf0cb33a73',1,'ngram.h']]]
 ];

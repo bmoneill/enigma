@@ -6,7 +6,6 @@ var crack_8h =
     [ "ENIGMA_FLAG_DICTIONARY_MATCH", "crack_8h.html#a0822c7036af9ac7ff4dfad57fa3b1b2a", null ],
     [ "ENIGMA_FLAG_FREQUENCY", "crack_8h.html#afc012c5a90a78382b5b2d5d4bc6303a6", null ],
     [ "ENIGMA_FLAG_KNOWN_PLAINTEXT", "crack_8h.html#ac26de471e8d4ed8ac3b69a25d52d7adb", null ],
-    [ "ENIGMA_PRINT_CONFIG", "crack_8h.html#ae594493376010886f093b420a4728fbc", null ],
     [ "enigma_crack_plugboard", "crack_8h.html#a0c85a32dafad1bafae569b3a5320e39e", null ],
     [ "enigma_crack_reflector", "crack_8h.html#a0d6b1f19c1202015a4a54aae2d0178f8", null ],
     [ "enigma_crack_rotor", "crack_8h.html#afbb9d7d6eda32521a06a0baaa4dc54dd", null ],

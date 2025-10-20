@@ -1,7 +1,6 @@
 var io_8h =
 [
     [ "enigma_load_config", "io_8h.html#a060fb9c5169be80429a9dd67444fc6cb", null ],
-    [ "enigma_load_config_s", "io_8h.html#af87c09b23d8899a0023152c1c2d05fdb", null ],
     [ "enigma_load_custom_reflector", "io_8h.html#a0b29f5d3bbe3d2c03794f4e94347841f", null ],
     [ "enigma_load_custom_rotor", "io_8h.html#a7bc18aedb203054dec7b74f2ecdb64fe", null ],
     [ "enigma_load_ngrams", "io_8h.html#a10d3a6e951c2ef1498a756f338b0ef6f", null ],
