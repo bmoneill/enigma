@@ -5,6 +5,84 @@ void setUp(void) { }
 
 void tearDown(void) { }
 
+void test_enigma_encode(void) {
+    enigma_t enigma;
+    enigma_init_random_config(&enigma);
+
+    int idx = enigma.rotors[0].idx;
+
+    char encoded = enigma_encode(&enigma, 'A');
+    TEST_ASSERT_TRUE(encoded >= 'A' && encoded <= 'Z');
+    TEST_ASSERT_NOT_EQUAL('A', encoded);
+    TEST_ASSERT_EQUAL_INT(idx + 1 >= ENIGMA_ALPHA_SIZE ? 0 : idx + 1, enigma.rotors[0].idx);
+}
+
+void test_enigma_encode_string(void) {
+    enigma_t enigma;
+    enigma_init_default_config(&enigma);
+
+    const char* input = "HELLO";
+    char output[6] = {0};
+
+    enigma_encode_string(&enigma, input, output, strlen(input));
+
+    TEST_ASSERT_EQUAL_STRING("ILBDA", output);
+}
+
+void test_enigma_init_rotors(void) {
+    enigma_t enigma;
+    const enigma_rotor_t rotor_array[3] = {
+        enigma_rotor_III,
+        enigma_rotor_II,
+        enigma_rotor_I
+    };
+
+    enigma_init_rotors(&enigma, rotor_array, 3);
+
+    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[0].name);
+    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1].name);
+    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[2].name);
+    TEST_ASSERT_EQUAL_INT(3, enigma.rotor_count);
+}
+
+void test_enigma_init_default_config(void) {
+    enigma_t enigma;
+    enigma_init_default_config(&enigma);
+
+    TEST_ASSERT_EQUAL_INT(3, enigma.rotor_count);
+    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[0].name);
+    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1].name);
+    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[2].name);
+}
+
+void test_enigma_init_random_config(void) {
+    enigma_t enigma;
+    enigma_init_random_config(&enigma);
+
+    TEST_ASSERT_TRUE(enigma.rotor_count == 3 || enigma.rotor_count == 4);
+    for (int i = 0; i < enigma.rotor_count; i++) {
+        TEST_ASSERT_TRUE(enigma.rotors[i].idx >= 0 && enigma.rotors[i].idx < ENIGMA_ALPHA_SIZE);
+    }
+    printf("Plugboard: %s\n", enigma.plugboard);
+    for (size_t i = 0; i < strlen(enigma.plugboard); i++) {
+        TEST_ASSERT_TRUE(enigma.plugboard[i] >= 'A' && enigma.plugboard[i] <= 'Z');
+    }
+    TEST_ASSERT_NOT_NULL(enigma.reflector.name);
+}
+
+void test_rotate(void) {
+    enigma_rotor_t rotor = {
+        .idx = 0
+    };
+
+    rotate(&rotor);
+    TEST_ASSERT_EQUAL_INT(1, rotor.idx);
+
+    rotor.idx = ENIGMA_ALPHA_SIZE - 1;
+    rotate(&rotor);
+    TEST_ASSERT_EQUAL_INT(0, rotor.idx);
+}
+
 void test_rotate_rotors(void) {
     enigma_t enigma;
     enigma_init_default_config(&enigma);
@@ -67,6 +145,15 @@ void test_substitute(void) {
 int main(void) {
     UNITY_BEGIN();
 
+    // public functions
+    RUN_TEST(test_enigma_encode);
+    RUN_TEST(test_enigma_encode_string);
+    RUN_TEST(test_enigma_init_rotors);
+    RUN_TEST(test_enigma_init_default_config);
+    RUN_TEST(test_enigma_init_random_config);
+
+    // static functions
+    RUN_TEST(test_rotate);
     RUN_TEST(test_rotate_rotors);
     RUN_TEST(test_rotor_pass_forward);
     RUN_TEST(test_rotor_pass_reverse);
