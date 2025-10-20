@@ -5,6 +5,28 @@ void setUp(void) { }
 
 void tearDown(void) { }
 
+void test_rotate_rotors(void) {
+    enigma_t enigma;
+    enigma_init_default_config(&enigma);
+    enigma.rotor_count = 3;
+
+    enigma.rotors[0].idx = 0;
+    rotate_rotors(&enigma);
+
+    TEST_ASSERT_EQUAL_INT(1, enigma.rotors[0].idx); // First rotor rotated
+    TEST_ASSERT_EQUAL_INT(0, enigma.rotors[1].idx);  // Second rotor not rotated
+
+    enigma.rotors[0].idx = 9;
+    enigma.rotors[1].idx = 17;
+    enigma.rotors[1].fwd_indices[17] = 25;
+    enigma.rotors[1].notches[0] = 25;
+    enigma.rotors[1].numNotches = 1;
+    rotate_rotors(&enigma);
+
+    TEST_ASSERT_EQUAL_INT(10, enigma.rotors[0].idx); // First rotor rotated
+    TEST_ASSERT_EQUAL_INT(18, enigma.rotors[1].idx);  // Second rotor rotated
+}
+
 void test_rotor_pass_forward(void) {
     enigma_rotor_t rotor = {
         .fwd_indices = {4, 10, 12, 5, 11, 6, 3, 16, 21, 25,
@@ -29,28 +51,6 @@ void test_rotor_pass_reverse(void) {
     TEST_ASSERT_EQUAL_INT(1, rotor_pass_reverse(&rotor, 10)); // K -> B
 }
 
-void test_rotate_rotors(void) {
-    enigma_t enigma;
-    enigma_init_default_config(&enigma);
-    enigma.rotor_count = 3;
-
-    enigma.rotors[0].idx = 0;
-    rotate_rotors(&enigma);
-
-    TEST_ASSERT_EQUAL_INT(1, enigma.rotors[0].idx); // First rotor rotated
-    TEST_ASSERT_EQUAL_INT(0, enigma.rotors[1].idx);  // Second rotor not rotated
-
-    enigma.rotors[0].idx = 9;
-    enigma.rotors[1].idx = 17;
-    enigma.rotors[1].fwd_indices[17] = 25;
-    enigma.rotors[1].notches[0] = 25;
-    enigma.rotors[1].numNotches = 1;
-    rotate_rotors(&enigma);
-
-    TEST_ASSERT_EQUAL_INT(10, enigma.rotors[0].idx); // First rotor rotated
-    TEST_ASSERT_EQUAL_INT(18, enigma.rotors[1].idx);  // Second rotor rotated
-}
-
 void test_substitute(void) {
     enigma_t enigma;
     strcpy(enigma.plugboard, "ABCD");
@@ -67,10 +67,10 @@ void test_substitute(void) {
 int main(void) {
     UNITY_BEGIN();
 
-    RUN_TEST(test_substitute);
+    RUN_TEST(test_rotate_rotors);
     RUN_TEST(test_rotor_pass_forward);
     RUN_TEST(test_rotor_pass_reverse);
-    RUN_TEST(test_rotate_rotors);
+    RUN_TEST(test_substitute);
 
     return UNITY_END();
 }

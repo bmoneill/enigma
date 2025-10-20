@@ -33,6 +33,33 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
         fclose(f);
         return 1;
     }
+    fclose(f);
+
+    return enigma_load_config_s(enigma, buf);
+}
+
+/**
+ * @brief Load an Enigma machine configuration from a string.
+ *
+ * The configuration string should be in the format:
+ * "ROTORS|POSITIONS|REFLECTOR|PLUGBOARD",
+ * where ROTORS is a space-separated list of rotor names,
+ * POSITIONS is a string of starting positions for each rotor,
+ * REFLECTOR is the reflector name, and PLUGBOARD is a string
+ * representing plugboard connections. If there is no plugboard,
+ * use "None".
+ *
+ * @param enigma Pointer to the Enigma machine instance.
+ * @param s      String representing the Enigma configuration.
+ * @return       0 on success, non-zero on failure.
+ */
+int enigma_load_config_s(enigma_t* enigma, const char* s) {
+    char buf[64];
+    if (strlen(s) >= sizeof(buf)) {
+        fprintf(stderr, "Configuration string too long\n");
+        return 1;
+    }
+    strncpy(buf, s, sizeof(buf));
 
     char* rotors = strtok(buf, "|");
     char* positions = strtok(NULL, "|");
@@ -47,19 +74,16 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
 
     if (enigma_load_rotor_config(enigma, rotors)) {
         fprintf(stderr, "Invalid rotor configuration: %s\n", rotors);
-        fclose(f);
         return 1;
     }
 
     if (enigma_load_rotor_positions(enigma, positions)) {
         fprintf(stderr, "Invalid rotor positions: %s\n", positions);
-        fclose(f);
         return 1;
     }
 
     if (enigma_load_reflector_config(enigma, reflector)) {
         fprintf(stderr, "Invalid reflector configuration: %s\n", reflector);
-        fclose(f);
         return 1;
     }
 
@@ -67,8 +91,6 @@ int enigma_load_config(enigma_t* enigma, const char* path) {
         strcpy(enigma->plugboard, plugboard);
     }
 
-
-    fclose(f);
     return 0;
 }
 
@@ -95,11 +117,16 @@ int enigma_load_custom_reflector(enigma_reflector_t* reflector, const char* alph
  * @param rotor Pointer to the rotor structure to be populated.
  * @param alphabet The custom rotor alphabet (must be 26 characters long).
  * @param name The name of the custom rotor.
- * @param notches Array of notch positions.
+ * @param notches Array of notch positions (length must match numNotches).
  * @param numNotches Number of notches.
+ *
+ * @return 0 on success, non-zero on failure.
  */
 int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const char* name,
                              int* notches, int numNotches) {
+    if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
+        return 1;
+    }
     rotor->name = name;
     rotor->numNotches = numNotches;
     memcpy(rotor->notches, notches, numNotches * sizeof(int));
@@ -107,7 +134,8 @@ int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const 
         rotor->fwd_indices[i] = toupper(alphabet[i]) - 'A';
         rotor->rev_indices[rotor->fwd_indices[i]] = i;
     }
-    return 1;
+
+    return 0;
 }
 
 
