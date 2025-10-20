@@ -4,8 +4,8 @@
  * This file declares functions for cracking Enigma configurations
  * using the Index of Coincidence method.
  */
-#ifndef ENIGMA_IC_H
-#define ENIGMA_IC_H
+#ifndef ENIGMA_IOC_H
+#define ENIGMA_IOC_H
 
 #include "crack.h"
 
