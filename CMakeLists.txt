@@ -8,16 +8,15 @@ include(CTest)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_FILE_OFFSET_BITS=64")
 
 # Warnings
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-missing-field-initializers")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-missing-field-initializers -fsanitize=address,undefined -fno-omit-frame-pointer")
 
 # Optimization
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
 
 # Debugging and Profiling
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg")
 
 function(Enable_Tests)
-  add_subdirectory(external)
   set(TEST ON CACHE INTERNAL "")
 endfunction()
 
@@ -27,6 +26,7 @@ function(Build_Library)
 endfunction()
 
 function(Build_Tests)
+  add_subdirectory(external)
   add_subdirectory(test)
 endfunction()
 
