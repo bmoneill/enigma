@@ -108,12 +108,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a164cdf9a0f8266106a31b56a4333e6c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a164cdf9a0f8266106a31b56a4333e6c4">enigma_load_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *path)</td></tr>
 <tr class="memdesc:a164cdf9a0f8266106a31b56a4333e6c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a file.  <br /></td></tr>
 <tr class="separator:a164cdf9a0f8266106a31b56a4333e6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87a164b5b3db0c9a9af937a1623c61a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#ac87a164b5b3db0c9a9af937a1623c61a">enigma_load_config_s</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *s)</td></tr>
+<tr class="memdesc:ac87a164b5b3db0c9a9af937a1623c61a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a string.  <br /></td></tr>
+<tr class="separator:ac87a164b5b3db0c9a9af937a1623c61a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10aa84b260b06fe58fbababdc39807c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a10aa84b260b06fe58fbababdc39807c7">enigma_load_custom_reflector</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *reflector, const char *alphabet, const char *name)</td></tr>
 <tr class="memdesc:a10aa84b260b06fe58fbababdc39807c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom reflector alphabet from the given alphabet and name.  <br /></td></tr>
 <tr class="separator:a10aa84b260b06fe58fbababdc39807c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae30c889b3fa39297158725097e2a5b6d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#ae30c889b3fa39297158725097e2a5b6d">enigma_load_custom_rotor</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *rotor, const char *alphabet, const char *name, int *notches, int numNotches)</td></tr>
 <tr class="memdesc:ae30c889b3fa39297158725097e2a5b6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom rotor alphabet from the given alphabet, name, and notches.  <br /></td></tr>
 <tr class="separator:ae30c889b3fa39297158725097e2a5b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a623ccdc79ebe922c5ce2a804578fe2fb">enigma_load_ngrams</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *path)</td></tr>
+<tr class="memdesc:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
+<tr class="separator:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade6b820f800878272820fa169252be06"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#ade6b820f800878272820fa169252be06">enigma_load_plugboard_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *s)</td></tr>
 <tr class="memdesc:ade6b820f800878272820fa169252be06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load plugboard configuration from a string.  <br /></td></tr>
 <tr class="separator:ade6b820f800878272820fa169252be06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,9 +132,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a663fd3060474508bf8d1ef981203ef0b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a663fd3060474508bf8d1ef981203ef0b">enigma_load_rotor_positions</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *s)</td></tr>
 <tr class="memdesc:a663fd3060474508bf8d1ef981203ef0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load rotor starting positions from a string.  <br /></td></tr>
 <tr class="separator:a663fd3060474508bf8d1ef981203ef0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#a623ccdc79ebe922c5ce2a804578fe2fb">enigma_load_ngrams</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *path)</td></tr>
-<tr class="memdesc:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
-<tr class="separator:a623ccdc79ebe922c5ce2a804578fe2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb02ca2236940cd5cbfbc418caec754b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8c.html#afb02ca2236940cd5cbfbc418caec754b">enigma_print_config</a> (const <a class="el" href="structenigma__t.html">enigma_t</a> *enigma, char *out)</td></tr>
 <tr class="memdesc:afb02ca2236940cd5cbfbc418caec754b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the current Enigma machine configuration to out.  <br /></td></tr>
 <tr class="separator:afb02ca2236940cd5cbfbc418caec754b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,6 +173,45 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine instance. </td></tr>
     <tr><td class="paramname">path</td><td>Path to the configuration file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+
+</div>
+</div>
+<a id="ac87a164b5b3db0c9a9af937a1623c61a" name="ac87a164b5b3db0c9a9af937a1623c61a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac87a164b5b3db0c9a9af937a1623c61a">&#9670;&#160;</a></span>enigma_load_config_s()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_load_config_s </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load an Enigma machine configuration from a string. </p>
+<p>The configuration string should be in the format: "ROTORS|POSITIONS|REFLECTOR|PLUGBOARD", where ROTORS is a space-separated list of rotor names, POSITIONS is a string of starting positions for each rotor, REFLECTOR is the reflector name, and PLUGBOARD is a string representing plugboard connections. If there is no plugboard, use "None".</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine instance. </td></tr>
+    <tr><td class="paramname">s</td><td>String representing the Enigma configuration. </td></tr>
   </table>
   </dd>
 </dl>
@@ -272,11 +314,12 @@ Functions</h2></td></tr>
     <tr><td class="paramname">rotor</td><td>Pointer to the rotor structure to be populated. </td></tr>
     <tr><td class="paramname">alphabet</td><td>The custom rotor alphabet (must be 26 characters long). </td></tr>
     <tr><td class="paramname">name</td><td>The name of the custom rotor. </td></tr>
-    <tr><td class="paramname">notches</td><td>Array of notch positions. </td></tr>
-    <tr><td class="paramname">numNotches</td><td>Number of notches. </td></tr>
+    <tr><td class="paramname">notches</td><td>Array of notch positions (length must match numNotches). </td></tr>
+    <tr><td class="paramname">numNotches</td><td>Number of notches.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
 
 </div>
 </div>

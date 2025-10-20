@@ -106,9 +106,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a060fb9c5169be80429a9dd67444fc6cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a060fb9c5169be80429a9dd67444fc6cb">enigma_load_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
 <tr class="memdesc:a060fb9c5169be80429a9dd67444fc6cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a file.  <br /></td></tr>
 <tr class="separator:a060fb9c5169be80429a9dd67444fc6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a233fbd8dd8425d59df79e252a60fb1a7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a233fbd8dd8425d59df79e252a60fb1a7">enigma_save_config</a> (const <a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
-<tr class="memdesc:a233fbd8dd8425d59df79e252a60fb1a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the current Enigma machine configuration to a file.  <br /></td></tr>
-<tr class="separator:a233fbd8dd8425d59df79e252a60fb1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af87c09b23d8899a0023152c1c2d05fdb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#af87c09b23d8899a0023152c1c2d05fdb">enigma_load_config_s</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
+<tr class="memdesc:af87c09b23d8899a0023152c1c2d05fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a string.  <br /></td></tr>
+<tr class="separator:af87c09b23d8899a0023152c1c2d05fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b29f5d3bbe3d2c03794f4e94347841f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a0b29f5d3bbe3d2c03794f4e94347841f">enigma_load_custom_reflector</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *, const char *, const char *)</td></tr>
 <tr class="memdesc:a0b29f5d3bbe3d2c03794f4e94347841f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom reflector alphabet from the given alphabet and name.  <br /></td></tr>
 <tr class="separator:a0b29f5d3bbe3d2c03794f4e94347841f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,6 +168,45 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine instance. </td></tr>
     <tr><td class="paramname">path</td><td>Path to the configuration file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+
+</div>
+</div>
+<a id="af87c09b23d8899a0023152c1c2d05fdb" name="af87c09b23d8899a0023152c1c2d05fdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af87c09b23d8899a0023152c1c2d05fdb">&#9670;&#160;</a></span>enigma_load_config_s()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_load_config_s </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load an Enigma machine configuration from a string. </p>
+<p>The configuration string should be in the format: "ROTORS|POSITIONS|REFLECTOR|PLUGBOARD", where ROTORS is a space-separated list of rotor names, POSITIONS is a string of starting positions for each rotor, REFLECTOR is the reflector name, and PLUGBOARD is a string representing plugboard connections. If there is no plugboard, use "None".</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine instance. </td></tr>
+    <tr><td class="paramname">s</td><td>String representing the Enigma configuration. </td></tr>
   </table>
   </dd>
 </dl>
@@ -270,11 +309,12 @@ Functions</h2></td></tr>
     <tr><td class="paramname">rotor</td><td>Pointer to the rotor structure to be populated. </td></tr>
     <tr><td class="paramname">alphabet</td><td>The custom rotor alphabet (must be 26 characters long). </td></tr>
     <tr><td class="paramname">name</td><td>The name of the custom rotor. </td></tr>
-    <tr><td class="paramname">notches</td><td>Array of notch positions. </td></tr>
-    <tr><td class="paramname">numNotches</td><td>Number of notches. </td></tr>
+    <tr><td class="paramname">notches</td><td>Array of notch positions (length must match numNotches). </td></tr>
+    <tr><td class="paramname">numNotches</td><td>Number of notches.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
 
 </div>
 </div>
@@ -505,44 +545,6 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a233fbd8dd8425d59df79e252a60fb1a7" name="a233fbd8dd8425d59df79e252a60fb1a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a233fbd8dd8425d59df79e252a60fb1a7">&#9670;&#160;</a></span>enigma_save_config()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int enigma_save_config </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
-          <td class="paramname"><em>enigma</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>path</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Save the current Enigma machine configuration to a file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine instance. </td></tr>
-    <tr><td class="paramname">path</td><td>Path to the configuration file. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
 
 </div>
 </div>
