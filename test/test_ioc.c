@@ -2,6 +2,8 @@
 #include "enigma/crack.h"
 #include "enigma/ioc.h"
 
+#include <string.h>
+
 void setUp(void) { }
 
 void tearDown(void) { }
