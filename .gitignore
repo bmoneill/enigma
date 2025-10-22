@@ -2,7 +2,6 @@
 /tools/enigmacrack
 vgcore.*
 gmon.out
-.vscode/
 *.o
 *.so
 *.a
@@ -13,3 +12,4 @@ CMakeCache.txt
 DartConfiguration.tcl
 /test/*_tests
 Testing/
+.zed/
