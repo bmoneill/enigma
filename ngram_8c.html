@@ -96,32 +96,25 @@ $(document).ready(function(){initNavTree('ngram_8c.html',''); initResizable(); }
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="ngram_8h_source.html">ngram.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="crack_8h_source.html">crack.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="io_8h_source.html">io.h</a>&quot;</code><br />
-<code>#include &quot;threads.h&quot;</code><br />
-<code>#include &lt;math.h&gt;</code><br />
-<code>#include &lt;stdio.h&gt;</code><br />
-<code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &lt;string.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aadd43b05f0a3e4138c6de796be5f526d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ngram_8c.html#aadd43b05f0a3e4138c6de796be5f526d">enigma_bigram_score</a> (const char *text, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:aadd43b05f0a3e4138c6de796be5f526d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using bigram frequencies.  <br /></td></tr>
-<tr class="separator:aadd43b05f0a3e4138c6de796be5f526d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae998d1158b137e535c571d231b2c9247"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ngram_8c.html#ae998d1158b137e535c571d231b2c9247">enigma_trigram_score</a> (const char *text, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:ae998d1158b137e535c571d231b2c9247"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using trigram frequencies.  <br /></td></tr>
-<tr class="separator:ae998d1158b137e535c571d231b2c9247"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a119f997f28bafe8ce9635e3b19db0d5c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ngram_8c.html#a119f997f28bafe8ce9635e3b19db0d5c">enigma_quadgram_score</a> (const char *text, const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg)</td></tr>
-<tr class="memdesc:a119f997f28bafe8ce9635e3b19db0d5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using quadgram frequencies.  <br /></td></tr>
-<tr class="separator:a119f997f28bafe8ce9635e3b19db0d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2297a3ad01164992690e3934ca0aad4d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ngram_8c.html#a2297a3ad01164992690e3934ca0aad4d">enigma_bigram_score</a> (const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *text)</td></tr>
+<tr class="memdesc:a2297a3ad01164992690e3934ca0aad4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using bigram frequencies.  <br /></td></tr>
+<tr class="separator:a2297a3ad01164992690e3934ca0aad4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bce1b38f0ddd869f67af6e07cca2baa"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ngram_8c.html#a0bce1b38f0ddd869f67af6e07cca2baa">enigma_trigram_score</a> (const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *text)</td></tr>
+<tr class="memdesc:a0bce1b38f0ddd869f67af6e07cca2baa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using trigram frequencies.  <br /></td></tr>
+<tr class="separator:a0bce1b38f0ddd869f67af6e07cca2baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84bb9e14e401da1c372a81984815dbbf"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ngram_8c.html#a84bb9e14e401da1c372a81984815dbbf">enigma_quadgram_score</a> (const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *text)</td></tr>
+<tr class="memdesc:a84bb9e14e401da1c372a81984815dbbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Score text using quadgram frequencies.  <br /></td></tr>
+<tr class="separator:a84bb9e14e401da1c372a81984815dbbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file implements cracking functions using n-gram scoring. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aadd43b05f0a3e4138c6de796be5f526d" name="aadd43b05f0a3e4138c6de796be5f526d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadd43b05f0a3e4138c6de796be5f526d">&#9670;&#160;</a></span>enigma_bigram_score()</h2>
+<a id="a2297a3ad01164992690e3934ca0aad4d" name="a2297a3ad01164992690e3934ca0aad4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2297a3ad01164992690e3934ca0aad4d">&#9670;&#160;</a></span>enigma_bigram_score()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -129,14 +122,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">float enigma_bigram_score </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>text</em>, </td>
+          <td class="paramtype">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
-          <td class="paramname"><em>cfg</em>&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -149,9 +142,8 @@ Functions</h2></td></tr>
 <p>Score text using bigram frequencies. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">text</td><td>The text to score. </td></tr>
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
-    <tr><td class="paramname">bigrams</td><td>Array of bigram scores indexed by <a class="el" href="ngram_8h.html#ad355dd4d4c3e0241c25050038e8aaa7c">ENIGMA_BIIDX(a, b)</a>.</td></tr>
+    <tr><td class="paramname">text</td><td>The text to score.</td></tr>
   </table>
   </dd>
 </dl>
@@ -159,8 +151,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a119f997f28bafe8ce9635e3b19db0d5c" name="a119f997f28bafe8ce9635e3b19db0d5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a119f997f28bafe8ce9635e3b19db0d5c">&#9670;&#160;</a></span>enigma_quadgram_score()</h2>
+<a id="a84bb9e14e401da1c372a81984815dbbf" name="a84bb9e14e401da1c372a81984815dbbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84bb9e14e401da1c372a81984815dbbf">&#9670;&#160;</a></span>enigma_quadgram_score()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -168,14 +160,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">float enigma_quadgram_score </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>text</em>, </td>
+          <td class="paramtype">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
-          <td class="paramname"><em>cfg</em>&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -188,9 +180,8 @@ Functions</h2></td></tr>
 <p>Score text using quadgram frequencies. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">text</td><td>The text to score. </td></tr>
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
-    <tr><td class="paramname">quadgrams</td><td>Array of quadgram scores indexed by <a class="el" href="ngram_8h.html#aaf493239f088308a16708233f187dd33">ENIGMA_QUADIDX(a, b, c, d)</a>.</td></tr>
+    <tr><td class="paramname">text</td><td>The text to score.</td></tr>
   </table>
   </dd>
 </dl>
@@ -198,8 +189,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae998d1158b137e535c571d231b2c9247" name="ae998d1158b137e535c571d231b2c9247"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae998d1158b137e535c571d231b2c9247">&#9670;&#160;</a></span>enigma_trigram_score()</h2>
+<a id="a0bce1b38f0ddd869f67af6e07cca2baa" name="a0bce1b38f0ddd869f67af6e07cca2baa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bce1b38f0ddd869f67af6e07cca2baa">&#9670;&#160;</a></span>enigma_trigram_score()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -207,14 +198,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">float enigma_trigram_score </td>
           <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>text</em>, </td>
+          <td class="paramtype">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
-          <td class="paramname"><em>cfg</em>&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -227,9 +218,8 @@ Functions</h2></td></tr>
 <p>Score text using trigram frequencies. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">text</td><td>The text to score. </td></tr>
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
-    <tr><td class="paramname">trigrams</td><td>Array of trigram scores indexed by <a class="el" href="ngram_8h.html#ad2d03ddb165565c8493e9fcf0cb33a73">ENIGMA_TRIIDX(a, b, c)</a>.</td></tr>
+    <tr><td class="paramname">text</td><td>The text to score.</td></tr>
   </table>
   </dd>
 </dl>
