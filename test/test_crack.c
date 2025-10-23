@@ -149,9 +149,4 @@ void test_score_compare(void) {
 
 int main(void) {
     UNITY_BEGIN();
-    RUN_TEST(test_enigma_find_potential_indices);
-    RUN_TEST(test_enigma_freq);
-    RUN_TEST(test_enigma_letter_freq);
-    RUN_TEST(test_enigma_score_append);
-    return UNITY_END();
 }

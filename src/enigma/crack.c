@@ -394,19 +394,36 @@ int enigma_score_flags(const enigma_crack_config_t* cfg, const char* plaintext) 
         return -1;
     }
     int ret = 0;
-    if (cfg->flags & ENIGMA_FLAG_DICTIONARY_MATCH && enigma_dict_match(cfg, plaintext)) {
-        ret |= ENIGMA_FLAG_DICTIONARY_MATCH;
+    int subRet = 0;
+
+    if (cfg->flags & ENIGMA_FLAG_DICTIONARY_MATCH) {
+        subRet = enigma_dict_match(cfg, plaintext);
+        if (subRet == 1) {
+            ret |= ENIGMA_FLAG_DICTIONARY_MATCH;
+        } else if (subRet == -1) {
+            return -1;
+        }
     }
 
     if (cfg->flags & ENIGMA_FLAG_FREQUENCY) {
         float freqScore;
-        if (enigma_letter_freq(cfg, plaintext)) {
+        int freqRet = enigma_letter_freq(cfg, plaintext);
+
+        if (freqRet == -1) {
+            return -1;
+        } else if (freqRet == 1) {
             ret |= ENIGMA_FLAG_FREQUENCY;
         }
     }
 
-    if (cfg->flags & ENIGMA_FLAG_KNOWN_PLAINTEXT && strstr(plaintext, cfg->ciphertext)) {
-        ret |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
+    if (cfg->flags & ENIGMA_FLAG_KNOWN_PLAINTEXT) {
+        if (!cfg->plaintext) {
+            return -1;
+        }
+
+        if (strstr(plaintext, cfg->plaintext)) {
+            ret |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
+        }
     }
     return ret;
 }
