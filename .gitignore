@@ -3,14 +3,12 @@
 /tools/enigmacrack
 /test/*_tests
 
-# Build/debugging objects, etc
+# Build stuff
 vgcore.*
 gmon.out
 *.o
 *.so
 *.a
-
-# Build stuff
 CMakeFiles
 Makefile
 CMakeCache.txt
