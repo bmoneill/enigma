@@ -1,5 +1,6 @@
 #include "unity.h"
 #include "enigma/crack.c"
+#include "enigma/enigma.h"
 
 void setUp(void) { }
 void tearDown(void) { }
@@ -70,15 +71,72 @@ void test_enigma_freq(void) {
 }
 
 void test_enigma_letter_freq(void) {
-    // TODO Implement
+    enigma_crack_config_t cfg;
+    const char* plaintext = "HELLOXWORLD";
+
+    cfg.freqTargets['H' - 'A'] = 0.05;
+    cfg.freqTargets['E' - 'A'] = 0.05;
+    cfg.freqTargets['L' - 'A'] = 0.05;
+    cfg.freqTargets['O' - 'A'] = 0.05;
+    cfg.freqTargets['W' - 'A'] = 0.05;
+    cfg.freqTargets['R' - 'A'] = 0.05;
+    cfg.freqTargets['D' - 'A'] = 0.05;
+
+    int actual = enigma_letter_freq(&cfg, plaintext);
+
+    TEST_ASSERT_EQUAL_FLOAT(0, actual);
 }
 
 void test_enigma_score_append(void) {
-    // TODO Implement
+    enigma_t enigma;
+    enigma_crack_config_t cfg;
+    const char* plaintext = "HELLOXWORLD";
+    float score = 0.05;
+    int maxScores = 10;
+
+    cfg.flags = 0;
+    cfg.scores = malloc(sizeof(enigma_score_list_t));
+    cfg.scores->maxScores = maxScores;
+    cfg.scores->scoreCount = 0;
+    cfg.scores->scores = malloc(sizeof(enigma_score_t) * cfg.scores->maxScores);
+
+    enigma_init_default_config(&enigma);
+
+    int result = enigma_score_append(&cfg, &enigma, plaintext, score);
+    TEST_ASSERT_EQUAL_INT(0, result);
+
+    TEST_ASSERT_EQUAL_INT(1, cfg.scores->scoreCount);
+    TEST_ASSERT_EQUAL_INT(maxScores, cfg.scores->maxScores);
+    TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[0].score);
+    TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices, cfg.scores->scores[0].enigma.rotor_indices, 4);
+
+    free(cfg.scores->scores);
+    free(cfg.scores);
 }
 
 void test_enigma_score_flags(void) {
-    // TODO Implement
+    const char* plaintext = "HELLOXWORLD";
+    enigma_t enigma;
+
+    enigma_crack_config_t cfg;
+    cfg.flags = 0;
+    cfg.scores = malloc(sizeof(enigma_score_list_t));
+    cfg.scores->maxScores = 10;
+    cfg.scores->scoreCount = 0;
+    cfg.scores->scores = malloc(sizeof(enigma_score_t) * cfg.scores->maxScores);
+
+    enigma_init_default_config(&enigma);
+
+    int result = enigma_score_flags(&cfg, plaintext);
+
+    TEST_ASSERT_EQUAL_INT(0, result);
+
+    // TODO Test ENIGMA_FLAG_DICTIONARY_MATCH
+    // TODO Test ENIGMA_FLAG_FREQUENCY
+    // TODO Test ENIGMA_FLAG_KNOWN_PLAINTEXT
+
+    free(cfg.scores->scores);
+    free(cfg.scores);
 }
 
 void test_enigma_score_sort(void) {
@@ -93,5 +151,7 @@ int main(void) {
     UNITY_BEGIN();
     RUN_TEST(test_enigma_find_potential_indices);
     RUN_TEST(test_enigma_freq);
+    RUN_TEST(test_enigma_letter_freq);
+    RUN_TEST(test_enigma_score_append);
     return UNITY_END();
 }

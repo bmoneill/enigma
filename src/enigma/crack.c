@@ -233,7 +233,7 @@ int enigma_crack_rotor_positions(enigma_crack_config_t* cfg, float (*scoreFunc)(
  * @return 1 if multiple words are found, 0 if not, -1 on error
  */
 int enigma_dict_match(const enigma_crack_config_t* cfg, const char* plaintext) {
-    if (!cfg || !plaintext) {
+    if (!cfg || !plaintext || !cfg->dictionary) {
         return -1;
     }
 
@@ -358,6 +358,7 @@ int enigma_letter_freq(const enigma_crack_config_t* cfg, const char* plaintext) 
  * @param enigma Pointer to the enigma_t structure representing the scored configuration.
  * @param plaintext The plaintext corresponding to the score.
  * @param score The score to append.
+ * @return 0 on success, non-zero on failure.
  */
 int enigma_score_append(enigma_crack_config_t* cfg, enigma_t* enigma, const char* plaintext, float score) {
     if (!cfg || !enigma || !plaintext) {
@@ -386,9 +387,12 @@ int enigma_score_append(enigma_crack_config_t* cfg, enigma_t* enigma, const char
  *
  * @param cfg The enigma_crack_config_t containing the criteria and flags.
  * @param plaintext The plaintext to evaluate.
- * @return A bitmask of flags indicating which criteria were met.
+ * @return A bitmask of flags indicating which criteria were met, or -1 if error.
  */
 int enigma_score_flags(const enigma_crack_config_t* cfg, const char* plaintext) {
+    if (!cfg || !plaintext) {
+        return -1;
+    }
     int ret = 0;
     if (cfg->flags & ENIGMA_FLAG_DICTIONARY_MATCH && enigma_dict_match(cfg, plaintext)) {
         ret |= ENIGMA_FLAG_DICTIONARY_MATCH;
