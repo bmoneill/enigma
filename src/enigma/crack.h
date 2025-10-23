@@ -8,14 +8,14 @@
 
 #include "enigma.h"
 
-#define ENIGMA_FLAG_DICTIONARY_MATCH         1
-#define ENIGMA_FLAG_FREQUENCY                2
-#define ENIGMA_FLAG_KNOWN_PLAINTEXT          4
+#define ENIGMA_FLAG_DICTIONARY_MATCH 1
+#define ENIGMA_FLAG_FREQUENCY        2
+#define ENIGMA_FLAG_KNOWN_PLAINTEXT  4
 
 typedef struct {
-    enigma_t        enigma;
-    float           score;
-    int             flags;
+    enigma_t              enigma;
+    float                 score;
+    int                   flags;
 } enigma_score_t;
 
 typedef struct {
