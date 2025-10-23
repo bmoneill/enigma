@@ -41,7 +41,7 @@ typedef struct {
     float                targetScore;
     float                targetFreq;
     float                freqOffset;
-    char*               plaintext;
+    char*                plaintext;
 } enigma_crack_config_t;
 
 // English letter frequency targets (from https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
