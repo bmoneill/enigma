@@ -1,17 +1,25 @@
+# Binaries
 /tools/enigmacli
 /tools/enigmacrack
+/test/*_tests
+
+# Build/debugging objects, etc
 vgcore.*
 gmon.out
 *.o
 *.so
 *.a
+
+# Build stuff
 CMakeFiles
 Makefile
 CMakeCache.txt
 *.cmake
 DartConfiguration.tcl
-/test/*_tests
 Testing/
+test/*_runner.c
+
+# Editor stuff
 .zed/
 /.clangd
 /compile_commands.json
