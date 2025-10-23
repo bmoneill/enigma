@@ -61,7 +61,11 @@ void test_enigma_find_potential_indices(void) {
 }
 
 void test_enigma_freq(void) {
-    // TODO Implement
+    const char* plaintext = "HELLO";
+
+    float result = enigma_freq(plaintext, strlen(plaintext));
+
+    float expected = (1 + 1 + 2 + 1) / 5.0;
 }
 
 void test_enigma_letter_freq(void) {
@@ -86,6 +90,7 @@ void test_score_compare(void) {
 
 int main(void) {
     UNITY_BEGIN();
-
+    RUN_TEST(test_enigma_find_potential_indices);
+    RUN_TEST(test_enigma_freq);
     return UNITY_END();
 }

@@ -271,7 +271,7 @@ int enigma_find_potential_indices(const char* ciphertext, const char* plaintext,
     int plaintextLen = strlen(plaintext);
     int ciphertextLen = strlen(ciphertext);
 
-    for (int i = 0; i < ciphertextLen - plaintextLen; i++) {
+    for (int i = 0; i < ciphertextLen - plaintextLen + 1; i++) {
         for (int j = 0; j < plaintextLen; j++) {
             if (ciphertext[i + j] == plaintext[j]) {
                 break;
