@@ -122,7 +122,7 @@ int enigma_crack_reflector(enigma_crack_config_t* cfg, float (*scoreFunc)(const 
  * @return 0 on success, non-zero on failure.
  */
 int enigma_crack_rotor(enigma_crack_config_t* cfg, int targetRotor, float (*scoreFunc)(const enigma_crack_config_t*, const char*)) {
-    if( !cfg || !scoreFunc) {
+    if( !cfg || !scoreFunc || targetRotor > 3) {
         return 1;
     }
 
