@@ -16,11 +16,3 @@ void test_enigma_ioc_score(void) {
     float score = enigma_ioc_score(&cfg, text);
     TEST_ASSERT_GREATER_THAN_FLOAT(0.0f, score);
 }
-
-int main(void) {
-    UNITY_BEGIN();
-
-    RUN_TEST(test_enigma_ioc_score);
-
-    return UNITY_END();
-}

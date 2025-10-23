@@ -169,19 +169,3 @@ void test_enigma_print_config(void) {
 
     TEST_ASSERT_EQUAL_STRING("I II III|ABC|B|ABCDEF", buf);
 }
-
-int main(void) {
-    UNITY_BEGIN();
-
-    RUN_TEST(test_enigma_load_config);
-    RUN_TEST(test_enigma_load_custom_reflector);
-    RUN_TEST(test_enigma_load_custom_rotor);
-    RUN_TEST(test_load_ngrams);
-    RUN_TEST(test_enigma_load_plugboard_config);
-    RUN_TEST(test_enigma_load_reflector_config);
-    RUN_TEST(test_enigma_load_rotor_config);
-    RUN_TEST(test_enigma_load_rotor_positions);
-    RUN_TEST(test_enigma_print_config);
-
-    return UNITY_END();
-}

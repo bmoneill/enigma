@@ -1,19 +1,24 @@
-add_executable(crack_tests test_crack.c)
-target_link_libraries(crack_tests enigma Unity m)
-add_test(crack crack_tests)
+function(add_enigma_test name)
+    set(test_src "${CMAKE_CURRENT_SOURCE_DIR}/test_${name}.c")
+    set(runner_src "${CMAKE_CURRENT_BINARY_DIR}/test_${name}_runner.c")
 
-add_executable(enigma_tests test_enigma.c)
-target_link_libraries(enigma_tests enigma Unity m)
-add_test(enigma enigma_tests)
+    add_custom_command(
+        OUTPUT ${runner_src}
+        COMMAND ruby ${CMAKE_SOURCE_DIR}/external/Unity/auto/generate_test_runner.rb ${test_src} ${runner_src}
+        DEPENDS ${test_src} ${CMAKE_SOURCE_DIR}/external/Unity/auto/generate_test_runner.rb
+        COMMENT "Generating ${runner_src}"
+    )
 
-add_executable(io_tests test_io.c)
-target_link_libraries(io_tests enigma Unity m)
-add_test(io io_tests)
+    # Define the test executable
+    add_executable(${name}_tests ${test_src} ${runner_src})
+    target_link_libraries(${name}_tests enigma Unity)
 
-add_executable(ioc_tests test_ioc.c)
-target_link_libraries(ioc_tests enigma Unity m)
-add_test(ioc ioc_tests)
+    # Register as a CTest test
+    add_test(NAME ${name} COMMAND ${name}_tests)
+endfunction()
 
-add_executable(ngram_tests test_ngram.c)
-target_link_libraries(ngram_tests enigma Unity m)
-add_test(ngram ngram_tests)
+add_enigma_test(crack)
+add_enigma_test(enigma)
+add_enigma_test(io)
+add_enigma_test(ioc)
+add_enigma_test(ngram)

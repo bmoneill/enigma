@@ -144,23 +144,3 @@ void test_substitute(void) {
 
     TEST_ASSERT_EQUAL_CHAR('E', substitute(enigma.plugboard, 'E'));
 }
-
-int main(void) {
-    UNITY_BEGIN();
-
-    // public functions
-    RUN_TEST(test_enigma_encode);
-    RUN_TEST(test_enigma_encode_string);
-    RUN_TEST(test_enigma_init_rotors);
-    RUN_TEST(test_enigma_init_default_config);
-    RUN_TEST(test_enigma_init_random_config);
-
-    // static functions
-    RUN_TEST(test_rotate);
-    RUN_TEST(test_rotate_rotors);
-    RUN_TEST(test_rotor_pass_forward);
-    RUN_TEST(test_rotor_pass_reverse);
-    RUN_TEST(test_substitute);
-
-    return UNITY_END();
-}
