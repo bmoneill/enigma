@@ -15,6 +15,7 @@ float mockScore = 0.0f;
 const char* helloWorld = "HELLOXWORLD";
 const char* alphaText = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
 const char* ciphertext = "DMRFRXHAZUQZNLRUOM";
+const char* shortCiphertext = "DM";
 
 float storedScores[MAX_STORED_SCORES];
 int scoreIdx = 0;
@@ -22,7 +23,10 @@ int scoreIdx = 0;
 void setUp(void) {
     srand(time(NULL));
     memset(&cfg, 0, sizeof(enigma_crack_config_t));
+    enigma_init_default_config(&cfg.enigma);
     scoreIdx = 0;
+    cfg.ciphertext = shortCiphertext;
+    cfg.ciphertextLen = strlen(shortCiphertext);
     cfg.scores = &scores;
     cfg.scores->maxScores = 100;
     cfg.scores->scoreCount = 0;
@@ -45,6 +49,9 @@ float mock_score_function(const enigma_crack_config_t* config, const char* plain
 }
 
 void test_enigma_crack_plugboard(void) {
+    int ret = enigma_crack_plugboard(&cfg, mock_score_function);
+
+    TEST_ASSERT_EQUAL_INT(0, ret);
 }
 
 void test_enigma_crack_plugboard_WithNullArguments(void) {
@@ -58,9 +65,12 @@ void test_enigma_crack_reflector(void) {
 
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(scoreIdx, scores.scoreCount);
-
     for (int i = 0; i < scores.scoreCount; i++) {
         TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices, cfg.scores->scores[i].enigma.rotor_indices, 4);
+        if (i < scores.scoreCount - 1) {
+            TEST_ASSERT_NOT_EQUAL_CHAR(cfg.scores->scores[i].enigma.reflector->name[0], cfg.scores->scores[i+1].enigma.reflector->name[0]);
+        }
     }
 }
 
