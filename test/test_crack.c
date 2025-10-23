@@ -14,8 +14,6 @@ void setUp(void) {
     memset(&cfg, 0, sizeof(enigma_crack_config_t));
 }
 
-void tearDown(void) { }
-
 float mock_score_function(const enigma_crack_config_t* config, const char* plaintext) {
     return 0.0f;
 }
@@ -195,7 +193,26 @@ void test_enigma_score_append_WithEmptyScoreList(void) {
 }
 
 void test_enigma_score_append_WithFullScoreList(void) {
-    // TODO Implement
+    enigma_t enigma;
+    float score = 0.05;
+    int maxScores = 10;
+    int scoreCount = 10;
+
+    cfg.scores = malloc(sizeof(enigma_score_list_t));
+    cfg.scores->maxScores = maxScores;
+    cfg.scores->scoreCount = scoreCount;
+    cfg.scores->scores = malloc(sizeof(enigma_score_t) * maxScores);
+
+    int ret = enigma_score_append(&cfg, &enigma, helloWorld, score);
+
+    TEST_ASSERT_EQUAL_INT(0, ret);
+    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.scores->scoreCount);
+    TEST_ASSERT_EQUAL_INT(maxScores * 2, cfg.scores->maxScores);
+    TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[scoreCount].score);
+    TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices, cfg.scores->scores[scoreCount].enigma.rotor_indices, 4);
+
+    free(cfg.scores->scores);
+    free(cfg.scores);
 }
 
 void test_enigma_score_append_WithPartialScoreList(void) {
