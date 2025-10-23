@@ -1,4 +1,5 @@
 #include "enigma/crack.h"
+#include "enigma/io.h"
 #include "unity.h"
 #include "enigma/crack.c"
 #include "enigma/enigma.h"
