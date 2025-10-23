@@ -53,21 +53,21 @@ static const float englishFreq[26] = {
     0.0288f, 0.0111f, 0.0209f, 0.0017f, 0.0211f, 0.0007f
 };
 
-void  enigma_crack_rotor           (enigma_crack_config_t*,                               int,
+int   enigma_crack_rotor           (enigma_crack_config_t*,                               int,
                                     float (*)(const enigma_crack_config_t*, const char*));
-void  enigma_crack_rotors          (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
-void  enigma_crack_rotor_positions (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
-void  enigma_crack_reflector       (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
-void  enigma_crack_plugboard       (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
+int   enigma_crack_rotors          (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
+int   enigma_crack_rotor_positions (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
+int   enigma_crack_reflector       (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
+int   enigma_crack_plugboard       (enigma_crack_config_t*,                               float (*)(const enigma_crack_config_t*, const char*));
 int   enigma_dict_match            (const enigma_crack_config_t*,                         const char*);
-void  enigma_find_potential_indices(const char*,                                          const char*,
+int   enigma_find_potential_indices(const char*,                                          const char*,
                                     int*);
 float enigma_freq                  (const char*,                                          int);
 int   enigma_letter_freq           (const enigma_crack_config_t*,                         const char*);
-void  enigma_score_append          (enigma_crack_config_t*,                               enigma_t*,
+int   enigma_score_append          (enigma_crack_config_t*,                               enigma_t*,
                                     const char*,                                          float);
 int   enigma_score_flags           (const enigma_crack_config_t*,                         const char*);
-void  enigma_score_print           (const enigma_score_list_t*);
-void  enigma_score_sort            (enigma_score_list_t*);
+int   enigma_score_print           (const enigma_score_list_t*);
+int   enigma_score_sort            (enigma_score_list_t*);
 
 #endif
