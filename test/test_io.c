@@ -4,10 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-void setUp(void) { }
-
-void tearDown(void) { }
-
 void test_enigma_load_config(void) {
     const char* configStr = "I II III|XYZ|B|ABCDEF";
     enigma_t enigma;

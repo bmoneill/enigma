@@ -1,10 +1,6 @@
 #include "unity.h"
 #include "enigma/enigma.c"
 
-void setUp(void) { }
-
-void tearDown(void) { }
-
 void test_enigma_encode(void) {
     enigma_t enigma;
     enigma_init_random_config(&enigma);

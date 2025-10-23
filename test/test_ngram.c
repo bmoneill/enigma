@@ -3,10 +3,6 @@
 
 #include <string.h>
 
-void setUp(void) { }
-
-void tearDown(void) { }
-
 void test_enigma_bigram_score(void) {
     enigma_crack_config_t cfg;
     const char* text = "ABCD";
