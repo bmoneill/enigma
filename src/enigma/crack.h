@@ -39,9 +39,8 @@ typedef struct {
     float                minScore;
     float                maxScore;
     float                targetScore;
-    float                minFreq;
-    float                maxFreq;
     float                targetFreq;
+    float                freqOffset;
     char*               plaintext;
 } enigma_crack_config_t;
 

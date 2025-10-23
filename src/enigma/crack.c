@@ -332,16 +332,16 @@ int enigma_letter_freq(const enigma_crack_config_t* cfg, const char* plaintext) 
         return -1;
     }
     int letters[26] = {0};
-    int total = 0;
+    int nonMatching = 0;
     for (int i = 0; i < cfg->ciphertextLen; i++) {
         letters[plaintext[i] - 'A']++;
     }
 
     for (int i = 0; i < 26; i++) {
-        float freq = (float)letters[i] / cfg->ciphertextLen * 100.0f;
-        if (freq < cfg->freqTargets[i] - cfg->minFreq || freq > cfg->freqTargets[i] + cfg->maxFreq) {
-            total++;
-            if (total > 10) {
+        float freq = ((float)letters[i]) / cfg->ciphertextLen;
+        if (freq < cfg->freqTargets[i] - cfg->freqOffset || freq > cfg->freqTargets[i] + cfg->freqOffset) {
+            nonMatching++;
+            if (nonMatching > 10) {
                 return 0;
             }
         }

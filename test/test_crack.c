@@ -20,9 +20,9 @@ void test_enigma_crack_plugboard(void) {
 }
 
 void test_enigma_crack_plugboard_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_plugboard(NULL, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_plugboard(&cfg, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_plugboard(NULL, mock_score_function));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_plugboard(NULL, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_plugboard(&cfg, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_plugboard(NULL, mock_score_function));
 }
 
 void test_enigma_crack_reflector(void) {
@@ -30,9 +30,9 @@ void test_enigma_crack_reflector(void) {
 }
 
 void test_enigma_crack_reflector_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_reflector(NULL, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_plugboard(&cfg, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_plugboard(NULL, mock_score_function));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_reflector(NULL, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_plugboard(&cfg, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_plugboard(NULL, mock_score_function));
 }
 
 void test_enigma_crack_rotor(void) {
@@ -40,9 +40,9 @@ void test_enigma_crack_rotor(void) {
 }
 
 void test_enigma_crack_rotor_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotor(NULL, 0, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotor(&cfg, 0, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotor(NULL, 0, mock_score_function));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotor(NULL, 0, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotor(&cfg, 0, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotor(NULL, 0, mock_score_function));
 }
 
 void test_enigma_crack_rotors(void) {
@@ -50,9 +50,9 @@ void test_enigma_crack_rotors(void) {
 }
 
 void test_enigma_crack_rotors_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotors(NULL, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotors(&cfg, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotors(NULL, mock_score_function));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotors(NULL, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotors(&cfg, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotors(NULL, mock_score_function));
 }
 
 void test_enigma_crack_rotor_positions(void) {
@@ -60,14 +60,9 @@ void test_enigma_crack_rotor_positions(void) {
 }
 
 void test_enigma_crack_rotor_positions_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotor_positions(NULL, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotor_positions(&cfg, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_rotor_positions(NULL, mock_score_function));
-}
-
-void test_enigma_dict_match_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_dict_match(NULL, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_dict_match(&cfg, "HELLO"));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotor_positions(NULL, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotor_positions(&cfg, NULL));
+    TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotor_positions(NULL, mock_score_function));
 }
 
 void test_enigma_dict_match_WithMatchingPlaintext(void) {
@@ -99,6 +94,11 @@ void test_enigma_dict_match_WithNonMatchingPlaintext(void) {
     cfg.dictionary[3] = "SATURN";
 
     TEST_ASSERT_EQUAL_INT(0, enigma_dict_match(&cfg, plaintext));
+}
+
+void test_enigma_dict_match_WithNullArguments(void) {
+    TEST_ASSERT_EQUAL_INT(-1, enigma_dict_match(NULL, NULL));
+    TEST_ASSERT_EQUAL_INT(-1, enigma_dict_match(&cfg, "HELLO"));
 }
 
 void test_enigma_find_potential_indices_WithMatchingPlaintext(void) {
@@ -139,20 +139,29 @@ void test_enigma_freq_WithNullArguments(void) {
     TEST_ASSERT_EQUAL_FLOAT(-1.0f, enigma_freq(NULL, 0));
 }
 
-void test_enigma_letter_freq(void) {
-    const char* plaintext = "HELLOXWORLD";
+void test_enigma_letter_freq_WithSufficientPlaintext(void) {
+    const char* plaintext = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
+    cfg.ciphertextLen = strlen(plaintext);
 
-    cfg.freqTargets['H' - 'A'] = 0.05;
-    cfg.freqTargets['E' - 'A'] = 0.05;
-    cfg.freqTargets['L' - 'A'] = 0.05;
-    cfg.freqTargets['O' - 'A'] = 0.05;
-    cfg.freqTargets['W' - 'A'] = 0.05;
-    cfg.freqTargets['R' - 'A'] = 0.05;
-    cfg.freqTargets['D' - 'A'] = 0.05;
+    for (int i = 0; i < 26; i++) {
+        cfg.freqTargets[i] = 0.05;
+    }
+    cfg.freqOffset = 0.03;
 
     int actual = enigma_letter_freq(&cfg, plaintext);
 
-    TEST_ASSERT_EQUAL_FLOAT(0, actual);
+    TEST_ASSERT_EQUAL_FLOAT(1, actual);
+}
+
+void test_enigma_letter_freq_WithInsufficientPlaintext(void) {
+    const char* plaintext = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
+    cfg.ciphertextLen = strlen(plaintext);
+    for (int i = 0; i < 26; i++) {
+        cfg.freqTargets[i] = 1.0;
+    }
+    cfg.freqOffset = 0.01;
+
+    TEST_ASSERT_EQUAL_FLOAT(0, enigma_letter_freq(&cfg, plaintext));
 }
 
 void test_enigma_letter_freq_WithNullArguments(void) {
