@@ -13,3 +13,4 @@ DartConfiguration.tcl
 /test/*_tests
 Testing/
 .zed/
+.clangd
