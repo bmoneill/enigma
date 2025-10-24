@@ -10,9 +10,9 @@
 
 enigma_crack_config_t cfg;
 enigma_score_list_t   scores;
-float                 mockScore       = 0.0f;
+float                 mockScore = 0.0f;
 float                 storedScores[MAX_STORED_SCORES];
-int                   scoreIdx = 0;
+int                   scoreIdx        = 0;
 const char*           helloWorld      = "HELLOXWORLD";
 const char*           alphaText       = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
 const char*           ciphertext      = "DMRFRXHAZUQZNLRUOM";
