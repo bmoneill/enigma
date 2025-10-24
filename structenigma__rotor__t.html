@@ -96,6 +96,9 @@ $(document).ready(function(){initNavTree('structenigma__rotor__t.html',''); init
 </div><!--header-->
 <div class="contents">
 
+<p>Represents a rotor configuration for the Enigma machine.  
+ <a href="structenigma__rotor__t.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="rotors_8h_source.html">rotors.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -111,7 +114,20 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a04f49fe9d936034c46989db5436f4677"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structenigma__rotor__t.html#a04f49fe9d936034c46989db5436f4677">numNotches</a></td></tr>
 <tr class="separator:a04f49fe9d936034c46989db5436f4677"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Field Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Represents a rotor configuration for the Enigma machine. </p>
+<p>Indices here are entered manually to avoid extra calculation at runtime. Essentially, they map the rotor's alphabet to the standard alphabet (A-Z).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the rotor. </td></tr>
+    <tr><td class="paramname">fwd_indices</td><td>Character code of each standard alphabetic character in the rotor's alphabet. </td></tr>
+    <tr><td class="paramname">rev_indices</td><td>Character code of each rotor's alphabetic character in the standard alphabet. </td></tr>
+    <tr><td class="paramname">notches</td><td>Array of notch positions. </td></tr>
+    <tr><td class="paramname">numNotches</td><td>Number of notches. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Field Documentation</h2>
 <a id="ad6cb4d26efa809b129c10563b36a4b54" name="ad6cb4d26efa809b129c10563b36a4b54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad6cb4d26efa809b129c10563b36a4b54">&#9670;&#160;</a></span>fwd_indices</h2>
 

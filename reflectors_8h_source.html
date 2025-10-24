@@ -101,43 +101,40 @@ $(document).ready(function(){initNavTree('reflectors_8h_source.html',''); initRe
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="reflectors_8h.html#a076c516101d818406c4cf369d70095c8">   11</a></span><span class="preprocessor">#define ENIGMA_REFLECTOR_COUNT 3</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html">   13</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">   14</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html#a2f1f905ab53d12a0e1c1e8442b377368">   15</a></span>    <span class="keywordtype">int</span>         indices[<a class="code hl_define" href="common_8h.html#a05dc1c61b68de7e05eed780cf93dc744">ENIGMA_ALPHA_SIZE</a>];</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>} <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">// Alphabet: &quot;EJMZALYXVBWFCRQUONTSPIKHGD&quot;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a> enigma_UKW_A = {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    .<a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a> = <span class="stringliteral">&quot;A&quot;</span>,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    .indices</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    = { 4, 9, 12, 25, 0, 1, 11, 23, 14, 19, 18, 17, 16, 15, 13, 10, 3, 2, 5, 6, 7, 8, 20, 21, 22 },</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>};</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">// Alphabet: &quot;YRUHQSLDPXNGOKMIEBFZCWVJAT&quot;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a> enigma_UKW_B = {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    .<a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>    = <span class="stringliteral">&quot;B&quot;</span>,</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    .indices = { 24, 17, 20, 7, 16, 18, 11, 3, 15, 23, 13, 6, 14,</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                 10, 12, 8,  4, 1,  5,  25, 2, 22, 21, 9,  0, 19 },</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>};</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">// Alphabet: &quot;FVPJIAOYEDRZXWGCTKUQSBNMHL&quot;</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a> enigma_UKW_C = {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    .<a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>    = <span class="stringliteral">&quot;C&quot;</span>,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    .indices = { 5,  21, 15, 9,  8,  0,  14, 24, 4, 3,  17, 25, 23,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                 22, 6,  2,  19, 10, 20, 16, 18, 1, 13, 12, 7,  11 },</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>};</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>* enigma_reflectors[] = {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    &amp;enigma_UKW_A,</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    &amp;enigma_UKW_B,</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    &amp;enigma_UKW_C,</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>};</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html">   21</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">   22</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html#a2f1f905ab53d12a0e1c1e8442b377368">   23</a></span>    <span class="keywordtype">int</span>         indices[<a class="code hl_define" href="common_8h.html#a05dc1c61b68de7e05eed780cf93dc744">ENIGMA_ALPHA_SIZE</a>];</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>} <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a> enigma_UKW_A = {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    .<a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a> = <span class="stringliteral">&quot;A&quot;</span>,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    .indices</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    = { 4, 9, 12, 25, 0, 1, 11, 23, 14, 19, 18, 17, 16, 15, 13, 10, 3, 2, 5, 6, 7, 8, 20, 21, 22 },</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a> enigma_UKW_B = {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    .<a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>    = <span class="stringliteral">&quot;B&quot;</span>,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    .indices = { 24, 17, 20, 7, 16, 18, 11, 3, 15, 23, 13, 6, 14,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                 10, 12, 8,  4, 1,  5,  25, 2, 22, 21, 9,  0, 19 },</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>};</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a> enigma_UKW_C = {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    .<a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>    = <span class="stringliteral">&quot;C&quot;</span>,</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    .indices = { 5,  21, 15, 9,  8,  0,  14, 24, 4, 3,  17, 25, 23,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                 22, 6,  2,  19, 10, 20, 16, 18, 1, 13, 12, 7,  11 },</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>};</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>* enigma_reflectors[] = {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    &amp;enigma_UKW_A,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    &amp;enigma_UKW_B,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    &amp;enigma_UKW_C,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>};</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div></div>
 <div class="ttc" id="acommon_8h_html_a05dc1c61b68de7e05eed780cf93dc744"><div class="ttname"><a href="common_8h.html#a05dc1c61b68de7e05eed780cf93dc744">ENIGMA_ALPHA_SIZE</a></div><div class="ttdeci">#define ENIGMA_ALPHA_SIZE</div><div class="ttdef"><b>Definition:</b> common.h:9</div></div>
-<div class="ttc" id="astructenigma__reflector__t_html"><div class="ttname"><a href="structenigma__reflector__t.html">enigma_reflector_t</a></div><div class="ttdef"><b>Definition:</b> reflectors.h:13</div></div>
-<div class="ttc" id="astructenigma__reflector__t_html_a8f8f80d37794cde9472343e4487ba3eb"><div class="ttname"><a href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">enigma_reflector_t::name</a></div><div class="ttdeci">const char * name</div><div class="ttdef"><b>Definition:</b> reflectors.h:14</div></div>
+<div class="ttc" id="astructenigma__reflector__t_html"><div class="ttname"><a href="structenigma__reflector__t.html">enigma_reflector_t</a></div><div class="ttdoc">Represents a reflector configuration for the Enigma machine.</div><div class="ttdef"><b>Definition:</b> reflectors.h:21</div></div>
+<div class="ttc" id="astructenigma__reflector__t_html_a8f8f80d37794cde9472343e4487ba3eb"><div class="ttname"><a href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">enigma_reflector_t::name</a></div><div class="ttdeci">const char * name</div><div class="ttdef"><b>Definition:</b> reflectors.h:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

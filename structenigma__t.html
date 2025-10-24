@@ -121,7 +121,18 @@ Data Fields</h2></td></tr>
 <p>This structure holds the rotors, reflector, and plugboard settings for an Enigma machine. It supports up to 4 rotors and includes fields for the rotor count and a flag for rotor behavior.</p>
 <p>The plugboard is represented as a string of character pairs, where each pair indicates two letters that are swapped during encoding.</p>
 <p>Example plugboard configuration: "ABCD" means A&lt;-&gt;B and C&lt;-&gt;D are swapped.</p>
-<p>Note: The reflector and rotors are represented using their respective structures defined in <code><a class="el" href="reflectors_8h.html">reflectors.h</a></code> and <code><a class="el" href="rotors_8h.html">rotors.h</a></code>. </p>
+<p>Note: The reflector and rotors are represented using their respective structures defined in <code><a class="el" href="reflectors_8h.html">reflectors.h</a></code> and <code><a class="el" href="rotors_8h.html">rotors.h</a></code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rotors</td><td>Array of pointers to rotor configurations. </td></tr>
+    <tr><td class="paramname">rotor_indices</td><td>Array of current rotor indices. </td></tr>
+    <tr><td class="paramname">rotor_flag</td><td>Flag indicating rotor behavior. </td></tr>
+    <tr><td class="paramname">rotor_count</td><td>Number of rotors in use. </td></tr>
+    <tr><td class="paramname">reflector</td><td>Pointer to reflector configuration. </td></tr>
+    <tr><td class="paramname">plugboard</td><td>String representing plugboard settings. </td></tr>
+  </table>
+  </dd>
+</dl>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a6747f9c3bac7960c1519a38b96a31759" name="a6747f9c3bac7960c1519a38b96a31759"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6747f9c3bac7960c1519a38b96a31759">&#9670;&#160;</a></span>plugboard</h2>

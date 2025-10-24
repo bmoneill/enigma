@@ -96,6 +96,9 @@ $(document).ready(function(){initNavTree('structenigma__crack__config__t.html','
 </div><!--header-->
 <div class="contents">
 
+<p>A structure representing a configuration for cracking an Enigma cipher.  
+ <a href="structenigma__crack__config__t.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="crack_8h_source.html">crack.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -135,7 +138,31 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a7dfb69964dc39e0cbfa019466c6d3b8e"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structenigma__crack__config__t.html#a7dfb69964dc39e0cbfa019466c6d3b8e">plaintext</a></td></tr>
 <tr class="separator:a7dfb69964dc39e0cbfa019466c6d3b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Field Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A structure representing a configuration for cracking an Enigma cipher. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>The base Enigma machine configuration. </td></tr>
+    <tr><td class="paramname">scores</td><td>A list of scored Enigma configurations. </td></tr>
+    <tr><td class="paramname">dictionary</td><td>An array of dictionary words. </td></tr>
+    <tr><td class="paramname">dictSize</td><td>The number of words in the dictionary. </td></tr>
+    <tr><td class="paramname">ngrams</td><td>An array of n-gram frequencies. </td></tr>
+    <tr><td class="paramname">n</td><td>The length of each n-gram. </td></tr>
+    <tr><td class="paramname">ngramLen</td><td>The number of n-grams. </td></tr>
+    <tr><td class="paramname">ciphertext</td><td>The ciphertext to be cracked. </td></tr>
+    <tr><td class="paramname">ciphertextLen</td><td>The length of the ciphertext. </td></tr>
+    <tr><td class="paramname">flags</td><td>Flags indicating special conditions a scored configuration may meet. </td></tr>
+    <tr><td class="paramname">freqTargets</td><td>An array of frequency targets for each letter. </td></tr>
+    <tr><td class="paramname">minScore</td><td>The minimum score for a configuration to be considered valid. </td></tr>
+    <tr><td class="paramname">maxScore</td><td>The maximum score for a configuration to be considered valid. </td></tr>
+    <tr><td class="paramname">targetScore</td><td>The target score for a configuration to be considered valid. </td></tr>
+    <tr><td class="paramname">targetFreq</td><td>The target frequency for a configuration to be considered valid. </td></tr>
+    <tr><td class="paramname">freqOffset</td><td>The maximum offset from the target frequency that a scored configuration may have. </td></tr>
+    <tr><td class="paramname">plaintext</td><td>Known plaintext. </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">Field Documentation</h2>
 <a id="a725ae6fbdc67a9d510d2afa2a06ef11b" name="a725ae6fbdc67a9d510d2afa2a06ef11b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a725ae6fbdc67a9d510d2afa2a06ef11b">&#9670;&#160;</a></span>ciphertext</h2>
 

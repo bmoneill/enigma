@@ -139,16 +139,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:a27022ec08f46d8013b126ab5c7c0b4e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the letter frequencies in the plaintext match target frequencies within an offset.  <br /></td></tr>
 <tr class="separator:a27022ec08f46d8013b126ab5c7c0b4e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e35c711b31f41da4b2cceb713bc59fa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a9e35c711b31f41da4b2cceb713bc59fa">enigma_score_append</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, <a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *plaintext, float score)</td></tr>
-<tr class="memdesc:a9e35c711b31f41da4b2cceb713bc59fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a score to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>.  <br /></td></tr>
+<tr class="memdesc:a9e35c711b31f41da4b2cceb713bc59fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a score to an <a class="el" href="structenigma__score__list__t.html" title="A structure representing a list of scored Enigma configurations.">enigma_score_list_t</a>.  <br /></td></tr>
 <tr class="separator:a9e35c711b31f41da4b2cceb713bc59fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae49af0d9a51db2776db99732fefa5b1e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#ae49af0d9a51db2776db99732fefa5b1e">enigma_score_flags</a> (const <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *cfg, const char *plaintext)</td></tr>
 <tr class="memdesc:ae49af0d9a51db2776db99732fefa5b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the flags for a given plaintext based on the crack configuration.  <br /></td></tr>
 <tr class="separator:ae49af0d9a51db2776db99732fefa5b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9d4b12a347d4fe0f76c909b2f604140"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#ac9d4b12a347d4fe0f76c909b2f604140">enigma_score_print</a> (const <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *scoreList)</td></tr>
-<tr class="memdesc:ac9d4b12a347d4fe0f76c909b2f604140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the scores in an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>.  <br /></td></tr>
+<tr class="memdesc:ac9d4b12a347d4fe0f76c909b2f604140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the scores in an <a class="el" href="structenigma__score__list__t.html" title="A structure representing a list of scored Enigma configurations.">enigma_score_list_t</a>.  <br /></td></tr>
 <tr class="separator:ac9d4b12a347d4fe0f76c909b2f604140"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89cbd075a83addfb26ce2a2c3e74f454"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a89cbd075a83addfb26ce2a2c3e74f454">enigma_score_sort</a> (<a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> *scoreList)</td></tr>
-<tr class="memdesc:a89cbd075a83addfb26ce2a2c3e74f454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort an array of <a class="el" href="structenigma__score__t.html">enigma_score_t</a> by score in descending order.  <br /></td></tr>
+<tr class="memdesc:a89cbd075a83addfb26ce2a2c3e74f454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort an array of <a class="el" href="structenigma__score__t.html" title="A structure representing a scored Enigma configuration.">enigma_score_t</a> by score in descending order.  <br /></td></tr>
 <tr class="separator:a89cbd075a83addfb26ce2a2c3e74f454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -402,7 +402,7 @@ Functions</h2></td></tr>
 <p>The dictionary must be uppercase.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cfg</td><td>The <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> containing the dictionary and its size </td></tr>
+    <tr><td class="paramname">cfg</td><td>The <a class="el" href="structenigma__crack__config__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_config_t</a> containing the dictionary and its size </td></tr>
     <tr><td class="paramname">plaintext</td><td>The plaintext to check</td></tr>
   </table>
   </dd>
@@ -526,7 +526,7 @@ Functions</h2></td></tr>
 <p>This function checks if the frequency of each letter in the plaintext is within the specified offset of the target frequencies. If more than ten letters deviate from the target frequencies, the function returns 0 (false). Otherwise, it returns 1 (true).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cfg</td><td>The <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> containing the target frequencies and offset </td></tr>
+    <tr><td class="paramname">cfg</td><td>The <a class="el" href="structenigma__crack__config__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_config_t</a> containing the target frequencies and offset </td></tr>
     <tr><td class="paramname">plaintext</td><td>The plaintext to analyze</td></tr>
   </table>
   </dd>
@@ -573,7 +573,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Append a score to an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>. </p>
+<p>Append a score to an <a class="el" href="structenigma__score__list__t.html" title="A structure representing a list of scored Enigma configurations.">enigma_score_list_t</a>. </p>
 <p>If the scores array is full, it will be resized to double its current size.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -615,10 +615,10 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the flags for a given plaintext based on the crack configuration. </p>
-<p>This function checks the plaintext against the criteria specified in the <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> and returns a bitmask of flags indicating which criteria were met.</p>
+<p>This function checks the plaintext against the criteria specified in the <a class="el" href="structenigma__crack__config__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_config_t</a> and returns a bitmask of flags indicating which criteria were met.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cfg</td><td>The <a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> containing the criteria and flags. </td></tr>
+    <tr><td class="paramname">cfg</td><td>The <a class="el" href="structenigma__crack__config__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_config_t</a> containing the criteria and flags. </td></tr>
     <tr><td class="paramname">plaintext</td><td>The plaintext to evaluate. </td></tr>
   </table>
   </dd>
@@ -643,10 +643,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Print the scores in an <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a>. </p>
+<p>Print the scores in an <a class="el" href="structenigma__score__list__t.html" title="A structure representing a list of scored Enigma configurations.">enigma_score_list_t</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">scoreList</td><td>Pointer to the <a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a> structure. </td></tr>
+    <tr><td class="paramname">scoreList</td><td>Pointer to the <a class="el" href="structenigma__score__list__t.html" title="A structure representing a list of scored Enigma configurations.">enigma_score_list_t</a> structure. </td></tr>
   </table>
   </dd>
 </dl>
@@ -669,10 +669,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sort an array of <a class="el" href="structenigma__score__t.html">enigma_score_t</a> by score in descending order. </p>
+<p>Sort an array of <a class="el" href="structenigma__score__t.html" title="A structure representing a scored Enigma configuration.">enigma_score_t</a> by score in descending order. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">scores</td><td>The array of <a class="el" href="structenigma__score__t.html">enigma_score_t</a> to sort.</td></tr>
+    <tr><td class="paramname">scores</td><td>The array of <a class="el" href="structenigma__score__t.html" title="A structure representing a scored Enigma configuration.">enigma_score_t</a> to sort.</td></tr>
   </table>
   </dd>
 </dl>
