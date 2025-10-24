@@ -6,6 +6,7 @@
 #include "io.h"
 
 #include "crack.h"
+#include "ngram.h"
 
 #include <ctype.h>
 #include <stdio.h>
