@@ -8,7 +8,6 @@
 
 #include "crack.h"
 #include "enigma.h"
-#include "ngram.h"
 
 int  enigma_load_config(enigma_t*, const char*);
 int  enigma_load_custom_reflector(enigma_reflector_t*, const char*, const char*);

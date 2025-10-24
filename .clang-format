@@ -18,3 +18,4 @@ MaxEmptyLinesToKeep: 1
 ReflowComments: false
 SortIncludes: true
 SpaceAfterCStyleCast: true
+AlignConsecutiveMacros: true
