@@ -303,12 +303,12 @@ static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
  */
 static int load_language(enigma_crack_config_t* config, const char* language) {
     if (!strcmp(language, "english")) {
-        config->minScore = enigma_ioc_english_min;
-        config->maxScore = enigma_ioc_english_max;
+        config->minScore = ENIGMA_IOC_ENGLISH_MIN;
+        config->maxScore = ENIGMA_IOC_ENGLISH_MAX;
         return 0;
     } else if (!strcmp(language, "german")) {
-        config->minScore = enigma_ioc_german_min;
-        config->maxScore = enigma_ioc_german_max;
+        config->minScore = ENIGMA_IOC_GERMAN_MIN;
+        config->maxScore = ENIGMA_IOC_GERMAN_MAX;
         return 0;
     }
 
