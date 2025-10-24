@@ -12,6 +12,7 @@
 #include "rotors.h"
 
 /**
+ * @struct enigma_t
  * @brief Represents the state and configuration of an Enigma machine.
  *
  * This structure holds the rotors, reflector, and plugboard settings

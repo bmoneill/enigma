@@ -11,6 +11,7 @@
 #define ENIGMA_REFLECTOR_COUNT 3
 
 /**
+ * @struct enigma_reflector_t
  * @brief Represents a reflector configuration for the Enigma machine.
  *
  * Indices represent the character code of each standard alphabetic character in the rotor's alphabet.

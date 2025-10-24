@@ -11,6 +11,7 @@
 #define ENIGMA_ROTOR_COUNT 8
 
 /**
+ * @struct enigma_rotor_t
  * @brief Represents a rotor configuration for the Enigma machine.
  *
  * Indices here are entered manually to avoid extra calculation at runtime. Essentially, they map
