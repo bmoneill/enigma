@@ -1,3 +1,4 @@
+#include "enigma/common.h"
 #include "enigma/crack.h"
 #include "enigma/io.h"
 #include "unity.h"
@@ -82,7 +83,21 @@ void test_enigma_crack_reflector_WithNullArguments(void) {
 }
 
 void test_enigma_crack_rotor(void) {
-    // TODO Implement
+    int rot = 2;
+    int ret = enigma_crack_rotor(&cfg, rot, mock_score_function);
+
+    TEST_ASSERT_EQUAL_INT(0, ret);
+    TEST_ASSERT_EQUAL_INT(scoreIdx, scores.scoreCount);
+    for (int i = 0; i < scores.scoreCount; i++) {
+        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices, cfg.scores->scores[i].enigma.rotor_indices, 4);
+
+        if (i < scores.scoreCount - 1) {
+            printf("%s %s\n", cfg.scores->scores[i].enigma.rotors[rot]->name, cfg.scores->scores[i+1].enigma.rotors[rot]->name);
+            int res = strcmp(cfg.scores->scores[i].enigma.rotors[rot]->name, cfg.scores->scores[i+1].enigma.rotors[rot]->name);
+            TEST_ASSERT_NOT_EQUAL_INT(0, res);
+        }
+    }
 }
 
 void test_enigma_crack_rotor_WithNullArguments(void) {
