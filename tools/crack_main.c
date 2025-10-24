@@ -47,10 +47,10 @@ static void load_frequencies(enigma_crack_config_t*, const char*);
 static int  load_language(enigma_crack_config_t*, const char*);
 static void load_target(enigma_crack_config_t*, const char*);
 
-#define METHOD_IOC 1
+#define METHOD_IOC   1
 #define METHOD_NGRAM 2
 
-#define TARGET_ROTOR 1
+#define TARGET_ROTOR     1
 #define TARGET_POSITIONS 2
 #define TARGET_REFLECTOR 3
 #define TARGET_PLUGBOARD 4
