@@ -1,4 +1,5 @@
 #include "enigma/io.h"
+#include "enigma/ngram.h"
 #include "unity.h"
 
 #include <stdlib.h>
