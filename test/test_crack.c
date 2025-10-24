@@ -93,7 +93,6 @@ void test_enigma_crack_rotor(void) {
         TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices, cfg.scores->scores[i].enigma.rotor_indices, 4);
 
         if (i < scores.scoreCount - 1) {
-            printf("%s %s\n", cfg.scores->scores[i].enigma.rotors[rot]->name, cfg.scores->scores[i+1].enigma.rotors[rot]->name);
             int res = strcmp(cfg.scores->scores[i].enigma.rotors[rot]->name, cfg.scores->scores[i+1].enigma.rotors[rot]->name);
             TEST_ASSERT_NOT_EQUAL_INT(0, res);
         }
