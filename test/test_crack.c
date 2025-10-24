@@ -106,7 +106,23 @@ void test_enigma_crack_rotor_WithNullArguments(void) {
 }
 
 void test_enigma_crack_rotors(void) {
-    // TODO Implement
+    int ret = enigma_crack_rotors(&cfg, mock_score_function);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+
+    for (int i = 0; i < MAX_STORED_SCORES; i++) {
+        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices, cfg.scores->scores[i].enigma.rotor_indices, 4);
+
+        int cmp = 0;
+        enigma_t* e1 = &cfg.scores->scores[i].enigma;
+        enigma_t* e2 = &cfg.scores->scores[i+1].enigma;
+        for (int i = 0; i < 3; i++) {
+            if (e1->rotors[i] == e2->rotors[i]) {
+                cmp++;
+            }
+        }
+        TEST_ASSERT_NOT_EQUAL_INT(3, cmp);
+    }
 }
 
 void test_enigma_crack_rotors_WithNullArguments(void) {
@@ -116,7 +132,23 @@ void test_enigma_crack_rotors_WithNullArguments(void) {
 }
 
 void test_enigma_crack_rotor_positions(void) {
-    // TODO Implement
+    int ret = enigma_crack_rotor_positions(&cfg, mock_score_function);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+
+    for (int i = 0; i < MAX_STORED_SCORES; i++) {
+        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_CHAR_ARRAY(cfg.enigma.plugboard, cfg.scores->scores[i].enigma.plugboard, 27);
+
+        int cmp = 0;
+        enigma_t* e1 = &cfg.scores->scores[i].enigma;
+        enigma_t* e2 = &cfg.scores->scores[i+1].enigma;
+        for (int i = 0; i < 3; i++) {
+            if (e1->rotor_indices[i] == e2->rotor_indices[i]) {
+                cmp++;
+            }
+        }
+        TEST_ASSERT_NOT_EQUAL_INT(3, cmp);
+    }
 }
 
 void test_enigma_crack_rotor_positions_WithNullArguments(void) {

@@ -188,7 +188,7 @@ int enigma_crack_rotors(enigma_crack_config_t* cfg, float (*scoreFunc)(const eni
     }
 
     free(plaintext);
-    return 1;
+    return 0;
 }
 
 /**
