@@ -6,7 +6,7 @@
 #include <time.h>
 
 #define MAX_STORED_SCORES 10
-#define MAX_SCORES 100
+#define MAX_SCORES        100
 
 enigma_crack_config_t cfg;
 enigma_score_list_t   scores;
