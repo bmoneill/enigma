@@ -25,6 +25,13 @@
  *
  * Note: The reflector and rotors are represented using their respective structures
  * defined in `reflectors.h` and `rotors.h`.
+ *
+ * @param rotors Array of pointers to rotor configurations.
+ * @param rotor_indices Array of current rotor indices.
+ * @param rotor_flag Flag indicating rotor behavior.
+ * @param rotor_count Number of rotors in use.
+ * @param reflector Pointer to reflector configuration.
+ * @param plugboard String representing plugboard settings.
  */
 typedef struct {
     const enigma_rotor_t*     rotors[4];

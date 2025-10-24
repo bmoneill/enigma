@@ -10,6 +10,18 @@
 
 #define ENIGMA_ROTOR_COUNT 8
 
+/**
+ * @brief Represents a rotor configuration for the Enigma machine.
+ *
+ * Indices here are entered manually to avoid extra calculation at runtime. Essentially, they map
+ * the rotor's alphabet to the standard alphabet (A-Z).
+ *
+ * @param name Name of the rotor.
+ * @param fwd_indices Character code of each standard alphabetic character in the rotor's alphabet.
+ * @param rev_indices Character code of each rotor's alphabetic character in the standard alphabet.
+ * @param notches Array of notch positions.
+ * @param numNotches Number of notches.
+ */
 typedef struct {
     const char* name;
     int         fwd_indices[ENIGMA_ALPHA_SIZE];
@@ -18,13 +30,12 @@ typedef struct {
     int         numNotches;
 } enigma_rotor_t;
 
-// Indices here are entered manually to avoid extra calculation at runtime.
-// Essentially, they map the rotor's alphabet to the standard alphabet (A-Z).
-// fwd_indices represents the character code of each standard alphabetic character in the rotor's alphabet.
-// rev_indices represents the character code of each rotor's alphabetic character in the standard alphabet.
-
-// Alphabet: "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
-// Notches: Q
+/**
+ * @brief Wehrmacht/Kriegsmarine rotor I
+ *
+ * Alphabet: "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
+ * Notches: "Q"
+ */
 static const enigma_rotor_t enigma_rotor_I = {
     .name        = "I",
     .fwd_indices = { 4,  10, 12, 5,  11, 6,  3,  16, 21, 25, 13, 19, 14,
@@ -35,8 +46,12 @@ static const enigma_rotor_t enigma_rotor_I = {
     .numNotches  = 1,
 };
 
-// Alphabet: "AJDKSIRUXBLHWTMCQGZNPYFVOE"
-// Notches: E
+/**
+ * @brief Wehrmacht/Kriegsmarine rotor II
+ *
+ * Alphabet: "AJDKSIRUXBLHWTMCQGZNPYFVOE"
+ * Notches: "E"
+ */
 static const enigma_rotor_t enigma_rotor_II = {
     .name        = "II",
     .fwd_indices = { 0,  9,  3, 10, 18, 8,  17, 20, 23, 1, 11, 7,  22,
@@ -47,8 +62,12 @@ static const enigma_rotor_t enigma_rotor_II = {
     .numNotches  = 1,
 };
 
-// Alphabet: "BDFHJLCPRTXVZNYEIWGAKMUSQO"
-// Notches: V
+/**
+ * @brief Wehrmacht/Kriegsmarine rotor III
+ *
+ * Alphabet: "BDFHJLCPRTXVZNYEIWGAKMUSQO"
+ * Notches: "V"
+ */
 static const enigma_rotor_t enigma_rotor_III = {
     .name        = "III",
     .fwd_indices = { 1,  3,  5, 7, 9,  11, 2, 15, 17, 19, 23, 21, 25,
@@ -59,8 +78,12 @@ static const enigma_rotor_t enigma_rotor_III = {
     .numNotches  = 1,
 };
 
-// Alphabet: "ESOVPZJAYQUIRHXLNFTGKDCMWB"
-// Notches: R
+/**
+ * @brief Wehrmacht/Kriegsmarine rotor IV
+ *
+ * Alphabet: "ESOVPZJAYQUIRHXLNFTGKDCMWB"
+ * Notches: "R"
+ */
 static const enigma_rotor_t enigma_rotor_IV = {
     .name        = "IV",
     .fwd_indices = { 4, 18, 14, 21, 15, 25, 9, 0,  24, 16, 20, 8,  17,
@@ -71,8 +94,12 @@ static const enigma_rotor_t enigma_rotor_IV = {
     .numNotches  = 1,
 };
 
-// Alphabet: "VZBRGITYUPSDNHLXAWMJQOFECK"
-// Notches: Z
+/**
+ * @brief Wehrmacht/Kriegsmarine rotor V
+ *
+ * Alphabet: "VZBRGITYUPSDNHLXAWMJQOFECK"
+ * Notches: "Z"
+ */
 static const enigma_rotor_t enigma_rotor_V = {
     .name        = "V",
     .fwd_indices = { 21, 25, 1,  17, 6,  8,  19, 24, 20, 15, 18, 3, 13,
@@ -83,8 +110,12 @@ static const enigma_rotor_t enigma_rotor_V = {
     .numNotches  = 1,
 };
 
-// Alphabet = "JPGVOUMFYQBENHZRDKASXLICTW"
-// Notches: ZM
+/**
+ * @brief Kriegsmarine rotor VI
+ *
+ * Alphabet = "JPGVOUMFYQBENHZRDKASXLICTW"
+ * Notches: "ZM"
+ */
 static const enigma_rotor_t enigma_rotor_VI = {
     .name        = "VI",
     .fwd_indices = { 9, 15, 6,  21, 14, 20, 12, 5,  24, 16, 1, 4,  13,
@@ -95,8 +126,12 @@ static const enigma_rotor_t enigma_rotor_VI = {
     .numNotches  = 2,
 };
 
-// Alphabet: "NZJHGRCXMYSWBOUFAIVLPEKQDT"
-// Notches: ZM
+/**
+ * @brief Kriegsmarine rotor VII
+ *
+ * Alphabet: "NZJHGRCXMYSWBOUFAIVLPEKQDT"
+ * Notches: "ZM"
+ */
 static const enigma_rotor_t enigma_rotor_VII = {
     .name        = "VII",
     .fwd_indices = { 13, 25, 9, 7, 6, 17, 2,  23, 12, 24, 18, 22, 1,
@@ -107,8 +142,12 @@ static const enigma_rotor_t enigma_rotor_VII = {
     .numNotches  = 2,
 };
 
-// Alphabet: "FKQHTLXOCBJSPDZRAMEWNIUYGV"
-// Notches: ZM
+/**
+ * @brief Kriegsmarine rotor VIII
+ *
+ * Alphabet: "FKQHTLXOCBJSPDZRAMEWNIUYGV"
+ * Notches: "ZM"
+ */
 static const enigma_rotor_t enigma_rotor_VIII = {
     .name        = "VIII",
     .fwd_indices = { 5, 10, 16, 7, 19, 11, 23, 14, 2, 1,  9,  18, 15,
@@ -119,6 +158,9 @@ static const enigma_rotor_t enigma_rotor_VIII = {
     .numNotches  = 2,
 };
 
+/**
+ * @brief Array of all available Enigma rotors.
+ */
 static const enigma_rotor_t* enigma_rotors[]
     = { &enigma_rotor_I, &enigma_rotor_II, &enigma_rotor_III, &enigma_rotor_IV,
         &enigma_rotor_V, &enigma_rotor_VI, &enigma_rotor_VII, &enigma_rotor_VIII };

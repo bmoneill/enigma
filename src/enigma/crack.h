@@ -12,18 +12,57 @@
 #define ENIGMA_FLAG_FREQUENCY        2
 #define ENIGMA_FLAG_KNOWN_PLAINTEXT  4
 
+/**
+ * @struct enigma_score_t
+ * @brief A structure representing a scored Enigma configuration.
+ *
+ * @param enigma The Enigma configuration.
+ * @param score  The score of the configuration.
+ * @param flags  Flags indicating special conditions the configuration met (e.g. matches dictionary
+ *               words or contains known plaintext).
+ */
 typedef struct {
     enigma_t enigma;
     float    score;
     int      flags;
 } enigma_score_t;
 
+/**
+ * @struct enigma_score_list_t
+ * @brief A structure representing a list of scored Enigma configurations.
+ *
+ * @param scores     An array of enigma_score_t structures.
+ * @param scoreCount The number of scores in the array.
+ * @param maxScores  The maximum number of scores that can be stored in the array.
+ */
 typedef struct {
     enigma_score_t* scores;
     int             scoreCount;
     int             maxScores;
 } enigma_score_list_t;
 
+/**
+ * @struct enigma_crack_config_t
+ * @brief A structure representing a configuration for cracking an Enigma cipher.
+ *
+ * @param enigma        The base Enigma machine configuration.
+ * @param scores        A list of scored Enigma configurations.
+ * @param dictionary    An array of dictionary words.
+ * @param dictSize      The number of words in the dictionary.
+ * @param ngrams        An array of n-gram frequencies.
+ * @param n             The length of each n-gram.
+ * @param ngramLen      The number of n-grams.
+ * @param ciphertext    The ciphertext to be cracked.
+ * @param ciphertextLen The length of the ciphertext.
+ * @param flags         Flags indicating special conditions a scored configuration may meet.
+ * @param freqTargets   An array of frequency targets for each letter.
+ * @param minScore      The minimum score for a configuration to be considered valid.
+ * @param maxScore      The maximum score for a configuration to be considered valid.
+ * @param targetScore   The target score for a configuration to be considered valid.
+ * @param targetFreq    The target frequency for a configuration to be considered valid.
+ * @param freqOffset    The maximum offset from the target frequency that a scored configuration may have.
+ * @param plaintext     Known plaintext.
+ */
 typedef struct {
     enigma_t             enigma;
     enigma_score_list_t* scores;
@@ -44,9 +83,11 @@ typedef struct {
     char*                plaintext;
 } enigma_crack_config_t;
 
-// English letter frequency targets (from
-// https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html) X is probably
-// unreliable here due to possibly being used as a space substitute
+/**  English letter frequency targets (from
+ * https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html).
+ *
+ * X is probably unreliable here due to possibly being used as a space substitute.
+ */
 static const float englishFreq[26]
     = { 0.0812f, 0.0149f, 0.0271f, 0.0432f, 0.1202f, 0.023f,  0.0203f, 0.0592f, 0.0731f,
         0.0010f, 0.0069f, 0.0398f, 0.0261f, 0.0695f, 0.0768f, 0.0182f, 0.0011f, 0.0602f,
