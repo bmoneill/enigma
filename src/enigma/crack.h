@@ -83,7 +83,8 @@ typedef struct {
     char*                plaintext;
 } enigma_crack_config_t;
 
-/**  English letter frequency targets (from
+/**
+ * English letter frequency targets (from
  * https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html).
  *
  * X is probably unreliable here due to possibly being used as a space substitute.
