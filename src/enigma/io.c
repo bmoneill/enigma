@@ -37,7 +37,7 @@ int enigma_load_config(enigma_t* enigma, const char* s) {
     }
     strcpy(buf, s);
 
-    char* rotors = strtok(buf, "|");
+    char* rotors    = strtok(buf, "|");
     char* positions = strtok(NULL, "|");
     char* reflector = strtok(NULL, "|");
     char* plugboard = strtok(NULL, "|");
@@ -79,7 +79,9 @@ int enigma_load_config(enigma_t* enigma, const char* s) {
  *
  * @return 0 on success, non-zero on failure.
  */
-int enigma_load_custom_reflector(enigma_reflector_t* reflector, const char* alphabet, const char* name) {
+int enigma_load_custom_reflector(enigma_reflector_t* reflector,
+                                 const char*         alphabet,
+                                 const char*         name) {
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
         return 1;
     }
@@ -102,16 +104,16 @@ int enigma_load_custom_reflector(enigma_reflector_t* reflector, const char* alph
  *
  * @return 0 on success, non-zero on failure.
  */
-int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const char* name,
-                             int* notches, int numNotches) {
+int enigma_load_custom_rotor(
+    enigma_rotor_t* rotor, const char* alphabet, const char* name, int* notches, int numNotches) {
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
         return 1;
     }
-    rotor->name = name;
+    rotor->name       = name;
     rotor->numNotches = numNotches;
     memcpy(rotor->notches, notches, numNotches * sizeof(int));
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-        rotor->fwd_indices[i] = toupper(alphabet[i]) - 'A';
+        rotor->fwd_indices[i]                     = toupper(alphabet[i]) - 'A';
         rotor->rev_indices[rotor->fwd_indices[i]] = i;
     }
 
@@ -130,15 +132,14 @@ int enigma_load_custom_rotor(enigma_rotor_t* rotor, const char* alphabet, const 
  * @return 0 on success, non-zero on failure.
  */
 int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
-    char line[16];
-    int n = 0;
-    int charCount = 0;
-    int reallocCount = 0;
-    FILE* f = fopen(path, "r");
+    char  line[16];
+    int   n            = 0;
+    int   charCount    = 0;
+    int   reallocCount = 0;
+    FILE* f            = fopen(path, "r");
     if (!f) {
         fprintf(stderr, "Failed to open ngram file: %s\n", path);
     }
-
 
     if (fgets(line, sizeof(line), f)) {
         // First line should be n value and character count of original text
@@ -161,16 +162,22 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
         return 1;
     }
     cfg->ngrams = calloc(ipow(26, n), sizeof(float));
-    cfg->n = n;
+    cfg->n      = n;
 
     char s[5];
-    int count = 0;
+    int  count = 0;
     while (fgets(line, sizeof(line), f)) {
         if (sscanf(line, "%d %4s", &count, s) == 2) {
             switch (n) {
-                case 2: cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float)count / charCount; break;
-                case 3: cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float)count / charCount; break;
-                case 4: cfg->ngrams[ENIGMA_QUADIDX(s[0], s[1], s[2], s[3])] = (float)count / charCount; break;
+            case 2:
+                cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float) count / charCount;
+                break;
+            case 3:
+                cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float) count / charCount;
+                break;
+            case 4:
+                cfg->ngrams[ENIGMA_QUADIDX(s[0], s[1], s[2], s[3])] = (float) count / charCount;
+                break;
             }
         } else {
             break;
@@ -180,7 +187,6 @@ int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
     fclose(f);
     return 0;
 }
-
 
 /**
  * @brief Load plugboard configuration from a string.
@@ -231,7 +237,7 @@ int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
 int enigma_load_rotor_config(enigma_t* enigma, char* s) {
     enigma->rotor_count = 0;
 
-    char* token = strtok(s, " ");
+    char* token         = strtok(s, " ");
     while (token != NULL) {
         for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
             if (!strcmp(enigma_rotors[i]->name, token)) {
@@ -284,10 +290,16 @@ int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
  * @param out    Buffer to store the configuration string.
  */
 void enigma_print_config(const enigma_t* enigma, char* out) {
-    sprintf(out, "%s %s %s|%c%c%c|%s|%s",
-            enigma->rotors[0]->name, enigma->rotors[1]->name, enigma->rotors[2]->name,
-            enigma->rotor_indices[0] + 'A', enigma->rotor_indices[1] + 'A', enigma->rotor_indices[2] + 'A',
-            enigma->reflector->name, enigma->plugboard[0] == '\0' ? "None" : enigma->plugboard);
+    sprintf(out,
+            "%s %s %s|%c%c%c|%s|%s",
+            enigma->rotors[0]->name,
+            enigma->rotors[1]->name,
+            enigma->rotors[2]->name,
+            enigma->rotor_indices[0] + 'A',
+            enigma->rotor_indices[1] + 'A',
+            enigma->rotor_indices[2] + 'A',
+            enigma->reflector->name,
+            enigma->plugboard[0] == '\0' ? "None" : enigma->plugboard);
 }
 
 /**

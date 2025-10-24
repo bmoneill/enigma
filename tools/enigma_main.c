@@ -1,8 +1,8 @@
 #include "enigma/common.h"
 #include "enigma/enigma.h"
 #include "enigma/io.h"
-#include "enigma/rotors.h"
 #include "enigma/reflectors.h"
+#include "enigma/rotors.h"
 
 #include <ctype.h>
 #include <getopt.h>
@@ -12,10 +12,10 @@
 
 static void print_usage(const char*);
 
-int main(int argc, char* argv[]) {
-    int opt;
+int         main(int argc, char* argv[]) {
+    int      opt;
     enigma_t enigma;
-    char buf[256];
+    char     buf[256];
 
     enigma_init_default_config(&enigma);
 
@@ -23,12 +23,26 @@ int main(int argc, char* argv[]) {
     char* rotorpos = NULL;
     while ((opt = getopt(argc, argv, "s:p:u:w:r")) != -1) {
         switch (opt) {
-        case 's': strcpy(enigma.plugboard, optarg); break;
-        case 'p': rotorpos = optarg; break;
-        case 'u': if (enigma_load_reflector_config(&enigma, optarg)) print_usage(argv[0]); break;
-        case 'w': if (enigma_load_rotor_config(&enigma, optarg)) print_usage(argv[0]); break;
-        case 'r': enigma_init_random_config(&enigma); break;
-        default: print_usage(argv[0]); exit(EXIT_FAILURE);
+        case 's':
+            strcpy(enigma.plugboard, optarg);
+            break;
+        case 'p':
+            rotorpos = optarg;
+            break;
+        case 'u':
+            if (enigma_load_reflector_config(&enigma, optarg))
+                print_usage(argv[0]);
+            break;
+        case 'w':
+            if (enigma_load_rotor_config(&enigma, optarg))
+                print_usage(argv[0]);
+            break;
+        case 'r':
+            enigma_init_random_config(&enigma);
+            break;
+        default:
+            print_usage(argv[0]);
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -76,7 +90,8 @@ static void print_usage(const char* argv0) {
     fprintf(stderr, "Usage: %s [-p positions] [-s plugboard] [-u reflector] [-w rotors]\n", argv0);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  -p positions    Set the initial position of the rotors (e.g., 'ABC')\n");
-    fprintf(stderr, "  -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g., 'ABCDEF')\n");
+    fprintf(stderr,
+            "  -s plugboard   Set the plugboard (Steckerbrett) configuration (e.g., 'ABCDEF')\n");
     fprintf(stderr, "  -u reflector   Set the reflector (Umkehrwalze) configuration (e.g., 'B')\n");
     fprintf(stderr, "  -w rotors      Set the rotor (Walzen) configuration (e.g., 'I II III')\n");
     fprintf(stderr, "  -r             Generate a random configuration\n");

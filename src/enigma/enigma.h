@@ -11,7 +11,6 @@
 #include "reflectors.h"
 #include "rotors.h"
 
-
 /**
  * @brief Represents the state and configuration of an Enigma machine.
  *
@@ -33,13 +32,13 @@ typedef struct {
     int                       rotor_flag;
     int                       rotor_count;
     const enigma_reflector_t* reflector;
-    char                plugboard[27];
+    char                      plugboard[27];
 } enigma_t;
 
-char enigma_encode             (enigma_t*, int);
-void enigma_encode_string      (enigma_t*, const char*,           char*, int);
-void enigma_init_rotors        (enigma_t*, const enigma_rotor_t*, int);
+char enigma_encode(enigma_t*, int);
+void enigma_encode_string(enigma_t*, const char*, char*, int);
+void enigma_init_rotors(enigma_t*, const enigma_rotor_t*, int);
 void enigma_init_default_config(enigma_t*);
-void enigma_init_random_config (enigma_t*);
+void enigma_init_random_config(enigma_t*);
 
 #endif

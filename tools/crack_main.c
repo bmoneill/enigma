@@ -10,8 +10,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-\
-#define USAGE "Usage: %s method target [options] ciphertext\n\
+
+#define USAGE                                                                                      \
+    "Usage: %s method target [options] ciphertext\n\
     Methods:\n\
       ioc              Use Index of Coincidence for cryptanalysis (target, -m/-M OR -l required)\n\
       ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n\
@@ -40,19 +41,19 @@
     Available reflectors: A, B, C\n"
 
 static void clean_exit(const char*, const char*, enigma_crack_config_t*, int);
-static void free_dictionary(char**, int);\
+static void free_dictionary(char**, int);
 static void load_dictionary(enigma_crack_config_t*, const char*);
 static void load_frequencies(enigma_crack_config_t*, const char*);
 static int  load_language(enigma_crack_config_t*, const char*);
 static void load_target(enigma_crack_config_t*, const char*);
 
-#define METHOD_IOC    1
-#define METHOD_NGRAM  2
+#define METHOD_IOC 1
+#define METHOD_NGRAM 2
 
-#define TARGET_ROTOR      1
-#define TARGET_POSITIONS  2
-#define TARGET_REFLECTOR  3
-#define TARGET_PLUGBOARD  4
+#define TARGET_ROTOR 1
+#define TARGET_POSITIONS 2
+#define TARGET_REFLECTOR 3
+#define TARGET_PLUGBOARD 4
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
@@ -62,20 +63,18 @@ int main(int argc, char* argv[]) {
 
     enigma_crack_config_t* cfg = calloc(1, sizeof(enigma_crack_config_t));
     enigma_init_default_config(&cfg->enigma);
-    cfg->ciphertext = argv[argc - 1];
-    cfg->ciphertextLen = strlen(cfg->ciphertext);
+    cfg->ciphertext          = argv[argc - 1];
+    cfg->ciphertextLen       = strlen(cfg->ciphertext);
     cfg->enigma.plugboard[0] = '\0';
-    int method = 0;
-    int target = 0;
-    int param = 0;
+    int method               = 0;
+    int target               = 0;
+    int param                = 0;
 
     if (!strcmp(argv[1], "ioc")) {
         method = METHOD_IOC;
-    }
-    else if (!strcmp(argv[1], "ngram")) {
+    } else if (!strcmp(argv[1], "ngram")) {
         method = METHOD_NGRAM;
-    }
-    else {
+    } else {
         fprintf(stderr, "Unknown method: %s\n", argv[1]);
         fprintf(stderr, USAGE, argv[0]);
         free(cfg);
@@ -104,38 +103,60 @@ int main(int argc, char* argv[]) {
     int opt;
     while ((opt = getopt(argc, argv, "w:p:u:s:c:d:l:m:M:n:f:")) != -1) {
         switch (opt) {
-        case 'w': enigma_load_rotor_config(&cfg->enigma, optarg); break;
-        case 'p': enigma_load_rotor_positions(&cfg->enigma, optarg); break;
-        case 'u': enigma_load_reflector_config(&cfg->enigma, optarg); break;
-        case 's': strcpy(cfg->enigma.plugboard, optarg); break;
+        case 'w':
+            enigma_load_rotor_config(&cfg->enigma, optarg);
+            break;
+        case 'p':
+            enigma_load_rotor_positions(&cfg->enigma, optarg);
+            break;
+        case 'u':
+            enigma_load_reflector_config(&cfg->enigma, optarg);
+            break;
+        case 's':
+            strcpy(cfg->enigma.plugboard, optarg);
+            break;
         case 'c':
             cfg->flags |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
             cfg->plaintext = optarg;
             break;
-        case 'd': load_dictionary(cfg, optarg); break;
+        case 'd':
+            load_dictionary(cfg, optarg);
+            break;
         case 'l':
             if (load_language(cfg, optarg)) {
                 fprintf(stderr, "Unknown language: %s\n", optarg);
                 clean_exit(NULL, argv[0], cfg, 1);
             }
             break;
-        case 'm': cfg->minScore = atof(optarg); break;
-        case 'M': cfg->maxScore = atof(optarg); break;
-        case 'n': enigma_load_ngrams(cfg, optarg); break;
-        case 'f': load_frequencies(cfg, optarg); break;
-        default: clean_exit("Error: Unknown option", argv[0], cfg, 1);
+        case 'm':
+            cfg->minScore = atof(optarg);
+            break;
+        case 'M':
+            cfg->maxScore = atof(optarg);
+            break;
+        case 'n':
+            enigma_load_ngrams(cfg, optarg);
+            break;
+        case 'f':
+            load_frequencies(cfg, optarg);
+            break;
+        default:
+            clean_exit("Error: Unknown option", argv[0], cfg, 1);
         }
     }
 
-    cfg->scores = malloc(sizeof(enigma_score_list_t));
-    cfg->scores->scores = malloc(100 * sizeof(enigma_score_t));
+    cfg->scores             = malloc(sizeof(enigma_score_list_t));
+    cfg->scores->scores     = malloc(100 * sizeof(enigma_score_t));
     cfg->scores->scoreCount = 0;
-    cfg->scores->maxScores = 100;
+    cfg->scores->maxScores  = 100;
 
     switch (method) {
     case METHOD_IOC:
         if (!cfg->minScore || !cfg->maxScore) {
-            clean_exit("IOC method requires -m and -M options (or -l to set language)\n", argv[0], cfg, 1);
+            clean_exit("IOC method requires -m and -M options (or -l to set language)\n",
+                       argv[0],
+                       cfg,
+                       1);
         }
 
         switch (target) {
@@ -145,9 +166,15 @@ int main(int argc, char* argv[]) {
             }
             enigma_crack_rotor(cfg, param - 1, enigma_ioc_score);
             break;
-        case TARGET_POSITIONS: enigma_crack_rotor_positions(cfg, enigma_ioc_score); break;
-        case TARGET_REFLECTOR: enigma_crack_reflector(cfg, enigma_ioc_score); break;
-        case TARGET_PLUGBOARD: enigma_crack_plugboard(cfg, enigma_ioc_score); break;
+        case TARGET_POSITIONS:
+            enigma_crack_rotor_positions(cfg, enigma_ioc_score);
+            break;
+        case TARGET_REFLECTOR:
+            enigma_crack_reflector(cfg, enigma_ioc_score);
+            break;
+        case TARGET_PLUGBOARD:
+            enigma_crack_plugboard(cfg, enigma_ioc_score);
+            break;
         }
         break;
     case METHOD_NGRAM:
@@ -161,34 +188,58 @@ int main(int argc, char* argv[]) {
                 clean_exit("Rotor target requires rotor number (1-3)\n", argv[0], cfg, 1);
             }
             switch (cfg->n) {
-                case 2: enigma_crack_rotor(cfg, param - 1, enigma_bigram_score); break;
-                case 3: enigma_crack_rotor(cfg, param - 1, enigma_trigram_score); break;
-                case 4: enigma_crack_rotor(cfg, param - 1, enigma_quadgram_score); break;
+            case 2:
+                enigma_crack_rotor(cfg, param - 1, enigma_bigram_score);
+                break;
+            case 3:
+                enigma_crack_rotor(cfg, param - 1, enigma_trigram_score);
+                break;
+            case 4:
+                enigma_crack_rotor(cfg, param - 1, enigma_quadgram_score);
+                break;
             }
             break;
         case TARGET_POSITIONS:
             switch (cfg->n) {
-                case 2: enigma_crack_rotor_positions(cfg, enigma_bigram_score); break;
-                case 3: enigma_crack_rotor_positions(cfg, enigma_trigram_score); break;
-                case 4: enigma_crack_rotor_positions(cfg, enigma_quadgram_score); break;
+            case 2:
+                enigma_crack_rotor_positions(cfg, enigma_bigram_score);
+                break;
+            case 3:
+                enigma_crack_rotor_positions(cfg, enigma_trigram_score);
+                break;
+            case 4:
+                enigma_crack_rotor_positions(cfg, enigma_quadgram_score);
+                break;
             }
             break;
         case TARGET_REFLECTOR:
             switch (cfg->n) {
-                case 2: enigma_crack_reflector(cfg, enigma_bigram_score); break;
-                case 3: enigma_crack_reflector(cfg, enigma_trigram_score); break;
-                case 4: enigma_crack_reflector(cfg, enigma_quadgram_score); break;
+            case 2:
+                enigma_crack_reflector(cfg, enigma_bigram_score);
+                break;
+            case 3:
+                enigma_crack_reflector(cfg, enigma_trigram_score);
+                break;
+            case 4:
+                enigma_crack_reflector(cfg, enigma_quadgram_score);
+                break;
             }
             break;
         case TARGET_PLUGBOARD:
             switch (cfg->n) {
-                case 2: enigma_crack_plugboard(cfg, enigma_bigram_score); break;
-                case 3: enigma_crack_plugboard(cfg, enigma_trigram_score); break;
-                case 4: enigma_crack_plugboard(cfg, enigma_quadgram_score); break;
+            case 2:
+                enigma_crack_plugboard(cfg, enigma_bigram_score);
+                break;
+            case 3:
+                enigma_crack_plugboard(cfg, enigma_trigram_score);
+                break;
+            case 4:
+                enigma_crack_plugboard(cfg, enigma_quadgram_score);
+                break;
             }
             break;
-    }
-    break;
+        }
+        break;
     }
 
     enigma_score_print(cfg->scores);
@@ -217,10 +268,10 @@ static void free_dictionary(char** dictionary, int size) {
 }
 
 static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
-    int alloced = 10000;
+    int alloced     = 10000;
     cfg->dictionary = malloc(alloced * sizeof(char*));
-    cfg->dictSize = 0;
-    FILE* f = fopen(path, "r");
+    cfg->dictSize   = 0;
+    FILE* f         = fopen(path, "r");
     if (!f) {
         fprintf(stderr, "Failed to open dictionary file: %s\n", path);
         return;
@@ -232,7 +283,7 @@ static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
             alloced *= 2;
             cfg->dictionary = realloc(cfg->dictionary, alloced * sizeof(char*));
         }
-        line[strcspn(line, "\n")] = 0;
+        line[strcspn(line, "\n")]      = 0;
         cfg->dictionary[cfg->dictSize] = strdup(line);
         cfg->dictSize++;
     }
@@ -255,8 +306,7 @@ static int load_language(enigma_crack_config_t* config, const char* language) {
         config->minScore = enigma_ioc_english_min;
         config->maxScore = enigma_ioc_english_max;
         return 0;
-    }
-    else if (!strcmp(language, "german")) {
+    } else if (!strcmp(language, "german")) {
         config->minScore = enigma_ioc_german_min;
         config->maxScore = enigma_ioc_german_max;
         return 0;

@@ -14,9 +14,9 @@
  * @param text The text to score.
  */
 float enigma_ioc_score(const enigma_crack_config_t* cfg, const char* text) {
-    int freq[26] = { 0 };
-    float total = 0.0f;
-    int len = cfg->ciphertextLen;
+    int   freq[26] = { 0 };
+    float total    = 0.0f;
+    int   len      = cfg->ciphertextLen;
 
     for (int i = 0; i < len; i++) {
         if (text[i] < 'A' || text[i] > 'Z') {
@@ -26,10 +26,9 @@ float enigma_ioc_score(const enigma_crack_config_t* cfg, const char* text) {
     }
 
     for (int i = 0; i < 26; i++) {
-        total += (float)freq[i] * (freq[i] - 1);
+        total += (float) freq[i] * (freq[i] - 1);
     }
 
-    float score = total / (float)(len * (len - 1));
+    float score = total / (float) (len * (len - 1));
     return score;
-
 }
