@@ -1,6 +1,8 @@
 # Enigma machine simulator and cryptanalysis tools
 
 [![Build Status](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml).
+[![Doxygen Status](https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/enigma)
+[![Clang-format status](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml)
 
 This project aims to create a full-featured C99 library and toolset for simulating and cracking the Enigma.
 
