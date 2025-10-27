@@ -82,8 +82,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
  * @return 0 on success, non-zero on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_custom_reflector(enigma_reflector_t* reflector,
-                                 const char*         alphabet,
-                                 const char*         name) {
+                                                      const char*         alphabet,
+                                                      const char*         name) {
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
         return 1;
     }

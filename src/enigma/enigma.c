@@ -78,7 +78,8 @@ EMSCRIPTEN_KEEPALIVE char enigma_encode(enigma_t* enigma, int c) {
  * @param length The length of the input string (the output buffer should be at
  * least the same length).
  */
-EMSCRIPTEN_KEEPALIVE void enigma_encode_string(enigma_t* enigma, const char* input, char* output, int length) {
+EMSCRIPTEN_KEEPALIVE void
+enigma_encode_string(enigma_t* enigma, const char* input, char* output, int length) {
     for (int i = 0; i < length; i++) {
         output[i] = enigma_encode(enigma, input[i]);
     }
@@ -95,7 +96,8 @@ EMSCRIPTEN_KEEPALIVE void enigma_encode_string(enigma_t* enigma, const char* inp
  * @param rotors Array of `rotor_t`s to copy to the `enigma_t`.
  * @param count Number of rotors to copy.
  */
-EMSCRIPTEN_KEEPALIVE void enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int count) {
+EMSCRIPTEN_KEEPALIVE void
+enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int count) {
     enigma->rotor_flag = 0;
     for (int i = 0; i < count; i++) {
         enigma->rotors[i] = &rotors[i];
