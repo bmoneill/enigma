@@ -1,8 +1,5 @@
-#include "enigma/common.h"
 #include "enigma/enigma.h"
 #include "enigma/io.h"
-#include "enigma/reflectors.h"
-#include "enigma/rotors.h"
 
 #include <ctype.h>
 #include <getopt.h>

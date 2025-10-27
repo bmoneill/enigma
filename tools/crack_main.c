@@ -1,4 +1,3 @@
-#include "enigma/common.h"
 #include "enigma/crack.h"
 #include "enigma/enigma.h"
 #include "enigma/io.h"
