@@ -22,3 +22,7 @@ test/*_runner.c
 /.clangd
 /compile_commands.json
 /.cache
+
+# wasm
+*.js
+*.wasm

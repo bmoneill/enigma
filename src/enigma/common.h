@@ -23,4 +23,10 @@
 #define ENIGMA_ALWAYS_INLINE inline
 #endif
 
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#else
+#define EMSCRIPTEN_KEEPALIVE
+#endif
+
 #endif
