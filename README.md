@@ -9,7 +9,7 @@ This is a full-featured C99 library and toolset (with WebAssembly support) for s
 The library and toolset currently supports simulating all common 4-rotor military Enigma configurations used
 in World War II. It also supports cracking ciphertext utilizing Index of Coincidence and n-gram analysis.
 
-Scripts to generate rotor index tables and n-gram frequency data can be found in [tools/].
+Scripts to [generate rotor index tables](tools/indexgen.py) and [n-gram frequency data](tools/ngram.sh) can be found in [tools/](tools/).
 
 ## About the Enigma
 
