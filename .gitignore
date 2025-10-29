@@ -24,5 +24,7 @@ test/*_runner.c
 /.cache
 
 # wasm
-*.js
-*.wasm
+a.out.*
+
+# etc
+*.txt
