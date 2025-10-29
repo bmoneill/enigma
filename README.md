@@ -32,7 +32,7 @@ cmake --build .
 ### Example WASM Build
 
 ```shell
-emcc -O1 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "_free", "UTF8ToString", "setValue"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
+emcc -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "_free"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
 ```
 
 ## Documentation
