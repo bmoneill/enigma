@@ -1,5 +1,6 @@
 var common_8h =
 [
+    [ "EMSCRIPTEN_KEEPALIVE", "common_8h.html#accd20b3e3d5a4dd1228fb0d35d686df5", null ],
     [ "ENIGMA_ALPHA_SIZE", "common_8h.html#a05dc1c61b68de7e05eed780cf93dc744", null ],
     [ "ENIGMA_ALWAYS_INLINE", "common_8h.html#ae04b5fe2bfb2dda1dfcfe3ce84fb9750", null ],
     [ "ENIGMA_DEFAULT_NGRAM_COUNT", "common_8h.html#a2ea07e190984045ef3cef43ee8f907ee", null ],
