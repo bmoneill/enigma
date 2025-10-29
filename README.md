@@ -4,11 +4,12 @@
 [![Doxygen Status](https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/enigma)
 [![Clang-format status](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml)
 
-This project aims to create a full-featured C99 library and toolset for simulating and cracking the Enigma.
+This is a full-featured C99 library and toolset (with WebAssembly support) for simulating and cracking the Enigma.
 
-The library and toolset currently supports simulating all common 3-rotor military Enigma configurations used
-in World War II. It also supports cracking ciphertext utilizing multithreaded Index of Coincidence, n-gram
-analysis, and brute force methods.
+The library and toolset currently supports simulating all common 4-rotor military Enigma configurations used
+in World War II. It also supports cracking ciphertext utilizing Index of Coincidence and n-gram analysis.
+
+Scripts to generate rotor index tables and n-gram frequency data can be found in [tools/].
 
 ## About the Enigma
 
@@ -33,9 +34,6 @@ cmake --build .
 * [Library Documentation](https://bmoneill.github.io/enigma/).
 * [Enigma Simulator Documentation](doc/enigmacli.md).
 * [Enigma Cracking Tools Documentation](doc/enigmacrack.md).
-
-Scripts to generate rotor index tables and n-gram frequency data can be found in [tools/].
-
 
 ## Further Reading
 
