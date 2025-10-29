@@ -127,6 +127,20 @@ Functions</h2></td></tr>
 <tr class="memitem:a0f268fe185f30eedc4d3bdfce22cdb99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enigma_8c.html#a0f268fe185f30eedc4d3bdfce22cdb99">enigma_init_random_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma)</td></tr>
 <tr class="memdesc:a0f268fe185f30eedc4d3bdfce22cdb99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a random configuration for the Enigma machine.  <br /></td></tr>
 <tr class="separator:a0f268fe185f30eedc4d3bdfce22cdb99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0e33a2795dfa1a5cb35f21c6429c5a9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enigma_8c.html#af0e33a2795dfa1a5cb35f21c6429c5a9">enigma_set_plugboard</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, const char *s)</td></tr>
+<tr class="memdesc:af0e33a2795dfa1a5cb35f21c6429c5a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the plugboard configuration.  <br /></td></tr>
+<tr class="separator:af0e33a2795dfa1a5cb35f21c6429c5a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7bb3ee7b4001b692893cccd7b819a92"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enigma_8c.html#ad7bb3ee7b4001b692893cccd7b819a92">enigma_set_reflector</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, int reflector)</td></tr>
+<tr class="separator:ad7bb3ee7b4001b692893cccd7b819a92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d26670a1b42dac634fb1fa40ba001c0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enigma_8c.html#a1d26670a1b42dac634fb1fa40ba001c0">enigma_set_rotor</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, int rotor, int index)</td></tr>
+<tr class="memdesc:a1d26670a1b42dac634fb1fa40ba001c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the rotor.  <br /></td></tr>
+<tr class="separator:a1d26670a1b42dac634fb1fa40ba001c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47c4b57fc250834e81c8b0dc91c1d168"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enigma_8c.html#a47c4b57fc250834e81c8b0dc91c1d168">enigma_set_rotor_count</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, int count)</td></tr>
+<tr class="memdesc:a47c4b57fc250834e81c8b0dc91c1d168"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of rotors.  <br /></td></tr>
+<tr class="separator:a47c4b57fc250834e81c8b0dc91c1d168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9d805aeb8cddc00388ed51f5e2a3e8d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="enigma_8c.html#ac9d805aeb8cddc00388ed51f5e2a3e8d">enigma_set_rotor_index</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *enigma, int rotor, int index)</td></tr>
+<tr class="memdesc:ac9d805aeb8cddc00388ed51f5e2a3e8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the index of a rotor.  <br /></td></tr>
+<tr class="separator:ac9d805aeb8cddc00388ed51f5e2a3e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file implements the core functionality of the Enigma machine, including encoding characters and strings, initializing rotors, and setting up default and random configurations. </p>
@@ -343,6 +357,214 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="af0e33a2795dfa1a5cb35f21c6429c5a9" name="af0e33a2795dfa1a5cb35f21c6429c5a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0e33a2795dfa1a5cb35f21c6429c5a9">&#9670;&#160;</a></span>enigma_set_plugboard()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_set_plugboard </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the plugboard configuration. </p>
+<p>This function sets the plugboard configuration based on the provided string. The string should contain pairs of uppercase letters representing the connections between the letters. For example, "ABCDEF" would connect A to B, C to D, and E to F.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine. </td></tr>
+    <tr><td class="paramname">s</td><td>Pointer to the string containing the plugboard configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on failure. </dd></dl>
+
+</div>
+</div>
+<a id="ad7bb3ee7b4001b692893cccd7b819a92" name="ad7bb3ee7b4001b692893cccd7b819a92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7bb3ee7b4001b692893cccd7b819a92">&#9670;&#160;</a></span>enigma_set_reflector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_set_reflector </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>reflector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set the reflector configuration.</p>
+<p>This function sets the reflector configuration based on the provided enigma_reflectors index.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine. </td></tr>
+    <tr><td class="paramname">reflector</td><td>Index of the reflector to be set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a1d26670a1b42dac634fb1fa40ba001c0" name="a1d26670a1b42dac634fb1fa40ba001c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d26670a1b42dac634fb1fa40ba001c0">&#9670;&#160;</a></span>enigma_set_rotor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_set_rotor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rotor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the rotor. </p>
+<p>This function sets the rotor configuration based on the provided enigma_rotors index.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine. </td></tr>
+    <tr><td class="paramname">rotor</td><td>Index of the rotor in enigma_rotors. </td></tr>
+    <tr><td class="paramname">index</td><td>Index to place the rotor in enigma </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on failure </dd></dl>
+
+</div>
+</div>
+<a id="a47c4b57fc250834e81c8b0dc91c1d168" name="a47c4b57fc250834e81c8b0dc91c1d168"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47c4b57fc250834e81c8b0dc91c1d168">&#9670;&#160;</a></span>enigma_set_rotor_count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_set_rotor_count </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the number of rotors. </p>
+<p>This function sets the number of rotors in the Enigma machine.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine. </td></tr>
+    <tr><td class="paramname">count</td><td>Number of rotors. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on failure </dd></dl>
+
+</div>
+</div>
+<a id="ac9d805aeb8cddc00388ed51f5e2a3e8d" name="ac9d805aeb8cddc00388ed51f5e2a3e8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9d805aeb8cddc00388ed51f5e2a3e8d">&#9670;&#160;</a></span>enigma_set_rotor_index()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_set_rotor_index </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structenigma__t.html">enigma_t</a> *&#160;</td>
+          <td class="paramname"><em>enigma</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rotor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the index of a rotor. </p>
+<p>This function sets the index of a rotor in the Enigma machine.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enigma</td><td>Pointer to the Enigma machine. </td></tr>
+    <tr><td class="paramname">rotor</td><td>Index of the rotor in the Enigma machine. </td></tr>
+    <tr><td class="paramname">index</td><td>Index to set the rotor to in the Enigma machine. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on failure </dd></dl>
 
 </div>
 </div>
