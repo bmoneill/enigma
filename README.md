@@ -29,6 +29,12 @@ cmake . -DTARGET_GROUP=all
 cmake --build .
 ```
 
+### Example WASM Build
+
+```shell
+emcc -O1 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "UTF8ToString"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
+```
+
 ## Documentation
 
 * [Library Documentation](https://bmoneill.github.io/enigma/).
