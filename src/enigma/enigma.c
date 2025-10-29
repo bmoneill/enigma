@@ -186,6 +186,79 @@ EMSCRIPTEN_KEEPALIVE void enigma_init_random_config(enigma_t* enigma) {
 }
 
 /**
+ * @brief Set the plugboard configuration.
+ *
+ * This function sets the plugboard configuration based on the provided string.
+ * The string should contain pairs of uppercase letters representing the
+ * connections between the letters. For example, "ABCDEF" would connect A to B,
+ * C to D, and E to F.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param s Pointer to the string containing the plugboard configuration.
+ */
+EMSCRIPTEN_KEEPALIVE void enigma_set_plugboard(enigma_t* enigma, const char* s) {
+    int i = 0;
+    while (s[i] != '\0') {
+        if (s[i] >= 'A' && s[i] <= 'Z') {
+            enigma->plugboard[i] = s[i];
+            i++;
+        }
+    }
+    enigma->plugboard[i] = '\0';
+}
+
+/**
+ * Set the reflector configuration.
+ *
+ * This function sets the reflector configuration based on the provided enigma_reflectors index.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param reflector Index of the reflector to be set.
+ */
+EMSCRIPTEN_KEEPALIVE void enigma_set_reflector(enigma_t* enigma, int reflector) {
+    enigma->reflector = enigma_reflectors[reflector];
+}
+
+/**
+ * @brief Set the rotor
+ *
+ * This function sets the rotor configuration based on the provided enigma_rotors index.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param rotor Index of the rotor in enigma_rotors.
+ * @param rotor Index to place the rotor in enigma
+ *
+ */
+EMSCRIPTEN_KEEPALIVE void enigma_set_rotor(enigma_t* enigma, int rotor, int index) {
+    enigma->rotors[index] = enigma_rotors[rotor];
+}
+
+/**
+ * @brief Set the number of rotors.
+ *
+ * This function sets the number of rotors in the Enigma machine.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param count Number of rotors.
+ */
+EMSCRIPTEN_KEEPALIVE void enigma_set_rotor_count(enigma_t* enigma, int count) {
+    enigma->rotor_count = count;
+}
+
+/**
+ * @brief Set the index of a rotor.
+ *
+ * This function sets the index of a rotor in the Enigma machine.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param rotor Index of the rotor in the Enigma machine.
+ * @param index Index to set the rotor to in the Enigma machine.
+ */
+EMSCRIPTEN_KEEPALIVE void enigma_set_rotor_index(enigma_t* enigma, int rotor, int index) {
+    enigma->rotor_indices[rotor] = index;
+}
+
+/**
  * @brief Rotate a single rotor by one position.
  *
  * This function increments the rotor's index, wrapping around if it exceeds the
