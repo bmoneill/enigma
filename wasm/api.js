@@ -66,4 +66,10 @@ const enigmaAPI = {
     Module._free(outputBuf);
     return result;
   },
+  setPlugboard: (ptr, plugboard) => {
+    const plugboardPtr = Module._malloc(plugboard.length);
+    Module.stringToUTF8(plugboard, plugboardPtr, plugboard.length + 1);
+    Module._enigma_set_plugboard(ptr, plugboardPtr);
+    Module._free(plugboardPtr);
+  },
 };

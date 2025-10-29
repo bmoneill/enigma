@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Enigma Demo</title>
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <div class="container py-4">
+            <h1 class="mb-4">Enigma Demo</h1>
+            <form id="inputForm" onsubmit="return false">
+                <div class="row g-3">
+                    <p>Rotors</p>
+                    <div class="col-12 col-md-3">
+                        <select
+                            id="rotor1"
+                            class="form-select"
+                            aria-label="Rotor 1"
+                        >
+                            <option value="" selected disabled>
+                                Choose rotor
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <input
+                            type="text"
+                            id="rotor1idx"
+                            class="form-control"
+                            value="A"
+                            pattern="^[a-zA-Z]$"
+                            maxlength="1"
+                        />
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-3">
+                        <select
+                            id="rotor2"
+                            class="form-select"
+                            aria-label="Rotor 2"
+                        >
+                            <option value="" selected disabled>
+                                Choose rotor
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <input
+                            type="text"
+                            id="rotor2idx"
+                            class="form-control"
+                            value="A"
+                            pattern="^[a-zA-Z]$"
+                            maxlength="1"
+                        />
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-3">
+                        <select
+                            id="rotor3"
+                            class="form-select"
+                            aria-label="Rotor 3"
+                        >
+                            <option value="" selected disabled>
+                                Choose rotor
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <input
+                            type="text"
+                            id="rotor3idx"
+                            class="form-control"
+                            value="A"
+                            pattern="^[a-zA-Z]$"
+                            maxlength="1"
+                        />
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-12 col-md-3">
+                        <label for="reflector" class="form-label"
+                            >Reflector</label
+                        >
+                        <select
+                            id="reflector"
+                            class="form-select"
+                            aria-label="Reflector"
+                        >
+                            <option value="" selected disabled>
+                                Choose reflector
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <label for="plugboard" class="form-label"
+                            >Plugboard</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control-plaintext"
+                            id="plugboard"
+                            value="ABCD"
+                        />
+                    </div>
+                </div>
+                <div class="row g-3">
+                    <label for="plaintext" class="form-label"
+                        >Input</label
+                    >
+                    <input type=""text" class="form-control-plaintext" id="plaintext" value="Hello world!">
+                </div>
+                <div class="row g-3">
+                    <input type="submit">
+                </div>
+            </form>
+            <div class="row g-3 output">
+                <label for="ciphertext" class="form-label"
+                    >Output</label
+                >
+                <input type="text" class="form-control-plaintext" id="ciphertext" value="">
+            </div>
+        </div>
+
+        <!-- Bootstrap JS bundle (optional) -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- Emscripten/WebAssembly artifacts and app scripts -->
+        <script src="./a.out.js"></script>
+        <script src="./api.js"></script>
+
+        <!-- demo.js expects the select elements to exist before it runs -->
+        <script src="./demo.js"></script>
+    </body>
+</html>
