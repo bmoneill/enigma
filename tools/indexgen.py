@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Generate index tables for a given rotor alphabet
+# Usage: python indexgen.py <rotor_alphabet>
 
 import sys
 
