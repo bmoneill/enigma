@@ -1,4 +1,4 @@
-# Enigma machine simulator and cryptanalysis tools
+# Enigma machine simulator and cryptanalysis tools ([demo](https://oneill.sh/apps/enigma/))
 
 [![Build Status](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml).
 [![Doxygen Status](https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/enigma)
@@ -32,7 +32,7 @@ cmake --build .
 ### Example WASM Build
 
 ```shell
-emcc -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "_free"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
+emcc -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "_free", "stringToUTF8", "UTF8ToString"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
 ```
 
 ## Documentation
