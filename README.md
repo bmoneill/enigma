@@ -34,6 +34,8 @@ cmake --build .
 * [Enigma Simulator Documentation](doc/enigmacli.md).
 * [Enigma Cracking Tools Documentation](doc/enigmacrack.md).
 
+Scripts to generate rotor index tables and n-gram frequency data can be found in [tools/].
+
 
 ## Further Reading
 
