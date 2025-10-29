@@ -25,7 +25,7 @@ The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the 
 ## Building
 
 ```shell
-cmake .
+cmake . -DTARGET_GROUP=all
 cmake --build .
 ```
 
