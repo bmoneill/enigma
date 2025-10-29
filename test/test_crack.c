@@ -133,6 +133,12 @@ void test_enigma_crack_rotors_WithNullArguments(void) {
     TEST_ASSERT_NOT_EQUAL_INT(0, enigma_crack_rotors(NULL, mock_score_function));
 }
 
+void test_enigma_crack_rotors_WithFourRotors(void) {
+    cfg.enigma.rotor_count = 4;
+    int ret = enigma_crack_rotors(&cfg, mock_score_function);
+    TEST_ASSERT_EQUAL_INT(0, ret);
+}
+
 void test_enigma_crack_rotor_positions(void) {
     int ret = enigma_crack_rotor_positions(&cfg, mock_score_function);
     TEST_ASSERT_EQUAL_INT(0, ret);
