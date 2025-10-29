@@ -25,11 +25,20 @@ const ENIGMA_IOC_GERMAN_MIN = ENIGMA_IOC_GERMAN - 0.25;
 const ENIGMA_IOC_GERMAN_MAX = ENIGMA_IOC_GERMAN + 0.25;
 
 const enigmaAPI = {
+  /**
+   * Initialize a new enigma_t struct.
+   * @returns A pointer to a malloc'd enigma_t
+   */
   initEnigma: () => {
-    const ptr = Module._malloc(ENIGMA_STRUCT_SIZE);
+    const ptr = Module._malloc(ENIGMA_T_SIZE);
     Module._enigma_init_default_config(ptr);
     return ptr;
   },
+
+  /**
+   * Print the configuration of an enigma_t struct to the console.
+   * @param {*} ptr A pointer to an enigma_t struct
+   */
   printConfig: (ptr) => {
     const bufSize = 1024;
     const bufPtr = Module._malloc(bufSize);
@@ -39,20 +48,22 @@ const enigmaAPI = {
     console.log(s);
     Module._free(bufPtr);
   },
+
+  /**
+   * Encode a string using an enigma_t struct.
+   * @param {*} ptr A pointer to an enigma_t struct
+   * @param {*} str The string to encode
+   * @returns The encoded string
+   */
   encodeString: (ptr, str) => {
     const bufSize = str.length + 1;
-    const bufPtr = Module._malloc(bufSize);
-    Module.stringToUTF8(str, bufPtr, bufSize);
-    Module._enigma_encode_string(ptr, bufPtr);
-    const result = Module.UTF8ToString(bufPtr);
-    Module._free(bufPtr);
+    const inputBuf = Module._malloc(bufSize);
+    const outputBuf = Module._malloc(bufSize);
+    Module.stringToUTF8(str, inputBuf, bufSize);
+    Module._enigma_encode_string(ptr, inputBuf, outputBuf, bufSize - 1);
+    const result = Module.UTF8ToString(outputBuf);
+    Module._free(inputBuf);
+    Module._free(outputBuf);
     return result;
-  },
-  setRotor: (ptr, rotorIndex, rotorNum) => {
-    // Set the rotor at rotorIndex to rotorNum in the enigma_t struct in WASM memory.
-    // Each rotor pointer is 4 bytes (assuming 32-bit pointers in WASM).
-    const rotorPtr = Module.enigma_rotors[rotorNum];
-    // Write the pointer value into WASM memory at the correct offset
-    Module.HEAP32[(ptr >> 2) + rotorIndex] = rotorPtr;
   },
 };
