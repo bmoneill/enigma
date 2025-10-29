@@ -1,0 +1,29 @@
+name: Demo Deploy
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Updating website.
+        uses: appleboy/ssh-action@master
+        with:
+          host: oneill.sh
+          username: www
+          key: ${{ secrets.wwwssh }}
+          passphrase: ${{ secrets.wwwpass }}
+          port: 22
+          script: |
+            cd enigma
+            git stash
+            git pull --force origin main
+            emcc -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "_free"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
+            mv a.out.js a.out.wasm /var/www/hugo/enigma
+            mv webdemo/* /var/www/html/enigma/
+            rm a.out.js a.out.wasm
