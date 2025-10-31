@@ -16,7 +16,7 @@
  *
  * Indices represent the character code of each standard alphabetic character in the rotor's alphabet.
  *
- * @param name Name of the reflector.
+ * @param name    Name of the reflector.
  * @param indices Array of indices representing the reflector's wiring.
  */
 typedef struct {

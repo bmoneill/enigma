@@ -17,7 +17,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_print(const enigma_score_list_t* scoreList
         return 1;
     }
     char buf[64];
-    for (int i = 0; i < scoreList->scoreCount; i++) {
+    for (int i = 0; i < scoreList->score_count; i++) {
         printf("%.6f ", scoreList->scores[i].score);
         if (scoreList->scores[i].flags & ENIGMA_FLAG_DICTIONARY_MATCH) {
             printf("D");
@@ -47,7 +47,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_sort(enigma_score_list_t* scoreList) {
         return 1;
     }
 
-    qsort(scoreList->scores, scoreList->scoreCount, sizeof(enigma_score_t), score_compare);
+    qsort(scoreList->scores, scoreList->score_count, sizeof(enigma_score_t), score_compare);
     return 0;
 }
 

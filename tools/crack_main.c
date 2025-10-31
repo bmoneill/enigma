@@ -144,10 +144,10 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cfg->scores             = malloc(sizeof(enigma_score_list_t));
-    cfg->scores->scores     = malloc(100 * sizeof(enigma_score_t));
-    cfg->scores->scoreCount = 0;
-    cfg->scores->maxScores  = 100;
+    cfg->scores              = malloc(sizeof(enigma_score_list_t));
+    cfg->scores->scores      = malloc(100 * sizeof(enigma_score_t));
+    cfg->scores->score_count = 0;
+    cfg->scores->max_scores  = 100;
 
     switch (method) {
     case METHOD_IOC:

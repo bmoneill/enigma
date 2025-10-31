@@ -439,16 +439,16 @@ enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext
         return 1;
     }
 
-    if (cfg->scores->scoreCount >= cfg->scores->maxScores) {
-        cfg->scores->maxScores *= 2;
+    if (cfg->scores->score_count >= cfg->scores->max_scores) {
+        cfg->scores->max_scores *= 2;
         cfg->scores->scores
-            = realloc(cfg->scores->scores, cfg->scores->maxScores * sizeof(enigma_score_t));
+            = realloc(cfg->scores->scores, cfg->scores->max_scores * sizeof(enigma_score_t));
     }
 
-    memcpy(&cfg->scores->scores[cfg->scores->scoreCount].enigma, enigma, sizeof(enigma_t));
-    cfg->scores->scores[cfg->scores->scoreCount].score = score;
-    cfg->scores->scores[cfg->scores->scoreCount].flags = enigma_score_flags(cfg, plaintext);
-    cfg->scores->scoreCount++;
+    memcpy(&cfg->scores->scores[cfg->scores->score_count].enigma, enigma, sizeof(enigma_t));
+    cfg->scores->scores[cfg->scores->score_count].score = score;
+    cfg->scores->scores[cfg->scores->score_count].flags = enigma_score_flags(cfg, plaintext);
+    cfg->scores->score_count++;
 
     return 0;
 }

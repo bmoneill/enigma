@@ -26,17 +26,35 @@ typedef struct {
  * @struct enigma_score_list_t
  * @brief A structure representing a list of scored Enigma configurations.
  *
- * @param scores     An array of enigma_score_t structures.
- * @param scoreCount The number of scores in the array.
- * @param maxScores  The maximum number of scores that can be stored in the array.
+ * @param scores      An array of enigma_score_t structures.
+ * @param score_count The number of scores in the array.
+ * @param max_scores  The maximum number of scores that can be stored in the array.
  */
 typedef struct {
     enigma_score_t* scores;
-    int             scoreCount;
-    int             maxScores;
+    int             score_count;
+    int             max_scores;
 } enigma_score_list_t;
 
-int   enigma_score_print(const enigma_score_list_t*);
-int   enigma_score_sort(enigma_score_list_t*);
+int enigma_score_print(const enigma_score_list_t*);
+int enigma_score_sort(enigma_score_list_t*);
+
+/* enigma_score_t getters and setters */
+enigma_t* enigma_score_get_enigma(enigma_score_t*);
+float     enigma_score_get_score(enigma_score_t*);
+int       enigma_score_get_flags(enigma_score_t*);
+int       enigma_score_set_enigma(enigma_score_t*, enigma_t*);
+int       enigma_score_set_score(enigma_score_t*, float);
+int       enigma_score_set_flags(enigma_score_t*, int);
+
+/* enigma_score_list_t getters and setters */
+enigma_score_t* enigma_score_list_get_scores(enigma_score_list_t*);
+enigma_score_t* enigma_score_list_get_score(enigma_score_list_t*, int);
+enigma_score_t* enigma_score_list_get_score_count(enigma_score_list_t*, int);
+enigma_score_t* enigma_score_list_get_max_scores(enigma_score_list_t*, int);
+enigma_score_t* enigma_score_list_set_scores(enigma_score_list_t*);
+enigma_score_t* enigma_score_list_set_score(enigma_score_list_t*, int);
+enigma_score_t* enigma_score_list_set_score_count(enigma_score_list_t*, int);
+enigma_score_t* enigma_score_list_set_max_scores(enigma_score_list_t*, int);
 
 #endif

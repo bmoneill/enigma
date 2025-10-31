@@ -25,13 +25,13 @@ void                setUp(void) {
     srand(time(NULL));
     memset(&cfg, 0, sizeof(enigma_crack_t));
     enigma_init_default_config(&cfg.enigma);
-    scoreIdx               = 0;
-    cfg.ciphertext         = shortCiphertext;
-    cfg.ciphertext_length  = strlen(shortCiphertext);
-    cfg.scores             = &scores;
-    cfg.scores->maxScores  = 100;
-    cfg.scores->scoreCount = 0;
-    cfg.scores->scores     = calloc(100, sizeof(enigma_score_t));
+    scoreIdx                = 0;
+    cfg.ciphertext          = shortCiphertext;
+    cfg.ciphertext_length   = strlen(shortCiphertext);
+    cfg.scores              = &scores;
+    cfg.scores->max_scores  = 100;
+    cfg.scores->score_count = 0;
+    cfg.scores->scores      = calloc(100, sizeof(enigma_score_t));
     memset(storedScores, 0, MAX_STORED_SCORES * sizeof(float));
 }
 
@@ -63,13 +63,13 @@ void test_enigma_crack_reflector(void) {
     int ret = enigma_crack_reflector(&cfg, mock_score_function);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(scoreIdx, scores.scoreCount);
-    for (int i = 0; i < scores.scoreCount; i++) {
+    TEST_ASSERT_EQUAL_INT(scoreIdx, scores.score_count);
+    for (int i = 0; i < scores.score_count; i++) {
         TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
         TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices,
                                     cfg.scores->scores[i].enigma.rotor_indices,
                                     4);
-        if (i < scores.scoreCount - 1) {
+        if (i < scores.score_count - 1) {
             TEST_ASSERT_NOT_EQUAL_CHAR(cfg.scores->scores[i].enigma.reflector->name[0],
                                        cfg.scores->scores[i + 1].enigma.reflector->name[0]);
         }
@@ -87,14 +87,14 @@ void test_enigma_crack_rotor(void) {
     int ret = enigma_crack_rotor(&cfg, rot, mock_score_function);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(scoreIdx, scores.scoreCount);
-    for (int i = 0; i < scores.scoreCount; i++) {
+    TEST_ASSERT_EQUAL_INT(scoreIdx, scores.score_count);
+    for (int i = 0; i < scores.score_count; i++) {
         TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
         TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices,
                                     cfg.scores->scores[i].enigma.rotor_indices,
                                     4);
 
-        if (i < scores.scoreCount - 1) {
+        if (i < scores.score_count - 1) {
             int res = strcmp(cfg.scores->scores[i].enigma.rotors[rot]->name,
                              cfg.scores->scores[i + 1].enigma.rotors[rot]->name);
             TEST_ASSERT_NOT_EQUAL_INT(0, res);
@@ -278,8 +278,8 @@ void test_enigma_score_append_WithEmptyScoreList(void) {
     int ret = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(1, cfg.scores->scoreCount);
-    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.scores->maxScores);
+    TEST_ASSERT_EQUAL_INT(1, cfg.scores->score_count);
+    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.scores->max_scores);
     TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[0].score);
     TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices,
                                 cfg.scores->scores[0].enigma.rotor_indices,
@@ -291,12 +291,12 @@ void test_enigma_score_append_WithFullScoreList(void) {
     float    score      = 0.05;
     int      scoreCount = MAX_SCORES;
 
-    scores.scoreCount   = scoreCount;
+    scores.score_count  = scoreCount;
     int ret             = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.scores->scoreCount);
-    TEST_ASSERT_EQUAL_INT(MAX_SCORES * 2, cfg.scores->maxScores);
+    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.scores->score_count);
+    TEST_ASSERT_EQUAL_INT(MAX_SCORES * 2, cfg.scores->max_scores);
     TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[scoreCount].score);
     TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices,
                                 cfg.scores->scores[scoreCount].enigma.rotor_indices,
@@ -308,12 +308,12 @@ void test_enigma_score_append_WithPartialScoreList(void) {
     float    score      = 0.05;
     int      scoreCount = 5;
 
-    scores.scoreCount   = scoreCount;
+    scores.score_count  = scoreCount;
     int ret             = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.scores->scoreCount);
-    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.scores->maxScores);
+    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.scores->score_count);
+    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.scores->max_scores);
     TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[scoreCount].score);
     TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices,
                                 cfg.scores->scores[scoreCount].enigma.rotor_indices,

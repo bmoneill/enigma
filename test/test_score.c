@@ -7,17 +7,17 @@
 
 void test_enigma_score_sort(void) {
     enigma_score_list_t scores;
-    scores.maxScores  = 10;
-    scores.scores     = malloc(sizeof(enigma_score_t) * scores.maxScores);
-    scores.scoreCount = 10;
-    for (int i = 0; i < scores.scoreCount; i++) {
+    scores.max_scores  = 10;
+    scores.scores      = malloc(sizeof(enigma_score_t) * scores.max_scores);
+    scores.score_count = 10;
+    for (int i = 0; i < scores.score_count; i++) {
         scores.scores[i].score = ((float) rand()) / ((float) rand());
     }
 
     int ret = enigma_score_sort(&scores);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    for (int i = 1; i < scores.scoreCount; i++) {
+    for (int i = 1; i < scores.score_count; i++) {
         TEST_ASSERT_TRUE(scores.scores[i - 1].score >= scores.scores[i].score);
     }
 
