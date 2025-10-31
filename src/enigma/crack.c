@@ -454,6 +454,57 @@ enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext
 }
 
 /**
+ * @brief Get the flags for a given plaintext based on the crack configuration.
+ *
+ * This function checks the plaintext against the criteria specified in the
+ * enigma_crack_t and returns a bitmask of flags indicating which
+ * criteria were met.
+ *
+ * @param cfg The enigma_crack_t containing the criteria and flags.
+ * @param plaintext The plaintext to evaluate.
+ * @return A bitmask of flags indicating which criteria were met, or -1 if
+ * error.
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_t* cfg, const char* plaintext) {
+    if (!cfg || !plaintext) {
+        return -1;
+    }
+    int ret    = 0;
+    int subRet = 0;
+
+    if (cfg->flags & ENIGMA_FLAG_DICTIONARY_MATCH) {
+        subRet = enigma_dict_match(cfg, plaintext);
+        if (subRet == 1) {
+            ret |= ENIGMA_FLAG_DICTIONARY_MATCH;
+        } else if (subRet == -1) {
+            return -1;
+        }
+    }
+
+    if (cfg->flags & ENIGMA_FLAG_FREQUENCY) {
+        float freqScore;
+        int   freqRet = enigma_letter_freq(cfg, plaintext);
+
+        if (freqRet == -1) {
+            return -1;
+        } else if (freqRet == 1) {
+            ret |= ENIGMA_FLAG_FREQUENCY;
+        }
+    }
+
+    if (cfg->flags & ENIGMA_FLAG_KNOWN_PLAINTEXT) {
+        if (!cfg->known_plaintext) {
+            return -1;
+        }
+
+        if (strstr(plaintext, cfg->known_plaintext)) {
+            ret |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
+        }
+    }
+    return ret;
+}
+
+/**
  * @brief Get the enigma field in the given enigma_crack_t
  *
  * @param cfg The enigma_crack_t instance
