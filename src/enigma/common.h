@@ -17,6 +17,10 @@
 #define ENIGMA_LANG_ENGLISH 0
 #define ENIGMA_LANG_GERMAN  1
 
+#ifndef LIBENIGMA_VERSION
+#define LIBENIGMA_VERSION "unknown"
+#endif
+
 #ifdef __GNUC__
 #define ENIGMA_ALWAYS_INLINE inline __attribute__((always_inline))
 #else

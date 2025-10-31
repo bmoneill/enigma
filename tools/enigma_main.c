@@ -18,7 +18,7 @@ int         main(int argc, char* argv[]) {
 
     // Parse command line options
     char* rotorpos = NULL;
-    while ((opt = getopt(argc, argv, "s:p:u:w:r")) != -1) {
+    while ((opt = getopt(argc, argv, "s:p:u:w:rv")) != -1) {
         switch (opt) {
         case 's':
             strcpy(enigma.plugboard, optarg);
@@ -37,6 +37,9 @@ int         main(int argc, char* argv[]) {
         case 'r':
             enigma_init_random_config(&enigma);
             break;
+        case 'v':
+            printf("Version: %s\n", enigma_version());
+            exit(EXIT_SUCCESS);
         default:
             print_usage(argv[0]);
             exit(EXIT_FAILURE);

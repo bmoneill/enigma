@@ -9,9 +9,6 @@ include(GNUInstallDirs)
 
 set(LIBRARY_BASE_PATH ".")
 
-# Version
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVERSION='\"${GIT_COMMIT_HASH}\"'")
-
 # Warnings
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-missing-field-initializers -Wmissing-prototypes -Wshadow")
