@@ -1,4 +1,5 @@
 #include "reflector.h"
+#include "enigma/common.h"
 
 #include <ctype.h>
 #include <stddef.h>
@@ -11,7 +12,8 @@
  * @param alphabet The alphabet to generate the indices from.
  * @return 0 on success, 1 on failure.
  */
-int enigma_reflector_generate_indices(enigma_reflector_t* reflector, const char* alphabet) {
+EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* reflector,
+                                                           const char*         alphabet) {
     if (!reflector || !alphabet || strlen(alphabet) != 26) {
         return 1;
     }
@@ -27,7 +29,7 @@ int enigma_reflector_generate_indices(enigma_reflector_t* reflector, const char*
  * @param reflector The reflector to get the name of.
  * @return The name of the reflector.
  */
-const char* enigma_reflector_get_name(const enigma_reflector_t* reflector) {
+EMSCRIPTEN_KEEPALIVE const char* enigma_reflector_get_name(const enigma_reflector_t* reflector) {
     if (!reflector) {
         return NULL;
     }
@@ -40,7 +42,7 @@ const char* enigma_reflector_get_name(const enigma_reflector_t* reflector) {
  * @param reflector The reflector to get the indices of.
  * @return The indices of the reflector.
  */
-const int* enigma_reflector_get_indices(const enigma_reflector_t* reflector) {
+EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const enigma_reflector_t* reflector) {
     if (!reflector) {
         return NULL;
     }
@@ -57,7 +59,8 @@ const int* enigma_reflector_get_indices(const enigma_reflector_t* reflector) {
  * @param name The name to set.
  * @return 0 on success, 1 on failure.
  */
-int enigma_reflector_set_name(enigma_reflector_t* reflector, const char* name) {
+EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector,
+                                                   const char*         name) {
     if (!reflector || !name) {
         return 1;
     }
@@ -72,7 +75,8 @@ int enigma_reflector_set_name(enigma_reflector_t* reflector, const char* name) {
  * @param indices The indices to set.
  * @return 0 on success, 1 on failure.
  */
-int enigma_reflector_set_indices(enigma_reflector_t* reflector, const int* indices) {
+EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_indices(enigma_reflector_t* reflector,
+                                                      const int*          indices) {
     if (!reflector || !indices) {
         return 1;
     }

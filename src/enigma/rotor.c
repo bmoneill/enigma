@@ -1,4 +1,5 @@
 #include "rotor.h"
+#include "enigma/common.h"
 
 #include <ctype.h>
 #include <string.h>
@@ -12,7 +13,8 @@
  * @param alphabet The alphabet to generate the indices from.
  * @return 0 on success, or 1 on failure.
  */
-int enigma_rotor_generate_indices(enigma_rotor_t* rotor, const char* alphabet) {
+EMSCRIPTEN_KEEPALIVE int enigma_rotor_generate_indices(enigma_rotor_t* rotor,
+                                                       const char*     alphabet) {
     if (!rotor || !alphabet || strlen(alphabet) != 26) {
         return 1;
     }
@@ -41,7 +43,7 @@ int enigma_rotor_generate_indices(enigma_rotor_t* rotor, const char* alphabet) {
  * @param name The name to set.
  * @return the name of the rotor on success, or NULL on failure.
  */
-const char* enigma_rotor_get_name(const enigma_rotor_t* rotor) {
+EMSCRIPTEN_KEEPALIVE const char* enigma_rotor_get_name(const enigma_rotor_t* rotor) {
     if (!rotor) {
         return NULL;
     }
@@ -56,7 +58,7 @@ const char* enigma_rotor_get_name(const enigma_rotor_t* rotor) {
  * @param rotor The rotor to get the forward indices of.
  * @return the forward indices of the rotor on success, or NULL on failure.
  */
-const int* enigma_rotor_get_fwd_indices(const enigma_rotor_t* rotor) {
+EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_fwd_indices(const enigma_rotor_t* rotor) {
     if (!rotor) {
         return NULL;
     }
@@ -71,7 +73,7 @@ const int* enigma_rotor_get_fwd_indices(const enigma_rotor_t* rotor) {
  * @param rotor The rotor to get the reverse indices of.
  * @return the reverse indices of the rotor on success, or NULL on failure.
  */
-const int* enigma_rotor_get_rev_indices(const enigma_rotor_t* rotor) {
+EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_rev_indices(const enigma_rotor_t* rotor) {
     if (!rotor) {
         return NULL;
     }
@@ -86,7 +88,7 @@ const int* enigma_rotor_get_rev_indices(const enigma_rotor_t* rotor) {
  * @param rotor The rotor to get the notches of.
  * @return the notches of the rotor on success, or NULL on failure.
  */
-const int* enigma_rotor_get_notches(const enigma_rotor_t* rotor) {
+EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_notches(const enigma_rotor_t* rotor) {
     if (!rotor) {
         return NULL;
     }
@@ -101,7 +103,7 @@ const int* enigma_rotor_get_notches(const enigma_rotor_t* rotor) {
  * @param rotor The rotor to get the number of notches of.
  * @return the number of notches of the rotor on success, or -1 on failure.
  */
-int enigma_rotor_get_notches_count(const enigma_rotor_t* rotor) {
+EMSCRIPTEN_KEEPALIVE int enigma_rotor_get_notches_count(const enigma_rotor_t* rotor) {
     if (!rotor) {
         return -1;
     }
@@ -117,7 +119,7 @@ int enigma_rotor_get_notches_count(const enigma_rotor_t* rotor) {
  * @param name The name to set.
  * @return 0 on success, or -1 on failure.
  */
-int enigma_rotor_set_name(enigma_rotor_t* rotor, const char* name) {
+EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_name(enigma_rotor_t* rotor, const char* name) {
     if (!rotor || !name) {
         return -1;
     }
@@ -134,7 +136,7 @@ int enigma_rotor_set_name(enigma_rotor_t* rotor, const char* name) {
  * @param indices The forward indices to set.
  * @return 0 on success, or -1 on failure.
  */
-int enigma_rotor_set_fwd_indices(enigma_rotor_t* rotor, const int* indices) {
+EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_fwd_indices(enigma_rotor_t* rotor, const int* indices) {
     if (!rotor || !indices) {
         return -1;
     }
@@ -151,7 +153,7 @@ int enigma_rotor_set_fwd_indices(enigma_rotor_t* rotor, const int* indices) {
  * @param indices The reverse indices to set.
  * @return 0 on success, or -1 on failure.
  */
-int enigma_rotor_set_rev_indices(enigma_rotor_t* rotor, const int* indices) {
+EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_rev_indices(enigma_rotor_t* rotor, const int* indices) {
     if (!rotor || !indices) {
         return -1;
     }
@@ -169,7 +171,8 @@ int enigma_rotor_set_rev_indices(enigma_rotor_t* rotor, const int* indices) {
  * @param count The number of notches.
  * @return 0 on success, or -1 on failure.
  */
-int enigma_rotor_set_notches(enigma_rotor_t* rotor, const int* notches, int count) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_rotor_set_notches(enigma_rotor_t* rotor, const int* notches, int count) {
     if (!rotor || !notches || count < 0 || count > 2) {
         return -1;
     }
@@ -187,7 +190,7 @@ int enigma_rotor_set_notches(enigma_rotor_t* rotor, const int* notches, int coun
  * @param count The notches count to set.
  * @return 0 on success, or -1 on failure.
  */
-int enigma_rotor_set_notches_count(enigma_rotor_t* rotor, int count) {
+EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_notches_count(enigma_rotor_t* rotor, int count) {
     if (!rotor || count < 0 || count > 2) {
         return -1;
     }
