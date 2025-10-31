@@ -1,14 +1,6 @@
 set(ENIGMA_BINARY_NAME "enigmacli")
 set(CRACK_BINARY_NAME "enigmacrack")
 
-# Get git commit hash
-execute_process(
-    COMMAND git rev-parse --short HEAD
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_COMMIT_HASH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
 add_executable(${ENIGMA_BINARY_NAME} enigma_main.c)
 add_executable(${CRACK_BINARY_NAME} crack_main.c)
 

@@ -3,15 +3,14 @@ project("libenigma" C)
 # Global Parameters
 set(PROJECT_NAME "libenigma")
 set(LIBRARY_NAME "enigma")
-set(LIBRARY_VERSION_MAJOR 0)
-set(LIBRARY_VERSION_STRING 0.0)
+#set(LIBRARY_VERSION_MAJOR dev)
 
 include(GNUInstallDirs)
 
 set(LIBRARY_BASE_PATH ".")
 
-# Math library
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+# Version
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVERSION='\"${GIT_COMMIT_HASH}\"'")
 
 # Warnings
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable")
