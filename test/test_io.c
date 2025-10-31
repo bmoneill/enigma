@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 void test_enigma_load_config(void) {
     const char* configStr = "I II III|XYZ|B|ABCDEF";
@@ -72,7 +73,12 @@ void test_load_ngrams(void) {
 
     int            charCount     = 500;
     const char*    ngramFilePath = "data/bigrams.txt";
+    const char*    altNgramFilePath = "test/data/bigrams.txt";
     enigma_crack_t cfg;
+
+    if (access(altNgramFilePath, F_OK) == 0) {
+        ngramFilePath = altNgramFilePath;
+    }
 
     int            result = enigma_load_ngrams(&cfg, ngramFilePath);
     TEST_ASSERT_EQUAL(0, result);
