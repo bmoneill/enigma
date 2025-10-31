@@ -750,11 +750,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_scores(enigma_crack_t* cfg, enigma_sco
  * @param length The length of the dictionary array
  * @return 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_dictionary(enigma_crack_t* cfg, const char** dictionary, size_t length) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_crack_set_dictionary(enigma_crack_t* cfg, const char** dictionary, size_t length) {
     if (!cfg || !dictionary) {
         return -1;
     }
-    cfg->dictionary = dictionary;
+    cfg->dictionary        = dictionary;
     cfg->dictionary_length = length;
     return 0;
 }
@@ -768,13 +769,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_dictionary(enigma_crack_t* cfg, const 
  * @param length The length of the ngrams array
  * @return 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_ngrams(enigma_crack_t* cfg, float* ngrams, int n, size_t length) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_crack_set_ngrams(enigma_crack_t* cfg, float* ngrams, int n, size_t length) {
     if (!cfg || !ngrams || n < 2 || n > 4) {
         return -1;
     }
-    cfg->ngrams = ngrams;
-    cfg->n = n;
-    cfg->ngrams_length= length;
+    cfg->ngrams        = ngrams;
+    cfg->n             = n;
+    cfg->ngrams_length = length;
     return 0;
 }
 
@@ -801,11 +803,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_n(enigma_crack_t* cfg, int n) {
  * @param length The length of the ciphertext string
  * @return 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_ciphertext(enigma_crack_t* cfg, const char *ciphertext, size_t length) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_crack_set_ciphertext(enigma_crack_t* cfg, const char* ciphertext, size_t length) {
     if (!cfg || !ciphertext) {
         return -1;
     }
-    cfg->ciphertext = ciphertext;
+    cfg->ciphertext        = ciphertext;
     cfg->ciphertext_length = length;
     return 0;
 }
@@ -832,7 +835,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_flags(enigma_crack_t* cfg, int flags) 
  * @param frequencyTargets The frequency targets array
  * @return 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(enigma_crack_t* cfg, float * frequencyTargets) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(enigma_crack_t* cfg,
+                                                            float*          frequencyTargets) {
     if (!cfg || !frequencyTargets) {
         return -1;
     }
@@ -893,11 +897,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_target_score(enigma_crack_t* cfg, floa
  * @param length The length of the known plaintext string
  * @return 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(enigma_crack_t* cfg, const char* knownPlaintext, size_t length) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_crack_set_known_plaintext(enigma_crack_t* cfg, const char* knownPlaintext, size_t length) {
     if (!cfg || !knownPlaintext) {
         return -1;
     }
-    cfg->known_plaintext = knownPlaintext;
+    cfg->known_plaintext        = knownPlaintext;
     cfg->known_plaintext_length = length;
     return 0;
 }
