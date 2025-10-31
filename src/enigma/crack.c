@@ -503,3 +503,401 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_t* cfg, const cha
     }
     return ret;
 }
+
+/**
+ * @brief Get the enigma field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The enigma field, or NULL if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE const enigma_t* enigma_crack_get_enigma(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return NULL;
+    }
+    return &cfg->enigma;
+}
+
+/**
+ * @brief Get the scores field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The scores field, or NULL if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE const enigma_score_list_t* enigma_crack_get_scores(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return NULL;
+    }
+    return cfg->scores;
+}
+
+/**
+ * @brief Get the dictionary field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The dictionary field, or NULL if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE const char** enigma_crack_get_dictionary(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return NULL;
+    }
+    return cfg->dictionary;
+}
+
+/**
+ * @brief Get the dictionary length field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The dictionary length field, or -1 if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_dictionary_length(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1;
+    }
+    return cfg->dictionary_length;
+}
+
+/**
+ * @brief Get the ngrams field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The ngrams field, or NULL if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_ngrams(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return NULL;
+    }
+    return cfg->ngrams;
+}
+
+/**
+ * @brief Get the n field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The n field, or -1 if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_get_n(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1;
+    }
+    return cfg->n;
+}
+
+/**
+ * @brief Get the ngrams_length field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The ngrams_length field, or -1 if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ngrams_length(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1;
+    }
+    return cfg->ngrams_length;
+}
+
+/**
+ * @brief Get the ciphertext field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The ciphertext field, or NULL if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_ciphertext(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return NULL;
+    }
+    return cfg->ciphertext;
+}
+
+/**
+ * @brief Get the ciphertext_length field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The ciphertext_length field, or -1 if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ciphertext_length(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1;
+    }
+    return cfg->ciphertext_length;
+}
+
+/**
+ * @brief Get the flags field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The flags field, or -1 if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_get_flags(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1;
+    }
+    return cfg->flags;
+}
+
+/**
+ * @brief Get the frequency_targets field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The frequency_targets field, or NULL if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_frequency_targets(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return NULL;
+    }
+    return cfg->frequency_targets;
+}
+
+/**
+ * @brief Get the min_score field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The min_score field, or -1.0f if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE float enigma_crack_get_min_score(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1.0f;
+    }
+    return cfg->min_score;
+}
+
+/**
+ * @brief Get the max_score field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The max_score field, or -1.0f if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE float enigma_crack_get_max_score(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1.0f;
+    }
+    return cfg->max_score;
+}
+
+/**
+ * @brief Get the target_score field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The target_score field, or -1.0f if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE float enigma_crack_get_target_score(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1.0f;
+    }
+    return cfg->target_score;
+}
+
+/**
+ * @brief Get the known_plaintext field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The known_plaintext field, or NULL if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_known_plaintext(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return NULL;
+    }
+    return cfg->known_plaintext;
+}
+
+/**
+ * @brief Get the known_plaintext_length field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @return The known_plaintext_length field, or -1 if cfg is NULL
+ */
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_known_plaintext_length(const enigma_crack_t* cfg) {
+    if (!cfg) {
+        return -1;
+    }
+    return cfg->known_plaintext_length;
+}
+
+/**
+ * @brief Set the enigma field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param enigma The enigma_t instance
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(enigma_crack_t* cfg, enigma_t* enigma) {
+    if (!cfg || !enigma) {
+        return -1;
+    }
+    memcpy(&cfg->enigma, enigma, sizeof(enigma_t));
+    return 0;
+}
+
+/**
+ * @brief Set the scores field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param scores The enigma_score_list_t instance
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_scores(enigma_crack_t* cfg, enigma_score_list_t* scores) {
+    if (!cfg || !scores) {
+        return -1;
+    }
+    cfg->scores = scores;
+    return 0;
+}
+
+/**
+ * @brief Set the dictionary field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param dictionary The dictionary array
+ * @param length The length of the dictionary array
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_dictionary(enigma_crack_t* cfg, const char** dictionary, size_t length) {
+    if (!cfg || !dictionary) {
+        return -1;
+    }
+    cfg->dictionary = dictionary;
+    cfg->dictionary_length = length;
+    return 0;
+}
+
+/**
+ * @brief Set the ngrams field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param ngrams The ngrams array
+ * @param n The n value
+ * @param length The length of the ngrams array
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_ngrams(enigma_crack_t* cfg, float* ngrams, int n, size_t length) {
+    if (!cfg || !ngrams || n < 2 || n > 4) {
+        return -1;
+    }
+    cfg->ngrams = ngrams;
+    cfg->n = n;
+    cfg->ngrams_length= length;
+    return 0;
+}
+
+/**
+ * @brief Set the n field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param n The n value
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_n(enigma_crack_t* cfg, int n) {
+    if (!cfg || n < 2 || n > 4) {
+        return -1;
+    }
+    cfg->n = n;
+    return 0;
+}
+
+/**
+ * @brief Set the ciphertext field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param ciphertext The ciphertext string
+ * @param length The length of the ciphertext string
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_ciphertext(enigma_crack_t* cfg, const char *ciphertext, size_t length) {
+    if (!cfg || !ciphertext) {
+        return -1;
+    }
+    cfg->ciphertext = ciphertext;
+    cfg->ciphertext_length = length;
+    return 0;
+}
+
+/**
+ * @brief Set the flags field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param flags The flags value
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_flags(enigma_crack_t* cfg, int flags) {
+    if (!cfg) {
+        return -1;
+    }
+    cfg->flags = flags;
+    return 0;
+}
+
+/**
+ * @brief Set the frequency targets field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param frequencyTargets The frequency targets array
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(enigma_crack_t* cfg, float * frequencyTargets) {
+    if (!cfg || !frequencyTargets) {
+        return -1;
+    }
+    memcpy(cfg->frequency_targets, frequencyTargets, sizeof(float) * 26);
+    return 0;
+}
+
+/**
+ * @brief Set the minimum score field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param minScore The minimum score value
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_min_score(enigma_crack_t* cfg, float minScore) {
+    if (!cfg) {
+        return -1;
+    }
+    cfg->min_score = minScore;
+    return 0;
+}
+
+/**
+ * @brief Set the maximum score field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param maxScore The maximum score value
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_max_score(enigma_crack_t* cfg, float maxScore) {
+    if (!cfg) {
+        return -1;
+    }
+    cfg->min_score = maxScore;
+    return 0;
+}
+
+/**
+ * @brief Set the target score field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param targetScore The target score value
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_target_score(enigma_crack_t* cfg, float targetScore) {
+    if (!cfg) {
+        return -1;
+    }
+    cfg->target_score = targetScore;
+    return 0;
+}
+
+/**
+ * @brief Set the known plaintext field in the given enigma_crack_t
+ *
+ * @param cfg The enigma_crack_t instance
+ * @param knownPlaintext The known plaintext string
+ * @param length The length of the known plaintext string
+ * @return 0 on success, -1 on failure
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(enigma_crack_t* cfg, const char* knownPlaintext, size_t length) {
+    if (!cfg || !knownPlaintext) {
+        return -1;
+    }
+    cfg->known_plaintext = knownPlaintext;
+    cfg->known_plaintext_length = length;
+    return 0;
+}
