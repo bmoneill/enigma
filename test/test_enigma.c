@@ -1,6 +1,8 @@
 #include "enigma/enigma.c"
 #include "unity.h"
 
+// TODO enigma_t getter/setter tests
+
 void test_enigma_encode(void) {
     enigma_t enigma;
     enigma_init_random_config(&enigma);
@@ -93,7 +95,7 @@ void test_rotate_rotors(void) {
     enigma.rotor_indices[1] = 17;
     rotor2.fwd_indices[17]  = 25;
     rotor2.notches[0]       = 25;
-    rotor2.numNotches       = 1;
+    rotor2.notches_count    = 1;
     rotate_rotors(&enigma);
 
     TEST_ASSERT_EQUAL_INT(10, enigma.rotor_indices[0]); // First rotor rotated

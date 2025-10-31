@@ -111,8 +111,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
         return 1;
     }
-    rotor->name       = name;
-    rotor->numNotches = numNotches;
+    rotor->name          = name;
+    rotor->notches_count = numNotches;
     memcpy(rotor->notches, notches, numNotches * sizeof(int));
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         rotor->fwd_indices[i]                     = toupper(alphabet[i]) - 'A';

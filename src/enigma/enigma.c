@@ -8,8 +8,6 @@
 #include "enigma.h"
 
 #include "common.h"
-#include "reflectors.h"
-#include "rotors.h"
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -18,7 +16,6 @@
 #include <time.h>
 
 #define ALPHA2IDX(c) ((c) - 'A')
-
 
 static ENIGMA_ALWAYS_INLINE void rotate(int*);
 static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t*);
@@ -194,9 +191,7 @@ EMSCRIPTEN_KEEPALIVE void enigma_init_random_config(enigma_t* enigma) {
  *
  * @return Pointer to the version string.
  */
-EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) {
-    return LIBENIGMA_VERSION;
-}
+EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) { return LIBENIGMA_VERSION; }
 
 /**
  * @brief Get the plugboard configuration.
@@ -206,7 +201,10 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) {
  * @param enigma Pointer to the Enigma machine.
  * @return Pointer to the plugboard configuration string.
  */
-EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const enigma_t* enigma) {
+    if (!enigma) {
+        return NULL;
+    }
     return enigma->plugboard;
 }
 
@@ -218,7 +216,10 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(enigma_t* enigma) {
  * @param enigma Pointer to the Enigma machine.
  * @return Pointer to the reflector configuration.
  */
-EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(const enigma_t* enigma) {
+    if (!enigma) {
+        return NULL;
+    }
     return enigma->reflector;
 }
 
@@ -231,7 +232,11 @@ EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(enigma_t* en
  * @param rotorIndex Index of the rotor to retrieve.
  * @return Pointer to the rotor configuration.
  */
-EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(enigma_t* enigma, int rotorIndex) {
+EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(const enigma_t* enigma,
+                                                            int             rotorIndex) {
+    if (!enigma) {
+        return NULL;
+    }
     return enigma->rotors[rotorIndex];
 }
 
@@ -241,10 +246,28 @@ EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(enigma_t* enigma, in
  * This function returns the number of rotors in the Enigma machine.
  *
  * @param enigma Pointer to the Enigma machine.
- * @return Number of rotors.
+ * @return Number of rotors, or -1 if the Enigma machine is invalid.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(const enigma_t* enigma) {
+    if (!enigma) {
+        return -1;
+    }
     return enigma->rotor_count;
+}
+
+/**
+ * @brief Get the rotor flag.
+ *
+ * This function returns the rotor flag of the Enigma machine.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @return Rotor flag value, or -1 if the Enigma machine is invalid.
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_flag(const enigma_t* enigma) {
+    if (!enigma) {
+        return -1;
+    }
+    return enigma->rotor_flag;
 }
 
 /**
@@ -254,9 +277,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(enigma_t* enigma) {
  *
  * @param enigma Pointer to the Enigma machine.
  * @param rotor Pointer to the rotor configuration.
- * @return Index of the rotor.
+ * @return Index of the rotor, or -1 if the Enigma machine is invalid.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(enigma_t* enigma, int rotor) {
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(const enigma_t* enigma, int rotor) {
+    if (!enigma) {
+        return -1;
+    }
     return enigma->rotor_indices[rotor];
 }
 
@@ -387,7 +413,7 @@ static ENIGMA_ALWAYS_INLINE void rotate(int* idx) {
  */
 static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t* enigma) {
     int turned = 0;
-    for (int i = 0; i < enigma->rotors[1]->numNotches; i++) {
+    for (int i = 0; i < enigma->rotors[1]->notches_count; i++) {
         if (enigma->rotors[1]->fwd_indices[enigma->rotor_indices[1]]
             == enigma->rotors[1]->notches[i]) {
             rotate(&enigma->rotor_indices[1]);
@@ -398,7 +424,7 @@ static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t* enigma) {
     }
 
     if (!turned) {
-        for (int i = 0; i < enigma->rotors[0]->numNotches; i++) {
+        for (int i = 0; i < enigma->rotors[0]->notches_count; i++) {
             if (enigma->rotors[0]->fwd_indices[enigma->rotor_indices[0]]
                 == enigma->rotors[0]->notches[i]) {
                 rotate(&enigma->rotor_indices[1]);

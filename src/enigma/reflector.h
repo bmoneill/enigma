@@ -63,4 +63,12 @@ static const enigma_reflector_t* enigma_reflectors[] = {
     &enigma_UKW_C,
 };
 
+int enigma_reflector_generate_indices(enigma_reflector_t*, const char*);
+
+/* enigma_reflector_t getters and setters */
+const char* enigma_reflector_get_name(const enigma_reflector_t* reflector);
+const int*  enigma_reflector_get_indices(const enigma_reflector_t* reflector);
+int         enigma_reflector_set_name(enigma_reflector_t* reflector, const char* name);
+int         enigma_reflector_set_indices(enigma_reflector_t* reflector, const int* indices);
+
 #endif

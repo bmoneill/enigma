@@ -53,7 +53,7 @@ void test_enigma_load_custom_rotor(void) {
         TEST_ASSERT_EQUAL_INT(i, rotor.rev_indices[rotor.fwd_indices[i]]);
     }
     TEST_ASSERT_EQUAL_STRING(rotorName, rotor.name);
-    TEST_ASSERT_EQUAL_INT(2, rotor.numNotches);
+    TEST_ASSERT_EQUAL_INT(2, rotor.notches_count);
     TEST_ASSERT_EQUAL_INT(rotorNotches[0], rotor.notches[0]);
     TEST_ASSERT_EQUAL_INT(rotorNotches[1], rotor.notches[1]);
 

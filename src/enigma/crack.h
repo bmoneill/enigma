@@ -79,21 +79,21 @@ int   enigma_score_flags(const enigma_crack_t*, const char*);
 
 /* enigma_crack_t getters and setters */
 /* TODO Implement */
-enigma_t*            enigma_crack_get_enigma(enigma_crack_t*);
-enigma_score_list_t* enigma_crack_get_scores(enigma_crack_t*);
-const char**         enigma_crack_get_dictionary(enigma_crack_t*);
-int                  enigma_crack_get_dictionary_size(enigma_crack_t*);
-float*               enigma_crack_get_ngrams(enigma_crack_t*);
-int                  enigma_crack_get_n(enigma_crack_t*);
-int                  enigma_crack_get_ngram_len(enigma_crack_t*);
-const char*          enigma_crack_get_ciphertext(enigma_crack_t*);
-int                  enigma_crack_get_ciphertext_len(enigma_crack_t*);
-int                  enigma_crack_get_flags(enigma_crack_t*);
-float                enigma_crack_get_frequency_targets(enigma_crack_t*);
-float                enigma_crack_get_min_score(enigma_crack_t*);
-float                enigma_crack_get_max_score(enigma_crack_t*);
-float                enigma_crack_get_target_score(enigma_crack_t*);
-float                enigma_crack_get_known_plaintext(enigma_crack_t*);
+enigma_t*            enigma_crack_get_enigma(const enigma_crack_t*);
+enigma_score_list_t* enigma_crack_get_scores(const enigma_crack_t*);
+const char**         enigma_crack_get_dictionary(const enigma_crack_t*);
+int                  enigma_crack_get_dictionary_size(const enigma_crack_t*);
+float*               enigma_crack_get_ngrams(const enigma_crack_t*);
+int                  enigma_crack_get_n(const enigma_crack_t*);
+int                  enigma_crack_get_ngram_len(const enigma_crack_t*);
+const char*          enigma_crack_get_ciphertext(const enigma_crack_t*);
+int                  enigma_crack_get_ciphertext_len(const enigma_crack_t*);
+int                  enigma_crack_get_flags(const enigma_crack_t*);
+float                enigma_crack_get_frequency_targets(const enigma_crack_t*);
+float                enigma_crack_get_min_score(const enigma_crack_t*);
+float                enigma_crack_get_max_score(const enigma_crack_t*);
+float                enigma_crack_get_target_score(const enigma_crack_t*);
+float                enigma_crack_get_known_plaintext(const enigma_crack_t*);
 int                  enigma_crack_set_enigma(enigma_crack_t*, enigma_t*);
 int                  enigma_crack_set_scores(enigma_crack_t*, enigma_score_list_t*);
 int                  enigma_crack_set_dictionary(enigma_crack_t*, const char**);

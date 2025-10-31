@@ -2,6 +2,9 @@
 
 #include "unity.h"
 
+// TODO enigma_score_list_t getter/setter tests
+// TODO enigma_score_t getter/setter tests
+
 void test_enigma_score_sort(void) {
     enigma_score_list_t scores;
     scores.maxScores  = 10;

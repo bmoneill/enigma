@@ -8,8 +8,8 @@
 #ifndef ENIGMA_H
 #define ENIGMA_H
 
-#include "reflectors.h"
-#include "rotors.h"
+#include "reflector.h"
+#include "rotor.h"
 
 /**
  * @struct enigma_t
@@ -51,15 +51,17 @@ void        enigma_init_random_config(enigma_t*);
 const char* enigma_version(void);
 
 /* enigma_t getters and setters */
-const char*               enigma_get_plugboard(enigma_t*);
-const enigma_reflector_t* enigma_get_reflector(enigma_t*);
-const enigma_rotor_t*     enigma_get_rotor(enigma_t*, int);
-int                       enigma_get_rotor_count(enigma_t*);
-int                       enigma_get_rotor_index(enigma_t*, int);
+const char*               enigma_get_plugboard(const enigma_t*);
+const enigma_reflector_t* enigma_get_reflector(const enigma_t*);
+const enigma_rotor_t*     enigma_get_rotor(const enigma_t*, int);
+int                       enigma_get_rotor_count(const enigma_t*);
+int                       enigma_get_rotor_flag(const enigma_t*);
+int                       enigma_get_rotor_index(const enigma_t*, int);
 int                       enigma_set_plugboard(enigma_t*, const char*);
 int                       enigma_set_reflector(enigma_t*, int);
 int                       enigma_set_rotor(enigma_t*, int, int);
 int                       enigma_set_rotor_count(enigma_t*, int);
+int                       enigma_set_rotor_flag(enigma_t*, int);
 int                       enigma_set_rotor_index(enigma_t*, int, int);
 
 #endif

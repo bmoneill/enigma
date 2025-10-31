@@ -6,6 +6,8 @@
 #include <string.h>
 #include <time.h>
 
+// TODO enigma_crack_t getter/setter tests
+
 #define MAX_STORED_SCORES 10
 #define MAX_SCORES        100
 

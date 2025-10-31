@@ -16,8 +16,7 @@
 
 #include "common.h"
 #include "enigma.h"
-#include "io.h"
-#include "rotors.h"
+#include "rotor.h"
 
 #include <stdlib.h>
 #include <string.h>
