@@ -53,6 +53,51 @@ function populateReflectorOptions() {
   reflectorSelect.value = 1;
 }
 
+function populateTaskOptions() {
+  const taskSelect = document.getElementById("task");
+  const taskOptions = [
+    { value: 0, text: "Encrypt" },
+    { value: 1, text: "Frequency Analysis" },
+    { value: 2, text: "IoC Analysis" },
+    { value: 3, text: "N-gram Analysis" },
+  ];
+
+  taskOptions.forEach((option) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = option.value;
+    optionElement.textContent = option.text;
+    taskSelect.appendChild(optionElement);
+  });
+
+  taskSelect.value = 0;
+}
+
+function populateTaskArgumentOptions() {
+  const taskArgumentSelect = document.getElementById("taskArgument");
+  const taskArgumentOptions = [
+    { value: 0, text: "No argument" },
+    { value: 1, text: "Rotors" },
+    { value: 2, text: "Rotor 0" },
+    { value: 3, text: "Rotor 1" },
+    { value: 4, text: "Rotor 2" },
+    { value: 5, text: "Rotor Positions" },
+    { value: 6, text: "Rotor 0 Position" },
+    { value: 7, text: "Rotor 1 Position" },
+    { value: 8, text: "Rotor 2 Position" },
+    { value: 9, text: "Reflector" },
+    { value: 10, text: "Plugboard" },
+  ];
+
+  taskArgumentOptions.forEach((option) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = option.value;
+    optionElement.textContent = option.text;
+    taskArgumentSelect.appendChild(optionElement);
+  });
+
+  taskArgumentSelect.value = 0;
+}
+
 function sanitizeInput(input) {
   return input.toUpperCase().replace(/[^A-Z]/g, "");
 }
@@ -88,6 +133,8 @@ function encrypt() {
 
 populateRotorOptions();
 populateReflectorOptions();
+populateTaskOptions();
+populateTaskArgumentOptions();
 
 var form = document.getElementById("inputForm");
 form.addEventListener("submit", encrypt);
