@@ -11,12 +11,14 @@
 #include "reflectors.h"
 #include "rotors.h"
 
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
 #define ALPHA2IDX(c) ((c) - 'A')
+
 
 static ENIGMA_ALWAYS_INLINE void rotate(int*);
 static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t*);
@@ -186,6 +188,79 @@ EMSCRIPTEN_KEEPALIVE void enigma_init_random_config(enigma_t* enigma) {
 }
 
 /**
+ * @brief Get the version of the Enigma library.
+ *
+ * This function returns the version of the Enigma library as a string.
+ *
+ * @return Pointer to the version string.
+ */
+EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) {
+    return LIBENIGMA_VERSION;
+}
+
+/**
+ * @brief Get the plugboard configuration.
+ *
+ * This function returns the current plugboard configuration as a string.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @return Pointer to the plugboard configuration string.
+ */
+EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(enigma_t* enigma) {
+    return enigma->plugboard;
+}
+
+/**
+ * @brief Get the reflector configuration.
+ *
+ * This function returns the current reflector.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @return Pointer to the reflector configuration.
+ */
+EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(enigma_t* enigma) {
+    return enigma->reflector;
+}
+
+/**
+ * @brief Get the rotor configuration.
+ *
+ * This function returns the rotor at the specified index.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param rotorIndex Index of the rotor to retrieve.
+ * @return Pointer to the rotor configuration.
+ */
+EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(enigma_t* enigma, int rotorIndex) {
+    return enigma->rotors[rotorIndex];
+}
+
+/**
+ * @brief Get the number of rotors.
+ *
+ * This function returns the number of rotors in the Enigma machine.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @return Number of rotors.
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(enigma_t* enigma) {
+    return enigma->rotor_count;
+}
+
+/**
+ * @brief Get the index of a rotor.
+ *
+ * This function returns the index of the specified rotor.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param rotor Pointer to the rotor configuration.
+ * @return Index of the rotor.
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(enigma_t* enigma, int rotor) {
+    return enigma->rotor_indices[rotor];
+}
+
+/**
  * @brief Set the plugboard configuration.
  *
  * This function sets the plugboard configuration based on the provided string.
@@ -203,9 +278,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
     }
     int i = 0;
     while (s[i] != '\0') {
-        if (s[i] >= 'A' && s[i] <= 'Z') {
+        char c = toupper(s[i]);
+        if (c >= 'A' && c <= 'Z') {
             enigma->plugboard[i] = s[i];
             i++;
+        } else {
+            return 1;
         }
     }
     enigma->plugboard[i] = '\0';

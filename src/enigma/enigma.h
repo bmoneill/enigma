@@ -43,15 +43,23 @@ typedef struct {
     char                      plugboard[27];
 } enigma_t;
 
-char enigma_encode(enigma_t*, int);
-void enigma_encode_string(enigma_t*, const char*, char*, int);
-void enigma_init_rotors(enigma_t*, const enigma_rotor_t*, int);
-void enigma_init_default_config(enigma_t*);
-void enigma_init_random_config(enigma_t*);
-int  enigma_set_plugboard(enigma_t*, const char*);
-int  enigma_set_reflector(enigma_t*, int);
-int  enigma_set_rotor(enigma_t*, int, int);
-int  enigma_set_rotor_count(enigma_t*, int);
-int  enigma_set_rotor_index(enigma_t*, int, int);
+char        enigma_encode(enigma_t*, int);
+void        enigma_encode_string(enigma_t*, const char*, char*, int);
+void        enigma_init_rotors(enigma_t*, const enigma_rotor_t*, int);
+void        enigma_init_default_config(enigma_t*);
+void        enigma_init_random_config(enigma_t*);
+const char* enigma_version(void);
+
+/* enigma_t getters and setters */
+const char*               enigma_get_plugboard(enigma_t*);
+const enigma_reflector_t* enigma_get_reflector(enigma_t*);
+const enigma_rotor_t*     enigma_get_rotor(enigma_t*, int);
+int                       enigma_get_rotor_count(enigma_t*);
+int                       enigma_get_rotor_index(enigma_t*, int);
+int                       enigma_set_plugboard(enigma_t*, const char*);
+int                       enigma_set_reflector(enigma_t*, int);
+int                       enigma_set_rotor(enigma_t*, int, int);
+int                       enigma_set_rotor_count(enigma_t*, int);
+int                       enigma_set_rotor_index(enigma_t*, int, int);
 
 #endif
