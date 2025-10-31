@@ -39,12 +39,12 @@
     Available rotors: I, II, III, IV, V, VI, VII, VIII\n\
     Available reflectors: A, B, C\n"
 
-static void clean_exit(const char*, const char*, enigma_crack_config_t*, int);
+static void clean_exit(const char*, const char*, enigma_crack_t*, int);
 static void free_dictionary(char**, int);
-static void load_dictionary(enigma_crack_config_t*, const char*);
-static void load_frequencies(enigma_crack_config_t*, const char*);
-static int  load_language(enigma_crack_config_t*, const char*);
-static void load_target(enigma_crack_config_t*, const char*);
+static void load_dictionary(enigma_crack_t*, const char*);
+static void load_frequencies(enigma_crack_t*, const char*);
+static int  load_language(enigma_crack_t*, const char*);
+static void load_target(enigma_crack_t*, const char*);
 
 #define METHOD_IOC   1
 #define METHOD_NGRAM 2
@@ -60,10 +60,10 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    enigma_crack_config_t* cfg = calloc(1, sizeof(enigma_crack_config_t));
+    enigma_crack_t* cfg = calloc(1, sizeof(enigma_crack_t));
     enigma_init_default_config(&cfg->enigma);
     cfg->ciphertext          = argv[argc - 1];
-    cfg->ciphertextLen       = strlen(cfg->ciphertext);
+    cfg->ciphertext_length   = strlen(cfg->ciphertext);
     cfg->enigma.plugboard[0] = '\0';
     int method               = 0;
     int target               = 0;
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
             break;
         case 'c':
             cfg->flags |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
-            cfg->plaintext = optarg;
+            cfg->known_plaintext = optarg;
             break;
         case 'd':
             load_dictionary(cfg, optarg);
@@ -128,10 +128,10 @@ int main(int argc, char* argv[]) {
             }
             break;
         case 'm':
-            cfg->minScore = atof(optarg);
+            cfg->min_score = atof(optarg);
             break;
         case 'M':
-            cfg->maxScore = atof(optarg);
+            cfg->max_score = atof(optarg);
             break;
         case 'n':
             enigma_load_ngrams(cfg, optarg);
@@ -151,7 +151,7 @@ int main(int argc, char* argv[]) {
 
     switch (method) {
     case METHOD_IOC:
-        if (!cfg->minScore || !cfg->maxScore) {
+        if (!cfg->min_score || !cfg->max_score) {
             clean_exit("IOC method requires -m and -M options (or -l to set language)\n",
                        argv[0],
                        cfg,
@@ -247,13 +247,13 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-static void clean_exit(const char* msg, const char* argv0, enigma_crack_config_t* cfg, int code) {
+static void clean_exit(const char* msg, const char* argv0, enigma_crack_t* cfg, int code) {
     if (msg) {
         fprintf(stderr, "%s", msg);
     }
     fprintf(stderr, USAGE, argv0);
     if (cfg->dictionary) {
-        free_dictionary((char**) cfg->dictionary, cfg->dictSize);
+        free_dictionary((char**) cfg->dictionary, cfg->dictionary_length);
     }
     free(cfg);
     exit(code);
@@ -266,11 +266,11 @@ static void free_dictionary(char** dictionary, int size) {
     free(dictionary);
 }
 
-static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
-    int alloced     = 10000;
-    cfg->dictionary = malloc(alloced * sizeof(char*));
-    cfg->dictSize   = 0;
-    FILE* f         = fopen(path, "r");
+static void load_dictionary(enigma_crack_t* cfg, const char* path) {
+    int alloced            = 10000;
+    cfg->dictionary        = malloc(alloced * sizeof(char*));
+    cfg->dictionary_length = 0;
+    FILE* f                = fopen(path, "r");
     if (!f) {
         fprintf(stderr, "Failed to open dictionary file: %s\n", path);
         return;
@@ -278,13 +278,13 @@ static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
 
     char line[BUFSIZ];
     while ((fgets(line, sizeof(line), f)) != NULL) {
-        if (cfg->dictSize >= alloced) {
+        if (cfg->dictionary_length >= alloced) {
             alloced *= 2;
             cfg->dictionary = realloc(cfg->dictionary, alloced * sizeof(char*));
         }
-        line[strcspn(line, "\n")]      = 0;
-        cfg->dictionary[cfg->dictSize] = strdup(line);
-        cfg->dictSize++;
+        line[strcspn(line, "\n")]               = 0;
+        cfg->dictionary[cfg->dictionary_length] = strdup(line);
+        cfg->dictionary_length++;
     }
     fclose(f);
 }
@@ -300,21 +300,21 @@ static void load_dictionary(enigma_crack_config_t* cfg, const char* path) {
  *
  * @return 0 on success, 1 if the language is not recognized.
  */
-static int load_language(enigma_crack_config_t* config, const char* language) {
+static int load_language(enigma_crack_t* config, const char* language) {
     if (!strcmp(language, "english")) {
-        config->minScore = ENIGMA_IOC_ENGLISH_MIN;
-        config->maxScore = ENIGMA_IOC_ENGLISH_MAX;
+        config->min_score = ENIGMA_IOC_ENGLISH_MIN;
+        config->max_score = ENIGMA_IOC_ENGLISH_MAX;
         return 0;
     } else if (!strcmp(language, "german")) {
-        config->minScore = ENIGMA_IOC_GERMAN_MIN;
-        config->maxScore = ENIGMA_IOC_GERMAN_MAX;
+        config->min_score = ENIGMA_IOC_GERMAN_MIN;
+        config->max_score = ENIGMA_IOC_GERMAN_MAX;
         return 0;
     }
 
     return 1;
 }
 
-static void load_frequencies(enigma_crack_config_t* config, const char* path) {
+static void load_frequencies(enigma_crack_t* config, const char* path) {
     // TODO Implement
     fprintf(stderr, "Frequency analysis not yet implemented.\n");
 }

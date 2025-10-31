@@ -133,7 +133,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
  * @param path Path to the ngram file.
  * @return 0 on success, non-zero on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_config_t* cfg, const char* path) {
+EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* path) {
     char  line[16];
     int   n            = 0;
     int   charCount    = 0;

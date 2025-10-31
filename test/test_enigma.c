@@ -134,3 +134,5 @@ void test_substitute(void) {
 
     TEST_ASSERT_EQUAL_CHAR('E', substitute(enigma.plugboard, 'E'));
 }
+
+void test_enigma_version(void) { TEST_ASSERT_EQUAL_STRING(LIBENIGMA_VERSION, enigma_version()); }

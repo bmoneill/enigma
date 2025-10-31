@@ -19,7 +19,6 @@
 #include "io.h"
 #include "rotors.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -37,8 +36,8 @@ static int score_compare(const void* a, const void* b);
  *
  * @return 0 on success, non-zero on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_config_t* cfg,
-                                                float (*scoreFunc)(const enigma_crack_config_t*,
+EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
+                                                float (*scoreFunc)(const enigma_crack_t*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
         return 1;
@@ -48,7 +47,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_config_t* cfg,
     enigma_t enigmaTmp;
     int      curSettings = strlen(cfg->enigma.plugboard) / 2;
 
-    char*    plaintext   = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+    char*    plaintext   = malloc((cfg->ciphertext_length + 1) * sizeof(char));
     char*    remaining   = malloc((ENIGMA_ALPHA_SIZE - curSettings * 2 + 1) * sizeof(char));
     memcpy(remaining, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ENIGMA_ALPHA_SIZE);
 
@@ -71,7 +70,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_config_t* cfg,
             enigma.plugboard[curSettings * 2 + 2] = '\0';
             memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
 
-            enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+            enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
             enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
         }
     }
@@ -94,8 +93,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_config_t* cfg,
  *
  * @return 0 on success, non-zero on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_config_t* cfg,
-                                                float (*scoreFunc)(const enigma_crack_config_t*,
+EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
+                                                float (*scoreFunc)(const enigma_crack_t*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
         return 1;
@@ -103,14 +102,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_config_t* cfg,
 
     enigma_t enigma;
     enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
     memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         enigma.reflector = enigma_reflectors[i];
         memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
 
-        enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+        enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
     }
 
@@ -132,23 +131,21 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_config_t* cfg,
  *
  * @return 0 on success, non-zero on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(enigma_crack_config_t* cfg,
-                                            int                    targetRotor,
-                                            float (*scoreFunc)(const enigma_crack_config_t*,
-                                                               const char*)) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
+    enigma_crack_t* cfg, int targetRotor, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
     if (!cfg || !scoreFunc || targetRotor > 3) {
         return 1;
     }
 
     enigma_t enigma;
     enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
     memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         enigma.rotors[targetRotor] = enigma_rotors[i];
         memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
-        enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertextLen);
+        enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
     }
 
@@ -169,16 +166,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(enigma_crack_config_t* cfg,
  *
  * @return 0 on success, non-zero on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_rotors(enigma_crack_config_t* cfg,
-                                             float (*scoreFunc)(const enigma_crack_config_t*,
-                                                                const char*)) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
     if (!cfg || !scoreFunc) {
         return 1;
     }
 
     enigma_t enigma;
     enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
     memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
@@ -203,7 +199,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotors(enigma_crack_config_t* cfg,
                         enigma_encode_string(&enigmaTmp,
                                              cfg->ciphertext,
                                              plaintext,
-                                             cfg->ciphertextLen);
+                                             cfg->ciphertext_length);
                         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
                     }
                 } else {
@@ -215,7 +211,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotors(enigma_crack_config_t* cfg,
                     enigma_encode_string(&enigmaTmp,
                                          cfg->ciphertext,
                                          plaintext,
-                                         cfg->ciphertextLen);
+                                         cfg->ciphertext_length);
                     enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
                 }
             }
@@ -238,16 +234,16 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotors(enigma_crack_config_t* cfg,
  *
  * @return 0 on success, non-zero otherwise.
  */
-EMSCRIPTEN_KEEPALIVE int
-enigma_crack_rotor_positions(enigma_crack_config_t* cfg,
-                             float (*scoreFunc)(const enigma_crack_config_t*, const char*)) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
+                                                      float (*scoreFunc)(const enigma_crack_t*,
+                                                                         const char*)) {
     if (!cfg || !scoreFunc) {
         return 1;
     }
 
     enigma_t enigma;
     enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertextLen + 1) * sizeof(char));
+    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
@@ -264,7 +260,7 @@ enigma_crack_rotor_positions(enigma_crack_config_t* cfg,
                         enigma_encode_string(&enigmaTmp,
                                              cfg->ciphertext,
                                              plaintext,
-                                             cfg->ciphertextLen);
+                                             cfg->ciphertext_length);
                         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
                     }
                 } else {
@@ -277,7 +273,7 @@ enigma_crack_rotor_positions(enigma_crack_config_t* cfg,
                     enigma_encode_string(&enigmaTmp,
                                          cfg->ciphertext,
                                          plaintext,
-                                         cfg->ciphertextLen);
+                                         cfg->ciphertext_length);
                     enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
                 }
             }
@@ -297,19 +293,18 @@ enigma_crack_rotor_positions(enigma_crack_config_t* cfg,
  *
  * The dictionary must be uppercase.
  *
- * @param cfg The enigma_crack_config_t containing the dictionary and its size
+ * @param cfg The enigma_crack_t containing the dictionary and its size
  * @param plaintext The plaintext to check
  *
  * @return 1 if multiple words are found, 0 if not, -1 on error
  */
-EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const enigma_crack_config_t* cfg,
-                                           const char*                  plaintext) {
+EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const enigma_crack_t* cfg, const char* plaintext) {
     if (!cfg || !plaintext || !cfg->dictionary) {
         return -1;
     }
 
     int match_count = 0;
-    for (int i = 0; i < cfg->dictSize; i++) {
+    for (size_t i = 0; i < cfg->dictionary_length; i++) {
         if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
             match_count++;
             if (match_count > 1) {
@@ -397,28 +392,27 @@ EMSCRIPTEN_KEEPALIVE float enigma_freq(const char* plaintext, int len) {
  * letters deviate from the target frequencies, the function returns 0 (false).
  * Otherwise, it returns 1 (true).
  *
- * @param cfg       The enigma_crack_config_t containing the target frequencies
+ * @param cfg       The enigma_crack_t containing the target frequencies
  * and offset
  * @param plaintext The plaintext to analyze
  *
  * @return 1 if over half of the letter frequencies match within the offset, 0
  * if not, -1 if error
  */
-EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_config_t* cfg,
-                                            const char*                  plaintext) {
+EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_t* cfg, const char* plaintext) {
     if (!cfg || !plaintext) {
         return -1;
     }
     int letters[26] = { 0 };
     int nonMatching = 0;
-    for (int i = 0; i < cfg->ciphertextLen; i++) {
+    for (size_t i = 0; i < cfg->ciphertext_length; i++) {
         letters[plaintext[i] - 'A']++;
     }
 
     for (int i = 0; i < 26; i++) {
-        float freq = ((float) letters[i]) / cfg->ciphertextLen;
-        if (freq < cfg->freqTargets[i] - cfg->freqOffset
-            || freq > cfg->freqTargets[i] + cfg->freqOffset) {
+        float freq = ((float) letters[i]) / cfg->ciphertext_length;
+        if (freq < cfg->frequency_targets[i] - cfg->frequency_offset
+            || freq > cfg->frequency_targets[i] + cfg->frequency_offset) {
             nonMatching++;
             if (nonMatching > 10) {
                 return 0;
@@ -440,10 +434,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_config_t* cfg,
  * @param score The score to append.
  * @return 0 on success, non-zero on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_score_append(enigma_crack_config_t* cfg,
-                                             enigma_t*              enigma,
-                                             const char*            plaintext,
-                                             float                  score) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext, float score) {
     if (!cfg || !enigma || !plaintext) {
         return 1;
     }
@@ -466,16 +458,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_append(enigma_crack_config_t* cfg,
  * @brief Get the flags for a given plaintext based on the crack configuration.
  *
  * This function checks the plaintext against the criteria specified in the
- * enigma_crack_config_t and returns a bitmask of flags indicating which
+ * enigma_crack_t and returns a bitmask of flags indicating which
  * criteria were met.
  *
- * @param cfg The enigma_crack_config_t containing the criteria and flags.
+ * @param cfg The enigma_crack_t containing the criteria and flags.
  * @param plaintext The plaintext to evaluate.
  * @return A bitmask of flags indicating which criteria were met, or -1 if
  * error.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_config_t* cfg,
-                                            const char*                  plaintext) {
+EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_t* cfg, const char* plaintext) {
     if (!cfg || !plaintext) {
         return -1;
     }
@@ -503,76 +494,13 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_config_t* cfg,
     }
 
     if (cfg->flags & ENIGMA_FLAG_KNOWN_PLAINTEXT) {
-        if (!cfg->plaintext) {
+        if (!cfg->known_plaintext) {
             return -1;
         }
 
-        if (strstr(plaintext, cfg->plaintext)) {
+        if (strstr(plaintext, cfg->known_plaintext)) {
             ret |= ENIGMA_FLAG_KNOWN_PLAINTEXT;
         }
     }
     return ret;
-}
-
-/**
- * @brief Print the scores in an enigma_score_list_t.
- *
- * @param scoreList Pointer to the enigma_score_list_t structure.
- */
-EMSCRIPTEN_KEEPALIVE int enigma_score_print(const enigma_score_list_t* scoreList) {
-    if (!scoreList) {
-        return 1;
-    }
-    char buf[64];
-    for (int i = 0; i < scoreList->scoreCount; i++) {
-        printf("%.6f ", scoreList->scores[i].score);
-        if (scoreList->scores[i].flags & ENIGMA_FLAG_DICTIONARY_MATCH) {
-            printf("D");
-        } else {
-            printf("-");
-        }
-        if (scoreList->scores[i].flags & ENIGMA_FLAG_FREQUENCY) {
-            printf("F ");
-        } else {
-            printf("- ");
-        }
-        enigma_print_config(&scoreList->scores[i].enigma, buf);
-        printf("%s\n", buf);
-    }
-    return 0;
-}
-
-/**
- * @brief Sort an array of enigma_score_t by score in descending order.
- *
- * @param scores The array of enigma_score_t to sort.
- *
- * @return 0 on success, non-zero on failure.
- */
-EMSCRIPTEN_KEEPALIVE int enigma_score_sort(enigma_score_list_t* scoreList) {
-    if (!scoreList) {
-        return 1;
-    }
-
-    qsort(scoreList->scores, scoreList->scoreCount, sizeof(enigma_score_t), score_compare);
-    return 0;
-}
-
-/**
- * @brief Compare function for sorting enigma_score_t by score.
- *
- * This function is used by qsort to sort an array of enigma_score_t structures
- * in descending order based on the score field.
- */
-static int score_compare(const void* a, const void* b) {
-    const enigma_score_t* scoreA = (const enigma_score_t*) a;
-    const enigma_score_t* scoreB = (const enigma_score_t*) b;
-
-    if (scoreA->score < scoreB->score) {
-        return 1;
-    } else if (scoreA->score > scoreB->score) {
-        return -1;
-    } else {
-        return 0;
-    }
 }

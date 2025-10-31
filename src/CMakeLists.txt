@@ -30,6 +30,7 @@ set(LIBRARY_PUBLIC_SRC
 	"${LIBRARY_BASE_PATH}/enigma/ioc.c"
 	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
 	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
+	"${LIBRARY_BASE_PATH}/enigma/score.c"
 )
 
 set(LIBRARY_PUBLIC_HEADERS

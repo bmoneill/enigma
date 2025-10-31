@@ -15,10 +15,10 @@
  * @param cfg Pointer to the cracking configuration structure.
  * @param text The text to score.
  */
-EMSCRIPTEN_KEEPALIVE float enigma_ioc_score(const enigma_crack_config_t* cfg, const char* text) {
+EMSCRIPTEN_KEEPALIVE float enigma_ioc_score(const enigma_crack_t* cfg, const char* text) {
     int   freq[26] = { 0 };
     float total    = 0.0f;
-    int   len      = cfg->ciphertextLen;
+    int   len      = cfg->ciphertext_length;
 
     for (int i = 0; i < len; i++) {
         if (text[i] < 'A' || text[i] > 'Z') {

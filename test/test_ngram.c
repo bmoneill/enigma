@@ -7,12 +7,12 @@
 
 #define I(s) (s - 'A')
 
-enigma_crack_config_t cfg;
-const char* plaintext = "EVERXTRIEDXEVERXFAILEDXNOXMATTERXTRYXAGAINXFAILXAGAINXFAILXBETTER";
+enigma_crack_t cfg;
+const char*    plaintext = "EVERXTRIEDXEVERXFAILEDXNOXMATTERXTRYXAGAINXFAILXAGAINXFAILXBETTER";
 
-void        setUp(void) {
-    memset(&cfg, 0, sizeof(enigma_crack_config_t));
-    cfg.ciphertextLen = strlen(plaintext);
+void           setUp(void) {
+    memset(&cfg, 0, sizeof(enigma_crack_t));
+    cfg.ciphertext_length = strlen(plaintext);
 }
 
 void loadNgrams(int n) {
@@ -50,9 +50,9 @@ void test_enigma_bigram_score(void) {
 }
 
 void test_enigma_trigram_score(void) {
-    cfg.ciphertextLen = strlen(plaintext);
-    cfg.n             = 3;
-    cfg.ngrams        = calloc((26 << 10) | (26 << 5) | 26, sizeof(float));
+    cfg.ciphertext_length = strlen(plaintext);
+    cfg.n                 = 3;
+    cfg.ngrams            = calloc((26 << 10) | (26 << 5) | 26, sizeof(float));
 
     loadNgrams(3);
 
@@ -63,9 +63,9 @@ void test_enigma_trigram_score(void) {
 }
 
 void test_enigma_quadgram_score(void) {
-    cfg.ciphertextLen = strlen(plaintext);
-    cfg.n             = 4;
-    cfg.ngrams        = calloc((26 << 15) | (26 << 10) | (26 << 5) | 26, sizeof(float));
+    cfg.ciphertext_length = strlen(plaintext);
+    cfg.n                 = 4;
+    cfg.ngrams            = calloc((26 << 15) | (26 << 10) | (26 << 5) | 26, sizeof(float));
 
     loadNgrams(4);
 

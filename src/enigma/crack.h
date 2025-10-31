@@ -7,81 +7,52 @@
 #define ENIGMA_CRACK_H
 
 #include "enigma.h"
+#include "score.h"
 
-#define ENIGMA_FLAG_DICTIONARY_MATCH 1
-#define ENIGMA_FLAG_FREQUENCY        2
-#define ENIGMA_FLAG_KNOWN_PLAINTEXT  4
-
-/**
- * @struct enigma_score_t
- * @brief A structure representing a scored Enigma configuration.
- *
- * @param enigma The Enigma configuration.
- * @param score  The score of the configuration.
- * @param flags  Flags indicating special conditions the configuration met (e.g. matches dictionary
- *               words or contains known plaintext).
- */
-typedef struct {
-    enigma_t enigma;
-    float    score;
-    int      flags;
-} enigma_score_t;
+#include <stddef.h>
 
 /**
- * @struct enigma_score_list_t
- * @brief A structure representing a list of scored Enigma configurations.
- *
- * @param scores     An array of enigma_score_t structures.
- * @param scoreCount The number of scores in the array.
- * @param maxScores  The maximum number of scores that can be stored in the array.
- */
-typedef struct {
-    enigma_score_t* scores;
-    int             scoreCount;
-    int             maxScores;
-} enigma_score_list_t;
-
-/**
- * @struct enigma_crack_config_t
+ * @struct enigma_crack_t
  * @brief A structure representing a configuration for cracking an Enigma cipher.
  *
- * @param enigma        The base Enigma machine configuration.
- * @param scores        A list of scored Enigma configurations.
- * @param dictionary    An array of dictionary words.
- * @param dictSize      The number of words in the dictionary.
- * @param ngrams        An array of n-gram frequencies.
- * @param n             The length of each n-gram.
- * @param ngramLen      The number of n-grams.
- * @param ciphertext    The ciphertext to be cracked.
- * @param ciphertextLen The length of the ciphertext.
- * @param flags         Flags indicating special conditions a scored configuration may meet.
- * @param freqTargets   An array of frequency targets for each letter.
- * @param minScore      The minimum score for a configuration to be considered valid.
- * @param maxScore      The maximum score for a configuration to be considered valid.
- * @param targetScore   The target score for a configuration to be considered valid.
- * @param targetFreq    The target frequency for a configuration to be considered valid.
- * @param freqOffset    The maximum offset from the target frequency that a scored configuration may have.
- * @param plaintext     Known plaintext.
+ * @param enigma            The base Enigma machine configuration.
+ * @param scores            A list of scored Enigma configurations.
+ * @param dictionary        An array of dictionary words.
+ * @param dictionary_length The number of words in the dictionary.
+ * @param ngrams            An array of n-gram frequencies.
+ * @param n                 The length of each n-gram.
+ * @param ngrams_length     The number of n-grams.
+ * @param ciphertext        The ciphertext to be cracked.
+ * @param ciphertext_length The length of the ciphertext.
+ * @param flags             Flags indicating special conditions a scored configuration may meet.
+ * @param frequency_targets An array of frequency targets for each letter.
+ * @param min_score         The minimum score for a configuration to be considered valid.
+ * @param max_score         The maximum score for a configuration to be considered valid.
+ * @param target_score      The target score for a configuration to be considered valid.
+ * @param target_frequency  The target frequency for a configuration to be considered valid.
+ * @param frequency_offset  The maximum offset from the target frequency that a scored configuration
+ *                          may have to be considered valid.
+ * @param known_plaintext   Known plaintext.
  */
 typedef struct {
     enigma_t             enigma;
     enigma_score_list_t* scores;
     const char**         dictionary;
-    int                  dictSize;
+    size_t               dictionary_length;
     float*               ngrams;
     int                  n;
-    int                  ngramLen;
+    size_t               ngrams_length;
     const char*          ciphertext;
-    int                  ciphertextLen;
+    size_t               ciphertext_length;
     int                  flags;
-    float                freqTargets[26];
-    float                minScore;
-    float                maxScore;
-    float                targetScore;
-    float                targetFreq;
-    float                freqOffset;
-    char*                plaintext;
-} enigma_crack_config_t;
+    float                frequency_targets[26];
+    float                min_score;
+    float                max_score;
+    float                target_score;
+    float                target_frequency;
+    float                frequency_offset;
+    char*                known_plaintext;
+} enigma_crack_t;
 
 /**
  * English letter frequency targets (from
@@ -94,24 +65,49 @@ static const float englishFreq[26]
         0.0010f, 0.0069f, 0.0398f, 0.0261f, 0.0695f, 0.0768f, 0.0182f, 0.0011f, 0.0602f,
         0.0628f, 0.0910f, 0.0288f, 0.0111f, 0.0209f, 0.0017f, 0.0211f, 0.0007f };
 
-int   enigma_crack_rotor(enigma_crack_config_t*,
-                         int,
-                         float (*)(const enigma_crack_config_t*, const char*));
-int   enigma_crack_rotors(enigma_crack_config_t*,
-                          float (*)(const enigma_crack_config_t*, const char*));
-int   enigma_crack_rotor_positions(enigma_crack_config_t*,
-                                   float (*)(const enigma_crack_config_t*, const char*));
-int   enigma_crack_reflector(enigma_crack_config_t*,
-                             float (*)(const enigma_crack_config_t*, const char*));
-int   enigma_crack_plugboard(enigma_crack_config_t*,
-                             float (*)(const enigma_crack_config_t*, const char*));
-int   enigma_dict_match(const enigma_crack_config_t*, const char*);
+int   enigma_crack_rotor(enigma_crack_t*, int, float (*)(const enigma_crack_t*, const char*));
+int   enigma_crack_rotors(enigma_crack_t*, float (*)(const enigma_crack_t*, const char*));
+int   enigma_crack_rotor_positions(enigma_crack_t*, float (*)(const enigma_crack_t*, const char*));
+int   enigma_crack_reflector(enigma_crack_t*, float (*)(const enigma_crack_t*, const char*));
+int   enigma_crack_plugboard(enigma_crack_t*, float (*)(const enigma_crack_t*, const char*));
+int   enigma_dict_match(const enigma_crack_t*, const char*);
 int   enigma_find_potential_indices(const char*, const char*, int*);
 float enigma_freq(const char*, int);
-int   enigma_letter_freq(const enigma_crack_config_t*, const char*);
-int   enigma_score_append(enigma_crack_config_t*, enigma_t*, const char*, float);
-int   enigma_score_flags(const enigma_crack_config_t*, const char*);
-int   enigma_score_print(const enigma_score_list_t*);
-int   enigma_score_sort(enigma_score_list_t*);
+int   enigma_letter_freq(const enigma_crack_t*, const char*);
+int   enigma_score_append(enigma_crack_t*, enigma_t*, const char*, float);
+int   enigma_score_flags(const enigma_crack_t*, const char*);
+
+/* enigma_crack_t getters and setters */
+/* TODO Implement */
+enigma_t*            enigma_crack_get_enigma(enigma_crack_t*);
+enigma_score_list_t* enigma_crack_get_scores(enigma_crack_t*);
+const char**         enigma_crack_get_dictionary(enigma_crack_t*);
+int                  enigma_crack_get_dictionary_size(enigma_crack_t*);
+float*               enigma_crack_get_ngrams(enigma_crack_t*);
+int                  enigma_crack_get_n(enigma_crack_t*);
+int                  enigma_crack_get_ngram_len(enigma_crack_t*);
+const char*          enigma_crack_get_ciphertext(enigma_crack_t*);
+int                  enigma_crack_get_ciphertext_len(enigma_crack_t*);
+int                  enigma_crack_get_flags(enigma_crack_t*);
+float                enigma_crack_get_frequency_targets(enigma_crack_t*);
+float                enigma_crack_get_min_score(enigma_crack_t*);
+float                enigma_crack_get_max_score(enigma_crack_t*);
+float                enigma_crack_get_target_score(enigma_crack_t*);
+float                enigma_crack_get_known_plaintext(enigma_crack_t*);
+int                  enigma_crack_set_enigma(enigma_crack_t*, enigma_t*);
+int                  enigma_crack_set_scores(enigma_crack_t*, enigma_score_list_t*);
+int                  enigma_crack_set_dictionary(enigma_crack_t*, const char**);
+int                  enigma_crack_set_dictionary_size(enigma_crack_t*, size_t);
+int                  enigma_crack_set_ngrams(enigma_crack_t*, float*);
+int                  enigma_crack_set_n(enigma_crack_t*, int);
+int                  enigma_crack_set_ngram_len(enigma_crack_t*, size_t);
+int                  enigma_crack_set_ciphertext(enigma_crack_t*, const char*);
+int                  enigma_crack_set_ciphertext_len(enigma_crack_t*, size_t);
+int                  enigma_crack_set_flags(enigma_crack_t*, int);
+int                  enigma_crack_set_frequency_targets(enigma_crack_t*, float*);
+int                  enigma_crack_set_min_score(enigma_crack_t*, float);
+int                  enigma_crack_set_max_score(enigma_crack_t*, float);
+int                  enigma_crack_set_target_score(enigma_crack_t*, float);
+int                  enigma_crack_set_known_plaintext(enigma_crack_t*, const char*);
 
 #endif

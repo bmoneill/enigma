@@ -16,11 +16,11 @@
  *
  * @return The total bigram score.
  */
-EMSCRIPTEN_KEEPALIVE float enigma_bigram_score(const enigma_crack_config_t* cfg, const char* text) {
+EMSCRIPTEN_KEEPALIVE float enigma_bigram_score(const enigma_crack_t* cfg, const char* text) {
     float total = 0.0f;
     int   next  = text[0] - 'A';
 
-    for (int i = 1; i < cfg->ciphertextLen; i++) {
+    for (size_t i = 1; i < cfg->ciphertext_length; i++) {
         int cur = next;
         next    = text[i] - 'A';
         if (cur < 0 || cur >= 26 || next < 0 || next >= 26) {
@@ -29,7 +29,7 @@ EMSCRIPTEN_KEEPALIVE float enigma_bigram_score(const enigma_crack_config_t* cfg,
         total += cfg->ngrams[ENIGMA_BIIDX(cur, next)];
     }
 
-    return total / cfg->ciphertextLen;
+    return total / cfg->ciphertext_length;
 }
 
 /**
@@ -40,13 +40,12 @@ EMSCRIPTEN_KEEPALIVE float enigma_bigram_score(const enigma_crack_config_t* cfg,
  *
  * @return The total trigram score.
  */
-EMSCRIPTEN_KEEPALIVE float enigma_trigram_score(const enigma_crack_config_t* cfg,
-                                                const char*                  text) {
+EMSCRIPTEN_KEEPALIVE float enigma_trigram_score(const enigma_crack_t* cfg, const char* text) {
     float total = 0.0f;
     int   next1 = text[0] - 'A';
     int   next2 = text[1] - 'A';
 
-    for (int i = 2; i < cfg->ciphertextLen; i++) {
+    for (size_t i = 2; i < cfg->ciphertext_length; i++) {
         int cur = next1;
         next1   = next2;
         next2   = text[i] - 'A';
@@ -56,7 +55,7 @@ EMSCRIPTEN_KEEPALIVE float enigma_trigram_score(const enigma_crack_config_t* cfg
         total += cfg->ngrams[ENIGMA_TRIIDX(cur, next1, next2)];
     }
 
-    return total / cfg->ciphertextLen;
+    return total / cfg->ciphertext_length;
 }
 
 /**
@@ -67,14 +66,13 @@ EMSCRIPTEN_KEEPALIVE float enigma_trigram_score(const enigma_crack_config_t* cfg
  *
  * @return The total quadgram score.
  */
-EMSCRIPTEN_KEEPALIVE float enigma_quadgram_score(const enigma_crack_config_t* cfg,
-                                                 const char*                  text) {
+EMSCRIPTEN_KEEPALIVE float enigma_quadgram_score(const enigma_crack_t* cfg, const char* text) {
     float total = 0.0f;
     int   next1 = text[0] - 'A';
     int   next2 = text[1] - 'A';
     int   next3 = text[2] - 'A';
 
-    for (int i = 3; i < cfg->ciphertextLen; i++) {
+    for (size_t i = 3; i < cfg->ciphertext_length; i++) {
         int cur = next1;
         next1   = next2;
         next2   = next3;
@@ -86,5 +84,5 @@ EMSCRIPTEN_KEEPALIVE float enigma_quadgram_score(const enigma_crack_config_t* cf
         total += cfg->ngrams[ENIGMA_QUADIDX(cur, next1, next2, next3)];
     }
 
-    return total / cfg->ciphertextLen;
+    return total / cfg->ciphertext_length;
 }

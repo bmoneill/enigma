@@ -1,30 +1,31 @@
-#include "enigma/crack.c"
 #include "enigma/crack.h"
 #include "enigma/enigma.h"
 #include "unity.h"
 
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #define MAX_STORED_SCORES 10
 #define MAX_SCORES        100
 
-enigma_crack_config_t cfg;
-enigma_score_list_t   scores;
-float                 mockScore = 0.0f;
-float                 storedScores[MAX_STORED_SCORES];
-int                   scoreIdx        = 0;
-const char*           helloWorld      = "HELLOXWORLD";
-const char*           alphaText       = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
-const char*           ciphertext      = "DMRFRXHAZUQZNLRUOM";
-const char*           shortCiphertext = "DM";
+enigma_crack_t      cfg;
+enigma_score_list_t scores;
+float               mockScore = 0.0f;
+float               storedScores[MAX_STORED_SCORES];
+int                 scoreIdx        = 0;
+const char*         helloWorld      = "HELLOXWORLD";
+const char*         alphaText       = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
+const char*         ciphertext      = "DMRFRXHAZUQZNLRUOM";
+const char*         shortCiphertext = "DM";
 
-void                  setUp(void) {
+void                setUp(void) {
     srand(time(NULL));
-    memset(&cfg, 0, sizeof(enigma_crack_config_t));
+    memset(&cfg, 0, sizeof(enigma_crack_t));
     enigma_init_default_config(&cfg.enigma);
     scoreIdx               = 0;
     cfg.ciphertext         = shortCiphertext;
-    cfg.ciphertextLen      = strlen(shortCiphertext);
+    cfg.ciphertext_length  = strlen(shortCiphertext);
     cfg.scores             = &scores;
     cfg.scores->maxScores  = 100;
     cfg.scores->scoreCount = 0;
@@ -34,7 +35,7 @@ void                  setUp(void) {
 
 void  tearDown(void) { free(cfg.scores->scores); }
 
-float mock_score_function(const enigma_crack_config_t* config, const char* plaintext) {
+float mock_score_function(const enigma_crack_t* config, const char* plaintext) {
     float score = ((float) rand()) / rand();
     if (scoreIdx < MAX_STORED_SCORES) {
         storedScores[scoreIdx] = score;
@@ -170,7 +171,7 @@ void test_enigma_crack_rotor_positions_WithNullArguments(void) {
 void test_enigma_dict_match_WithMatchingPlaintext(void) {
     const char* plaintext = "HELLOXWORLDXFOOXBAR";
     cfg.dictionary        = malloc(7 * sizeof(char*));
-    cfg.dictSize          = 7;
+    cfg.dictionary_length = 7;
 
     cfg.dictionary[0]     = "GOODBYE";
     cfg.dictionary[1]     = "HELLO";
@@ -186,12 +187,12 @@ void test_enigma_dict_match_WithMatchingPlaintext(void) {
 }
 
 void test_enigma_dict_match_WithNonMatchingPlaintext(void) {
-    cfg.dictionary    = malloc(4 * sizeof(char*));
-    cfg.dictSize      = 4;
-    cfg.dictionary[0] = "FOO";
-    cfg.dictionary[1] = "EARTH";
-    cfg.dictionary[2] = "MARS";
-    cfg.dictionary[3] = "SATURN";
+    cfg.dictionary        = malloc(4 * sizeof(char*));
+    cfg.dictionary_length = 4;
+    cfg.dictionary[0]     = "FOO";
+    cfg.dictionary[1]     = "EARTH";
+    cfg.dictionary[2]     = "MARS";
+    cfg.dictionary[3]     = "SATURN";
 
     TEST_ASSERT_EQUAL_INT(0, enigma_dict_match(&cfg, helloWorld));
 }
@@ -239,24 +240,24 @@ void test_enigma_freq_WithNullArguments(void) {
 }
 
 void test_enigma_letter_freq_WithSufficientPlaintext(void) {
-    cfg.ciphertextLen = strlen(alphaText);
+    cfg.ciphertext_length = strlen(alphaText);
 
     for (int i = 0; i < 26; i++) {
-        cfg.freqTargets[i] = 0.05;
+        cfg.frequency_targets[i] = 0.05;
     }
-    cfg.freqOffset = 0.03;
+    cfg.frequency_offset = 0.03;
 
-    int actual     = enigma_letter_freq(&cfg, alphaText);
+    int actual           = enigma_letter_freq(&cfg, alphaText);
 
     TEST_ASSERT_EQUAL_FLOAT(1, actual);
 }
 
 void test_enigma_letter_freq_WithInsufficientPlaintext(void) {
-    cfg.ciphertextLen = strlen(alphaText);
+    cfg.ciphertext_length = strlen(alphaText);
     for (int i = 0; i < 26; i++) {
-        cfg.freqTargets[i] = 1.0;
+        cfg.frequency_targets[i] = 1.0;
     }
-    cfg.freqOffset = 0.01;
+    cfg.frequency_offset = 0.01;
 
     TEST_ASSERT_EQUAL_FLOAT(0, enigma_letter_freq(&cfg, alphaText));
 }
@@ -329,56 +330,22 @@ void test_enigma_score_append_WithNullArguments(void) {
 }
 
 void test_enigma_score_flags_WithKnownPlaintextFlag_WithMatchingPlaintext(void) {
-    cfg.flags     = ENIGMA_FLAG_KNOWN_PLAINTEXT;
-    cfg.plaintext = "WORLD";
-    int ret       = enigma_score_flags(&cfg, helloWorld);
+    cfg.flags           = ENIGMA_FLAG_KNOWN_PLAINTEXT;
+    cfg.known_plaintext = "WORLD";
+    int ret             = enigma_score_flags(&cfg, helloWorld);
     TEST_ASSERT_EQUAL_INT(ENIGMA_FLAG_KNOWN_PLAINTEXT, ret);
 }
 
 void test_enigma_score_flags_WithKnownPlaintextFlag_WithNonMatchingPlaintext(void) {
-    cfg.flags     = ENIGMA_FLAG_KNOWN_PLAINTEXT;
-    cfg.plaintext = "WORLDS";
-    int ret       = enigma_score_flags(&cfg, helloWorld);
+    cfg.flags           = ENIGMA_FLAG_KNOWN_PLAINTEXT;
+    cfg.known_plaintext = "WORLDS";
+    int ret             = enigma_score_flags(&cfg, helloWorld);
     TEST_ASSERT_EQUAL_INT(0, ret);
 }
 
 void test_enigma_score_flags_WithKnownPlaintextFlag_WithNullPlaintext(void) {
-    cfg.flags     = ENIGMA_FLAG_KNOWN_PLAINTEXT;
-    cfg.plaintext = NULL;
-    int ret       = enigma_score_flags(&cfg, helloWorld);
+    cfg.flags           = ENIGMA_FLAG_KNOWN_PLAINTEXT;
+    cfg.known_plaintext = NULL;
+    int ret             = enigma_score_flags(&cfg, helloWorld);
     TEST_ASSERT_EQUAL_INT(-1, ret);
-}
-
-void test_enigma_score_sort(void) {
-    enigma_score_list_t scores;
-    scores.maxScores  = 10;
-    scores.scores     = malloc(sizeof(enigma_score_t) * scores.maxScores);
-    scores.scoreCount = 10;
-    for (int i = 0; i < scores.scoreCount; i++) {
-        scores.scores[i].score = ((float) rand()) / ((float) rand());
-    }
-
-    int ret = enigma_score_sort(&scores);
-
-    TEST_ASSERT_EQUAL_INT(0, ret);
-    for (int i = 1; i < scores.scoreCount; i++) {
-        TEST_ASSERT_TRUE(scores.scores[i - 1].score >= scores.scores[i].score);
-    }
-
-    free(scores.scores);
-}
-
-void test_enigma_score_sort_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(1, enigma_score_sort(NULL));
-}
-
-void test_score_compare(void) {
-    enigma_score_t score1;
-    enigma_score_t score2;
-    score1.score = 0.5;
-    score2.score = 0.6;
-
-    TEST_ASSERT_EQUAL_INT(1, score_compare(&score1, &score2));
-    TEST_ASSERT_EQUAL_INT(-1, score_compare(&score2, &score1));
-    TEST_ASSERT_EQUAL_INT(0, score_compare(&score1, &score1));
 }
