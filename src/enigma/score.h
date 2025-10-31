@@ -40,7 +40,6 @@ int enigma_score_print(const enigma_score_list_t*);
 int enigma_score_sort(enigma_score_list_t*);
 
 /* enigma_score_t getters and setters */
-// TODO Implement
 enigma_t* enigma_score_get_enigma(enigma_score_t*);
 float     enigma_score_get_score(enigma_score_t*);
 int       enigma_score_get_flags(enigma_score_t*);
