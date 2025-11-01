@@ -9,6 +9,7 @@
 #include "crack.h"
 #include "enigma.h"
 
+int  enigma_error_message(const char*, ...);
 int  enigma_load_config(enigma_t*, const char*);
 int  enigma_load_custom_reflector(enigma_reflector_t*, const char*, const char*);
 int  enigma_load_custom_rotor(enigma_rotor_t*, const char*, const char*, int*, int);

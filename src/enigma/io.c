@@ -10,12 +10,28 @@
 #include "ngram.h"
 
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 static int ipow(int, int);
 
+/**
+ * @brief Print an error message to stderr.
+ *
+ * @param format Format string.
+ * @param ...    Arguments for the format string.
+ * @return       -1.
+ */
+int enigma_error_message(const char* format, ...) {
+    fprintf(stderr, "libenigma: ");
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+    va_end(args);
+    return -1;
+}
 /**
  * @brief Load an Enigma machine configuration from a string.
  *
