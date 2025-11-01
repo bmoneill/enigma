@@ -14,7 +14,7 @@ void test_enigma_score_sort(void) {
         scores.scores[i].score = ((float) rand()) / ((float) rand());
     }
 
-    int ret = enigma_score_sort(&scores);
+    int ret = enigma_score_list_sort(&scores);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
     for (int i = 1; i < scores.score_count; i++) {
@@ -25,7 +25,7 @@ void test_enigma_score_sort(void) {
 }
 
 void test_enigma_score_sort_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(1, enigma_score_sort(NULL));
+    TEST_ASSERT_EQUAL_INT(1, enigma_score_list_sort(NULL));
 }
 
 void test_score_compare(void) {
