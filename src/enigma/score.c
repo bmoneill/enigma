@@ -53,7 +53,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_list_sort(enigma_score_list_t* list) {
     return 0;
 }
 
- /**
+/**
   * @brief Get the enigma field in the given enigma_score_t
   *
   * @param score The enigma_score_t instance
@@ -164,7 +164,8 @@ EMSCRIPTEN_KEEPALIVE enigma_score_t* enigma_score_list_get_scores(enigma_score_l
  * @param index The index of the score to get
  * @return enigma_score_t* The score at the given index
  */
-EMSCRIPTEN_KEEPALIVE enigma_score_t* enigma_score_list_get_score(enigma_score_list_t* list, int index) {
+EMSCRIPTEN_KEEPALIVE enigma_score_t* enigma_score_list_get_score(enigma_score_list_t* list,
+                                                                 int                  index) {
     if (!list || index < 0 || index >= list->score_count) {
         return NULL;
     }
@@ -208,7 +209,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_list_get_max_scores(enigma_score_list_t* l
  * @param score The enigma_score_t instance to set
  * @return int 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_score_list_set_score(enigma_score_list_t* list, int index, enigma_score_t* score) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_score_list_set_score(enigma_score_list_t* list, int index, enigma_score_t* score) {
     if (!list || !score || index < 0 || index >= list->score_count) {
         return -1;
     }
