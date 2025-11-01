@@ -296,11 +296,11 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(const enigma_t* enigma, int roto
  *
  * @param enigma Pointer to the Enigma machine.
  * @param s Pointer to the string containing the plugboard configuration.
- * @return 0 on success, 1 on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
     if (!enigma || !s || strlen(s) % 2 != 0 || strlen(s) > 26) {
-        return 1;
+        return -1;
     }
     int i = 0;
     while (s[i] != '\0') {
@@ -309,7 +309,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
             enigma->plugboard[i] = s[i];
             i++;
         } else {
-            return 1;
+            return -1;
         }
     }
     enigma->plugboard[i] = '\0';
@@ -323,11 +323,11 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
  *
  * @param enigma Pointer to the Enigma machine.
  * @param reflector Index of the reflector to be set.
- * @return 0 on success, 1 on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_reflector(enigma_t* enigma, int reflector) {
     if (!enigma || reflector < 0 || reflector >= ENIGMA_REFLECTOR_COUNT) {
-        return 1;
+        return -1;
     }
     enigma->reflector = enigma_reflectors[reflector];
     return 0;
@@ -341,12 +341,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_reflector(enigma_t* enigma, int reflector) {
  * @param enigma Pointer to the Enigma machine.
  * @param rotor Index of the rotor in enigma_rotors.
  * @param index Index to place the rotor in enigma
- * @return 0 on success, 1 on failure
+ * @return 0 on success, -1 on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_rotor(enigma_t* enigma, int rotor, int index) {
     if (!enigma || rotor < 0 || rotor >= ENIGMA_ROTOR_COUNT || index < 0
         || index >= ENIGMA_MAX_ROTOR_COUNT) {
-        return 1;
+        return -1;
     }
     enigma->rotors[index] = enigma_rotors[rotor];
     return 0;
@@ -359,11 +359,11 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_rotor(enigma_t* enigma, int rotor, int index
  *
  * @param enigma Pointer to the Enigma machine.
  * @param count Number of rotors.
- * @return 0 on success, 1 on failure
+ * @return 0 on success, -1 on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_count(enigma_t* enigma, int count) {
     if (!enigma || count < 0 || count > ENIGMA_MAX_ROTOR_COUNT) {
-        return 1;
+        return -1;
     }
     enigma->rotor_count = count;
     return 0;
@@ -377,12 +377,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_count(enigma_t* enigma, int count) {
  * @param enigma Pointer to the Enigma machine.
  * @param rotor Index of the rotor in the Enigma machine.
  * @param index Index to set the rotor to in the Enigma machine.
- * @return 0 on success, 1 on failure
+ * @return 0 on success, -1 on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_index(enigma_t* enigma, int rotor, int index) {
     if (!enigma || rotor < 0 || rotor >= enigma->rotor_count || index < 0
         || index >= ENIGMA_ALPHA_SIZE) {
-        return 1;
+        return -1;
     }
     enigma->rotor_indices[rotor] = index;
     return 0;

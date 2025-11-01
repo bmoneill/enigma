@@ -33,13 +33,13 @@ static int score_compare(const void* a, const void* b);
  * @param cfg Pointer to the cracking configuration structure.
  * @param scoreFunc Function pointer to the scoring function to use.
  *
- * @return 0 on success, non-zero on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
                                                 float (*scoreFunc)(const enigma_crack_t*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
-        return 1;
+        return -1;
     }
 
     enigma_t enigma;
@@ -90,13 +90,13 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
  * @param cfg Pointer to the cracking configuration structure.
  * @param scoreFunc Function pointer to the scoring function to use.
  *
- * @return 0 on success, non-zero on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
                                                 float (*scoreFunc)(const enigma_crack_t*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
-        return 1;
+        return -1;
     }
 
     enigma_t enigma;
@@ -128,12 +128,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
  * @param targetRotor The index of the rotor to crack (0-based).
  * @param scoreFunc Function pointer to the scoring function to use.
  *
- * @return 0 on success, non-zero on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
     enigma_crack_t* cfg, int targetRotor, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
     if (!cfg || !scoreFunc || targetRotor > 3) {
-        return 1;
+        return -1;
     }
 
     enigma_t enigma;
@@ -163,12 +163,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
  * @param cfg Pointer to the cracking configuration structure.
  * @param scoreFunc Function pointer to the scoring function to use.
  *
- * @return 0 on success, non-zero on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int
 enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
     if (!cfg || !scoreFunc) {
-        return 1;
+        return -1;
     }
 
     enigma_t enigma;
@@ -231,13 +231,13 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
  * @param cfg Pointer to the cracking configuration structure.
  * @param scoreFunc Function pointer to the scoring function to use.
  *
- * @return 0 on success, non-zero otherwise.
+ * @return 0 on success, -1 otherwise.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
                                                       float (*scoreFunc)(const enigma_crack_t*,
                                                                          const char*)) {
     if (!cfg || !scoreFunc) {
-        return 1;
+        return -1;
     }
 
     enigma_t enigma;
@@ -327,12 +327,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const enigma_crack_t* cfg, const char
  * @param indices Pointer to an array (length >= length of ciphertext) to store
  * the indices (-1-terminated)
  *
- * @return 0 on success, non-zero on failure
+ * @return 0 on success, -1 on failure
  */
 EMSCRIPTEN_KEEPALIVE int
 enigma_find_potential_indices(const char* ciphertext, const char* plaintext, int* indices) {
     if (!ciphertext || !plaintext || !indices) {
-        return 1;
+        return -1;
     }
 
     int matchCount    = 0;
@@ -431,12 +431,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_t* cfg, const cha
  * configuration.
  * @param plaintext The plaintext corresponding to the score.
  * @param score The score to append.
- * @return 0 on success, non-zero on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int
 enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext, float score) {
     if (!cfg || !enigma || !plaintext) {
-        return 1;
+        return -1;
     }
 
     if (cfg->scores->score_count >= cfg->scores->max_scores) {

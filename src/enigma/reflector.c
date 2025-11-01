@@ -10,12 +10,12 @@
  *
  * @param reflector The reflector to generate the indices for.
  * @param alphabet The alphabet to generate the indices from.
- * @return 0 on success, 1 on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* reflector,
                                                            const char*         alphabet) {
     if (!reflector || !alphabet || strlen(alphabet) != 26) {
-        return 1;
+        return -1;
     }
 
     for (int i = 0; i < 26; i++) {
@@ -57,12 +57,12 @@ EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const enigma_reflec
  *
  * @param reflector The reflector to set the name of.
  * @param name The name to set.
- * @return 0 on success, 1 on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector,
                                                    const char*         name) {
     if (!reflector || !name) {
-        return 1;
+        return -1;
     }
     reflector->name = strdup(name);
     return 0;
@@ -73,12 +73,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector
  *
  * @param reflector The reflector to set the indices of.
  * @param indices The indices to set.
- * @return 0 on success, 1 on failure.
+ * @return 0 on success, -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_indices(enigma_reflector_t* reflector,
                                                       const int*          indices) {
     if (!reflector || !indices) {
-        return 1;
+        return -1;
     }
     memcpy(reflector->indices, indices, sizeof(int) * 26);
     return 0;

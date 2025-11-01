@@ -11,12 +11,12 @@
  *
  * @param rotor The rotor to generate the indices for.
  * @param alphabet The alphabet to generate the indices from.
- * @return 0 on success, or 1 on failure.
+ * @return 0 on success, or -1 on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_rotor_generate_indices(enigma_rotor_t* rotor,
                                                        const char*     alphabet) {
     if (!rotor || !alphabet || strlen(alphabet) != 26) {
-        return 1;
+        return -1;
     }
 
     for (int i = 0; i < 26; i++) {
