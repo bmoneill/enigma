@@ -25,7 +25,7 @@ void test_enigma_score_sort(void) {
 }
 
 void test_enigma_score_sort_WithNullArguments(void) {
-    TEST_ASSERT_EQUAL_INT(1, enigma_score_list_sort(NULL));
+    TEST_ASSERT_EQUAL_INT(-1, enigma_score_list_sort(NULL));
 }
 
 void test_score_compare(void) {
