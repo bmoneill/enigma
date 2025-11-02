@@ -23,17 +23,17 @@ void                setUp(void) {
     srand(time(NULL));
     memset(&cfg, 0, sizeof(enigma_crack_t));
     enigma_init_default_config(&cfg.enigma);
-    scoreIdx                = 0;
-    cfg.ciphertext          = shortCiphertext;
-    cfg.ciphertext_length   = strlen(shortCiphertext);
-    cfg.scores              = &scores;
-    cfg.scores->max_scores  = 100;
-    cfg.scores->score_count = 0;
-    cfg.scores->scores      = calloc(100, sizeof(enigma_score_t));
+    scoreIdx                    = 0;
+    cfg.ciphertext              = shortCiphertext;
+    cfg.ciphertext_length       = strlen(shortCiphertext);
+    cfg.score_list              = &scores;
+    cfg.score_list->max_scores  = 100;
+    cfg.score_list->score_count = 0;
+    cfg.score_list->scores      = calloc(100, sizeof(enigma_score_t));
     memset(storedScores, 0, MAX_STORED_SCORES * sizeof(float));
 }
 
-void  tearDown(void) { free(cfg.scores->scores); }
+void  tearDown(void) { free(cfg.score_list->scores); }
 
 float mock_score_function(const enigma_crack_t* config, const char* plaintext) {
     float score = ((float) rand()) / rand();
@@ -63,13 +63,13 @@ void test_enigma_crack_reflector(void) {
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(scoreIdx, scores.score_count);
     for (int i = 0; i < scores.score_count; i++) {
-        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.score_list->scores[i].score);
         TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices,
-                                    cfg.scores->scores[i].enigma.rotor_indices,
+                                    cfg.score_list->scores[i].enigma.rotor_indices,
                                     4);
         if (i < scores.score_count - 1) {
-            TEST_ASSERT_NOT_EQUAL_CHAR(cfg.scores->scores[i].enigma.reflector->name[0],
-                                       cfg.scores->scores[i + 1].enigma.reflector->name[0]);
+            TEST_ASSERT_NOT_EQUAL_CHAR(cfg.score_list->scores[i].enigma.reflector->name[0],
+                                       cfg.score_list->scores[i + 1].enigma.reflector->name[0]);
         }
     }
 }
@@ -87,14 +87,14 @@ void test_enigma_crack_rotor(void) {
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(scoreIdx, scores.score_count);
     for (int i = 0; i < scores.score_count; i++) {
-        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.score_list->scores[i].score);
         TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices,
-                                    cfg.scores->scores[i].enigma.rotor_indices,
+                                    cfg.score_list->scores[i].enigma.rotor_indices,
                                     4);
 
         if (i < scores.score_count - 1) {
-            int res = strcmp(cfg.scores->scores[i].enigma.rotors[rot]->name,
-                             cfg.scores->scores[i + 1].enigma.rotors[rot]->name);
+            int res = strcmp(cfg.score_list->scores[i].enigma.rotors[rot]->name,
+                             cfg.score_list->scores[i + 1].enigma.rotors[rot]->name);
             TEST_ASSERT_NOT_EQUAL_INT(0, res);
         }
     }
@@ -111,14 +111,14 @@ void test_enigma_crack_rotors(void) {
     TEST_ASSERT_EQUAL_INT(0, ret);
 
     for (int i = 0; i < MAX_STORED_SCORES; i++) {
-        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.score_list->scores[i].score);
         TEST_ASSERT_EQUAL_INT_ARRAY(cfg.enigma.rotor_indices,
-                                    cfg.scores->scores[i].enigma.rotor_indices,
+                                    cfg.score_list->scores[i].enigma.rotor_indices,
                                     4);
 
         int       cmp = 0;
-        enigma_t* e1  = &cfg.scores->scores[i].enigma;
-        enigma_t* e2  = &cfg.scores->scores[i + 1].enigma;
+        enigma_t* e1  = &cfg.score_list->scores[i].enigma;
+        enigma_t* e2  = &cfg.score_list->scores[i + 1].enigma;
         for (int i = 0; i < 3; i++) {
             if (e1->rotors[i] == e2->rotors[i]) {
                 cmp++;
@@ -145,14 +145,14 @@ void test_enigma_crack_rotor_positions(void) {
     TEST_ASSERT_EQUAL_INT(0, ret);
 
     for (int i = 0; i < MAX_STORED_SCORES; i++) {
-        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.scores->scores[i].score);
+        TEST_ASSERT_EQUAL_FLOAT(storedScores[i], cfg.score_list->scores[i].score);
         TEST_ASSERT_EQUAL_CHAR_ARRAY(cfg.enigma.plugboard,
-                                     cfg.scores->scores[i].enigma.plugboard,
+                                     cfg.score_list->scores[i].enigma.plugboard,
                                      27);
 
         int       cmp = 0;
-        enigma_t* e1  = &cfg.scores->scores[i].enigma;
-        enigma_t* e2  = &cfg.scores->scores[i + 1].enigma;
+        enigma_t* e1  = &cfg.score_list->scores[i].enigma;
+        enigma_t* e2  = &cfg.score_list->scores[i + 1].enigma;
         for (int i = 0; i < 3; i++) {
             if (e1->rotor_indices[i] == e2->rotor_indices[i]) {
                 cmp++;
@@ -276,11 +276,11 @@ void test_enigma_score_append_WithEmptyScoreList(void) {
     int ret = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(1, cfg.scores->score_count);
-    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.scores->max_scores);
-    TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[0].score);
+    TEST_ASSERT_EQUAL_INT(1, cfg.score_list->score_count);
+    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.score_list->max_scores);
+    TEST_ASSERT_EQUAL_FLOAT(score, cfg.score_list->scores[0].score);
     TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices,
-                                cfg.scores->scores[0].enigma.rotor_indices,
+                                cfg.score_list->scores[0].enigma.rotor_indices,
                                 4);
 }
 
@@ -293,11 +293,11 @@ void test_enigma_score_append_WithFullScoreList(void) {
     int ret             = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.scores->score_count);
-    TEST_ASSERT_EQUAL_INT(MAX_SCORES * 2, cfg.scores->max_scores);
-    TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[scoreCount].score);
+    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.score_list->score_count);
+    TEST_ASSERT_EQUAL_INT(MAX_SCORES * 2, cfg.score_list->max_scores);
+    TEST_ASSERT_EQUAL_FLOAT(score, cfg.score_list->scores[scoreCount].score);
     TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices,
-                                cfg.scores->scores[scoreCount].enigma.rotor_indices,
+                                cfg.score_list->scores[scoreCount].enigma.rotor_indices,
                                 4);
 }
 
@@ -310,11 +310,11 @@ void test_enigma_score_append_WithPartialScoreList(void) {
     int ret             = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.scores->score_count);
-    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.scores->max_scores);
-    TEST_ASSERT_EQUAL_FLOAT(score, cfg.scores->scores[scoreCount].score);
+    TEST_ASSERT_EQUAL_INT(scoreCount + 1, cfg.score_list->score_count);
+    TEST_ASSERT_EQUAL_INT(MAX_SCORES, cfg.score_list->max_scores);
+    TEST_ASSERT_EQUAL_FLOAT(score, cfg.score_list->scores[scoreCount].score);
     TEST_ASSERT_EQUAL_INT_ARRAY(enigma.rotor_indices,
-                                cfg.scores->scores[scoreCount].enigma.rotor_indices,
+                                cfg.score_list->scores[scoreCount].enigma.rotor_indices,
                                 4);
 }
 
@@ -357,18 +357,20 @@ void test_enigma_crack_get_enigma(void) {
     enigma_t*      ptr = &crack.enigma;
     TEST_ASSERT_EQUAL_PTR(ptr, enigma_crack_get_enigma(&crack));
 }
+
 void test_enigma_crack_get_enigma_WithInvalidArguments(void) {
     TEST_ASSERT_NULL(enigma_crack_get_enigma(NULL));
 }
 
-void test_enigma_crack_get_scores(void) {
+void test_enigma_crack_get_score_list(void) {
     enigma_crack_t      crack;
     enigma_score_list_t scores;
-    crack.scores = &scores;
-    TEST_ASSERT_EQUAL_PTR(&scores, enigma_crack_get_scores(&crack));
+    crack.score_list = &scores;
+    TEST_ASSERT_EQUAL_PTR(&scores, enigma_crack_get_score_list(&crack));
 }
-void test_enigma_crack_get_scores_WithInvalidArguments(void) {
-    TEST_ASSERT_NULL(enigma_crack_get_scores(NULL));
+
+void test_enigma_crack_get_score_list_WithInvalidArguments(void) {
+    TEST_ASSERT_NULL(enigma_crack_get_score_list(NULL));
 }
 
 void test_enigma_crack_get_dictionary(void) {
@@ -532,18 +534,18 @@ void test_enigma_crack_set_enigma_WithInvalidArguments(void) {
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_enigma(&crack, NULL));
 }
 
-void test_enigma_crack_set_scores(void) {
+void test_enigma_crack_set_score_list(void) {
     enigma_crack_t      crack;
     enigma_score_list_t scores;
-    int                 ret = enigma_crack_set_scores(&crack, &scores);
+    int                 ret = enigma_crack_set_score_list(&crack, &scores);
     TEST_ASSERT_EQUAL_INT(0, ret);
 }
 
-void test_enigma_crack_set_scores_WithInvalidArguments(void) {
+void test_enigma_crack_set_score_list_WithInvalidArguments(void) {
     enigma_score_list_t scores;
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_scores(NULL, &scores));
+    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_score_list(NULL, &scores));
     enigma_crack_t crack;
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_scores(&crack, NULL));
+    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_score_list(&crack, NULL));
 }
 
 void test_enigma_crack_set_ngrams(void) {

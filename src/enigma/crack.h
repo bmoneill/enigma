@@ -16,7 +16,7 @@
  * @brief A structure representing a configuration for cracking an Enigma cipher.
  *
  * @param enigma            The base Enigma machine configuration.
- * @param scores            A list of scored Enigma configurations.
+ * @param score_list            A list of scored Enigma configurations.
  * @param dictionary        An array of dictionary words.
  * @param dictionary_length The number of words in the dictionary.
  * @param ngrams            An array of n-gram frequencies.
@@ -36,7 +36,7 @@
  */
 typedef struct {
     enigma_t             enigma;
-    enigma_score_list_t* scores;
+    enigma_score_list_t* score_list;
     const char**         dictionary;
     size_t               dictionary_length;
     float*               ngrams;
@@ -80,7 +80,7 @@ int   enigma_score_flags(const enigma_crack_t*, const char*);
 
 /* enigma_crack_t getters and setters */
 const enigma_t*            enigma_crack_get_enigma(const enigma_crack_t*);
-const enigma_score_list_t* enigma_crack_get_scores(const enigma_crack_t*);
+const enigma_score_list_t* enigma_crack_get_score_list(const enigma_crack_t*);
 const char**               enigma_crack_get_dictionary(const enigma_crack_t*);
 size_t                     enigma_crack_get_dictionary_length(const enigma_crack_t*);
 const float*               enigma_crack_get_ngrams(const enigma_crack_t*);
@@ -96,7 +96,7 @@ float                      enigma_crack_get_target_score(const enigma_crack_t*);
 const char*                enigma_crack_get_known_plaintext(const enigma_crack_t*);
 size_t                     enigma_crack_get_known_plaintext_length(const enigma_crack_t*);
 int                        enigma_crack_set_enigma(enigma_crack_t*, enigma_t*);
-int                        enigma_crack_set_scores(enigma_crack_t*, enigma_score_list_t*);
+int                        enigma_crack_set_score_list(enigma_crack_t*, enigma_score_list_t*);
 int                        enigma_crack_set_dictionary(enigma_crack_t*, const char**, size_t);
 int                        enigma_crack_set_ngrams(enigma_crack_t*, float*, int, size_t);
 int                        enigma_crack_set_n(enigma_crack_t*, int);

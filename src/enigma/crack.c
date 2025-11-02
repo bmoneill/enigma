@@ -68,7 +68,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
             enigma.plugboard[curSettings * 2]     = a;
             enigma.plugboard[curSettings * 2 + 1] = b;
             enigma.plugboard[curSettings * 2 + 2] = '\0';
-            enigmaTmp = enigma;
+            enigmaTmp                             = enigma;
 
             enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
             enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
@@ -104,10 +104,10 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
     enigma_t enigmaTmp;
     char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    enigma = cfg->enigma;
+    enigma             = cfg->enigma;
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         enigma.reflector = enigma_reflectors[i];
-        enigmaTmp = enigma;
+        enigmaTmp        = enigma;
 
         enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
@@ -141,10 +141,10 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
     enigma_t enigmaTmp;
     char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    enigma = cfg->enigma;
+    enigma             = cfg->enigma;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         enigma.rotors[targetRotor] = enigma_rotors[i];
-        enigmaTmp = enigma;
+        enigmaTmp                  = enigma;
         enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
     }
@@ -176,7 +176,7 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
     enigma_t enigmaTmp;
     char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    enigma = cfg->enigma;
+    enigma             = cfg->enigma;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
             if (i == j)
@@ -194,7 +194,7 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
                         enigma.rotors[1] = enigma_rotors[j];
                         enigma.rotors[2] = enigma_rotors[k];
                         enigma.rotors[3] = enigma_rotors[l];
-                        enigmaTmp = enigma;
+                        enigmaTmp        = enigma;
 
                         enigma_encode_string(&enigmaTmp,
                                              cfg->ciphertext,
@@ -206,7 +206,7 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
                     enigma.rotors[0] = enigma_rotors[i];
                     enigma.rotors[1] = enigma_rotors[j];
                     enigma.rotors[2] = enigma_rotors[k];
-                    enigmaTmp = enigma;
+                    enigmaTmp        = enigma;
 
                     enigma_encode_string(&enigmaTmp,
                                          cfg->ciphertext,
@@ -250,12 +250,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
             for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
                 if (cfg->enigma.rotor_count == 4) {
                     for (int l = 0; l < ENIGMA_ALPHA_SIZE; l++) {
-                        enigma = cfg->enigma;
+                        enigma                  = cfg->enigma;
                         enigma.rotor_indices[0] = i;
                         enigma.rotor_indices[1] = j;
                         enigma.rotor_indices[2] = k;
                         enigma.rotor_indices[3] = l;
-                        enigmaTmp = enigma;
+                        enigmaTmp               = enigma;
 
                         enigma_encode_string(&enigmaTmp,
                                              cfg->ciphertext,
@@ -264,11 +264,11 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
                         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
                     }
                 } else {
-                    enigma = cfg->enigma;
+                    enigma                  = cfg->enigma;
                     enigma.rotor_indices[0] = i;
                     enigma.rotor_indices[1] = j;
                     enigma.rotor_indices[2] = k;
-                    enigmaTmp = enigma;
+                    enigmaTmp               = enigma;
 
                     enigma_encode_string(&enigmaTmp,
                                          cfg->ciphertext,
@@ -442,16 +442,17 @@ enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    if (cfg->scores->score_count >= cfg->scores->max_scores) {
-        cfg->scores->max_scores *= 2;
-        cfg->scores->scores
-            = realloc(cfg->scores->scores, cfg->scores->max_scores * sizeof(enigma_score_t));
+    if (cfg->score_list->score_count >= cfg->score_list->max_scores) {
+        cfg->score_list->max_scores *= 2;
+        cfg->score_list->scores = realloc(cfg->score_list->scores,
+                                          cfg->score_list->max_scores * sizeof(enigma_score_t));
     }
 
-    cfg->scores->scores[cfg->scores->score_count].enigma = *enigma;
-    cfg->scores->scores[cfg->scores->score_count].score = score;
-    cfg->scores->scores[cfg->scores->score_count].flags = enigma_score_flags(cfg, plaintext);
-    cfg->scores->score_count++;
+    cfg->score_list->scores[cfg->score_list->score_count].enigma = *enigma;
+    cfg->score_list->scores[cfg->score_list->score_count].score  = score;
+    cfg->score_list->scores[cfg->score_list->score_count].flags
+        = enigma_score_flags(cfg, plaintext);
+    cfg->score_list->score_count++;
 
     return 0;
 }
@@ -524,18 +525,19 @@ EMSCRIPTEN_KEEPALIVE const enigma_t* enigma_crack_get_enigma(const enigma_crack_
 }
 
 /**
- * @brief Get the scores field in the given enigma_crack_t
+ * @brief Get the score_list field in the given enigma_crack_t
  *
  * @param cfg The enigma_crack_t instance
  * @return The scores field, or NULL if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE const enigma_score_list_t* enigma_crack_get_scores(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const enigma_score_list_t*
+enigma_crack_get_score_list(const enigma_crack_t* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
-    return cfg->scores;
+    return cfg->score_list;
 }
 
 /**
@@ -756,18 +758,19 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(enigma_crack_t* cfg, enigma_t* 
 }
 
 /**
- * @brief Set the scores field in the given enigma_crack_t
+ * @brief Set the score_list field in the given enigma_crack_t
  *
  * @param cfg The enigma_crack_t instance
- * @param scores The enigma_score_list_t instance
+ * @param scoreList The enigma_score_list_t instance
  * @return 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_scores(enigma_crack_t* cfg, enigma_score_list_t* scores) {
-    if (!cfg || !scores) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_score_list(enigma_crack_t*      cfg,
+                                                     enigma_score_list_t* scoreList) {
+    if (!cfg || !scoreList) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    cfg->scores = scores;
+    cfg->score_list = scoreList;
     return 0;
 }
 
