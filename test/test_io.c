@@ -71,8 +71,8 @@ void test_load_ngrams(void) {
     // 50 HE
     // 20 AR
 
-    int            charCount     = 500;
-    const char*    ngramFilePath = "data/bigrams.txt";
+    int            charCount        = 500;
+    const char*    ngramFilePath    = "data/bigrams.txt";
     const char*    altNgramFilePath = "test/data/bigrams.txt";
     enigma_crack_t cfg;
 
@@ -80,7 +80,7 @@ void test_load_ngrams(void) {
         ngramFilePath = altNgramFilePath;
     }
 
-    int            result = enigma_load_ngrams(&cfg, ngramFilePath);
+    int result = enigma_load_ngrams(&cfg, ngramFilePath);
     TEST_ASSERT_EQUAL(0, result);
     TEST_ASSERT_EQUAL_INT(2, cfg.n);
     TEST_ASSERT_NOT_NULL(cfg.ngrams);
