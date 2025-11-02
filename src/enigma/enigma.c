@@ -8,6 +8,7 @@
 #include "enigma.h"
 
 #include "common.h"
+#include "io.h"
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -203,6 +204,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) { return LIBENIGMA_VERSION
  */
 EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const enigma_t* enigma) {
     if (!enigma) {
+        ENIGMA_ERROR("%s", "Invalid Enigma machine provided.");
         return NULL;
     }
     return enigma->plugboard;

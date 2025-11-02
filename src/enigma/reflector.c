@@ -1,5 +1,7 @@
 #include "reflector.h"
-#include "enigma/common.h"
+
+#include "common.h"
+#include "io.h"
 
 #include <ctype.h>
 #include <stddef.h>
@@ -15,7 +17,7 @@
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* reflector,
                                                            const char*         alphabet) {
     if (!reflector || !alphabet || strlen(alphabet) != 26) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     for (int i = 0; i < 26; i++) {
@@ -31,6 +33,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* r
  */
 EMSCRIPTEN_KEEPALIVE const char* enigma_reflector_get_name(const enigma_reflector_t* reflector) {
     if (!reflector) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return reflector->name;
@@ -44,6 +47,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_reflector_get_name(const enigma_reflecto
  */
 EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const enigma_reflector_t* reflector) {
     if (!reflector) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return reflector->indices;
@@ -62,7 +66,7 @@ EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const enigma_reflec
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector,
                                                    const char*         name) {
     if (!reflector || !name) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     reflector->name = strdup(name);
     return 0;
@@ -78,7 +82,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_indices(enigma_reflector_t* reflector,
                                                       const int*          indices) {
     if (!reflector || !indices) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     memcpy(reflector->indices, indices, sizeof(int) * 26);
     return 0;

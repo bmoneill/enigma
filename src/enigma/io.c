@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "crack.h"
+#include "enigma.h"
 #include "ngram.h"
 
 #include <ctype.h>
@@ -24,14 +25,16 @@ static int ipow(int, int);
  * @param ...    Arguments for the format string.
  * @return       -1.
  */
-int enigma_error_message(const char* format, ...) {
-    fprintf(stderr, "libenigma: ");
+int enigma_error_message(const char* func, const char* format, ...) {
+    fprintf(stderr, "libenigma (%s): ", func);
     va_list args;
     va_start(args, format);
     vfprintf(stderr, format, args);
     va_end(args);
+    fprintf(stderr, "\n");
     return -1;
 }
+
 /**
  * @brief Load an Enigma machine configuration from a string.
  *
@@ -50,8 +53,7 @@ int enigma_error_message(const char* format, ...) {
 EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
     char buf[64];
     if (strlen(s) >= sizeof(buf)) {
-        fprintf(stderr, "Configuration string too long\n");
-        return -1;
+        return ENIGMA_ERROR("Configuration string too long: %s", s);
     }
     strcpy(buf, s);
 
@@ -67,18 +69,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
     }
 
     if (enigma_load_rotor_config(enigma, rotors)) {
-        fprintf(stderr, "Invalid rotor configuration: %s\n", rotors);
-        return -1;
+        return ENIGMA_ERROR("Invalid rotor configuration: %s", rotors);
     }
 
     if (enigma_load_rotor_positions(enigma, positions)) {
-        fprintf(stderr, "Invalid rotor positions: %s\n", positions);
-        return -1;
+        return ENIGMA_ERROR("Invalid rotor positions: %s", positions);
     }
 
     if (enigma_load_reflector_config(enigma, reflector)) {
-        fprintf(stderr, "Invalid reflector configuration: %s\n", reflector);
-        return -1;
+        return ENIGMA_ERROR("Invalid reflector configuration: %s", reflector);
     }
 
     if (strcmp(enigma->plugboard, "None")) {
@@ -156,25 +155,25 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* pat
     int   reallocCount = 0;
     FILE* f            = fopen(path, "r");
     if (!f) {
-        fprintf(stderr, "Failed to open ngram file: %s\n", path);
+        return ENIGMA_ERROR("Failed to open ngram file: %s", path);
     }
 
     if (fgets(line, sizeof(line), f)) {
         // First line should be n value and character count of original text
         if (sscanf(line, "%d %d", &n, &charCount) != 2) {
-            fprintf(stderr, "Invalid ngram file format: %s\n", path);
+            ENIGMA_ERROR("Invalid ngram file format: %s", path);
             fclose(f);
             return -1;
         }
     } else {
-        fprintf(stderr, "Failed to read ngram file: %s\n", path);
+        ENIGMA_ERROR("Failed to read ngram file: %s", path);
         free(cfg->ngrams);
         fclose(f);
         return -1;
     }
 
     if (n > 4 || n < 1) {
-        fprintf(stderr, "N-grams must be of size 2-4. Unsupported size: %d\n", n);
+        ENIGMA_ERROR("N-grams must be of size 2-4. Unsupported size: %d", n);
         free(cfg->ngrams);
         fclose(f);
         return -1;
@@ -220,8 +219,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* pat
 EMSCRIPTEN_KEEPALIVE int enigma_load_plugboard_config(enigma_t* enigma, const char* s) {
     int len = strlen(s);
     if (len % 2 != 0 || len > ENIGMA_ALPHA_SIZE) {
-        fprintf(stderr, "Invalid plugboard configuration: %s\n", s);
-        return -1;
+        return ENIGMA_ERROR("Invalid plugboard configuration: %s", s);
     }
     memcpy(enigma->plugboard, s, len);
     return 0;
@@ -265,8 +263,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(enigma_t* enigma, char* s) {
             }
 
             if (i == ENIGMA_ROTOR_COUNT - 1) {
-                fprintf(stderr, "Invalid rotor configuration: %s\n", s);
-                return -1;
+                return ENIGMA_ERROR("Invalid rotor configuration: %s", s);
             }
         }
 
@@ -290,7 +287,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(enigma_t* enigma, char* s) {
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
     if (enigma->rotor_count == 0) {
-        return -1;
+        return ENIGMA_ERROR("%s", "Cannot load rotor positions without rotors");
     }
 
     for (int i = 0; i < enigma->rotor_count && s[i]; i++) {

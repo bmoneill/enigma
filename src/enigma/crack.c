@@ -16,6 +16,7 @@
 
 #include "common.h"
 #include "enigma.h"
+#include "io.h"
 #include "rotor.h"
 
 #include <stdlib.h>
@@ -39,7 +40,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
                                                 float (*scoreFunc)(const enigma_crack_t*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     enigma_t enigma;
@@ -96,7 +97,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
                                                 float (*scoreFunc)(const enigma_crack_t*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     enigma_t enigma;
@@ -133,7 +134,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
 EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
     enigma_crack_t* cfg, int targetRotor, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
     if (!cfg || !scoreFunc || targetRotor > 3) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     enigma_t enigma;
@@ -168,7 +169,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
 EMSCRIPTEN_KEEPALIVE int
 enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
     if (!cfg || !scoreFunc) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     enigma_t enigma;
@@ -237,7 +238,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
                                                       float (*scoreFunc)(const enigma_crack_t*,
                                                                          const char*)) {
     if (!cfg || !scoreFunc) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     enigma_t enigma;
@@ -299,7 +300,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
  */
 EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const enigma_crack_t* cfg, const char* plaintext) {
     if (!cfg || !plaintext || !cfg->dictionary) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     int match_count = 0;
@@ -332,7 +333,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const enigma_crack_t* cfg, const char
 EMSCRIPTEN_KEEPALIVE int
 enigma_find_potential_indices(const char* ciphertext, const char* plaintext, int* indices) {
     if (!ciphertext || !plaintext || !indices) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     int matchCount    = 0;
@@ -366,8 +367,9 @@ enigma_find_potential_indices(const char* ciphertext, const char* plaintext, int
  */
 EMSCRIPTEN_KEEPALIVE float enigma_freq(const char* plaintext, int len) {
     if (!plaintext || len <= 0) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
+
     int freq[26] = { 0 };
     for (int i = 0; i < len; i++) {
         if (plaintext[i] >= 'A' && plaintext[i] <= 'Z') {
@@ -400,8 +402,9 @@ EMSCRIPTEN_KEEPALIVE float enigma_freq(const char* plaintext, int len) {
  */
 EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_t* cfg, const char* plaintext) {
     if (!cfg || !plaintext) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
+
     int letters[26] = { 0 };
     int nonMatching = 0;
     for (size_t i = 0; i < cfg->ciphertext_length; i++) {
@@ -436,7 +439,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_t* cfg, const cha
 EMSCRIPTEN_KEEPALIVE int
 enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext, float score) {
     if (!cfg || !enigma || !plaintext) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     if (cfg->scores->score_count >= cfg->scores->max_scores) {
@@ -467,8 +470,9 @@ enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_t* cfg, const char* plaintext) {
     if (!cfg || !plaintext) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
+
     int ret    = 0;
     int subRet = 0;
 
@@ -512,6 +516,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_t* cfg, const cha
  */
 EMSCRIPTEN_KEEPALIVE const enigma_t* enigma_crack_get_enigma(const enigma_crack_t* cfg) {
     if (!cfg) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -526,6 +531,7 @@ EMSCRIPTEN_KEEPALIVE const enigma_t* enigma_crack_get_enigma(const enigma_crack_
  */
 EMSCRIPTEN_KEEPALIVE const enigma_score_list_t* enigma_crack_get_scores(const enigma_crack_t* cfg) {
     if (!cfg) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -540,6 +546,7 @@ EMSCRIPTEN_KEEPALIVE const enigma_score_list_t* enigma_crack_get_scores(const en
  */
 EMSCRIPTEN_KEEPALIVE const char** enigma_crack_get_dictionary(const enigma_crack_t* cfg) {
     if (!cfg) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -554,7 +561,7 @@ EMSCRIPTEN_KEEPALIVE const char** enigma_crack_get_dictionary(const enigma_crack
  */
 EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_dictionary_length(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->dictionary_length;
@@ -568,6 +575,7 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_dictionary_length(const enigma_crac
  */
 EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_ngrams(const enigma_crack_t* cfg) {
     if (!cfg) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -582,7 +590,7 @@ EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_ngrams(const enigma_crack_t* 
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_get_n(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->n;
@@ -596,7 +604,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_get_n(const enigma_crack_t* cfg) {
  */
 EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ngrams_length(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->ngrams_length;
@@ -610,6 +618,7 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ngrams_length(const enigma_crack_t*
  */
 EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_ciphertext(const enigma_crack_t* cfg) {
     if (!cfg) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -624,7 +633,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_ciphertext(const enigma_crack_
  */
 EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ciphertext_length(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->ciphertext_length;
@@ -638,7 +647,7 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ciphertext_length(const enigma_crac
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_get_flags(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->flags;
@@ -652,6 +661,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_get_flags(const enigma_crack_t* cfg) {
  */
 EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_frequency_targets(const enigma_crack_t* cfg) {
     if (!cfg) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -666,7 +676,7 @@ EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_frequency_targets(const enigm
  */
 EMSCRIPTEN_KEEPALIVE float enigma_crack_get_min_score(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1.0f;
+        return (float) ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->min_score;
@@ -680,7 +690,7 @@ EMSCRIPTEN_KEEPALIVE float enigma_crack_get_min_score(const enigma_crack_t* cfg)
  */
 EMSCRIPTEN_KEEPALIVE float enigma_crack_get_max_score(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1.0f;
+        return (float) ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->max_score;
@@ -694,7 +704,7 @@ EMSCRIPTEN_KEEPALIVE float enigma_crack_get_max_score(const enigma_crack_t* cfg)
  */
 EMSCRIPTEN_KEEPALIVE float enigma_crack_get_target_score(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1.0f;
+        return (float) ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->target_score;
@@ -708,6 +718,7 @@ EMSCRIPTEN_KEEPALIVE float enigma_crack_get_target_score(const enigma_crack_t* c
  */
 EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_known_plaintext(const enigma_crack_t* cfg) {
     if (!cfg) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -722,7 +733,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_known_plaintext(const enigma_c
  */
 EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_known_plaintext_length(const enigma_crack_t* cfg) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return cfg->known_plaintext_length;
@@ -737,7 +748,7 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_known_plaintext_length(const enigma
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(enigma_crack_t* cfg, enigma_t* enigma) {
     if (!cfg || !enigma) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     memcpy(&cfg->enigma, enigma, sizeof(enigma_t));
@@ -753,7 +764,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(enigma_crack_t* cfg, enigma_t* 
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_scores(enigma_crack_t* cfg, enigma_score_list_t* scores) {
     if (!cfg || !scores) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->scores = scores;
@@ -771,7 +782,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_scores(enigma_crack_t* cfg, enigma_sco
 EMSCRIPTEN_KEEPALIVE int
 enigma_crack_set_dictionary(enigma_crack_t* cfg, const char** dictionary, size_t length) {
     if (!cfg || !dictionary) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->dictionary        = dictionary;
@@ -791,7 +802,7 @@ enigma_crack_set_dictionary(enigma_crack_t* cfg, const char** dictionary, size_t
 EMSCRIPTEN_KEEPALIVE int
 enigma_crack_set_ngrams(enigma_crack_t* cfg, float* ngrams, int n, size_t length) {
     if (!cfg || !ngrams || n < 2 || n > 4) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->ngrams        = ngrams;
@@ -809,7 +820,7 @@ enigma_crack_set_ngrams(enigma_crack_t* cfg, float* ngrams, int n, size_t length
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_n(enigma_crack_t* cfg, int n) {
     if (!cfg || n < 2 || n > 4) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->n = n;
@@ -827,7 +838,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_n(enigma_crack_t* cfg, int n) {
 EMSCRIPTEN_KEEPALIVE int
 enigma_crack_set_ciphertext(enigma_crack_t* cfg, const char* ciphertext, size_t length) {
     if (!cfg || !ciphertext) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->ciphertext        = ciphertext;
@@ -844,7 +855,7 @@ enigma_crack_set_ciphertext(enigma_crack_t* cfg, const char* ciphertext, size_t 
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_flags(enigma_crack_t* cfg, int flags) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->flags = flags;
@@ -861,7 +872,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_flags(enigma_crack_t* cfg, int flags) 
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(enigma_crack_t* cfg,
                                                             float*          frequencyTargets) {
     if (!cfg || !frequencyTargets) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     memcpy(cfg->frequency_targets, frequencyTargets, sizeof(float) * 26);
@@ -877,7 +888,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(enigma_crack_t* cfg,
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_min_score(enigma_crack_t* cfg, float minScore) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->min_score = minScore;
@@ -893,7 +904,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_min_score(enigma_crack_t* cfg, float m
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_max_score(enigma_crack_t* cfg, float maxScore) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->min_score = maxScore;
@@ -909,7 +920,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_max_score(enigma_crack_t* cfg, float m
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_set_target_score(enigma_crack_t* cfg, float targetScore) {
     if (!cfg) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->target_score = targetScore;
@@ -927,7 +938,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_target_score(enigma_crack_t* cfg, floa
 EMSCRIPTEN_KEEPALIVE int
 enigma_crack_set_known_plaintext(enigma_crack_t* cfg, const char* knownPlaintext, size_t length) {
     if (!cfg || !knownPlaintext) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     cfg->known_plaintext        = knownPlaintext;

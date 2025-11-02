@@ -1,5 +1,7 @@
 #include "rotor.h"
-#include "enigma/common.h"
+
+#include "common.h"
+#include "io.h"
 
 #include <ctype.h>
 #include <string.h>
@@ -16,7 +18,7 @@
 EMSCRIPTEN_KEEPALIVE int enigma_rotor_generate_indices(enigma_rotor_t* rotor,
                                                        const char*     alphabet) {
     if (!rotor || !alphabet || strlen(alphabet) != 26) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     for (int i = 0; i < 26; i++) {
@@ -45,6 +47,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_rotor_generate_indices(enigma_rotor_t* rotor,
  */
 EMSCRIPTEN_KEEPALIVE const char* enigma_rotor_get_name(const enigma_rotor_t* rotor) {
     if (!rotor) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return rotor->name;
@@ -60,6 +63,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_rotor_get_name(const enigma_rotor_t* rot
  */
 EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_fwd_indices(const enigma_rotor_t* rotor) {
     if (!rotor) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return rotor->fwd_indices;
@@ -75,6 +79,7 @@ EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_fwd_indices(const enigma_rotor_
  */
 EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_rev_indices(const enigma_rotor_t* rotor) {
     if (!rotor) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return rotor->rev_indices;
@@ -90,6 +95,7 @@ EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_rev_indices(const enigma_rotor_
  */
 EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_notches(const enigma_rotor_t* rotor) {
     if (!rotor) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return rotor->notches;
@@ -105,7 +111,7 @@ EMSCRIPTEN_KEEPALIVE const int* enigma_rotor_get_notches(const enigma_rotor_t* r
  */
 EMSCRIPTEN_KEEPALIVE int enigma_rotor_get_notches_count(const enigma_rotor_t* rotor) {
     if (!rotor) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     return rotor->notches_count;
 }
@@ -121,7 +127,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_rotor_get_notches_count(const enigma_rotor_t* ro
  */
 EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_name(enigma_rotor_t* rotor, const char* name) {
     if (!rotor || !name) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     rotor->name = strdup(name);
     return 0;
@@ -138,7 +144,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_name(enigma_rotor_t* rotor, const char
  */
 EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_fwd_indices(enigma_rotor_t* rotor, const int* indices) {
     if (!rotor || !indices) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     memcpy(rotor->fwd_indices, indices, sizeof(int) * 26);
     return 0;
@@ -155,7 +161,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_fwd_indices(enigma_rotor_t* rotor, con
  */
 EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_rev_indices(enigma_rotor_t* rotor, const int* indices) {
     if (!rotor || !indices) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     memcpy(rotor->rev_indices, indices, sizeof(int) * 26);
     return 0;
@@ -174,7 +180,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_rev_indices(enigma_rotor_t* rotor, con
 EMSCRIPTEN_KEEPALIVE int
 enigma_rotor_set_notches(enigma_rotor_t* rotor, const int* notches, int count) {
     if (!rotor || !notches || count < 0 || count > 2) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     memcpy(rotor->notches, notches, sizeof(int) * count);
     rotor->notches_count = count;
@@ -192,7 +198,7 @@ enigma_rotor_set_notches(enigma_rotor_t* rotor, const int* notches, int count) {
  */
 EMSCRIPTEN_KEEPALIVE int enigma_rotor_set_notches_count(enigma_rotor_t* rotor, int count) {
     if (!rotor || count < 0 || count > 2) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     rotor->notches_count = count;
     return 0;

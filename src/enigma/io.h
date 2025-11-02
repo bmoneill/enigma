@@ -9,7 +9,11 @@
 #include "crack.h"
 #include "enigma.h"
 
-int  enigma_error_message(const char*, ...);
+#define ENIGMA_ERROR(fmt, ...) enigma_error_message(__func__, fmt, __VA_ARGS__)
+
+static const char* enigma_invalid_argument_message = "Invalid argument provided.";
+
+int  enigma_error_message(const char*, const char*, ...);
 int  enigma_load_config(enigma_t*, const char*);
 int  enigma_load_custom_reflector(enigma_reflector_t*, const char*, const char*);
 int  enigma_load_custom_rotor(enigma_rotor_t*, const char*, const char*, int*, int);
