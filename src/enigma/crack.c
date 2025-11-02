@@ -49,13 +49,13 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
 
     char*    plaintext   = malloc((cfg->ciphertext_length + 1) * sizeof(char));
     char*    remaining   = malloc((ENIGMA_ALPHA_SIZE - curSettings * 2 + 1) * sizeof(char));
-    memcpy(remaining, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ENIGMA_ALPHA_SIZE);
+    strcpy(remaining, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
     for (int i = 0; i < curSettings * 2; i++) {
         remaining[enigma.plugboard[i] - 'A'] = '\0';
     }
 
-    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    enigma = cfg->enigma;
     for (char a = 'A'; a < 'Z'; a++) {
         if (!remaining[a - 'A']) {
             continue;
@@ -68,7 +68,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
             enigma.plugboard[curSettings * 2]     = a;
             enigma.plugboard[curSettings * 2 + 1] = b;
             enigma.plugboard[curSettings * 2 + 2] = '\0';
-            memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
+            enigmaTmp = enigma;
 
             enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
             enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
@@ -104,10 +104,10 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
     enigma_t enigmaTmp;
     char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    enigma = cfg->enigma;
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         enigma.reflector = enigma_reflectors[i];
-        memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
+        enigmaTmp = enigma;
 
         enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
@@ -141,10 +141,10 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
     enigma_t enigmaTmp;
     char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    enigma = cfg->enigma;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         enigma.rotors[targetRotor] = enigma_rotors[i];
-        memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
+        enigmaTmp = enigma;
         enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
     }
@@ -176,7 +176,7 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
     enigma_t enigmaTmp;
     char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+    enigma = cfg->enigma;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
             if (i == j)
@@ -194,7 +194,7 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
                         enigma.rotors[1] = enigma_rotors[j];
                         enigma.rotors[2] = enigma_rotors[k];
                         enigma.rotors[3] = enigma_rotors[l];
-                        memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
+                        enigmaTmp = enigma;
 
                         enigma_encode_string(&enigmaTmp,
                                              cfg->ciphertext,
@@ -206,7 +206,7 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
                     enigma.rotors[0] = enigma_rotors[i];
                     enigma.rotors[1] = enigma_rotors[j];
                     enigma.rotors[2] = enigma_rotors[k];
-                    memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
+                    enigmaTmp = enigma;
 
                     enigma_encode_string(&enigmaTmp,
                                          cfg->ciphertext,
@@ -250,12 +250,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
             for (int k = 0; k < ENIGMA_ALPHA_SIZE; k++) {
                 if (cfg->enigma.rotor_count == 4) {
                     for (int l = 0; l < ENIGMA_ALPHA_SIZE; l++) {
-                        memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+                        enigma = cfg->enigma;
                         enigma.rotor_indices[0] = i;
                         enigma.rotor_indices[1] = j;
                         enigma.rotor_indices[2] = k;
                         enigma.rotor_indices[3] = l;
-                        memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
+                        enigmaTmp = enigma;
 
                         enigma_encode_string(&enigmaTmp,
                                              cfg->ciphertext,
@@ -264,11 +264,11 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
                         enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
                     }
                 } else {
-                    memcpy(&enigma, &cfg->enigma, sizeof(enigma_t));
+                    enigma = cfg->enigma;
                     enigma.rotor_indices[0] = i;
                     enigma.rotor_indices[1] = j;
                     enigma.rotor_indices[2] = k;
-                    memcpy(&enigmaTmp, &enigma, sizeof(enigma_t));
+                    enigmaTmp = enigma;
 
                     enigma_encode_string(&enigmaTmp,
                                          cfg->ciphertext,
@@ -448,7 +448,7 @@ enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext
             = realloc(cfg->scores->scores, cfg->scores->max_scores * sizeof(enigma_score_t));
     }
 
-    memcpy(&cfg->scores->scores[cfg->scores->score_count].enigma, enigma, sizeof(enigma_t));
+    cfg->scores->scores[cfg->scores->score_count].enigma = *enigma;
     cfg->scores->scores[cfg->scores->score_count].score = score;
     cfg->scores->scores[cfg->scores->score_count].flags = enigma_score_flags(cfg, plaintext);
     cfg->scores->score_count++;
@@ -751,7 +751,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(enigma_crack_t* cfg, enigma_t* 
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    memcpy(&cfg->enigma, enigma, sizeof(enigma_t));
+    cfg->enigma = *enigma;
     return 0;
 }
 
