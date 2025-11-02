@@ -33,6 +33,11 @@ typedef struct {
     int         notches_count;
 } enigma_rotor_t;
 
+// clang-format off
+
+// Getting formatting errors on enigma_rotor_t definitions for some reason, even though everything's
+// properly formatted.
+
 /**
  * @brief Wehrmacht/Kriegsmarine rotor I
  *
@@ -160,6 +165,8 @@ static const enigma_rotor_t enigma_rotor_VIII = {
     .notches       = { 25, 12 },
     .notches_count = 2,
 };
+
+// clang-format on
 
 /**
  * @brief Array of all available Enigma rotors.
