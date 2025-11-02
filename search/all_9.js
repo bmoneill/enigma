@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['plaintext_0',['plaintext',['../structenigma__crack__config__t.html#a7dfb69964dc39e0cbfa019466c6d3b8e',1,'enigma_crack_config_t']]],
-  ['plugboard_1',['plugboard',['../structenigma__t.html#a6747f9c3bac7960c1519a38b96a31759',1,'enigma_t']]]
+  ['max_5fscore_0',['max_score',['../structenigma__crack__t.html#ad5ce61f736f9a2961945949de4531a54',1,'enigma_crack_t']]],
+  ['max_5fscores_1',['max_scores',['../structenigma__score__list__t.html#a8c70ea34b7fe7fb6237efa87bb20ce37',1,'enigma_score_list_t']]],
+  ['min_5fscore_2',['min_score',['../structenigma__crack__t.html#a8276c8d044b60c841968966b8e3ca193',1,'enigma_crack_t']]]
 ];

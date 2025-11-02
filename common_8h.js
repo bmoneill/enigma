@@ -7,5 +7,6 @@ var common_8h =
     [ "ENIGMA_LANG_ENGLISH", "common_8h.html#addcef18cf9d64e391e6497d552a2a434", null ],
     [ "ENIGMA_LANG_GERMAN", "common_8h.html#afc4649931c30b45970af727b3f64cd0d", null ],
     [ "ENIGMA_MAX_PLUGBOARD_SETTINGS", "common_8h.html#aeba7c68c98a0ac4102cab4d72f47ce32", null ],
-    [ "ENIGMA_MAX_ROTOR_COUNT", "common_8h.html#a0b0f4f73492c4f7934e2afdd6b2134d3", null ]
+    [ "ENIGMA_MAX_ROTOR_COUNT", "common_8h.html#a0b0f4f73492c4f7934e2afdd6b2134d3", null ],
+    [ "LIBENIGMA_VERSION", "common_8h.html#a0a44f23cce86406a5a40a0cfd3c06e62", null ]
 ];

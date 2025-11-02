@@ -11,6 +11,10 @@ var dir_afa9d67d7be824863403988bd03a861d =
     [ "ioc.h", "ioc_8h.html", "ioc_8h" ],
     [ "ngram.c", "ngram_8c.html", "ngram_8c" ],
     [ "ngram.h", "ngram_8h.html", "ngram_8h" ],
-    [ "reflectors.h", "reflectors_8h.html", "reflectors_8h" ],
-    [ "rotors.h", "rotors_8h.html", "rotors_8h" ]
+    [ "reflector.c", "reflector_8c.html", "reflector_8c" ],
+    [ "reflector.h", "reflector_8h.html", "reflector_8h" ],
+    [ "rotor.c", "rotor_8c.html", "rotor_8c" ],
+    [ "rotor.h", "rotor_8h.html", "rotor_8h" ],
+    [ "score.c", "score_8c.html", "score_8c" ],
+    [ "score.h", "score_8h.html", "score_8h" ]
 ];

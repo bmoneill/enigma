@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: src/enigma/reflectors.h Source File</title>
+<title>libenigma: src/enigma/reflector.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('reflectors_8h_source.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('reflector_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -90,16 +90,16 @@ $(document).ready(function(){initNavTree('reflectors_8h_source.html',''); initRe
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">reflectors.h</div></div>
+  <div class="headertitle"><div class="title">reflector.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="reflectors_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<a href="reflector_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef ENIGMA_REFLECTORS_H</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define ENIGMA_REFLECTORS_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="common_8h.html">common.h</a>&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="reflectors_8h.html#a076c516101d818406c4cf369d70095c8">   11</a></span><span class="preprocessor">#define ENIGMA_REFLECTOR_COUNT 3</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="reflector_8h.html#a076c516101d818406c4cf369d70095c8">   11</a></span><span class="preprocessor">#define ENIGMA_REFLECTOR_COUNT 3</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html">   22</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">   23</a></span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_variable" href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">name</a>;</div>
@@ -130,17 +130,30 @@ $(document).ready(function(){initNavTree('reflectors_8h_source.html',''); initRe
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    &amp;enigma_UKW_C,</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>};</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keywordtype">int</span> <a class="code hl_function" href="reflector_8h.html#a50202bc66091342d81973e7de692f93b">enigma_reflector_generate_indices</a>(<a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">/* enigma_reflector_t getters and setters */</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="reflector_8h.html#a6520abadf48c2c5f8f8fcad634d69744">enigma_reflector_get_name</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>* reflector);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">const</span> <span class="keywordtype">int</span>*  <a class="code hl_function" href="reflector_8h.html#a74486ef75c97e4183ab21b2d9e04587d">enigma_reflector_get_indices</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>* reflector);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">int</span>         <a class="code hl_function" href="reflector_8h.html#a34b09b143060e83c43be5addc9b94f49">enigma_reflector_set_name</a>(<a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>* reflector, <span class="keyword">const</span> <span class="keywordtype">char</span>* name);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">int</span>         <a class="code hl_function" href="reflector_8h.html#a59b75cca300012fb848dc777935d01b3">enigma_reflector_set_indices</a>(<a class="code hl_struct" href="structenigma__reflector__t.html">enigma_reflector_t</a>* reflector, <span class="keyword">const</span> <span class="keywordtype">int</span>* indices);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="acommon_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div></div>
 <div class="ttc" id="acommon_8h_html_a05dc1c61b68de7e05eed780cf93dc744"><div class="ttname"><a href="common_8h.html#a05dc1c61b68de7e05eed780cf93dc744">ENIGMA_ALPHA_SIZE</a></div><div class="ttdeci">#define ENIGMA_ALPHA_SIZE</div><div class="ttdef"><b>Definition:</b> common.h:9</div></div>
-<div class="ttc" id="astructenigma__reflector__t_html"><div class="ttname"><a href="structenigma__reflector__t.html">enigma_reflector_t</a></div><div class="ttdoc">Represents a reflector configuration for the Enigma machine.</div><div class="ttdef"><b>Definition:</b> reflectors.h:22</div></div>
-<div class="ttc" id="astructenigma__reflector__t_html_a8f8f80d37794cde9472343e4487ba3eb"><div class="ttname"><a href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">enigma_reflector_t::name</a></div><div class="ttdeci">const char * name</div><div class="ttdef"><b>Definition:</b> reflectors.h:23</div></div>
+<div class="ttc" id="areflector_8h_html_a34b09b143060e83c43be5addc9b94f49"><div class="ttname"><a href="reflector_8h.html#a34b09b143060e83c43be5addc9b94f49">enigma_reflector_set_name</a></div><div class="ttdeci">int enigma_reflector_set_name(enigma_reflector_t *reflector, const char *name)</div><div class="ttdoc">Set the name of the reflector.</div><div class="ttdef"><b>Definition:</b> reflector.c:66</div></div>
+<div class="ttc" id="areflector_8h_html_a50202bc66091342d81973e7de692f93b"><div class="ttname"><a href="reflector_8h.html#a50202bc66091342d81973e7de692f93b">enigma_reflector_generate_indices</a></div><div class="ttdeci">int enigma_reflector_generate_indices(enigma_reflector_t *, const char *)</div><div class="ttdoc">Generate the indices for the reflector.</div><div class="ttdef"><b>Definition:</b> reflector.c:17</div></div>
+<div class="ttc" id="areflector_8h_html_a59b75cca300012fb848dc777935d01b3"><div class="ttname"><a href="reflector_8h.html#a59b75cca300012fb848dc777935d01b3">enigma_reflector_set_indices</a></div><div class="ttdeci">int enigma_reflector_set_indices(enigma_reflector_t *reflector, const int *indices)</div><div class="ttdoc">Set the indices of the reflector.</div><div class="ttdef"><b>Definition:</b> reflector.c:82</div></div>
+<div class="ttc" id="areflector_8h_html_a6520abadf48c2c5f8f8fcad634d69744"><div class="ttname"><a href="reflector_8h.html#a6520abadf48c2c5f8f8fcad634d69744">enigma_reflector_get_name</a></div><div class="ttdeci">const char * enigma_reflector_get_name(const enigma_reflector_t *reflector)</div><div class="ttdoc">Get the name of the reflector.</div><div class="ttdef"><b>Definition:</b> reflector.c:34</div></div>
+<div class="ttc" id="areflector_8h_html_a74486ef75c97e4183ab21b2d9e04587d"><div class="ttname"><a href="reflector_8h.html#a74486ef75c97e4183ab21b2d9e04587d">enigma_reflector_get_indices</a></div><div class="ttdeci">const int * enigma_reflector_get_indices(const enigma_reflector_t *reflector)</div><div class="ttdoc">Get the indices of the reflector.</div><div class="ttdef"><b>Definition:</b> reflector.c:48</div></div>
+<div class="ttc" id="astructenigma__reflector__t_html"><div class="ttname"><a href="structenigma__reflector__t.html">enigma_reflector_t</a></div><div class="ttdoc">Represents a reflector configuration for the Enigma machine.</div><div class="ttdef"><b>Definition:</b> reflector.h:22</div></div>
+<div class="ttc" id="astructenigma__reflector__t_html_a8f8f80d37794cde9472343e4487ba3eb"><div class="ttname"><a href="structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb">enigma_reflector_t::name</a></div><div class="ttdeci">const char * name</div><div class="ttdef"><b>Definition:</b> reflector.h:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_afa9d67d7be824863403988bd03a861d.html">enigma</a></li><li class="navelem"><a class="el" href="reflectors_8h.html">reflectors.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_afa9d67d7be824863403988bd03a861d.html">enigma</a></li><li class="navelem"><a class="el" href="reflector_8h.html">reflector.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

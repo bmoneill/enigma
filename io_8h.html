@@ -91,6 +91,7 @@ $(document).ready(function(){initNavTree('io_8h.html',''); initResizable(); });
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">io.h File Reference</div></div>
 </div><!--header-->
@@ -100,8 +101,16 @@ $(document).ready(function(){initNavTree('io_8h.html',''); initResizable(); });
 </div>
 <p><a href="io_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:afe71d45f8b6af26d7d768090023d3f73"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#afe71d45f8b6af26d7d768090023d3f73">ENIGMA_ERROR</a>(fmt, ...)&#160;&#160;&#160;<a class="el" href="io_8c.html#a03adc5495fbea025fe7f648e816bc8f5">enigma_error_message</a>(__func__, fmt, __VA_ARGS__)</td></tr>
+<tr class="separator:afe71d45f8b6af26d7d768090023d3f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a00ad21cde50a8e72401a9be828ec2f98"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a00ad21cde50a8e72401a9be828ec2f98">enigma_error_message</a> (const char *, const char *,...)</td></tr>
+<tr class="memdesc:a00ad21cde50a8e72401a9be828ec2f98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print an error message to stderr.  <br /></td></tr>
+<tr class="separator:a00ad21cde50a8e72401a9be828ec2f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060fb9c5169be80429a9dd67444fc6cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a060fb9c5169be80429a9dd67444fc6cb">enigma_load_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
 <tr class="memdesc:a060fb9c5169be80429a9dd67444fc6cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load an Enigma machine configuration from a string.  <br /></td></tr>
 <tr class="separator:a060fb9c5169be80429a9dd67444fc6cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,9 +120,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a7bc18aedb203054dec7b74f2ecdb64fe"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a7bc18aedb203054dec7b74f2ecdb64fe">enigma_load_custom_rotor</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, const char *, const char *, int *, int)</td></tr>
 <tr class="memdesc:a7bc18aedb203054dec7b74f2ecdb64fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom rotor alphabet from the given alphabet, name, and notches.  <br /></td></tr>
 <tr class="separator:a7bc18aedb203054dec7b74f2ecdb64fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10d3a6e951c2ef1498a756f338b0ef6f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a10d3a6e951c2ef1498a756f338b0ef6f">enigma_load_ngrams</a> (<a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *, const char *)</td></tr>
-<tr class="memdesc:a10d3a6e951c2ef1498a756f338b0ef6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
-<tr class="separator:a10d3a6e951c2ef1498a756f338b0ef6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04d4cf3a75fa37d522f989ff1467ca05"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a04d4cf3a75fa37d522f989ff1467ca05">enigma_load_ngrams</a> (<a class="el" href="structenigma__crack__t.html">enigma_crack_t</a> *, const char *)</td></tr>
+<tr class="memdesc:a04d4cf3a75fa37d522f989ff1467ca05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
+<tr class="separator:a04d4cf3a75fa37d522f989ff1467ca05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9eb42ac82b5d6299c26391163b0303ad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a9eb42ac82b5d6299c26391163b0303ad">enigma_load_plugboard_config</a> (<a class="el" href="structenigma__t.html">enigma_t</a> *, const char *)</td></tr>
 <tr class="memdesc:a9eb42ac82b5d6299c26391163b0303ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load plugboard configuration from a string.  <br /></td></tr>
 <tr class="separator:a9eb42ac82b5d6299c26391163b0303ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,7 +141,80 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file declares input/output functions. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="afe71d45f8b6af26d7d768090023d3f73" name="afe71d45f8b6af26d7d768090023d3f73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe71d45f8b6af26d7d768090023d3f73">&#9670;&#160;</a></span>ENIGMA_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">fmt, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="io_8c.html#a03adc5495fbea025fe7f648e816bc8f5">enigma_error_message</a>(__func__, fmt, __VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a00ad21cde50a8e72401a9be828ec2f98" name="a00ad21cde50a8e72401a9be828ec2f98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00ad21cde50a8e72401a9be828ec2f98">&#9670;&#160;</a></span>enigma_error_message()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_error_message </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>func</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print an error message to stderr. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">format</td><td>Format string. </td></tr>
+    <tr><td class="paramname">...</td><td>Arguments for the format string. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>-1. </dd></dl>
+
+</div>
+</div>
 <a id="a060fb9c5169be80429a9dd67444fc6cb" name="a060fb9c5169be80429a9dd67444fc6cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a060fb9c5169be80429a9dd67444fc6cb">&#9670;&#160;</a></span>enigma_load_config()</h2>
 
@@ -168,7 +250,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -213,7 +295,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -272,12 +354,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>
-<a id="a10d3a6e951c2ef1498a756f338b0ef6f" name="a10d3a6e951c2ef1498a756f338b0ef6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10d3a6e951c2ef1498a756f338b0ef6f">&#9670;&#160;</a></span>enigma_load_ngrams()</h2>
+<a id="a04d4cf3a75fa37d522f989ff1467ca05" name="a04d4cf3a75fa37d522f989ff1467ca05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04d4cf3a75fa37d522f989ff1467ca05">&#9670;&#160;</a></span>enigma_load_ngrams()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +367,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_load_ngrams </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__crack__config__t.html">enigma_crack_config_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structenigma__crack__t.html">enigma_crack_t</a> *&#160;</td>
           <td class="paramname"><em>cfg</em>, </td>
         </tr>
         <tr>
@@ -311,7 +393,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -350,7 +432,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -388,7 +470,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -426,7 +508,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>
@@ -465,7 +547,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
 
 </div>
 </div>

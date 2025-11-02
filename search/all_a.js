@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['reflector_0',['reflector',['../structenigma__t.html#ad3f71a653e122b82ca22fcd369418b57',1,'enigma_t']]],
-  ['reflectors_2eh_1',['reflectors.h',['../reflectors_8h.html',1,'']]],
-  ['rev_5findices_2',['rev_indices',['../structenigma__rotor__t.html#a8d5c88ad1cc84d45dafd16d49209fd02',1,'enigma_rotor_t']]],
-  ['rotor_5fcount_3',['rotor_count',['../structenigma__t.html#a5ac2464ce9f5e486ba5709b104ac48c3',1,'enigma_t']]],
-  ['rotor_5fflag_4',['rotor_flag',['../structenigma__t.html#a4d023dc9c5dfe3d96c2dda16cbcf64f9',1,'enigma_t']]],
-  ['rotor_5findices_5',['rotor_indices',['../structenigma__t.html#a8f5d6d2b572b686d33f5b5c8596ff6af',1,'enigma_t']]],
-  ['rotors_6',['rotors',['../structenigma__t.html#a22b99099fc96ba6512166cacbdb20cb4',1,'enigma_t']]],
-  ['rotors_2eh_7',['rotors.h',['../rotors_8h.html',1,'']]]
+  ['n_0',['n',['../structenigma__crack__t.html#a76f11d9a0a47b94f72c2d0e77fb32240',1,'enigma_crack_t']]],
+  ['name_1',['name',['../structenigma__reflector__t.html#a8f8f80d37794cde9472343e4487ba3eb',1,'enigma_reflector_t::name()'],['../structenigma__rotor__t.html#a8f8f80d37794cde9472343e4487ba3eb',1,'enigma_rotor_t::name()']]],
+  ['ngram_2ec_2',['ngram.c',['../ngram_8c.html',1,'']]],
+  ['ngram_2eh_3',['ngram.h',['../ngram_8h.html',1,'']]],
+  ['ngrams_4',['ngrams',['../structenigma__crack__t.html#a3a75aa32bcc305b7b1968ea884730a38',1,'enigma_crack_t']]],
+  ['ngrams_5flength_5',['ngrams_length',['../structenigma__crack__t.html#af8d1ba0c46bc97c981469ad52201948c',1,'enigma_crack_t']]],
+  ['notches_6',['notches',['../structenigma__rotor__t.html#a550a1fc91f9880c8311c35507596ed76',1,'enigma_rotor_t']]],
+  ['notches_5fcount_7',['notches_count',['../structenigma__rotor__t.html#a91f2c7161273ec66e4ceccc3efa9ff86',1,'enigma_rotor_t']]]
 ];
