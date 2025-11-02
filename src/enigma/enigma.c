@@ -8,6 +8,7 @@
 #include "enigma.h"
 
 #include "common.h"
+#include "enigma/rotor.h"
 #include "io.h"
 
 #include <ctype.h>
@@ -231,7 +232,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) { return LIBENIGMA_VERSION
  */
 EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const enigma_t* enigma) {
     if (!enigma) {
-        ENIGMA_ERROR("%s", "Invalid Enigma machine provided.");
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return enigma->plugboard;
@@ -247,7 +248,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const enigma_t* enigma) {
  */
 EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(const enigma_t* enigma) {
     if (!enigma) {
-        return NULL;
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     return enigma->reflector;
 }
@@ -264,6 +265,7 @@ EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(const enigma
 EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(const enigma_t* enigma,
                                                             int             rotorIndex) {
     if (!enigma) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
     return enigma->rotors[rotorIndex];
@@ -279,7 +281,7 @@ EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(const enigma_t* enig
  */
 EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(const enigma_t* enigma) {
     if (!enigma) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     return enigma->rotor_count;
 }
@@ -294,7 +296,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(const enigma_t* enigma) {
  */
 EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_flag(const enigma_t* enigma) {
     if (!enigma) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     return enigma->rotor_flag;
 }
@@ -310,7 +312,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_flag(const enigma_t* enigma) {
  */
 EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(const enigma_t* enigma, int rotor) {
     if (!enigma) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     return enigma->rotor_indices[rotor];
 }
@@ -329,7 +331,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(const enigma_t* enigma, int roto
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
     if (!enigma || !s || strlen(s) % 2 != 0 || strlen(s) > 26) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     int i = 0;
     while (s[i] != '\0') {
@@ -356,7 +358,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_reflector(enigma_t* enigma, int reflector) {
     if (!enigma || reflector < 0 || reflector >= ENIGMA_REFLECTOR_COUNT) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     enigma->reflector = enigma_reflectors[reflector];
     return 0;
@@ -375,7 +377,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_reflector(enigma_t* enigma, int reflector) {
 EMSCRIPTEN_KEEPALIVE int enigma_set_rotor(enigma_t* enigma, int rotor, int index) {
     if (!enigma || rotor < 0 || rotor >= ENIGMA_ROTOR_COUNT || index < 0
         || index >= ENIGMA_MAX_ROTOR_COUNT) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     enigma->rotors[index] = enigma_rotors[rotor];
     return 0;
@@ -392,12 +394,28 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_rotor(enigma_t* enigma, int rotor, int index
  */
 EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_count(enigma_t* enigma, int count) {
     if (!enigma || count < 0 || count > ENIGMA_MAX_ROTOR_COUNT) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     enigma->rotor_count = count;
     return 0;
 }
 
+/**
+ * @brief Set the rotor flag status.
+ *
+ * This function sets the rotor flag status in the Enigma machine.
+ *
+ * @param enigma Pointer to the Enigma machine.
+ * @param flag Value to set the rotor flag to.
+ * @return 0 on success, -1 on failure
+ */
+int enigma_set_rotor_flag(enigma_t* enigma, int flag) {
+    if (!enigma || flag < 0 || flag > 1) {
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
+    }
+    enigma->rotor_flag = flag;
+    return 0;
+}
 /**
  * @brief Set the index of a rotor.
  *
@@ -411,7 +429,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_count(enigma_t* enigma, int count) {
 EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_index(enigma_t* enigma, int rotor, int index) {
     if (!enigma || rotor < 0 || rotor >= enigma->rotor_count || index < 0
         || index >= ENIGMA_ALPHA_SIZE) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     enigma->rotor_indices[rotor] = index;
     return 0;
