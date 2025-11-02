@@ -36,6 +36,8 @@ void test_score_compare(void) {
     TEST_ASSERT_EQUAL_INT(0, score_compare(&score1, &score1));
 }
 
+// --- enigma_score_t getter/setter tests ---
+
 void test_enigma_score_get_enigma(void) {
     enigma_score_t score;
     enigma_t* result = enigma_score_get_enigma(&score);
@@ -101,6 +103,8 @@ void test_enigma_score_set_flags(void) {
 void test_enigma_score_set_flags_WithInvalidArguments(void) {
     TEST_ASSERT_EQUAL_INT(-1, enigma_score_set_flags(NULL, 5));
 }
+
+// --- enigma_score_list_t getter/setter tests ---
 
 void test_enigma_score_list_get_scores(void) {
     enigma_score_list_t list;

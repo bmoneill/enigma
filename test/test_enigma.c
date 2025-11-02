@@ -162,6 +162,8 @@ void test_substitute(void) {
 
 void test_enigma_version(void) { TEST_ASSERT_EQUAL_STRING(LIBENIGMA_VERSION, enigma_version()); }
 
+// --- enigma_t getter/setter tests ---
+
 void test_enigma_get_plugboard(void) {
     enigma_t    enigma;
     const char* plugboard = "ABCD";

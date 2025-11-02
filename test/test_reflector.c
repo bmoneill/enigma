@@ -29,6 +29,8 @@ void test_enigma_reflector_generate_indices_WithInvalidArguments(void) {
     TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_generate_indices(&reflector, "SHORT"));
 }
 
+// --- enigma_reflector_t getter/setter tests ---
+
 void test_enigma_reflector_get_name(void) {
     enigma_reflector_t reflector;
     reflector.name   = "TestReflector";

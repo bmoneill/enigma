@@ -22,6 +22,8 @@ void test_enigma_rotor_generate_indices_WithInvalidArguments(void) {
     TEST_ASSERT_EQUAL_INT(-1, enigma_rotor_generate_indices(&rotor, "SHORT"));
 }
 
+// --- enigma_rotor_t getter/setter tests ---
+
 void test_enigma_rotor_get_name(void) {
     enigma_rotor_t rotor;
     rotor.name = "RotorX";
