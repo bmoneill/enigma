@@ -8,25 +8,28 @@
 #include <stdlib.h>
 #include <string.h>
 
+const char* success = "Expected success";
+const char* failure = "Expected failure";
+
 void setUp(void) {}
 void tearDown(void) {}
 
-void test_enigma_reflector_generate_indices(void) {
+void test_enigma_reflector_generate_indices_WithValidArguments(void) {
     enigma_reflector_t reflector;
     const char*        alphabet = "EJMZALYXVBWFCRQUONTSPIKHGD";
     int                ret      = enigma_reflector_generate_indices(&reflector, alphabet);
-    TEST_ASSERT_EQUAL_INT(0, ret);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
     for (int i = 0; i < 26; i++) {
-        TEST_ASSERT_EQUAL_INT(alphabet[i] - 'A', reflector.indices[i]);
+        TEST_ASSERT_EQUAL_INT_MESSAGE(alphabet[i] - 'A', reflector.indices[i], "Expected index to match alphabet");
     }
 }
 
 void test_enigma_reflector_generate_indices_WithInvalidArguments(void) {
     enigma_reflector_t reflector;
     const char*        alphabet = "EJMZALYXVBWFCRQUONTSPIKHGD";
-    TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_generate_indices(NULL, alphabet));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_generate_indices(&reflector, NULL));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_generate_indices(&reflector, "SHORT"));
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_reflector_generate_indices(NULL, alphabet), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_reflector_generate_indices(&reflector, NULL), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_reflector_generate_indices(&reflector, "SHORT"), failure);
 }
 
 // --- enigma_reflector_t getter/setter tests ---

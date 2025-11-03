@@ -44,7 +44,9 @@ void test_enigma_bigram_score(void) {
     loadNgrams(2);
 
     float score = enigma_bigram_score(&cfg, plaintext);
-    TEST_ASSERT_GREATER_THAN_FLOAT(0.0f, score);
+    TEST_ASSERT_GREATER_THAN_FLOAT_MESSAGE(0.0f,
+                                           score,
+                                           "Expected bigram score to be greater than 0");
 
     free(cfg.ngrams);
 }
@@ -57,7 +59,9 @@ void test_enigma_trigram_score(void) {
     loadNgrams(3);
 
     float score = enigma_trigram_score(&cfg, plaintext);
-    TEST_ASSERT_GREATER_THAN_FLOAT(0.0f, score);
+    TEST_ASSERT_GREATER_THAN_FLOAT_MESSAGE(0.0f,
+                                           score,
+                                           "Expected trigram score to be greater than 0");
 
     free(cfg.ngrams);
 }
@@ -70,7 +74,9 @@ void test_enigma_quadgram_score(void) {
     loadNgrams(4);
 
     float score = enigma_quadgram_score(&cfg, plaintext);
-    TEST_ASSERT_GREATER_THAN_FLOAT(0.0f, score);
+    TEST_ASSERT_GREATER_THAN_FLOAT_MESSAGE(0.0f,
+                                           score,
+                                           "Expected quadgram score to be greater than 0");
 
     free(cfg.ngrams);
 }

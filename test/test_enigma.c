@@ -2,18 +2,27 @@
 #include "enigma/enigma.h"
 #include "unity.h"
 
-// TODO enigma_t getter/setter tests
+enigma_t    enigma;
+const char* success = "Expected success";
+const char* failure = "Expected failure";
+
+void        setUp(void) {
+    memset(&enigma, 0, sizeof(enigma));
+    enigma_init_random_config(&enigma);
+}
 
 void test_enigma_encode(void) {
-    enigma_t enigma;
-    enigma_init_random_config(&enigma);
-
     int  idx     = enigma.rotor_indices[0];
 
     char encoded = enigma_encode(&enigma, 'A');
-    TEST_ASSERT_TRUE(encoded >= 'A' && encoded <= 'Z');
-    TEST_ASSERT_NOT_EQUAL('A', encoded);
-    TEST_ASSERT_EQUAL_INT(idx + 1 >= ENIGMA_ALPHA_SIZE ? 0 : idx + 1, enigma.rotor_indices[0]);
+    TEST_ASSERT_TRUE_MESSAGE(encoded >= 'A' && encoded <= 'Z',
+                             "Expected encoded character to be an uppercase letter");
+    TEST_ASSERT_NOT_EQUAL_MESSAGE('A',
+                                  encoded,
+                                  "Expected encoded character to not match the input character");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(idx + 1 >= ENIGMA_ALPHA_SIZE ? 0 : idx + 1,
+                                  enigma.rotor_indices[0],
+                                  "Expected rotor index to be incremented");
 }
 
 void test_enigma_encode_string(void) {
@@ -24,13 +33,27 @@ void test_enigma_encode_string(void) {
     enigma_init_default_config(&enigma);
     int ret = enigma_encode_string(&enigma, input, output, strlen(input));
 
-    TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_STRING("ILBDA", output);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
+    TEST_ASSERT_EQUAL_STRING_MESSAGE("ILBDA", output, "Expected encoded string to match");
 }
 
 void test_enigma_encode_string_WithInvalidArguments(void) {
-    int ret = enigma_encode_string(NULL, NULL, NULL, 1);
-    TEST_ASSERT_EQUAL_INT(-1, ret);
+    char s[2];
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_encode_string(NULL, NULL, NULL, 1),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_encode_string(NULL, NULL, s, 1), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_encode_string(NULL, s, NULL, 1), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_encode_string(NULL, s, s, 1), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_encode_string(&enigma, NULL, NULL, 1),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_encode_string(&enigma, NULL, s, 1),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_encode_string(&enigma, s, NULL, 1),
+                                  failure);
 }
 
 void test_enigma_init_rotors(void) {
@@ -39,61 +62,88 @@ void test_enigma_init_rotors(void) {
 
     int                  ret            = enigma_init_rotors(&enigma, rotor_array, 3);
 
-    TEST_ASSERT_EQUAL_INT(0, ret);
-    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[0]->name);
-    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1]->name);
-    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[2]->name);
-    TEST_ASSERT_EQUAL_INT(3, enigma.rotor_count);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
+    TEST_ASSERT_EQUAL_STRING_MESSAGE("III",
+                                     enigma.rotors[0]->name,
+                                     "Expected rotors to be set properly");
+    TEST_ASSERT_EQUAL_STRING_MESSAGE("II",
+                                     enigma.rotors[1]->name,
+                                     "Expected rotors to be set properly");
+    TEST_ASSERT_EQUAL_STRING_MESSAGE("I",
+                                     enigma.rotors[2]->name,
+                                     "Expected rotors to be set properly");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(3, enigma.rotor_count, "Expected rotor count to be set properly");
 }
 
 void test_enigma_init_rotors_WithInvalidArguments(void) {
-    int ret = enigma_init_rotors(NULL, NULL, 0);
-    TEST_ASSERT_EQUAL_INT(-1, ret);
+    const enigma_rotor_t rotor_array[3] = { enigma_rotor_III, enigma_rotor_II, enigma_rotor_I };
+
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_init_rotors(NULL, NULL, 2), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_init_rotors(NULL, rotor_array, 2),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_init_rotors(&enigma, NULL, 2), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_init_rotors(&enigma, rotor_array, 0),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_init_rotors(&enigma, rotor_array, 5),
+                                  failure);
 }
 
 void test_enigma_init_default_config(void) {
     enigma_t enigma;
     enigma_init_default_config(&enigma);
 
-    TEST_ASSERT_EQUAL_INT(3, enigma.rotor_count);
-    TEST_ASSERT_EQUAL_STRING("III", enigma.rotors[0]->name);
-    TEST_ASSERT_EQUAL_STRING("II", enigma.rotors[1]->name);
-    TEST_ASSERT_EQUAL_STRING("I", enigma.rotors[2]->name);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(3, enigma.rotor_count, "Expected rotor count to be set properly");
+    TEST_ASSERT_EQUAL_STRING_MESSAGE("III",
+                                     enigma.rotors[0]->name,
+                                     "Expected rotor to be set properly");
+    TEST_ASSERT_EQUAL_STRING_MESSAGE("II",
+                                     enigma.rotors[1]->name,
+                                     "Expected rotor to be set properly");
+    TEST_ASSERT_EQUAL_STRING_MESSAGE("I",
+                                     enigma.rotors[2]->name,
+                                     "Expected rotor to be set properly");
 }
 
 void test_enigma_init_default_config_WithInvalidArguments(void) {
     int ret = enigma_init_default_config(NULL);
-    TEST_ASSERT_EQUAL_INT(-1, ret);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, ret, failure);
+    ;
 }
 
 void test_enigma_init_random_config(void) {
     enigma_t enigma;
     enigma_init_random_config(&enigma);
 
-    TEST_ASSERT_TRUE(enigma.rotor_count == 3 || enigma.rotor_count == 4);
+    TEST_ASSERT_TRUE_MESSAGE(enigma.rotor_count == 3 || enigma.rotor_count == 4,
+                             "Expected rotor count to be set to a valid numbre");
     for (int i = 0; i < enigma.rotor_count; i++) {
-        TEST_ASSERT_TRUE(enigma.rotor_indices[i] >= 0
-                         && enigma.rotor_indices[i] < ENIGMA_ALPHA_SIZE);
+        TEST_ASSERT_TRUE_MESSAGE(enigma.rotor_indices[i] >= 0
+                                     && enigma.rotor_indices[i] < ENIGMA_ALPHA_SIZE,
+                                 "Expected rotor index to be set to a valid number");
     }
     for (size_t i = 0; i < strlen(enigma.plugboard); i++) {
-        TEST_ASSERT_TRUE(enigma.plugboard[i] >= 'A' && enigma.plugboard[i] <= 'Z');
+        TEST_ASSERT_TRUE_MESSAGE(enigma.plugboard[i] >= 'A' && enigma.plugboard[i] <= 'Z',
+                                 "Expected plugboard characters to be valid letter");
     }
-    TEST_ASSERT_NOT_NULL(enigma.reflector->name);
+    TEST_ASSERT_NOT_NULL_MESSAGE(enigma.reflector->name, "Expected reflector to be set");
 }
 
 void test_enigma_init_random_config_WithInvalidArguments(void) {
     int ret = enigma_init_random_config(NULL);
-    TEST_ASSERT_EQUAL_INT(-1, ret);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, ret, failure);
 }
 
 void test_rotate(void) {
     int idx = 0;
     rotate(&idx);
-    TEST_ASSERT_EQUAL_INT(1, idx);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(1, idx, "Expected index to be incremented");
 
     idx = ENIGMA_ALPHA_SIZE - 1;
     rotate(&idx);
-    TEST_ASSERT_EQUAL_INT(0, idx);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0, idx, "Expected index to wrap back to zero");
 }
 
 void test_rotate_rotors(void) {
@@ -111,8 +161,10 @@ void test_rotate_rotors(void) {
     enigma.rotor_indices[0] = 0;
     rotate_rotors(&enigma);
 
-    TEST_ASSERT_EQUAL_INT(1, enigma.rotor_indices[0]); // First rotor rotated
-    TEST_ASSERT_EQUAL_INT(0, enigma.rotor_indices[1]); // Second rotor not rotated
+    TEST_ASSERT_EQUAL_INT_MESSAGE(1, enigma.rotor_indices[0], "Expected first rotor to rotate");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0,
+                                  enigma.rotor_indices[1],
+                                  "Expected second rotor not to rotate when not on a notch");
 
     enigma.rotor_indices[0] = 9;
     enigma.rotor_indices[1] = 17;
@@ -121,8 +173,10 @@ void test_rotate_rotors(void) {
     rotor2.notches_count    = 1;
     rotate_rotors(&enigma);
 
-    TEST_ASSERT_EQUAL_INT(10, enigma.rotor_indices[0]); // First rotor rotated
-    TEST_ASSERT_EQUAL_INT(18, enigma.rotor_indices[1]); // Second rotor rotated
+    TEST_ASSERT_EQUAL_INT_MESSAGE(10, enigma.rotor_indices[0], "Expected first rotor to rotate");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(18,
+                                  enigma.rotor_indices[1],
+                                  "Expected second rotor to rotate when on a notch");
 }
 
 void test_rotor_pass_forward(void) {
@@ -132,8 +186,12 @@ void test_rotor_pass_forward(void) {
                          22, 24, 7,  23, 20, 18, 15, 0,  8,  1,  17, 2,  9 },
     };
 
-    TEST_ASSERT_EQUAL_INT(4, rotor_pass_forward(&rotor, idx, 0)); // A -> E
-    TEST_ASSERT_EQUAL_INT(10, rotor_pass_forward(&rotor, idx, 1)); // B -> K
+    TEST_ASSERT_EQUAL_INT_MESSAGE(4,
+                                  rotor_pass_forward(&rotor, idx, 0),
+                                  "Expected rotor to pass forward properly"); // A -> E
+    TEST_ASSERT_EQUAL_INT_MESSAGE(10,
+                                  rotor_pass_forward(&rotor, idx, 1),
+                                  "Expected rotor to pass forward properly"); // B -> K
 }
 
 void test_rotor_pass_reverse(void) {
@@ -143,21 +201,35 @@ void test_rotor_pass_reverse(void) {
                          10, 12, 19, 7, 23, 18, 11, 17, 8,  16, 14, 13, 9 },
     };
 
-    TEST_ASSERT_EQUAL_INT(0, rotor_pass_reverse(&rotor, idx, 4)); // E -> A
-    TEST_ASSERT_EQUAL_INT(1, rotor_pass_reverse(&rotor, idx, 10)); // K -> B
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0,
+                                  rotor_pass_reverse(&rotor, idx, 4),
+                                  "Expected rotor to pass properly in reverse"); // E -> A
+    TEST_ASSERT_EQUAL_INT_MESSAGE(1,
+                                  rotor_pass_reverse(&rotor, idx, 10),
+                                  "Expected rotor to pass properly in reverse"); // K -> B
 }
 
 void test_substitute(void) {
     enigma_t enigma;
     strcpy(enigma.plugboard, "ABCD");
 
-    TEST_ASSERT_EQUAL_CHAR('B', substitute(enigma.plugboard, 'A'));
-    TEST_ASSERT_EQUAL_CHAR('A', substitute(enigma.plugboard, 'B'));
+    TEST_ASSERT_EQUAL_CHAR_MESSAGE('B',
+                                   substitute(enigma.plugboard, 'A'),
+                                   "Expected substitution to work properly");
+    TEST_ASSERT_EQUAL_CHAR_MESSAGE('A',
+                                   substitute(enigma.plugboard, 'B'),
+                                   "Expected substitution to work properly");
 
-    TEST_ASSERT_EQUAL_CHAR('D', substitute(enigma.plugboard, 'C'));
-    TEST_ASSERT_EQUAL_CHAR('C', substitute(enigma.plugboard, 'D'));
+    TEST_ASSERT_EQUAL_CHAR_MESSAGE('D',
+                                   substitute(enigma.plugboard, 'C'),
+                                   "Expected substitution to work properly");
+    TEST_ASSERT_EQUAL_CHAR_MESSAGE('C',
+                                   substitute(enigma.plugboard, 'D'),
+                                   "Expected substitution to work properly");
 
-    TEST_ASSERT_EQUAL_CHAR('E', substitute(enigma.plugboard, 'E'));
+    TEST_ASSERT_EQUAL_CHAR_MESSAGE('E',
+                                   substitute(enigma.plugboard, 'E'),
+                                   "Expected substitution to work properly");
 }
 
 void test_enigma_version(void) { TEST_ASSERT_EQUAL_STRING(LIBENIGMA_VERSION, enigma_version()); }
