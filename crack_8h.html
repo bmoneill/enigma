@@ -153,7 +153,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a700155fa8be942fdbfe919b962448edb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dictionary field in the given <a class="el" href="structenigma__crack__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_t</a>.  <br /></td></tr>
 <tr class="separator:a700155fa8be942fdbfe919b962448edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab491b0209bd8ec30712eadde7adc026d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#ab491b0209bd8ec30712eadde7adc026d">enigma_crack_get_dictionary_length</a> (const <a class="el" href="structenigma__crack__t.html">enigma_crack_t</a> *)</td></tr>
-<tr class="memdesc:ab491b0209bd8ec30712eadde7adc026d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dictionary length field in the given <a class="el" href="structenigma__crack__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_t</a>.  <br /></td></tr>
+<tr class="memdesc:ab491b0209bd8ec30712eadde7adc026d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <code>dictionary_length</code> field in the given <a class="el" href="structenigma__crack__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_t</a>.  <br /></td></tr>
 <tr class="separator:ab491b0209bd8ec30712eadde7adc026d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e268657746199898f6e2d67eb785ca9"><td class="memItemLeft" align="right" valign="top">const float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a7e268657746199898f6e2d67eb785ca9">enigma_crack_get_ngrams</a> (const <a class="el" href="structenigma__crack__t.html">enigma_crack_t</a> *)</td></tr>
 <tr class="memdesc:a7e268657746199898f6e2d67eb785ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the ngrams field in the given <a class="el" href="structenigma__crack__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_t</a>.  <br /></td></tr>
@@ -281,7 +281,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The ciphertext_length field, or -1 if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The ciphertext_length field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -308,7 +308,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The dictionary field, or NULL if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The dictionary field, or NULL if cfg is NULL. </dd></dl>
 
 </div>
 </div>
@@ -328,14 +328,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get the dictionary length field in the given <a class="el" href="structenigma__crack__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_t</a>. </p>
+<p>Get the <code>dictionary_length</code> field in the given <a class="el" href="structenigma__crack__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_t</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>The <a class="el" href="structenigma__crack__t.html" title="A structure representing a configuration for cracking an Enigma cipher.">enigma_crack_t</a> instance </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The dictionary length field, or -1 if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The <code>dictionary_length</code> field, or <code>ENIGMA_FAILURE</code> if <code>cfg</code> is NULL. </dd></dl>
 
 </div>
 </div>
@@ -362,7 +362,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The enigma field, or NULL if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The enigma field, or NULL if cfg is NULL. </dd></dl>
 
 </div>
 </div>
@@ -389,7 +389,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The flags field, or -1 if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The flags field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -470,7 +470,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The known_plaintext_length field, or -1 if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The known_plaintext_length field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -497,7 +497,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The max_score field, or -1.0f if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The max_score field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -524,7 +524,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The min_score field, or -1.0f if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The min_score field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -551,7 +551,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The n field, or -1 if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The n field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -578,7 +578,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The ngrams field, or NULL if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The <code>ngrams</code> field, or NULL if cfg is NULL. </dd></dl>
 
 </div>
 </div>
@@ -605,7 +605,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The ngrams_length field, or -1 if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The ngrams_length field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -632,7 +632,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The scores field, or NULL if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The scores field, or NULL if cfg is NULL. </dd></dl>
 
 </div>
 </div>
@@ -659,7 +659,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The target_score field, or -1.0f if cfg is NULL </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The target_score field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
 
 </div>
 </div>
@@ -698,7 +698,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
 
 </div>
 </div>
@@ -737,7 +737,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
 
 </div>
 </div>
@@ -783,7 +783,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
 
 </div>
 </div>
@@ -822,7 +822,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
 
 </div>
 </div>
@@ -861,7 +861,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
 
 </div>
 </div>
@@ -906,7 +906,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -989,7 +989,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1027,7 +1027,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1065,7 +1065,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1110,7 +1110,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1148,7 +1148,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1186,7 +1186,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1224,7 +1224,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1276,7 +1276,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1314,7 +1314,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1352,7 +1352,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure </dd></dl>
 
 </div>
 </div>
@@ -1392,7 +1392,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if multiple words are found, 0 if not, -1 on error </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if multiple words are found, 0 if not, <code>ENIGMA_FAILURE</code> on error </dd></dl>
 
 </div>
 </div>
@@ -1438,7 +1438,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
 
 </div>
 </div>
@@ -1477,7 +1477,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The frequency score of the plaintext, or -1 if the input is invalid. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The frequency score of the plaintext, or <code>ENIGMA_FAILURE</code> if the input is invalid. </dd></dl>
 
 </div>
 </div>
@@ -1516,7 +1516,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 if over half of the letter frequencies match within the offset, 0 if not, -1 if error </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if over half of the letter frequencies match within the offset, 0 if not, <code>ENIGMA_FAILURE</code> if error. </dd></dl>
 
 </div>
 </div>
@@ -1569,7 +1569,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, -1 on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
 
 </div>
 </div>
@@ -1608,7 +1608,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A bitmask of flags indicating which criteria were met, or -1 if error. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A bitmask of flags indicating which criteria were met, or <code>ENIGMA_FAILURE</code> if error. </dd></dl>
 
 </div>
 </div>

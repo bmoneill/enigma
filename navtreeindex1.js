@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"score_8c.html#abe85e666be969536eed7a2ebe1ea186f":[1,0,0,0,15,2],
+"score_8c.html#ac5957da3c7ac804c659862a12bfabb77":[1,0,0,0,15,14],
 "score_8c.html#ad74965f72a7e50d47b5c0cf6ce8cf5f4":[1,0,0,0,15,13],
 "score_8c.html#ad8b8e000f1a9fdbdf8516d4deb154641":[1,0,0,0,15,5],
 "score_8c.html#afc6b4b02e0a56b3f064fc9cd27fc61f4":[1,0,0,0,15,1],
