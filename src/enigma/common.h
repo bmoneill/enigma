@@ -9,6 +9,9 @@
 #define ENIGMA_ALPHA_SIZE      26
 #define ENIGMA_MAX_ROTOR_COUNT 4
 
+#define ENIGMA_SUCCESS         0
+#define ENIGMA_FAILURE        -1
+
 /* Defaults */
 #define ENIGMA_MAX_PLUGBOARD_SETTINGS 10
 #define ENIGMA_DEFAULT_NGRAM_COUNT    (26 * 26 * 26 * 26)

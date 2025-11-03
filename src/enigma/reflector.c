@@ -12,7 +12,7 @@
  *
  * @param reflector The reflector to generate the indices for.
  * @param alphabet The alphabet to generate the indices from.
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* reflector,
                                                            const char*         alphabet) {
@@ -23,7 +23,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* r
     for (int i = 0; i < 26; i++) {
         reflector->indices[i] = toupper(alphabet[i]) - 'A';
     }
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 /**
  * @brief Get the name of the reflector.
@@ -61,7 +61,7 @@ EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const enigma_reflec
  *
  * @param reflector The reflector to set the name of.
  * @param name The name to set.
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector,
                                                    const char*         name) {
@@ -69,7 +69,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     reflector->name = strdup(name);
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -77,7 +77,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector
  *
  * @param reflector The reflector to set the indices of.
  * @param indices The indices to set.
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_indices(enigma_reflector_t* reflector,
                                                       const int*          indices) {
@@ -85,5 +85,5 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_indices(enigma_reflector_t* reflec
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
     memcpy(reflector->indices, indices, sizeof(int) * 26);
-    return 0;
+    return ENIGMA_SUCCESS;
 }

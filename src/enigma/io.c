@@ -23,7 +23,7 @@ static int ipow(int, int);
  *
  * @param format Format string.
  * @param ...    Arguments for the format string.
- * @return       -1.
+ * @return       ENIGMA_FAILURE.
  */
 int enigma_error_message(const char* func, const char* format, ...) {
     fprintf(stderr, "libenigma (%s): ", func);
@@ -32,7 +32,7 @@ int enigma_error_message(const char* func, const char* format, ...) {
     vfprintf(stderr, format, args);
     va_end(args);
     fprintf(stderr, "\n");
-    return -1;
+    return ENIGMA_FAILURE;
 }
 
 /**
@@ -48,7 +48,7 @@ int enigma_error_message(const char* func, const char* format, ...) {
  *
  * @param enigma Pointer to the Enigma machine instance.
  * @param s      String representing the Enigma configuration.
- * @return       0 on success, -1 on failure.
+ * @return       ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
     char buf[64];
@@ -84,7 +84,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
         strcpy(enigma->plugboard, plugboard);
     }
 
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -94,20 +94,20 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
  * @param alphabet The custom reflector alphabet (must be 26 characters long).
  * @param name The name of the custom reflector.
  *
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_custom_reflector(enigma_reflector_t* reflector,
                                                       const char*         alphabet,
                                                       const char*         name) {
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
-        return -1;
+        return ENIGMA_FAILURE;
     }
 
     reflector->name = name;
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         reflector->indices[i] = toupper(alphabet[i]) - 'A';
     }
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -119,12 +119,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_reflector(enigma_reflector_t* reflec
  * @param notches Array of notch positions (length must match numNotches).
  * @param numNotches Number of notches.
  *
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
     enigma_rotor_t* rotor, const char* alphabet, const char* name, int* notches, int numNotches) {
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
-        return -1;
+        return ENIGMA_FAILURE;
     }
     rotor->name          = name;
     rotor->notches_count = numNotches;
@@ -134,7 +134,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
         rotor->rev_indices[rotor->fwd_indices[i]] = i;
     }
 
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -146,7 +146,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
  *
  * @param cfg Pointer to the cracking configuration structure.
  * @param path Path to the ngram file.
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* path) {
     char  line[16];
@@ -163,20 +163,20 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* pat
         if (sscanf(line, "%d %d", &n, &charCount) != 2) {
             ENIGMA_ERROR("Invalid ngram file format: %s", path);
             fclose(f);
-            return -1;
+            return ENIGMA_FAILURE;
         }
     } else {
         ENIGMA_ERROR("Failed to read ngram file: %s", path);
         free(cfg->ngrams);
         fclose(f);
-        return -1;
+        return ENIGMA_FAILURE;
     }
 
     if (n > 4 || n < 1) {
         ENIGMA_ERROR("N-grams must be of size 2-4. Unsupported size: %d", n);
         free(cfg->ngrams);
         fclose(f);
-        return -1;
+        return ENIGMA_FAILURE;
     }
     cfg->ngrams = calloc(ipow(26, n), sizeof(float));
     cfg->n      = n;
@@ -202,7 +202,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* pat
     }
 
     fclose(f);
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -214,7 +214,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* pat
  * @param enigma Pointer to the Enigma machine instance.
  * @param s      String representing plugboard configuration.
  *
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_plugboard_config(enigma_t* enigma, const char* s) {
     int len = strlen(s);
@@ -222,7 +222,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_plugboard_config(enigma_t* enigma, const ch
         return ENIGMA_ERROR("Invalid plugboard configuration: %s", s);
     }
     memcpy(enigma->plugboard, s, len);
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -231,16 +231,16 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_plugboard_config(enigma_t* enigma, const ch
  * @param enigma Pointer to the Enigma machine instance.
  * @param s      String representing plugboard configuration.
  *
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
             enigma->reflector = enigma_reflectors[i];
-            return 0;
+            return ENIGMA_SUCCESS;
         }
     }
-    return -1;
+    return ENIGMA_FAILURE;
 }
 
 /**
@@ -249,7 +249,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_reflector_config(enigma_t* enigma, const ch
  * @param enigma Pointer to the Enigma machine instance.
  * @param s      String representing rotor configuration.
  *
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(enigma_t* enigma, char* s) {
     enigma->rotor_count = 0;
@@ -270,7 +270,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(enigma_t* enigma, char* s) {
         token = strtok(NULL, " ");
     }
 
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -283,7 +283,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(enigma_t* enigma, char* s) {
  * @param enigma Pointer to the Enigma machine instance.
  * @param s      String representing rotor starting positions.
  *
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
     if (enigma->rotor_count == 0) {
@@ -292,12 +292,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_positions(enigma_t* enigma, const cha
 
     for (int i = 0; i < enigma->rotor_count && s[i]; i++) {
         if (!isalpha(s[i])) {
-            return -1;
+            return ENIGMA_FAILURE;
         }
         enigma->rotor_indices[i] = toupper(s[i]) - 'A';
     }
 
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**

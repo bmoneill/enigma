@@ -12,11 +12,11 @@ static int score_compare(const void* a, const void* b);
  * @brief Print the scores in an enigma_score_list_t.
  *
  * @param list Pointer to the enigma_score_list_t structure.
- * @return 0 on success, or -1 on failure.
+ * @return ENIGMA_SUCCESS on success, or ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_print(const enigma_score_list_t* list) {
     if (!list) {
-        return -1;
+        return ENIGMA_FAILURE;
     }
     char buf[64];
     for (int i = 0; i < list->score_count; i++) {
@@ -34,7 +34,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_print(const enigma_score_list_t* list) {
         enigma_print_config(&list->scores[i].enigma, buf);
         printf("%s\n", buf);
     }
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -42,15 +42,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_print(const enigma_score_list_t* list) {
  *
  * @param list The array of enigma_score_t to sort.
  *
- * @return 0 on success, -1 on failure.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_list_sort(enigma_score_list_t* list) {
     if (!list) {
-        return -1;
+        return ENIGMA_FAILURE;
     }
 
     qsort(list->scores, list->score_count, sizeof(enigma_score_t), score_compare);
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -71,11 +71,11 @@ EMSCRIPTEN_KEEPALIVE enigma_t* enigma_score_get_enigma(enigma_score_t* score) {
  * @brief Get the score field in the given enigma_score_t
  *
  * @param score The enigma_score_t instance
- * @return The score field, or -1.0f if score is NULL
+ * @return The score field, or ENIGMA_FAILURE if score is NULL
  */
 EMSCRIPTEN_KEEPALIVE float enigma_score_get_score(enigma_score_t* score) {
     if (!score) {
-        return -1.0f;
+        return (float) ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return score->score;
@@ -85,11 +85,11 @@ EMSCRIPTEN_KEEPALIVE float enigma_score_get_score(enigma_score_t* score) {
  * @brief Get the flags field in the given enigma_score_t
  *
  * @param score The enigma_score_t instance
- * @return The flags field, or -1 if score is NULL
+ * @return The flags field, or ENIGMA_FAILURE if score is NULL
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_get_flags(enigma_score_t* score) {
     if (!score) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return score->flags;
@@ -100,15 +100,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_get_flags(enigma_score_t* score) {
  *
  * @param score The enigma_score_t instance
  * @param enigma The enigma_t instance to set
- * @return 0 on success, -1 on failure
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_set_enigma(enigma_score_t* score, enigma_t* enigma) {
     if (!score || !enigma) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     score->enigma = *enigma;
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -116,15 +116,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_set_enigma(enigma_score_t* score, enigma_t
  *
  * @param score The enigma_score_t instance
  * @param value The score value to set
- * @return 0 on success, -1 on failure
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_set_score(enigma_score_t* score, float value) {
     if (!score) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     score->score = value;
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -132,15 +132,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_set_score(enigma_score_t* score, float val
  *
  * @param score The enigma_score_t instance
  * @param flags The flags value to set
- * @return 0 on success, -1 on failure
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_set_flags(enigma_score_t* score, int flags) {
     if (!score) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     score->flags = flags;
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -151,6 +151,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_set_flags(enigma_score_t* score, int flags
  */
 EMSCRIPTEN_KEEPALIVE enigma_score_t* enigma_score_list_get_scores(enigma_score_list_t* list) {
     if (!list) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -167,6 +168,7 @@ EMSCRIPTEN_KEEPALIVE enigma_score_t* enigma_score_list_get_scores(enigma_score_l
 EMSCRIPTEN_KEEPALIVE enigma_score_t* enigma_score_list_get_score(enigma_score_list_t* list,
                                                                  int                  index) {
     if (!list || index < 0 || index >= list->score_count) {
+        ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
@@ -181,7 +183,7 @@ EMSCRIPTEN_KEEPALIVE enigma_score_t* enigma_score_list_get_score(enigma_score_li
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_list_get_score_count(enigma_score_list_t* list, int index) {
     if (!list) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return list->score_count;
@@ -195,7 +197,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_list_get_score_count(enigma_score_list_t* 
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_list_get_max_scores(enigma_score_list_t* list) {
     if (!list) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     return list->max_scores;
@@ -207,16 +209,16 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_list_get_max_scores(enigma_score_list_t* l
  * @param list The enigma_score_list_t instance
  * @param index The index of the score to set
  * @param score The enigma_score_t instance to set
- * @return int 0 on success, -1 on failure
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int
 enigma_score_list_set_score(enigma_score_list_t* list, int index, enigma_score_t* score) {
     if (!list || !score || index < 0 || index >= list->score_count) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     list->scores[index] = *score;
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -224,15 +226,15 @@ enigma_score_list_set_score(enigma_score_list_t* list, int index, enigma_score_t
  *
  * @param list The enigma_score_list_t instance
  * @param count The new score count
- * @return int 0 on success, -1 on failure
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_list_set_score_count(enigma_score_list_t* list, int count) {
     if (!list || count < 0) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     list->score_count = count;
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
@@ -240,15 +242,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_list_set_score_count(enigma_score_list_t* 
  *
  * @param list The enigma_score_list_t instance
  * @param max The new maximum number of scores
- * @return int 0 on success, -1 on failure
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int enigma_score_list_set_max_scores(enigma_score_list_t* list, int max) {
     if (!list || max < 0) {
-        return -1;
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     list->max_scores = max;
-    return 0;
+    return ENIGMA_SUCCESS;
 }
 
 /**
