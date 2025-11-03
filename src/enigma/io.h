@@ -3,8 +3,8 @@
  *
  * This file declares input/output functions.
  */
-#ifndef ENIGMA_IO_H
-#define ENIGMA_IO_H
+#ifndef LIBENIGMA_IO_H
+#define LIBENIGMA_IO_H
 
 #include "crack.h"
 #include "enigma.h"

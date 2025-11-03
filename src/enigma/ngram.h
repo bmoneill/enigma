@@ -4,8 +4,8 @@
  * This file declares functions for cracking Enigma configurations
  * using n-gram scoring.
  */
-#ifndef ENIGMA_NGRAM_H
-#define ENIGMA_NGRAM_H
+#ifndef LIBENIGMA_NGRAM_H
+#define LIBENIGMA_NGRAM_H
 
 #include "crack.h"
 

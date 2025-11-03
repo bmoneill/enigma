@@ -3,8 +3,8 @@
  *
  * This file contains common definitions, macros, and constants used throughout libenigma.
  */
-#ifndef ENIGMA_COMMON_H
-#define ENIGMA_COMMON_H
+#ifndef LIBENIGMA_COMMON_H
+#define LIBENIGMA_COMMON_H
 
 #define ENIGMA_ALPHA_SIZE      26
 #define ENIGMA_MAX_ROTOR_COUNT 4

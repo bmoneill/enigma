@@ -3,8 +3,8 @@
  *
  * Header file for cracking Enigma machine configurations.
  */
-#ifndef ENIGMA_CRACK_H
-#define ENIGMA_CRACK_H
+#ifndef LIBENIGMA_CRACK_H
+#define LIBENIGMA_CRACK_H
 
 #include "enigma.h"
 #include "score.h"

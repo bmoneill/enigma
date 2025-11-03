@@ -1,5 +1,5 @@
-#ifndef ENIGMA_SCORE_H
-#define ENIGMA_SCORE_H
+#ifndef LIBENIGMA_SCORE_H
+#define LIBENIGMA_SCORE_H
 
 #include "enigma.h"
 

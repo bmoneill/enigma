@@ -3,8 +3,8 @@
  *
  * This file defines the standard rotors used in the Enigma machine.
  */
-#ifndef ENIGMA_ROTORS_H
-#define ENIGMA_ROTORS_H
+#ifndef LIBENIGMA_ROTORS_H
+#define LIBENIGMA_ROTORS_H
 
 #include "common.h"
 

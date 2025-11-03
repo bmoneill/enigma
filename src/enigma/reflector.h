@@ -3,8 +3,8 @@
  *
  * This file defines the standard reflectors used in the Enigma machine.
  */
-#ifndef ENIGMA_REFLECTORS_H
-#define ENIGMA_REFLECTORS_H
+#ifndef LIBENIGMA_REFLECTORS_H
+#define LIBENIGMA_REFLECTORS_H
 
 #include "common.h"
 

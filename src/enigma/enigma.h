@@ -5,8 +5,8 @@
  * including the main Enigma structure, encoding functions, and initialization
  * routines for default and random configurations.
  */
-#ifndef ENIGMA_H
-#define ENIGMA_H
+#ifndef LIBENIGMA_ENIGMA_H
+#define LIBENIGMA_ENIGMA_H
 
 #include "reflector.h"
 #include "rotor.h"
