@@ -30,7 +30,9 @@
 #ifdef EMSCRIPTEN
 #include <emscripten.h>
 #else
+#ifndef EMSCRIPTEN_KEEPALIVE
 #define EMSCRIPTEN_KEEPALIVE
+#endif
 #endif
 
 #endif
