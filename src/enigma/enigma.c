@@ -111,7 +111,7 @@ enigma_encode_string(enigma_t* enigma, const char* input, char* output, int leng
  */
 EMSCRIPTEN_KEEPALIVE int
 enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int count) {
-    if (!enigma || !rotors || count <= 0) {
+    if (!enigma || !rotors || count <= 0 || count > ENIGMA_MAX_ROTOR_COUNT) {
         return ENIGMA_FAILURE;
     }
     enigma->rotor_flag = 0;
