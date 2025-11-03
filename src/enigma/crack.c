@@ -19,6 +19,8 @@
 #include "io.h"
 #include "rotor.h"
 
+#include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -43,19 +45,21 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    enigma_t enigma;
+    enigma_t enigma = cfg->enigma;
     enigma_t enigmaTmp;
-    int      curSettings = strlen(cfg->enigma.plugboard) / 2;
+    int      curSettings   = strlen(cfg->enigma.plugboard) / 2;
 
-    char*    plaintext   = malloc((cfg->ciphertext_length + 1) * sizeof(char));
-    char*    remaining   = malloc((ENIGMA_ALPHA_SIZE - curSettings * 2 + 1) * sizeof(char));
-    strcpy(remaining, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    char*    plaintext     = malloc((cfg->ciphertext_length + 1) * sizeof(char));
+    int      remaining[26] = { 0 };
 
+    memset(remaining, 1, sizeof(remaining));
     for (int i = 0; i < curSettings * 2; i++) {
-        remaining[enigma.plugboard[i] - 'A'] = '\0';
+        if (enigma.plugboard[i] < 'A' || enigma.plugboard[i] > 'Z') {
+            return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
+        }
+        remaining[toupper(enigma.plugboard[i]) - 'A'] = 0;
     }
 
-    enigma = cfg->enigma;
     for (char a = 'A'; a < 'Z'; a++) {
         if (!remaining[a - 'A']) {
             continue;
@@ -76,7 +80,6 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
     }
 
     free(plaintext);
-    free(remaining);
 
     return ENIGMA_SUCCESS;
 }
