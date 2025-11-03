@@ -188,6 +188,7 @@ void test_enigma_get_rotor(void) {
 
 void test_enigma_get_rotor_count(void) {
     enigma_t enigma;
+    enigma.rotor_count = 0;
     TEST_ASSERT_EQUAL_INT(0, enigma_get_rotor_count(&enigma));
 }
 
