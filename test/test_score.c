@@ -5,7 +5,7 @@
 const char* success = "Expected success";
 const char* failure = "Expected failure";
 
-void test_enigma_score_sort(void) {
+void        test_enigma_score_sort(void) {
     enigma_score_list_t scores;
     scores.max_scores  = 10;
     scores.scores      = malloc(sizeof(enigma_score_t) * scores.max_scores);
@@ -18,7 +18,8 @@ void test_enigma_score_sort(void) {
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
     for (int i = 1; i < scores.score_count; i++) {
-        TEST_ASSERT_TRUE_MESSAGE(scores.scores[i - 1].score >= scores.scores[i].score, "Expected scores to be sorted");
+        TEST_ASSERT_TRUE_MESSAGE(scores.scores[i - 1].score >= scores.scores[i].score,
+                                 "Expected scores to be sorted");
     }
 
     free(scores.scores);
@@ -34,9 +35,15 @@ void test_score_compare(void) {
     score1.score = 0.5;
     score2.score = 0.6;
 
-    TEST_ASSERT_EQUAL_INT_MESSAGE(1, score_compare(&score1, &score2), "Expected score1 to be greater than score2");
-    TEST_ASSERT_EQUAL_INT_MESSAGE(-1, score_compare(&score2, &score1), "Expected score2 to be greater than score1");
-    TEST_ASSERT_EQUAL_INT_MESSAGE(0, score_compare(&score1, &score1), "Expected score1 to be equal to score1");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(1,
+                                  score_compare(&score1, &score2),
+                                  "Expected score1 to be greater than score2");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(-1,
+                                  score_compare(&score2, &score1),
+                                  "Expected score2 to be greater than score1");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0,
+                                  score_compare(&score1, &score1),
+                                  "Expected score1 to be equal to score1");
 }
 
 // --- enigma_score_t getter/setter tests ---

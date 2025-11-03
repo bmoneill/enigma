@@ -7,22 +7,30 @@
 const char* success = "Expected success";
 const char* failure = "Expected failure";
 
-void test_enigma_rotor_generate_indices_WithValidArguments(void) {
+void        test_enigma_rotor_generate_indices_WithValidArguments(void) {
     enigma_rotor_t rotor;
     const char*    alphabet = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
     int            ret      = enigma_rotor_generate_indices(&rotor, alphabet);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
     for (int i = 0; i < 26; i++) {
-        TEST_ASSERT_EQUAL_INT_MESSAGE(alphabet[i] - 'A', rotor.fwd_indices[i], "Expected index to match alphabet");
+        TEST_ASSERT_EQUAL_INT_MESSAGE(alphabet[i] - 'A',
+                                      rotor.fwd_indices[i],
+                                      "Expected index to match alphabet");
     }
 }
 
 void test_enigma_rotor_generate_indices_WithInvalidArguments(void) {
     enigma_rotor_t rotor;
     const char*    alphabet = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
-    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_rotor_generate_indices(NULL, alphabet), failure);
-    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_rotor_generate_indices(&rotor, NULL), failure);
-    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_rotor_generate_indices(&rotor, "TOOSHORT"), failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_rotor_generate_indices(NULL, alphabet),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_rotor_generate_indices(&rotor, NULL),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_rotor_generate_indices(&rotor, "TOOSHORT"),
+                                  failure);
 }
 
 // --- enigma_rotor_t getter/setter tests ---
