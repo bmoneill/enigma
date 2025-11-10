@@ -1,6 +1,6 @@
 #include "score.h"
 
-#include "enigma/common.h"
+#include "common.h"
 #include "io.h"
 
 #include <stdio.h>

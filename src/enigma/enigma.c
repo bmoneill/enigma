@@ -8,7 +8,7 @@
 #include "enigma.h"
 
 #include "common.h"
-#include "enigma/rotor.h"
+#include "rotor.h"
 #include "io.h"
 
 #include <ctype.h>
