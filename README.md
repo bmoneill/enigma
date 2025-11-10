@@ -28,12 +28,7 @@ The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the 
 ```shell
 cmake . -DTARGET_GROUP=all
 cmake --build .
-```
-
-### Example WASM Build
-
-```shell
-emcc -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "_free", "stringToUTF8", "UTF8ToString"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
+./build_webdemo.sh # build the web demo
 ```
 
 ## Documentation
