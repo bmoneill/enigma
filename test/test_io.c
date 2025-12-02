@@ -12,7 +12,7 @@ const char* failure = "Expected failure";
 
 void        test_enigma_load_config(void) {
     const char* configStr = "I II III|XYZ|B|ABCDEF";
-    enigma_t    enigma;
+    Enigma      enigma;
     int         result = enigma_load_config(&enigma, configStr);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
@@ -46,12 +46,12 @@ void        test_enigma_load_config(void) {
 }
 
 void test_enigma_load_custom_reflector(void) {
-    const char*        alphabet        = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
-    const char*        invalidAlphabet = "ZYXWVUT";
-    const char*        reflectorName   = "Custom Reflector";
-    enigma_reflector_t reflector;
+    const char*     alphabet        = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
+    const char*     invalidAlphabet = "ZYXWVUT";
+    const char*     reflectorName   = "Custom Reflector";
+    EnigmaReflector reflector;
 
-    int                result = enigma_load_custom_reflector(&reflector, alphabet, reflectorName);
+    int             result = enigma_load_custom_reflector(&reflector, alphabet, reflectorName);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         TEST_ASSERT_EQUAL_INT_MESSAGE(25 - i,
@@ -67,11 +67,11 @@ void test_enigma_load_custom_reflector(void) {
 }
 
 void test_enigma_load_custom_rotor(void) {
-    const char*    rotorAlphabet        = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const char*    invalidRotorAlphabet = "ABCDEFG";
-    const char*    rotorName            = "Custom Rotor";
-    int            rotorNotches[2]      = { 16, 4 };
-    enigma_rotor_t rotor;
+    const char* rotorAlphabet        = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const char* invalidRotorAlphabet = "ABCDEFG";
+    const char* rotorName            = "Custom Rotor";
+    int         rotorNotches[2]      = { 16, 4 };
+    EnigmaRotor rotor;
 
     int result = enigma_load_custom_rotor(&rotor, rotorAlphabet, rotorName, rotorNotches, 2);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
@@ -107,10 +107,10 @@ void test_load_ngrams(void) {
     // 50 HE
     // 20 AR
 
-    int            charCount        = 500;
-    const char*    ngramFilePath    = "data/bigrams.txt";
-    const char*    altNgramFilePath = "test/data/bigrams.txt";
-    enigma_crack_t cfg;
+    int               charCount        = 500;
+    const char*       ngramFilePath    = "data/bigrams.txt";
+    const char*       altNgramFilePath = "test/data/bigrams.txt";
+    EnigmaCrackParams cfg;
 
     if (access(altNgramFilePath, F_OK) == 0) {
         ngramFilePath = altNgramFilePath;
@@ -148,7 +148,7 @@ void test_enigma_load_plugboard_config(void) {
     const char* plugboardConfig       = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const char* longPlugboardConfig   = "ABCDEFGHIJKLMNOPQRSTUVWXYZA"; // 27 characters
     const char* unevenPlugboardConfig = "ABCDE"; // Odd number of characters
-    enigma_t    enigma;
+    Enigma      enigma;
 
     int         result = enigma_load_plugboard_config(&enigma, plugboardConfig);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
@@ -161,9 +161,9 @@ void test_enigma_load_plugboard_config(void) {
 }
 
 void test_enigma_load_reflector_config(void) {
-    enigma_t enigma;
+    Enigma enigma;
 
-    int      result = enigma_load_reflector_config(&enigma, "B");
+    int    result = enigma_load_reflector_config(&enigma, "B");
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
     TEST_ASSERT_EQUAL_STRING_MESSAGE("B",
                                      enigma.reflector->name,
@@ -180,8 +180,8 @@ void test_enigma_load_reflector_config(void) {
 }
 
 void test_enigma_load_rotor_config(void) {
-    enigma_t enigma;
-    char     buf[64];
+    Enigma enigma;
+    char   buf[64];
     strcpy(buf, "I II III");
 
     int result = enigma_load_rotor_config(&enigma, buf);
@@ -201,7 +201,7 @@ void test_enigma_load_rotor_config(void) {
 }
 
 void test_enigma_load_rotor_positions(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma.rotor_count = 3;
 
     int result         = enigma_load_rotor_positions(&enigma, "XYZ");
@@ -221,8 +221,8 @@ void test_enigma_load_rotor_positions(void) {
 }
 
 void test_enigma_print_config(void) {
-    enigma_t enigma;
-    char     buf[128];
+    Enigma enigma;
+    char   buf[128];
 
     enigma.rotor_count      = 3;
     enigma.rotors[0]        = enigma_rotors[0];

@@ -7,11 +7,11 @@
 
 #define I(s) (s - 'A')
 
-enigma_crack_t cfg;
-const char*    plaintext = "EVERXTRIEDXEVERXFAILEDXNOXMATTERXTRYXAGAINXFAILXAGAINXFAILXBETTER";
+EnigmaCrackParams cfg;
+const char*       plaintext = "EVERXTRIEDXEVERXFAILEDXNOXMATTERXTRYXAGAINXFAILXAGAINXFAILXBETTER";
 
-void           setUp(void) {
-    memset(&cfg, 0, sizeof(enigma_crack_t));
+void              setUp(void) {
+    memset(&cfg, 0, sizeof(EnigmaCrackParams));
     cfg.ciphertext_length = strlen(plaintext);
 }
 

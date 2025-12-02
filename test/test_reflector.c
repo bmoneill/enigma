@@ -15,9 +15,9 @@ void        setUp(void) {}
 void        tearDown(void) {}
 
 void        test_enigma_reflector_generate_indices_WithValidArguments(void) {
-    enigma_reflector_t reflector;
-    const char*        alphabet = "EJMZALYXVBWFCRQUONTSPIKHGD";
-    int                ret      = enigma_reflector_generate_indices(&reflector, alphabet);
+    EnigmaReflector reflector;
+    const char*     alphabet = "EJMZALYXVBWFCRQUONTSPIKHGD";
+    int             ret      = enigma_reflector_generate_indices(&reflector, alphabet);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
     for (int i = 0; i < 26; i++) {
         TEST_ASSERT_EQUAL_INT_MESSAGE(alphabet[i] - 'A',
@@ -27,8 +27,8 @@ void        test_enigma_reflector_generate_indices_WithValidArguments(void) {
 }
 
 void test_enigma_reflector_generate_indices_WithInvalidArguments(void) {
-    enigma_reflector_t reflector;
-    const char*        alphabet = "EJMZALYXVBWFCRQUONTSPIKHGD";
+    EnigmaReflector reflector;
+    const char*     alphabet = "EJMZALYXVBWFCRQUONTSPIKHGD";
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
                                   enigma_reflector_generate_indices(NULL, alphabet),
                                   failure);
@@ -43,7 +43,7 @@ void test_enigma_reflector_generate_indices_WithInvalidArguments(void) {
 // --- enigma_reflector_t getter/setter tests ---
 
 void test_enigma_reflector_get_name(void) {
-    enigma_reflector_t reflector;
+    EnigmaReflector reflector;
     reflector.name   = "TestReflector";
     const char* name = enigma_reflector_get_name(&reflector);
     TEST_ASSERT_EQUAL_STRING("TestReflector", name);
@@ -54,7 +54,7 @@ void test_enigma_reflector_get_name_WithInvalidArguments(void) {
 }
 
 void test_enigma_reflector_get_indices(void) {
-    enigma_reflector_t reflector;
+    EnigmaReflector reflector;
     for (int i = 0; i < 26; i++)
         reflector.indices[i] = i;
     const int* indices = enigma_reflector_get_indices(&reflector);
@@ -68,7 +68,7 @@ void test_enigma_reflector_get_indices_WithInvalidArguments(void) {
 }
 
 void test_enigma_reflector_set_name(void) {
-    enigma_reflector_t reflector;
+    EnigmaReflector reflector;
     reflector.name = NULL;
     int ret        = enigma_reflector_set_name(&reflector, "MyReflector");
     TEST_ASSERT_EQUAL_INT(0, ret);
@@ -78,14 +78,14 @@ void test_enigma_reflector_set_name(void) {
 }
 
 void test_enigma_reflector_set_name_WithInvalidArguments(void) {
-    enigma_reflector_t reflector;
+    EnigmaReflector reflector;
     TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_set_name(NULL, "MyReflector"));
     TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_set_name(&reflector, NULL));
 }
 
 void test_enigma_reflector_set_indices(void) {
-    enigma_reflector_t reflector;
-    int                indices[26];
+    EnigmaReflector reflector;
+    int             indices[26];
     for (int i = 0; i < 26; i++)
         indices[i] = 25 - i;
     int ret = enigma_reflector_set_indices(&reflector, indices);
@@ -96,8 +96,8 @@ void test_enigma_reflector_set_indices(void) {
 }
 
 void test_enigma_reflector_set_indices_WithInvalidArguments(void) {
-    enigma_reflector_t reflector;
-    int                indices[26] = { 0 };
+    EnigmaReflector reflector;
+    int             indices[26] = { 0 };
     TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_set_indices(NULL, indices));
     TEST_ASSERT_EQUAL_INT(-1, enigma_reflector_set_indices(&reflector, NULL));
 }

@@ -10,22 +10,23 @@
 #define MAX_STORED_SCORES 10
 #define MAX_SCORES        100
 
-enigma_crack_t      cfg;
-enigma_score_list_t scores;
-float               mockScore = 0.0f;
-float               storedScores[MAX_STORED_SCORES];
-int                 scoreIdx        = 0;
-const char*         helloWorld      = "HELLOXWORLD";
-const char*         alphaText       = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
-const char*         ciphertext      = "DMRFRXHAZUQZNLRUOM";
-const char*         shortCiphertext = "DM";
+EnigmaCrackParams cfg;
+EnigmaScoreList   scores;
 
-const char*         success         = "Expected success";
-const char*         failure         = "Expected failure";
+float             mockScore = 0.0f;
+float             storedScores[MAX_STORED_SCORES];
+int               scoreIdx        = 0;
+const char*       helloWorld      = "HELLOXWORLD";
+const char*       alphaText       = "THEXQUICKXBROWNXFOXXJUMPSXOVERXTHEXLAZYXDOG";
+const char*       ciphertext      = "DMRFRXHAZUQZNLRUOM";
+const char*       shortCiphertext = "DM";
 
-void                setUp(void) {
+const char*       success         = "Expected success";
+const char*       failure         = "Expected failure";
+
+void              setUp(void) {
     srand(time(NULL));
-    memset(&cfg, 0, sizeof(enigma_crack_t));
+    memset(&cfg, 0, sizeof(EnigmaCrackParams));
     enigma_init_default_config(&cfg.enigma);
     scoreIdx                    = 0;
     cfg.ciphertext              = shortCiphertext;
@@ -33,13 +34,13 @@ void                setUp(void) {
     cfg.score_list              = &scores;
     cfg.score_list->max_scores  = 100;
     cfg.score_list->score_count = 0;
-    cfg.score_list->scores      = calloc(100, sizeof(enigma_score_t));
+    cfg.score_list->scores      = calloc(100, sizeof(EnigmaScore));
     memset(storedScores, 0, MAX_STORED_SCORES * sizeof(float));
 }
 
 void  tearDown(void) { free(cfg.score_list->scores); }
 
-float mock_score_function(const enigma_crack_t* config, const char* plaintext) {
+float mock_score_function(const EnigmaCrackParams* config, const char* plaintext) {
     float score = ((float) rand()) / rand();
     if (scoreIdx < MAX_STORED_SCORES) {
         storedScores[scoreIdx] = score;
@@ -194,9 +195,9 @@ void test_enigma_crack_rotors_WithValidArguments_WithThreeRotors(void) {
                                             4,
                                             "Expected rotor indices to remain the same");
 
-        int       cmp = 0;
-        enigma_t* e1  = &cfg.score_list->scores[i].enigma;
-        enigma_t* e2  = &cfg.score_list->scores[i + 1].enigma;
+        int     cmp = 0;
+        Enigma* e1  = &cfg.score_list->scores[i].enigma;
+        Enigma* e2  = &cfg.score_list->scores[i + 1].enigma;
         for (int i = 0; i < 3; i++) {
             if (e1->rotors[i] == e2->rotors[i]) {
                 cmp++;
@@ -231,9 +232,9 @@ void test_enigma_crack_rotors_WithValidArguments_WithFourRotors(void) {
         if (i == MAX_STORED_SCORES - 1) {
             continue;
         }
-        int       cmp = 0;
-        enigma_t* e1  = &cfg.score_list->scores[i].enigma;
-        enigma_t* e2  = &cfg.score_list->scores[i + 1].enigma;
+        int     cmp = 0;
+        Enigma* e1  = &cfg.score_list->scores[i].enigma;
+        Enigma* e2  = &cfg.score_list->scores[i + 1].enigma;
         for (int i = 0; i < 4; i++) {
             if (e1->rotors[i] == e2->rotors[i]) {
                 cmp++;
@@ -256,9 +257,9 @@ void test_enigma_crack_rotor_positions_WithValidArguments_WithThreeRotors(void) 
                                              27,
                                              "Expected plugboard to match stored plugboard");
 
-        int       cmp = 0;
-        enigma_t* e1  = &cfg.score_list->scores[i].enigma;
-        enigma_t* e2  = &cfg.score_list->scores[i + 1].enigma;
+        int     cmp = 0;
+        Enigma* e1  = &cfg.score_list->scores[i].enigma;
+        Enigma* e2  = &cfg.score_list->scores[i + 1].enigma;
         for (int i = 0; i < 3; i++) {
             if (e1->rotor_indices[i] == e2->rotor_indices[i]) {
                 cmp++;
@@ -287,9 +288,9 @@ void test_enigma_crack_rotor_positions_WithValidArguments_WithFourRotors(void) {
             continue;
         }
 
-        int       cmp = 0;
-        enigma_t* e1  = &cfg.score_list->scores[i].enigma;
-        enigma_t* e2  = &cfg.score_list->scores[i + 1].enigma;
+        int     cmp = 0;
+        Enigma* e1  = &cfg.score_list->scores[i].enigma;
+        Enigma* e2  = &cfg.score_list->scores[i + 1].enigma;
         for (int i = 0; i < 4; i++) {
             if (e1->rotor_indices[i] == e2->rotor_indices[i]) {
                 cmp++;
@@ -419,8 +420,8 @@ void test_enigma_letter_freq_WithNullArguments(void) {
 }
 
 void test_enigma_score_append_WithEmptyScoreList(void) {
-    enigma_t enigma;
-    float    score = 0.05;
+    Enigma enigma;
+    float  score = 0.05;
 
     enigma_init_default_config(&enigma);
     int ret = enigma_score_append(&cfg, &enigma, helloWorld, score);
@@ -435,12 +436,12 @@ void test_enigma_score_append_WithEmptyScoreList(void) {
 }
 
 void test_enigma_score_append_WithFullScoreList(void) {
-    enigma_t enigma;
-    float    score      = 0.05;
-    int      scoreCount = MAX_SCORES;
+    Enigma enigma;
+    float  score       = 0.05;
+    int    scoreCount  = MAX_SCORES;
 
-    scores.score_count  = scoreCount;
-    int ret             = enigma_score_append(&cfg, &enigma, helloWorld, score);
+    scores.score_count = scoreCount;
+    int ret            = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
     TEST_ASSERT_EQUAL_INT_MESSAGE(scoreCount + 1,
@@ -459,12 +460,12 @@ void test_enigma_score_append_WithFullScoreList(void) {
 }
 
 void test_enigma_score_append_WithPartialScoreList(void) {
-    enigma_t enigma;
-    float    score      = 0.05;
-    int      scoreCount = 5;
+    Enigma enigma;
+    float  score       = 0.05;
+    int    scoreCount  = 5;
 
-    scores.score_count  = scoreCount;
-    int ret             = enigma_score_append(&cfg, &enigma, helloWorld, score);
+    scores.score_count = scoreCount;
+    int ret            = enigma_score_append(&cfg, &enigma, helloWorld, score);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
     TEST_ASSERT_EQUAL_INT_MESSAGE(scoreCount + 1,
@@ -483,7 +484,7 @@ void test_enigma_score_append_WithPartialScoreList(void) {
 }
 
 void test_enigma_score_append_WithNullArguments(void) {
-    enigma_t enigma;
+    Enigma enigma;
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
                                   enigma_score_append(NULL, NULL, NULL, 0),
                                   failure);
@@ -527,12 +528,11 @@ void test_enigma_score_flags_WithKnownPlaintextFlag_WithNullPlaintext(void) {
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, ret, failure);
 }
 
-// --- enigma_crack_t getter/setter tests ---
+// --- EnigmaCrackParams getter/setter tests ---
 
 void test_enigma_crack_get_enigma(void) {
-    enigma_crack_t crack;
-    enigma_t*      ptr = &crack.enigma;
-    TEST_ASSERT_EQUAL_PTR(ptr, enigma_crack_get_enigma(&crack));
+    Enigma* ptr = &cfg.enigma;
+    TEST_ASSERT_EQUAL_PTR(ptr, enigma_crack_get_enigma(&cfg));
 }
 
 void test_enigma_crack_get_enigma_WithInvalidArguments(void) {
@@ -540,10 +540,7 @@ void test_enigma_crack_get_enigma_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_score_list(void) {
-    enigma_crack_t      crack;
-    enigma_score_list_t scores;
-    crack.score_list = &scores;
-    TEST_ASSERT_EQUAL_PTR(&scores, enigma_crack_get_score_list(&crack));
+    TEST_ASSERT_EQUAL_PTR(&scores, enigma_crack_get_score_list(&cfg));
 }
 
 void test_enigma_crack_get_score_list_WithInvalidArguments(void) {
@@ -551,10 +548,9 @@ void test_enigma_crack_get_score_list_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_dictionary(void) {
-    enigma_crack_t crack;
-    const char*    dict[] = { "A", "B" };
-    crack.dictionary      = dict;
-    TEST_ASSERT_EQUAL_PTR(dict, enigma_crack_get_dictionary(&crack));
+    const char* dict[] = { "A", "B" };
+    cfg.dictionary     = dict;
+    TEST_ASSERT_EQUAL_PTR(dict, enigma_crack_get_dictionary(&cfg));
 }
 
 void test_enigma_crack_get_dictionary_WithInvalidArguments(void) {
@@ -562,10 +558,9 @@ void test_enigma_crack_get_dictionary_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_dictionary_length(void) {
-    enigma_crack_t crack;
-    int            len      = 42;
-    crack.dictionary_length = len;
-    TEST_ASSERT_EQUAL_INT(len, enigma_crack_get_dictionary_length(&crack));
+    int len               = 42;
+    cfg.dictionary_length = len;
+    TEST_ASSERT_EQUAL_INT(len, enigma_crack_get_dictionary_length(&cfg));
 }
 
 void test_enigma_crack_get_dictionary_length_WithInvalidArguments(void) {
@@ -573,10 +568,9 @@ void test_enigma_crack_get_dictionary_length_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_ngrams(void) {
-    enigma_crack_t crack;
-    float          ngrams[3] = { 1, 2, 3 };
-    crack.ngrams             = ngrams;
-    TEST_ASSERT_EQUAL_PTR(ngrams, enigma_crack_get_ngrams(&crack));
+    float ngrams[3] = { 1, 2, 3 };
+    cfg.ngrams      = ngrams;
+    TEST_ASSERT_EQUAL_PTR(ngrams, enigma_crack_get_ngrams(&cfg));
 }
 
 void test_enigma_crack_get_ngrams_WithInvalidArguments(void) {
@@ -584,10 +578,9 @@ void test_enigma_crack_get_ngrams_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_n(void) {
-    enigma_crack_t crack;
-    int            n = 5;
-    crack.n          = n;
-    TEST_ASSERT_EQUAL_INT(n, enigma_crack_get_n(&crack));
+    int n = 5;
+    cfg.n = n;
+    TEST_ASSERT_EQUAL_INT(n, enigma_crack_get_n(&cfg));
 }
 
 void test_enigma_crack_get_n_WithInvalidArguments(void) {
@@ -595,10 +588,9 @@ void test_enigma_crack_get_n_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_ngrams_length(void) {
-    enigma_crack_t crack;
-    int            len  = 7;
-    crack.ngrams_length = len;
-    TEST_ASSERT_EQUAL_INT(len, enigma_crack_get_ngrams_length(&crack));
+    int len           = 7;
+    cfg.ngrams_length = len;
+    TEST_ASSERT_EQUAL_INT(len, enigma_crack_get_ngrams_length(&cfg));
 }
 
 void test_enigma_crack_get_ngrams_length_WithInvalidArguments(void) {
@@ -606,10 +598,9 @@ void test_enigma_crack_get_ngrams_length_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_ciphertext(void) {
-    enigma_crack_t crack;
-    const char*    ciphertext = "ABC";
-    crack.ciphertext          = ciphertext;
-    TEST_ASSERT_EQUAL_PTR(ciphertext, enigma_crack_get_ciphertext(&crack));
+    const char* ciphertext = "ABC";
+    cfg.ciphertext         = ciphertext;
+    TEST_ASSERT_EQUAL_PTR(ciphertext, enigma_crack_get_ciphertext(&cfg));
 }
 
 void test_enigma_crack_get_ciphertext_WithInvalidArguments(void) {
@@ -617,10 +608,9 @@ void test_enigma_crack_get_ciphertext_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_ciphertext_length(void) {
-    enigma_crack_t crack;
-    int            len      = 11;
-    crack.ciphertext_length = len;
-    TEST_ASSERT_EQUAL_INT(len, enigma_crack_get_ciphertext_length(&crack));
+    int len               = 11;
+    cfg.ciphertext_length = len;
+    TEST_ASSERT_EQUAL_INT(len, enigma_crack_get_ciphertext_length(&cfg));
 }
 
 void test_enigma_crack_get_ciphertext_length_WithInvalidArguments(void) {
@@ -628,9 +618,8 @@ void test_enigma_crack_get_ciphertext_length_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_flags(void) {
-    enigma_crack_t crack;
-    crack.flags = 123;
-    TEST_ASSERT_EQUAL_INT(123, enigma_crack_get_flags(&crack));
+    cfg.flags = 123;
+    TEST_ASSERT_EQUAL_INT(123, enigma_crack_get_flags(&cfg));
 }
 
 void test_enigma_crack_get_flags_WithInvalidArguments(void) {
@@ -638,10 +627,9 @@ void test_enigma_crack_get_flags_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_frequency_targets(void) {
-    enigma_crack_t crack;
     for (int i = 0; i < 26; i++)
-        crack.frequency_targets[i] = (float) i;
-    const float* ptr = enigma_crack_get_frequency_targets(&crack);
+        cfg.frequency_targets[i] = (float) i;
+    const float* ptr = enigma_crack_get_frequency_targets(&cfg);
     for (int i = 0; i < 26; i++) {
         TEST_ASSERT_EQUAL_FLOAT((float) i, ptr[i]);
     }
@@ -652,9 +640,8 @@ void test_enigma_crack_get_frequency_targets_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_min_score(void) {
-    enigma_crack_t crack;
-    crack.min_score = 1.23f;
-    TEST_ASSERT_EQUAL_FLOAT(1.23f, enigma_crack_get_min_score(&crack));
+    cfg.min_score = 1.23f;
+    TEST_ASSERT_EQUAL_FLOAT(1.23f, enigma_crack_get_min_score(&cfg));
 }
 
 void test_enigma_crack_get_min_score_WithInvalidArguments(void) {
@@ -662,9 +649,8 @@ void test_enigma_crack_get_min_score_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_max_score(void) {
-    enigma_crack_t crack;
-    crack.max_score = 4.56f;
-    TEST_ASSERT_EQUAL_FLOAT(4.56f, enigma_crack_get_max_score(&crack));
+    cfg.max_score = 4.56f;
+    TEST_ASSERT_EQUAL_FLOAT(4.56f, enigma_crack_get_max_score(&cfg));
 }
 
 void test_enigma_crack_get_max_score_WithInvalidArguments(void) {
@@ -672,9 +658,8 @@ void test_enigma_crack_get_max_score_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_target_score(void) {
-    enigma_crack_t crack;
-    crack.target_score = 7.89f;
-    TEST_ASSERT_EQUAL_FLOAT(7.89f, enigma_crack_get_target_score(&crack));
+    cfg.target_score = 7.89f;
+    TEST_ASSERT_EQUAL_FLOAT(7.89f, enigma_crack_get_target_score(&cfg));
 }
 
 void test_enigma_crack_get_target_score_WithInvalidArguments(void) {
@@ -682,10 +667,9 @@ void test_enigma_crack_get_target_score_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_known_plaintext(void) {
-    enigma_crack_t crack;
-    const char*    plaintext = "FOO";
-    crack.known_plaintext    = plaintext;
-    TEST_ASSERT_EQUAL_PTR(plaintext, enigma_crack_get_known_plaintext(&crack));
+    const char* plaintext = "FOO";
+    cfg.known_plaintext   = plaintext;
+    TEST_ASSERT_EQUAL_PTR(plaintext, enigma_crack_get_known_plaintext(&cfg));
 }
 
 void test_enigma_crack_get_known_plaintext_WithInvalidArguments(void) {
@@ -693,9 +677,8 @@ void test_enigma_crack_get_known_plaintext_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_known_plaintext_length(void) {
-    enigma_crack_t crack;
-    crack.known_plaintext_length = 8;
-    TEST_ASSERT_EQUAL_INT(8, enigma_crack_get_known_plaintext_length(&crack));
+    cfg.known_plaintext_length = 8;
+    TEST_ASSERT_EQUAL_INT(8, enigma_crack_get_known_plaintext_length(&cfg));
 }
 
 void test_enigma_crack_get_known_plaintext_length_WithInvalidArguments(void) {
@@ -703,37 +686,33 @@ void test_enigma_crack_get_known_plaintext_length_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_enigma(void) {
-    enigma_crack_t crack;
-    enigma_t       enigma;
-    int            ret = enigma_crack_set_enigma(&crack, &enigma);
+    Enigma enigma;
+    int    ret = enigma_crack_set_enigma(&cfg, &enigma);
     TEST_ASSERT_EQUAL_INT(0, ret);
 }
 
 void test_enigma_crack_set_enigma_WithInvalidArguments(void) {
-    enigma_t enigma;
+    Enigma enigma;
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_enigma(NULL, &enigma));
-    enigma_crack_t crack;
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_enigma(&crack, NULL));
+    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_enigma(&cfg, NULL));
 }
 
 void test_enigma_crack_set_score_list(void) {
-    enigma_crack_t      crack;
-    enigma_score_list_t scores;
-    int                 ret = enigma_crack_set_score_list(&crack, &scores);
+    EnigmaCrackParams params; // Need to use a different var here to avoid illegal free()
+    EnigmaScoreList   scores;
+    int               ret = enigma_crack_set_score_list(&params, &scores);
     TEST_ASSERT_EQUAL_INT(0, ret);
 }
 
 void test_enigma_crack_set_score_list_WithInvalidArguments(void) {
-    enigma_score_list_t scores;
+    EnigmaScoreList scores;
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_score_list(NULL, &scores));
-    enigma_crack_t crack;
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_score_list(&crack, NULL));
+    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_score_list(&cfg, NULL));
 }
 
 void test_enigma_crack_set_ngrams(void) {
-    enigma_crack_t cfg;
-    float          ngrams[10] = { 0 };
-    int            ret        = enigma_crack_set_ngrams(&cfg, ngrams, 3, 10);
+    float ngrams[10] = { 0 };
+    int   ret        = enigma_crack_set_ngrams(&cfg, ngrams, 3, 10);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_PTR(ngrams, cfg.ngrams);
     TEST_ASSERT_EQUAL_INT(3, cfg.n);
@@ -741,8 +720,7 @@ void test_enigma_crack_set_ngrams(void) {
 }
 
 void test_enigma_crack_set_ngrams_WithInvalidArguments(void) {
-    enigma_crack_t cfg;
-    float          ngrams[10] = { 0 };
+    float ngrams[10] = { 0 };
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_ngrams(NULL, ngrams, 3, 10));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_ngrams(&cfg, NULL, 3, 10));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_ngrams(&cfg, ngrams, 1, 10));
@@ -750,54 +728,47 @@ void test_enigma_crack_set_ngrams_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_n(void) {
-    enigma_crack_t cfg;
-    int            ret = enigma_crack_set_n(&cfg, 3);
+    int ret = enigma_crack_set_n(&cfg, 3);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(3, cfg.n);
 }
 
 void test_enigma_crack_set_n_WithInvalidArguments(void) {
-    enigma_crack_t cfg;
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_n(NULL, 3));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_n(&cfg, 1));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_n(&cfg, 5));
 }
 
 void test_enigma_crack_set_dictionary(void) {
-    enigma_crack_t cfg;
-    const char*    dict[2] = { "WORD1", "WORD2" };
-    int            ret     = enigma_crack_set_dictionary(&cfg, dict, 2);
+    const char* dict[2] = { "WORD1", "WORD2" };
+    int         ret     = enigma_crack_set_dictionary(&cfg, dict, 2);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_PTR(dict, cfg.dictionary);
     TEST_ASSERT_EQUAL_INT(2, cfg.dictionary_length);
 }
 
 void test_enigma_crack_set_dictionary_WithInvalidArguments(void) {
-    enigma_crack_t cfg;
-    const char*    dict[2] = { "WORD1", "WORD2" };
+    const char* dict[2] = { "WORD1", "WORD2" };
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_dictionary(NULL, dict, 2));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_dictionary(&cfg, NULL, 2));
 }
 
 void test_enigma_crack_set_ciphertext(void) {
-    enigma_crack_t cfg;
-    const char*    ciphertext = "ABCDEF";
-    int            ret        = enigma_crack_set_ciphertext(&cfg, ciphertext, 6);
+    const char* ciphertext = "ABCDEF";
+    int         ret        = enigma_crack_set_ciphertext(&cfg, ciphertext, 6);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_PTR(ciphertext, cfg.ciphertext);
     TEST_ASSERT_EQUAL_INT(6, cfg.ciphertext_length);
 }
 
 void test_enigma_crack_set_ciphertext_WithInvalidArguments(void) {
-    enigma_crack_t cfg;
-    const char*    ciphertext = "ABCDEF";
+    const char* ciphertext = "ABCDEF";
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_ciphertext(NULL, ciphertext, 6));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_ciphertext(&cfg, NULL, 6));
 }
 
 void test_enigma_crack_set_flags(void) {
-    enigma_crack_t cfg;
-    int            ret = enigma_crack_set_flags(&cfg, 42);
+    int ret = enigma_crack_set_flags(&cfg, 42);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(42, cfg.flags);
 }
@@ -807,8 +778,7 @@ void test_enigma_crack_set_flags_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_frequency_targets(void) {
-    enigma_crack_t cfg;
-    float          targets[26] = { 0 };
+    float targets[26] = { 0 };
     for (int i = 0; i < 26; i++)
         targets[i] = (float) i;
     int ret = enigma_crack_set_frequency_targets(&cfg, targets);
@@ -819,15 +789,13 @@ void test_enigma_crack_set_frequency_targets(void) {
 }
 
 void test_enigma_crack_set_frequency_targets_WithInvalidArguments(void) {
-    enigma_crack_t cfg;
-    float          targets[26] = { 0 };
+    float targets[26] = { 0 };
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_frequency_targets(NULL, targets));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_frequency_targets(&cfg, NULL));
 }
 
 void test_enigma_crack_set_min_score(void) {
-    enigma_crack_t cfg;
-    int            ret = enigma_crack_set_min_score(&cfg, 1.23f);
+    int ret = enigma_crack_set_min_score(&cfg, 1.23f);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_FLOAT(1.23f, cfg.min_score);
 }
@@ -837,9 +805,8 @@ void test_enigma_crack_set_min_score_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_max_score(void) {
-    enigma_crack_t cfg;
-    int            expected = 4.56f;
-    int            ret      = enigma_crack_set_max_score(&cfg, expected);
+    int expected = 4.56f;
+    int ret      = enigma_crack_set_max_score(&cfg, expected);
     TEST_ASSERT_EQUAL_INT(ENIGMA_SUCCESS, ret);
     TEST_ASSERT_EQUAL_FLOAT(expected, cfg.max_score);
 }
@@ -849,8 +816,7 @@ void test_enigma_crack_set_max_score_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_target_score(void) {
-    enigma_crack_t cfg;
-    int            ret = enigma_crack_set_target_score(&cfg, 7.89f);
+    int ret = enigma_crack_set_target_score(&cfg, 7.89f);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_FLOAT(7.89f, cfg.target_score);
 }
@@ -860,17 +826,15 @@ void test_enigma_crack_set_target_score_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_known_plaintext(void) {
-    enigma_crack_t cfg;
-    const char*    known = "HELLO";
-    int            ret   = enigma_crack_set_known_plaintext(&cfg, known, 5);
+    const char* known = "HELLO";
+    int         ret   = enigma_crack_set_known_plaintext(&cfg, known, 5);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_PTR(known, cfg.known_plaintext);
     TEST_ASSERT_EQUAL_INT(5, cfg.known_plaintext_length);
 }
 
 void test_enigma_crack_set_known_plaintext_WithInvalidArguments(void) {
-    enigma_crack_t cfg;
-    const char*    known = "HELLO";
+    const char* known = "HELLO";
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_known_plaintext(NULL, known, 5));
     TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_known_plaintext(&cfg, NULL, 5));
 }

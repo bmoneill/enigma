@@ -10,9 +10,9 @@
 static void print_usage(const char*);
 
 int         main(int argc, char* argv[]) {
-    int      opt;
-    enigma_t enigma;
-    char     buf[256];
+    int    opt;
+    Enigma enigma;
+    char   buf[256];
 
     enigma_init_default_config(&enigma);
 

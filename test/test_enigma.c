@@ -2,7 +2,7 @@
 #include "enigma/enigma.h"
 #include "unity.h"
 
-enigma_t    enigma;
+Enigma      enigma;
 const char* success = "Expected success";
 const char* failure = "Expected failure";
 
@@ -26,7 +26,7 @@ void test_enigma_encode(void) {
 }
 
 void test_enigma_encode_string(void) {
-    enigma_t    enigma;
+    Enigma      enigma;
     const char* input     = "HELLO";
     char        output[6] = { 0 };
 
@@ -57,10 +57,10 @@ void test_enigma_encode_string_WithInvalidArguments(void) {
 }
 
 void test_enigma_init_rotors(void) {
-    enigma_t             enigma;
-    const enigma_rotor_t rotor_array[3] = { enigma_rotor_III, enigma_rotor_II, enigma_rotor_I };
+    Enigma            enigma;
+    const EnigmaRotor rotor_array[3] = { enigma_rotor_III, enigma_rotor_II, enigma_rotor_I };
 
-    int                  ret            = enigma_init_rotors(&enigma, rotor_array, 3);
+    int               ret            = enigma_init_rotors(&enigma, rotor_array, 3);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
     TEST_ASSERT_EQUAL_STRING_MESSAGE("III",
@@ -76,7 +76,7 @@ void test_enigma_init_rotors(void) {
 }
 
 void test_enigma_init_rotors_WithInvalidArguments(void) {
-    const enigma_rotor_t rotor_array[3] = { enigma_rotor_III, enigma_rotor_II, enigma_rotor_I };
+    const EnigmaRotor rotor_array[3] = { enigma_rotor_III, enigma_rotor_II, enigma_rotor_I };
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_init_rotors(NULL, NULL, 2), failure);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
@@ -92,7 +92,7 @@ void test_enigma_init_rotors_WithInvalidArguments(void) {
 }
 
 void test_enigma_init_default_config(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma_init_default_config(&enigma);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(3, enigma.rotor_count, "Expected rotor count to be set properly");
@@ -114,7 +114,7 @@ void test_enigma_init_default_config_WithInvalidArguments(void) {
 }
 
 void test_enigma_init_random_config(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma_init_random_config(&enigma);
 
     TEST_ASSERT_TRUE_MESSAGE(enigma.rotor_count == 3 || enigma.rotor_count == 4,
@@ -147,10 +147,10 @@ void test_rotate(void) {
 }
 
 void test_rotate_rotors(void) {
-    enigma_t       enigma;
-    enigma_rotor_t rotor1 = enigma_rotor_I;
-    enigma_rotor_t rotor2 = enigma_rotor_II;
-    enigma_rotor_t rotor3 = enigma_rotor_III;
+    Enigma      enigma;
+    EnigmaRotor rotor1 = enigma_rotor_I;
+    EnigmaRotor rotor2 = enigma_rotor_II;
+    EnigmaRotor rotor3 = enigma_rotor_III;
 
     enigma_init_default_config(&enigma);
     enigma.rotor_count      = 3;
@@ -180,8 +180,8 @@ void test_rotate_rotors(void) {
 }
 
 void test_rotor_pass_forward(void) {
-    int            idx   = 0;
-    enigma_rotor_t rotor = {
+    int         idx   = 0;
+    EnigmaRotor rotor = {
         .fwd_indices = { 4,  10, 12, 5,  11, 6,  3,  16, 21, 25, 13, 19, 14,
                          22, 24, 7,  23, 20, 18, 15, 0,  8,  1,  17, 2,  9 },
     };
@@ -195,8 +195,8 @@ void test_rotor_pass_forward(void) {
 }
 
 void test_rotor_pass_reverse(void) {
-    int            idx   = 0;
-    enigma_rotor_t rotor = {
+    int         idx   = 0;
+    EnigmaRotor rotor = {
         .rev_indices = { 20, 22, 24, 6, 0,  3,  5,  15, 21, 25, 1,  4,  2,
                          10, 12, 19, 7, 23, 18, 11, 17, 8,  16, 14, 13, 9 },
     };
@@ -210,7 +210,7 @@ void test_rotor_pass_reverse(void) {
 }
 
 void test_substitute(void) {
-    enigma_t enigma;
+    Enigma enigma;
     strcpy(enigma.plugboard, "ABCD");
 
     TEST_ASSERT_EQUAL_CHAR_MESSAGE('B',
@@ -237,7 +237,7 @@ void test_enigma_version(void) { TEST_ASSERT_EQUAL_STRING(LIBENIGMA_VERSION, eni
 // --- enigma_t getter/setter tests ---
 
 void test_enigma_get_plugboard(void) {
-    enigma_t    enigma;
+    Enigma      enigma;
     const char* plugboard = "ABCD";
     strcpy(enigma.plugboard, plugboard);
 
@@ -245,39 +245,39 @@ void test_enigma_get_plugboard(void) {
 }
 
 void test_enigma_get_reflector(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma.reflector = enigma_reflectors[0];
 
     TEST_ASSERT_EQUAL_PTR(enigma_reflectors[0], enigma_get_reflector(&enigma));
 }
 
 void test_enigma_get_rotor(void) {
-    enigma_t              enigma;
-    const enigma_rotor_t* rotor = enigma_rotors[0];
-    enigma.rotors[0]            = rotor;
+    Enigma             enigma;
+    const EnigmaRotor* rotor = enigma_rotors[0];
+    enigma.rotors[0]         = rotor;
     TEST_ASSERT_EQUAL_PTR(rotor, enigma_get_rotor(&enigma, 0));
 }
 
 void test_enigma_get_rotor_count(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma.rotor_count = 0;
     TEST_ASSERT_EQUAL_INT(0, enigma_get_rotor_count(&enigma));
 }
 
 void test_enigma_get_rotor_flag(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma.rotor_flag = 42;
     TEST_ASSERT_EQUAL_INT(42, enigma_get_rotor_flag(&enigma));
 }
 
 void test_enigma_get_rotor_index(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma.rotor_indices[2] = 7;
     TEST_ASSERT_EQUAL_INT(7, enigma_get_rotor_index(&enigma, 2));
 }
 
 void test_enigma_set_plugboard(void) {
-    enigma_t    enigma;
+    Enigma      enigma;
     const char* plugboard = "QWERTY";
     int         ret       = enigma_set_plugboard(&enigma, plugboard);
     TEST_ASSERT_EQUAL_INT(0, ret);
@@ -285,35 +285,35 @@ void test_enigma_set_plugboard(void) {
 }
 
 void test_enigma_set_reflector(void) {
-    enigma_t enigma;
-    int      ret = enigma_set_reflector(&enigma, 0); // assuming 0 is a valid reflector index
+    Enigma enigma;
+    int    ret = enigma_set_reflector(&enigma, 0); // assuming 0 is a valid reflector index
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_NOT_NULL(enigma.reflector);
 }
 
 void test_enigma_set_rotor(void) {
-    enigma_t enigma;
-    int      ret = enigma_set_rotor(&enigma, 1, 2); // set rotor 1 to rotor index 2
+    Enigma enigma;
+    int    ret = enigma_set_rotor(&enigma, 1, 2); // set rotor 1 to rotor index 2
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_NOT_NULL(enigma.rotors[1]);
 }
 
 void test_enigma_set_rotor_count(void) {
-    enigma_t enigma;
-    int      ret = enigma_set_rotor_count(&enigma, 4);
+    Enigma enigma;
+    int    ret = enigma_set_rotor_count(&enigma, 4);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(4, enigma.rotor_count);
 }
 
 void test_enigma_set_rotor_flag(void) {
-    enigma_t enigma;
-    int      ret = enigma_set_rotor_flag(&enigma, 1);
+    Enigma enigma;
+    int    ret = enigma_set_rotor_flag(&enigma, 1);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_INT(1, enigma.rotor_flag);
 }
 
 void test_enigma_set_rotor_index(void) {
-    enigma_t enigma;
+    Enigma enigma;
     enigma.rotor_count = 3;
     int ret            = enigma_set_rotor_index(&enigma, 2, 15);
     TEST_ASSERT_EQUAL_INT(0, ret);
