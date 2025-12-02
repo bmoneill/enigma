@@ -14,8 +14,8 @@
  * @param alphabet The alphabet to generate the indices from.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* reflector,
-                                                           const char*         alphabet) {
+EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(EnigmaReflector* reflector,
+                                                           const char*      alphabet) {
     if (!reflector || !alphabet || strlen(alphabet) != 26) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -31,7 +31,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_generate_indices(enigma_reflector_t* r
  * @param reflector The reflector to get the name of.
  * @return The name of the reflector.
  */
-EMSCRIPTEN_KEEPALIVE const char* enigma_reflector_get_name(const enigma_reflector_t* reflector) {
+EMSCRIPTEN_KEEPALIVE const char* enigma_reflector_get_name(const EnigmaReflector* reflector) {
     if (!reflector) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -45,7 +45,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_reflector_get_name(const enigma_reflecto
  * @param reflector The reflector to get the indices of.
  * @return The indices of the reflector.
  */
-EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const enigma_reflector_t* reflector) {
+EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const EnigmaReflector* reflector) {
     if (!reflector) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -63,8 +63,7 @@ EMSCRIPTEN_KEEPALIVE const int* enigma_reflector_get_indices(const enigma_reflec
  * @param name The name to set.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector,
-                                                   const char*         name) {
+EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(EnigmaReflector* reflector, const char* name) {
     if (!reflector || !name) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -79,8 +78,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_name(enigma_reflector_t* reflector
  * @param indices The indices to set.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_indices(enigma_reflector_t* reflector,
-                                                      const int*          indices) {
+EMSCRIPTEN_KEEPALIVE int enigma_reflector_set_indices(EnigmaReflector* reflector,
+                                                      const int*       indices) {
     if (!reflector || !indices) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }

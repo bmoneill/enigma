@@ -8,8 +8,8 @@
 #include "enigma.h"
 
 #include "common.h"
-#include "rotor.h"
 #include "io.h"
+#include "rotor.h"
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -20,9 +20,9 @@
 #define ALPHA2IDX(c) ((c) - 'A')
 
 static ENIGMA_ALWAYS_INLINE void rotate(int*);
-static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t*);
-static ENIGMA_ALWAYS_INLINE int  rotor_pass_forward(const enigma_rotor_t*, int, int);
-static ENIGMA_ALWAYS_INLINE int  rotor_pass_reverse(const enigma_rotor_t*, int, int);
+static ENIGMA_ALWAYS_INLINE void rotate_rotors(Enigma*);
+static ENIGMA_ALWAYS_INLINE int  rotor_pass_forward(const EnigmaRotor*, int, int);
+static ENIGMA_ALWAYS_INLINE int  rotor_pass_reverse(const EnigmaRotor*, int, int);
 static ENIGMA_ALWAYS_INLINE char substitute(const char*, char);
 
 /**
@@ -38,7 +38,7 @@ static ENIGMA_ALWAYS_INLINE char substitute(const char*, char);
  * @param c The character to encode.
  * @return The encoded character.
  */
-EMSCRIPTEN_KEEPALIVE char enigma_encode(enigma_t* enigma, int c) {
+EMSCRIPTEN_KEEPALIVE char enigma_encode(Enigma* enigma, int c) {
     if (!enigma || c < 'A' || c > 'Z') {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -85,7 +85,7 @@ EMSCRIPTEN_KEEPALIVE char enigma_encode(enigma_t* enigma, int c) {
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int
-enigma_encode_string(enigma_t* enigma, const char* input, char* output, int length) {
+enigma_encode_string(Enigma* enigma, const char* input, char* output, int length) {
     if (!enigma || !input || !output || length <= 0) {
         return ENIGMA_FAILURE;
     }
@@ -101,16 +101,15 @@ enigma_encode_string(enigma_t* enigma, const char* input, char* output, int leng
 /**
  * @brief Initialize the rotors of the Enigma machine.
  *
- * This populates the `rotors` array in the specified `enigma_t` by copying the
+ * This populates the `rotors` array in the specified `Enigma` by copying the
  * provided array of rotors. It also sets the rotor flag and count.
  *
- * @param enigma Pointer to the `enigma_t`.
- * @param rotors Array of `rotor_t`s to copy to the `enigma_t`.
+ * @param enigma Pointer to the `Enigma`.
+ * @param rotors Array of `EnigmaRotor`s to copy to the `Enigma`.
  * @param count Number of rotors to copy.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int
-enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int count) {
+EMSCRIPTEN_KEEPALIVE int enigma_init_rotors(Enigma* enigma, const EnigmaRotor* rotors, int count) {
     if (!enigma || !rotors || count <= 0 || count > ENIGMA_MAX_ROTOR_COUNT) {
         return ENIGMA_FAILURE;
     }
@@ -131,10 +130,10 @@ enigma_init_rotors(enigma_t* enigma, const enigma_rotor_t* rotors, int count) {
  * - Rotor positions: A, A, A
  * - Empty plugboard
  *
- * @param enigma Pointer to the `enigma_t` to be initialized.
+ * @param enigma Pointer to the `Enigma` to be initialized.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_init_default_config(enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE int enigma_init_default_config(Enigma* enigma) {
     if (!enigma) {
         return ENIGMA_FAILURE;
     }
@@ -157,10 +156,10 @@ EMSCRIPTEN_KEEPALIVE int enigma_init_default_config(enigma_t* enigma) {
  *
  * This function initializes the Enigma machine with a random configuration.
  *
- * @param enigma Pointer to the `enigma_t` to be initialized.
+ * @param enigma Pointer to the `Enigma` to be initialized.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_init_random_config(enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE int enigma_init_random_config(Enigma* enigma) {
     if (!enigma) {
         return ENIGMA_FAILURE;
     }
@@ -175,7 +174,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_init_random_config(enigma_t* enigma) {
     }
 
     for (int i = 0; i < enigma->rotor_count; i++) {
-        const enigma_rotor_t* candidate = NULL;
+        const EnigmaRotor* candidate = NULL;
         while (!unique) {
             unique    = 1;
             candidate = enigma_rotors[rand() % ENIGMA_ROTOR_COUNT];
@@ -230,7 +229,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) { return LIBENIGMA_VERSION
  * @param enigma Pointer to the Enigma machine.
  * @return Pointer to the plugboard configuration string.
  */
-EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const Enigma* enigma) {
     if (!enigma) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -246,7 +245,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const enigma_t* enigma) {
  * @param enigma Pointer to the Enigma machine.
  * @return Pointer to the reflector configuration.
  */
-EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(const enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE const EnigmaReflector* enigma_get_reflector(const Enigma* enigma) {
     if (!enigma) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -262,8 +261,7 @@ EMSCRIPTEN_KEEPALIVE const enigma_reflector_t* enigma_get_reflector(const enigma
  * @param rotorIndex Index of the rotor to retrieve.
  * @return Pointer to the rotor configuration.
  */
-EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(const enigma_t* enigma,
-                                                            int             rotorIndex) {
+EMSCRIPTEN_KEEPALIVE const EnigmaRotor* enigma_get_rotor(const Enigma* enigma, int rotorIndex) {
     if (!enigma) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -279,7 +277,7 @@ EMSCRIPTEN_KEEPALIVE const enigma_rotor_t* enigma_get_rotor(const enigma_t* enig
  * @param enigma Pointer to the Enigma machine.
  * @return Number of rotors, or ENIGMA_FAILURE if the Enigma machine is invalid.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(const enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(const Enigma* enigma) {
     if (!enigma) {
         return ENIGMA_FAILURE;
     }
@@ -294,7 +292,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_count(const enigma_t* enigma) {
  * @param enigma Pointer to the Enigma machine.
  * @return Rotor flag value, or ENIGMA_FAILURE if the Enigma machine is invalid.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_flag(const enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_flag(const Enigma* enigma) {
     if (!enigma) {
         return ENIGMA_FAILURE;
     }
@@ -310,7 +308,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_flag(const enigma_t* enigma) {
  * @param rotor Pointer to the rotor configuration.
  * @return Index of the rotor, or ENIGMA_FAILURE if the Enigma machine is invalid.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(const enigma_t* enigma, int rotor) {
+EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(const Enigma* enigma, int rotor) {
     if (!enigma) {
         return ENIGMA_FAILURE;
     }
@@ -329,7 +327,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_get_rotor_index(const enigma_t* enigma, int roto
  * @param s Pointer to the string containing the plugboard configuration.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
+EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(Enigma* enigma, const char* s) {
     if (!enigma || !s || strlen(s) % 2 != 0 || strlen(s) > 26) {
         return ENIGMA_FAILURE;
     }
@@ -356,7 +354,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_plugboard(enigma_t* enigma, const char* s) {
  * @param reflector Index of the reflector to be set.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_set_reflector(enigma_t* enigma, int reflector) {
+EMSCRIPTEN_KEEPALIVE int enigma_set_reflector(Enigma* enigma, int reflector) {
     if (!enigma || reflector < 0 || reflector >= ENIGMA_REFLECTOR_COUNT) {
         return ENIGMA_FAILURE;
     }
@@ -374,7 +372,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_reflector(enigma_t* enigma, int reflector) {
  * @param index Index to place the rotor in enigma
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_set_rotor(enigma_t* enigma, int rotor, int index) {
+EMSCRIPTEN_KEEPALIVE int enigma_set_rotor(Enigma* enigma, int rotor, int index) {
     if (!enigma || rotor < 0 || rotor >= ENIGMA_ROTOR_COUNT || index < 0
         || index >= ENIGMA_MAX_ROTOR_COUNT) {
         return ENIGMA_FAILURE;
@@ -392,7 +390,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_rotor(enigma_t* enigma, int rotor, int index
  * @param count Number of rotors.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_count(enigma_t* enigma, int count) {
+EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_count(Enigma* enigma, int count) {
     if (!enigma || count < 0 || count > ENIGMA_MAX_ROTOR_COUNT) {
         return ENIGMA_FAILURE;
     }
@@ -409,7 +407,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_count(enigma_t* enigma, int count) {
  * @param flag Value to set the rotor flag to.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-int enigma_set_rotor_flag(enigma_t* enigma, int flag) {
+int enigma_set_rotor_flag(Enigma* enigma, int flag) {
     if (!enigma || flag < 0 || flag > 1) {
         return ENIGMA_FAILURE;
     }
@@ -426,7 +424,7 @@ int enigma_set_rotor_flag(enigma_t* enigma, int flag) {
  * @param index Index to set the rotor to in the Enigma machine.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_index(enigma_t* enigma, int rotor, int index) {
+EMSCRIPTEN_KEEPALIVE int enigma_set_rotor_index(Enigma* enigma, int rotor, int index) {
     if (!enigma || rotor < 0 || rotor >= enigma->rotor_count || index < 0
         || index >= ENIGMA_ALPHA_SIZE) {
         return ENIGMA_FAILURE;
@@ -458,7 +456,7 @@ static ENIGMA_ALWAYS_INLINE void rotate(int* idx) {
  *
  * @param enigma Pointer to the Enigma machine structure.
  */
-static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t* enigma) {
+static ENIGMA_ALWAYS_INLINE void rotate_rotors(Enigma* enigma) {
     int turned = 0;
     for (int i = 0; i < enigma->rotors[1]->notches_count; i++) {
         if (enigma->rotors[1]->fwd_indices[enigma->rotor_indices[1]]
@@ -491,8 +489,7 @@ static ENIGMA_ALWAYS_INLINE void rotate_rotors(enigma_t* enigma) {
  *
  * @return The index of the character after passing through the rotor.
  */
-static ENIGMA_ALWAYS_INLINE int
-rotor_pass_forward(const enigma_rotor_t* rotor, int rotIdx, int idx) {
+static ENIGMA_ALWAYS_INLINE int rotor_pass_forward(const EnigmaRotor* rotor, int rotIdx, int idx) {
     idx = idx + rotIdx;
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;
@@ -516,8 +513,7 @@ rotor_pass_forward(const enigma_rotor_t* rotor, int rotIdx, int idx) {
  *
  * @return The index of the character after passing through the rotor.
  */
-static ENIGMA_ALWAYS_INLINE int
-rotor_pass_reverse(const enigma_rotor_t* rotor, int rotIdx, int idx) {
+static ENIGMA_ALWAYS_INLINE int rotor_pass_reverse(const EnigmaRotor* rotor, int rotIdx, int idx) {
     idx += rotIdx;
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;

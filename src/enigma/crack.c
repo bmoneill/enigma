@@ -37,19 +37,19 @@ static int score_compare(const void* a, const void* b);
  *
  * @return `ENIGMA_SUCCESS` on success, `ENIGMA_FAILURE` on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
-                                                float (*scoreFunc)(const enigma_crack_t*,
+EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(EnigmaCrackParams* cfg,
+                                                float (*scoreFunc)(const EnigmaCrackParams*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    enigma_t enigma = cfg->enigma;
-    enigma_t enigmaTmp;
-    int      curSettings   = strlen(cfg->enigma.plugboard) / 2;
+    Enigma enigma = cfg->enigma;
+    Enigma enigmaTmp;
+    int    curSettings   = strlen(cfg->enigma.plugboard) / 2;
 
-    char*    plaintext     = malloc((cfg->ciphertext_length + 1) * sizeof(char));
-    int      remaining[26] = { 0 };
+    char*  plaintext     = malloc((cfg->ciphertext_length + 1) * sizeof(char));
+    int    remaining[26] = { 0 };
 
     memset(remaining, 1, sizeof(remaining));
     for (int i = 0; i < curSettings * 2; i++) {
@@ -95,18 +95,18 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_plugboard(enigma_crack_t* cfg,
  *
  * @return `ENIGMA_SUCCESS` on success, `ENIGMA_FAILURE` on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
-                                                float (*scoreFunc)(const enigma_crack_t*,
+EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(EnigmaCrackParams* cfg,
+                                                float (*scoreFunc)(const EnigmaCrackParams*,
                                                                    const char*)) {
     if (!cfg || !scoreFunc) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    enigma_t enigma;
-    enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
+    Enigma enigma;
+    Enigma enigmaTmp;
+    char*  plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    enigma             = cfg->enigma;
+    enigma           = cfg->enigma;
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         enigma.reflector = enigma_reflectors[i];
         enigmaTmp        = enigma;
@@ -133,17 +133,19 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_reflector(enigma_crack_t* cfg,
  *
  * @return `ENIGMA_SUCCESS` on success, `ENIGMA_FAILURE` on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
-    enigma_crack_t* cfg, int targetRotor, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(EnigmaCrackParams* cfg,
+                                            int                targetRotor,
+                                            float (*scoreFunc)(const EnigmaCrackParams*,
+                                                               const char*)) {
     if (!cfg || !scoreFunc || targetRotor > 3) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    enigma_t enigma;
-    enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
+    Enigma enigma;
+    Enigma enigmaTmp;
+    char*  plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    enigma             = cfg->enigma;
+    enigma           = cfg->enigma;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         enigma.rotors[targetRotor] = enigma_rotors[i];
         enigmaTmp                  = enigma;
@@ -168,17 +170,18 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor(
  *
  * @return `ENIGMA_SUCCESS` on success, `ENIGMA_FAILURE` on failure.
  */
-EMSCRIPTEN_KEEPALIVE int
-enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t*, const char*)) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_rotors(EnigmaCrackParams* cfg,
+                                             float (*scoreFunc)(const EnigmaCrackParams*,
+                                                                const char*)) {
     if (!cfg || !scoreFunc) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    enigma_t enigma;
-    enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
+    Enigma enigma;
+    Enigma enigmaTmp;
+    char*  plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
-    enigma             = cfg->enigma;
+    enigma           = cfg->enigma;
     for (int i = 0; i < ENIGMA_ROTOR_COUNT; i++) {
         for (int j = 0; j < ENIGMA_ROTOR_COUNT; j++) {
             if (i == j)
@@ -236,16 +239,16 @@ enigma_crack_rotors(enigma_crack_t* cfg, float (*scoreFunc)(const enigma_crack_t
  *
  * @return `ENIGMA_SUCCESS` on success, `ENIGMA_FAILURE` on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
-                                                      float (*scoreFunc)(const enigma_crack_t*,
+EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(EnigmaCrackParams* cfg,
+                                                      float (*scoreFunc)(const EnigmaCrackParams*,
                                                                          const char*)) {
     if (!cfg || !scoreFunc) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    enigma_t enigma;
-    enigma_t enigmaTmp;
-    char*    plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
+    Enigma enigma;
+    Enigma enigmaTmp;
+    char*  plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
 
     for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
         for (int j = 0; j < ENIGMA_ALPHA_SIZE; j++) {
@@ -295,12 +298,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(enigma_crack_t* cfg,
  *
  * The dictionary must be uppercase.
  *
- * @param cfg The enigma_crack_t containing the dictionary and its size
+ * @param cfg The EnigmaCrackParams struct containing the dictionary and its size
  * @param plaintext The plaintext to check
  *
  * @return 1 if multiple words are found, 0 if not, `ENIGMA_FAILURE` on error
  */
-EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const enigma_crack_t* cfg, const char* plaintext) {
+EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const char* plaintext) {
     if (!cfg || !plaintext || !cfg->dictionary) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -395,14 +398,14 @@ EMSCRIPTEN_KEEPALIVE float enigma_freq(const char* plaintext, int len) {
  * letters deviate from the target frequencies, the function returns 0 (false).
  * Otherwise, it returns 1 (true).
  *
- * @param cfg       The enigma_crack_t containing the target frequencies
+ * @param cfg       The EnigmaCrackParams struct containing the target frequencies
  * and offset
  * @param plaintext The plaintext to analyze
  *
  * @return 1 if over half of the letter frequencies match within the offset, 0
  * if not, `ENIGMA_FAILURE` if error.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_t* cfg, const char* plaintext) {
+EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const EnigmaCrackParams* cfg, const char* plaintext) {
     if (!cfg || !plaintext) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -427,27 +430,27 @@ EMSCRIPTEN_KEEPALIVE int enigma_letter_freq(const enigma_crack_t* cfg, const cha
 }
 
 /**
- * @brief Append a score to an enigma_score_list_t.
+ * @brief Append a score to an EnigmaScoreList.
  *
  * If the scores array is full, it will be resized to double its current size.
  *
  * @param cfg Pointer to the cracking configuration structure.
- * @param enigma Pointer to the enigma_t structure representing the scored
+ * @param enigma Pointer to the Enigma structure representing the scored
  * configuration.
  * @param plaintext The plaintext corresponding to the score.
  * @param score The score to append.
  * @return `ENIGMA_SUCCESS` on success, `ENIGMA_FAILURE` on failure.
  */
 EMSCRIPTEN_KEEPALIVE int
-enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext, float score) {
+enigma_score_append(EnigmaCrackParams* cfg, Enigma* enigma, const char* plaintext, float score) {
     if (!cfg || !enigma || !plaintext) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
     if (cfg->score_list->score_count >= cfg->score_list->max_scores) {
         cfg->score_list->max_scores *= 2;
-        cfg->score_list->scores = realloc(cfg->score_list->scores,
-                                          cfg->score_list->max_scores * sizeof(enigma_score_t));
+        cfg->score_list->scores
+            = realloc(cfg->score_list->scores, cfg->score_list->max_scores * sizeof(EnigmaScore));
     }
 
     cfg->score_list->scores[cfg->score_list->score_count].enigma = *enigma;
@@ -463,15 +466,15 @@ enigma_score_append(enigma_crack_t* cfg, enigma_t* enigma, const char* plaintext
  * @brief Get the flags for a given plaintext based on the crack configuration.
  *
  * This function checks the plaintext against the criteria specified in the
- * enigma_crack_t and returns a bitmask of flags indicating which
+ * EnigmaCrackParams and returns a bitmask of flags indicating which
  * criteria were met.
  *
- * @param cfg The enigma_crack_t containing the criteria and flags.
+ * @param cfg The EnigmaCrackParams containing the criteria and flags.
  * @param plaintext The plaintext to evaluate.
  * @return A bitmask of flags indicating which criteria were met, or `ENIGMA_FAILURE` if
  * error.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_t* cfg, const char* plaintext) {
+EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const EnigmaCrackParams* cfg, const char* plaintext) {
     if (!cfg || !plaintext) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -512,12 +515,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_flags(const enigma_crack_t* cfg, const cha
 }
 
 /**
- * @brief Get the enigma field in the given enigma_crack_t
+ * @brief Get the enigma field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The enigma field, or NULL if cfg is NULL.
  */
-EMSCRIPTEN_KEEPALIVE const enigma_t* enigma_crack_get_enigma(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const Enigma* enigma_crack_get_enigma(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -527,13 +530,13 @@ EMSCRIPTEN_KEEPALIVE const enigma_t* enigma_crack_get_enigma(const enigma_crack_
 }
 
 /**
- * @brief Get the score_list field in the given enigma_crack_t
+ * @brief Get the score_list field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The scores field, or NULL if cfg is NULL.
  */
-EMSCRIPTEN_KEEPALIVE const enigma_score_list_t*
-enigma_crack_get_score_list(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const EnigmaScoreList*
+enigma_crack_get_score_list(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -543,12 +546,12 @@ enigma_crack_get_score_list(const enigma_crack_t* cfg) {
 }
 
 /**
- * @brief Get the dictionary field in the given enigma_crack_t
+ * @brief Get the dictionary field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The dictionary field, or NULL if cfg is NULL.
  */
-EMSCRIPTEN_KEEPALIVE const char** enigma_crack_get_dictionary(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const char** enigma_crack_get_dictionary(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -558,12 +561,12 @@ EMSCRIPTEN_KEEPALIVE const char** enigma_crack_get_dictionary(const enigma_crack
 }
 
 /**
- * @brief Get the `dictionary_length` field in the given enigma_crack_t
+ * @brief Get the `dictionary_length` field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The `dictionary_length` field, or `ENIGMA_FAILURE` if `cfg` is NULL.
  */
-EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_dictionary_length(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_dictionary_length(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -572,12 +575,12 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_dictionary_length(const enigma_crac
 }
 
 /**
- * @brief Get the ngrams field in the given enigma_crack_t
+ * @brief Get the ngrams field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The `ngrams` field, or NULL if cfg is NULL.
  */
-EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_ngrams(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_ngrams(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -587,12 +590,12 @@ EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_ngrams(const enigma_crack_t* 
 }
 
 /**
- * @brief Get the n field in the given enigma_crack_t
+ * @brief Get the n field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The n field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_get_n(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_get_n(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -601,12 +604,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_get_n(const enigma_crack_t* cfg) {
 }
 
 /**
- * @brief Get the ngrams_length field in the given enigma_crack_t
+ * @brief Get the ngrams_length field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The ngrams_length field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ngrams_length(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ngrams_length(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -615,12 +618,12 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ngrams_length(const enigma_crack_t*
 }
 
 /**
- * @brief Get the ciphertext field in the given enigma_crack_t
+ * @brief Get the ciphertext field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The ciphertext field, or NULL if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_ciphertext(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_ciphertext(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -630,12 +633,12 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_ciphertext(const enigma_crack_
 }
 
 /**
- * @brief Get the ciphertext_length field in the given enigma_crack_t
+ * @brief Get the ciphertext_length field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The ciphertext_length field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ciphertext_length(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ciphertext_length(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -644,12 +647,12 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_ciphertext_length(const enigma_crac
 }
 
 /**
- * @brief Get the flags field in the given enigma_crack_t
+ * @brief Get the flags field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The flags field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_get_flags(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_get_flags(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -658,12 +661,12 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_get_flags(const enigma_crack_t* cfg) {
 }
 
 /**
- * @brief Get the frequency_targets field in the given enigma_crack_t
+ * @brief Get the frequency_targets field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The frequency_targets field, or NULL if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_frequency_targets(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_frequency_targets(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -673,12 +676,12 @@ EMSCRIPTEN_KEEPALIVE const float* enigma_crack_get_frequency_targets(const enigm
 }
 
 /**
- * @brief Get the min_score field in the given enigma_crack_t
+ * @brief Get the min_score field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The min_score field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE float enigma_crack_get_min_score(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE float enigma_crack_get_min_score(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return (float) ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -687,12 +690,12 @@ EMSCRIPTEN_KEEPALIVE float enigma_crack_get_min_score(const enigma_crack_t* cfg)
 }
 
 /**
- * @brief Get the max_score field in the given enigma_crack_t
+ * @brief Get the max_score field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The max_score field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE float enigma_crack_get_max_score(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE float enigma_crack_get_max_score(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return (float) ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -701,12 +704,12 @@ EMSCRIPTEN_KEEPALIVE float enigma_crack_get_max_score(const enigma_crack_t* cfg)
 }
 
 /**
- * @brief Get the target_score field in the given enigma_crack_t
+ * @brief Get the target_score field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The target_score field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE float enigma_crack_get_target_score(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE float enigma_crack_get_target_score(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return (float) ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -715,12 +718,12 @@ EMSCRIPTEN_KEEPALIVE float enigma_crack_get_target_score(const enigma_crack_t* c
 }
 
 /**
- * @brief Get the known_plaintext field in the given enigma_crack_t
+ * @brief Get the known_plaintext field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The known_plaintext field, or NULL if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_known_plaintext(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_known_plaintext(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
@@ -730,12 +733,12 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_crack_get_known_plaintext(const enigma_c
 }
 
 /**
- * @brief Get the known_plaintext_length field in the given enigma_crack_t
+ * @brief Get the known_plaintext_length field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @return The known_plaintext_length field, or ENIGMA_FAILURE if cfg is NULL
  */
-EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_known_plaintext_length(const enigma_crack_t* cfg) {
+EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_known_plaintext_length(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -744,13 +747,13 @@ EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_known_plaintext_length(const enigma
 }
 
 /**
- * @brief Set the enigma field in the given enigma_crack_t
+ * @brief Set the enigma field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
- * @param enigma The enigma_t instance
+ * @param cfg The EnigmaCrackParams struct instance
+ * @param enigma The Enigmainstance
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(enigma_crack_t* cfg, enigma_t* enigma) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(EnigmaCrackParams* cfg, Enigma* enigma) {
     if (!cfg || !enigma) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -760,14 +763,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_enigma(enigma_crack_t* cfg, enigma_t* 
 }
 
 /**
- * @brief Set the score_list field in the given enigma_crack_t
+ * @brief Set the score_list field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
- * @param scoreList The enigma_score_list_t instance
+ * @param cfg The EnigmaCrackParams struct instance
+ * @param scoreList The EnigmaScoreList instance
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_score_list(enigma_crack_t*      cfg,
-                                                     enigma_score_list_t* scoreList) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_score_list(EnigmaCrackParams* cfg,
+                                                     EnigmaScoreList*   scoreList) {
     if (!cfg || !scoreList) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -777,15 +780,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_score_list(enigma_crack_t*      cfg,
 }
 
 /**
- * @brief Set the dictionary field in the given enigma_crack_t
+ * @brief Set the dictionary field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param dictionary The dictionary array
  * @param length The length of the dictionary array
  * @return 0 on success, -1 on failure
  */
 EMSCRIPTEN_KEEPALIVE int
-enigma_crack_set_dictionary(enigma_crack_t* cfg, const char** dictionary, size_t length) {
+enigma_crack_set_dictionary(EnigmaCrackParams* cfg, const char** dictionary, size_t length) {
     if (!cfg || !dictionary) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -796,16 +799,16 @@ enigma_crack_set_dictionary(enigma_crack_t* cfg, const char** dictionary, size_t
 }
 
 /**
- * @brief Set the ngrams field in the given enigma_crack_t
+ * @brief Set the ngrams field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param ngrams The ngrams array
  * @param n The n value
  * @param length The length of the ngrams array
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int
-enigma_crack_set_ngrams(enigma_crack_t* cfg, float* ngrams, int n, size_t length) {
+enigma_crack_set_ngrams(EnigmaCrackParams* cfg, float* ngrams, int n, size_t length) {
     if (!cfg || !ngrams || n < 2 || n > 4) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -817,13 +820,13 @@ enigma_crack_set_ngrams(enigma_crack_t* cfg, float* ngrams, int n, size_t length
 }
 
 /**
- * @brief Set the n field in the given enigma_crack_t
+ * @brief Set the n field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param n The n value
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_n(enigma_crack_t* cfg, int n) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_n(EnigmaCrackParams* cfg, int n) {
     if (!cfg || n < 2 || n > 4) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -833,15 +836,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_n(enigma_crack_t* cfg, int n) {
 }
 
 /**
- * @brief Set the ciphertext field in the given enigma_crack_t
+ * @brief Set the ciphertext field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param ciphertext The ciphertext string
  * @param length The length of the ciphertext string
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
 EMSCRIPTEN_KEEPALIVE int
-enigma_crack_set_ciphertext(enigma_crack_t* cfg, const char* ciphertext, size_t length) {
+enigma_crack_set_ciphertext(EnigmaCrackParams* cfg, const char* ciphertext, size_t length) {
     if (!cfg || !ciphertext) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -852,13 +855,13 @@ enigma_crack_set_ciphertext(enigma_crack_t* cfg, const char* ciphertext, size_t 
 }
 
 /**
- * @brief Set the flags field in the given enigma_crack_t
+ * @brief Set the flags field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param flags The flags value
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_flags(enigma_crack_t* cfg, int flags) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_flags(EnigmaCrackParams* cfg, int flags) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -868,14 +871,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_flags(enigma_crack_t* cfg, int flags) 
 }
 
 /**
- * @brief Set the frequency targets field in the given enigma_crack_t
+ * @brief Set the frequency targets field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param frequencyTargets The frequency targets array
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(enigma_crack_t* cfg,
-                                                            float*          frequencyTargets) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(EnigmaCrackParams* cfg,
+                                                            float*             frequencyTargets) {
     if (!cfg || !frequencyTargets) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -885,13 +888,13 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_frequency_targets(enigma_crack_t* cfg,
 }
 
 /**
- * @brief Set the minimum score field in the given enigma_crack_t
+ * @brief Set the minimum score field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param minScore The minimum score value
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_min_score(enigma_crack_t* cfg, float minScore) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_min_score(EnigmaCrackParams* cfg, float minScore) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -901,13 +904,13 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_min_score(enigma_crack_t* cfg, float m
 }
 
 /**
- * @brief Set the maximum score field in the given enigma_crack_t
+ * @brief Set the maximum score field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param maxScore The maximum score value
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_max_score(enigma_crack_t* cfg, float maxScore) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_max_score(EnigmaCrackParams* cfg, float maxScore) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -917,13 +920,13 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_max_score(enigma_crack_t* cfg, float m
 }
 
 /**
- * @brief Set the target score field in the given enigma_crack_t
+ * @brief Set the target score field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param targetScore The target score value
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int enigma_crack_set_target_score(enigma_crack_t* cfg, float targetScore) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_target_score(EnigmaCrackParams* cfg, float targetScore) {
     if (!cfg) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
@@ -933,15 +936,16 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_target_score(enigma_crack_t* cfg, floa
 }
 
 /**
- * @brief Set the known plaintext field in the given enigma_crack_t
+ * @brief Set the known plaintext field in the given EnigmaCrackParams struct
  *
- * @param cfg The enigma_crack_t instance
+ * @param cfg The EnigmaCrackParams struct instance
  * @param knownPlaintext The known plaintext string
  * @param length The length of the known plaintext string
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure
  */
-EMSCRIPTEN_KEEPALIVE int
-enigma_crack_set_known_plaintext(enigma_crack_t* cfg, const char* knownPlaintext, size_t length) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(EnigmaCrackParams* cfg,
+                                                          const char*        knownPlaintext,
+                                                          size_t             length) {
     if (!cfg || !knownPlaintext) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }

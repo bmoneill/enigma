@@ -16,7 +16,7 @@
  *
  * @return The total bigram score.
  */
-EMSCRIPTEN_KEEPALIVE float enigma_bigram_score(const enigma_crack_t* cfg, const char* text) {
+EMSCRIPTEN_KEEPALIVE float enigma_bigram_score(const EnigmaCrackParams* cfg, const char* text) {
     float total = 0.0f;
     int   next  = text[0] - 'A';
 
@@ -40,7 +40,7 @@ EMSCRIPTEN_KEEPALIVE float enigma_bigram_score(const enigma_crack_t* cfg, const 
  *
  * @return The total trigram score.
  */
-EMSCRIPTEN_KEEPALIVE float enigma_trigram_score(const enigma_crack_t* cfg, const char* text) {
+EMSCRIPTEN_KEEPALIVE float enigma_trigram_score(const EnigmaCrackParams* cfg, const char* text) {
     float total = 0.0f;
     int   next1 = text[0] - 'A';
     int   next2 = text[1] - 'A';
@@ -66,7 +66,7 @@ EMSCRIPTEN_KEEPALIVE float enigma_trigram_score(const enigma_crack_t* cfg, const
  *
  * @return The total quadgram score.
  */
-EMSCRIPTEN_KEEPALIVE float enigma_quadgram_score(const enigma_crack_t* cfg, const char* text) {
+EMSCRIPTEN_KEEPALIVE float enigma_quadgram_score(const EnigmaCrackParams* cfg, const char* text) {
     float total = 0.0f;
     int   next1 = text[0] - 'A';
     int   next2 = text[1] - 'A';

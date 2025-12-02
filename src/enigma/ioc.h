@@ -17,6 +17,6 @@
 #define ENIGMA_IOC_GERMAN_MIN (ENIGMA_IOC_GERMAN - 0.25)
 #define ENIGMA_IOC_GERMAN_MAX (ENIGMA_IOC_GERMAN + 0.25)
 
-float enigma_ioc_score(const enigma_crack_t*, const char*);
+float enigma_ioc_score(const EnigmaCrackParams*, const char*);
 
 #endif

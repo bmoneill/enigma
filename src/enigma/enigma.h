@@ -12,7 +12,7 @@
 #include "rotor.h"
 
 /**
- * @struct enigma_t
+ * @struct Enigma
  * @brief Represents the state and configuration of an Enigma machine.
  *
  * This structure holds the rotors, reflector, and plugboard settings
@@ -35,33 +35,33 @@
  * @param plugboard     String representing plugboard settings.
  */
 typedef struct {
-    const enigma_rotor_t*     rotors[4];
-    int                       rotor_indices[4];
-    int                       rotor_flag;
-    int                       rotor_count;
-    const enigma_reflector_t* reflector;
-    char                      plugboard[27];
-} enigma_t;
+    const EnigmaRotor*     rotors[4];
+    int                    rotor_indices[4];
+    int                    rotor_flag;
+    int                    rotor_count;
+    const EnigmaReflector* reflector;
+    char                   plugboard[27];
+} Enigma;
 
-char        enigma_encode(enigma_t*, int);
-int         enigma_encode_string(enigma_t*, const char*, char*, int);
-int         enigma_init_rotors(enigma_t*, const enigma_rotor_t*, int);
-int         enigma_init_default_config(enigma_t*);
-int         enigma_init_random_config(enigma_t*);
+char        enigma_encode(Enigma*, int);
+int         enigma_encode_string(Enigma*, const char*, char*, int);
+int         enigma_init_rotors(Enigma*, const EnigmaRotor*, int);
+int         enigma_init_default_config(Enigma*);
+int         enigma_init_random_config(Enigma*);
 const char* enigma_version(void);
 
-/* enigma_t getters and setters */
-const char*               enigma_get_plugboard(const enigma_t*);
-const enigma_reflector_t* enigma_get_reflector(const enigma_t*);
-const enigma_rotor_t*     enigma_get_rotor(const enigma_t*, int);
-int                       enigma_get_rotor_count(const enigma_t*);
-int                       enigma_get_rotor_flag(const enigma_t*);
-int                       enigma_get_rotor_index(const enigma_t*, int);
-int                       enigma_set_plugboard(enigma_t*, const char*);
-int                       enigma_set_reflector(enigma_t*, int);
-int                       enigma_set_rotor(enigma_t*, int, int);
-int                       enigma_set_rotor_count(enigma_t*, int);
-int                       enigma_set_rotor_flag(enigma_t*, int);
-int                       enigma_set_rotor_index(enigma_t*, int, int);
+/* Enigma getters and setters */
+const char*            enigma_get_plugboard(const Enigma*);
+const EnigmaReflector* enigma_get_reflector(const Enigma*);
+const EnigmaRotor*     enigma_get_rotor(const Enigma*, int);
+int                    enigma_get_rotor_count(const Enigma*);
+int                    enigma_get_rotor_flag(const Enigma*);
+int                    enigma_get_rotor_index(const Enigma*, int);
+int                    enigma_set_plugboard(Enigma*, const char*);
+int                    enigma_set_reflector(Enigma*, int);
+int                    enigma_set_rotor(Enigma*, int, int);
+int                    enigma_set_rotor_count(Enigma*, int);
+int                    enigma_set_rotor_flag(Enigma*, int);
+int                    enigma_set_rotor_index(Enigma*, int, int);
 
 #endif

@@ -50,7 +50,7 @@ int enigma_error_message(const char* func, const char* format, ...) {
  * @param s      String representing the Enigma configuration.
  * @return       ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
+EMSCRIPTEN_KEEPALIVE int enigma_load_config(Enigma* enigma, const char* s) {
     char buf[64];
     if (strlen(s) >= sizeof(buf)) {
         return ENIGMA_ERROR("Configuration string too long: %s", s);
@@ -96,9 +96,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_config(enigma_t* enigma, const char* s) {
  *
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_custom_reflector(enigma_reflector_t* reflector,
-                                                      const char*         alphabet,
-                                                      const char*         name) {
+EMSCRIPTEN_KEEPALIVE int
+enigma_load_custom_reflector(EnigmaReflector* reflector, const char* alphabet, const char* name) {
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
         return ENIGMA_FAILURE;
     }
@@ -122,7 +121,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_reflector(enigma_reflector_t* reflec
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
-    enigma_rotor_t* rotor, const char* alphabet, const char* name, int* notches, int numNotches) {
+    EnigmaRotor* rotor, const char* alphabet, const char* name, int* notches, int numNotches) {
     if (strlen(alphabet) != ENIGMA_ALPHA_SIZE) {
         return ENIGMA_FAILURE;
     }
@@ -148,7 +147,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
  * @param path Path to the ngram file.
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* path) {
+EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(EnigmaCrackParams* cfg, const char* path) {
     char  line[16];
     int   n            = 0;
     int   charCount    = 0;
@@ -216,7 +215,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(enigma_crack_t* cfg, const char* pat
  *
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_plugboard_config(enigma_t* enigma, const char* s) {
+EMSCRIPTEN_KEEPALIVE int enigma_load_plugboard_config(Enigma* enigma, const char* s) {
     int len = strlen(s);
     if (len % 2 != 0 || len > ENIGMA_ALPHA_SIZE) {
         return ENIGMA_ERROR("Invalid plugboard configuration: %s", s);
@@ -233,7 +232,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_plugboard_config(enigma_t* enigma, const ch
  *
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_reflector_config(enigma_t* enigma, const char* s) {
+EMSCRIPTEN_KEEPALIVE int enigma_load_reflector_config(Enigma* enigma, const char* s) {
     for (int i = 0; i < ENIGMA_REFLECTOR_COUNT; i++) {
         if (!strcmp(enigma_reflectors[i]->name, s)) {
             enigma->reflector = enigma_reflectors[i];
@@ -251,7 +250,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_reflector_config(enigma_t* enigma, const ch
  *
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(enigma_t* enigma, char* s) {
+EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(Enigma* enigma, char* s) {
     enigma->rotor_count = 0;
 
     char* token         = strtok(s, " ");
@@ -278,14 +277,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_config(enigma_t* enigma, char* s) {
  *
  * This function expects a string of characters representing the initial positions
  * of the rotors, e.g., "ABC" for three rotors. It sets the `idx` field of each rotor
- * in the `enigma_t` structure.
+ * in the `Enigma` structure.
  *
  * @param enigma Pointer to the Enigma machine instance.
  * @param s      String representing rotor starting positions.
  *
  * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
  */
-EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_positions(enigma_t* enigma, const char* s) {
+EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_positions(Enigma* enigma, const char* s) {
     if (enigma->rotor_count == 0) {
         return ENIGMA_ERROR("%s", "Cannot load rotor positions without rotors");
     }
@@ -306,7 +305,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_rotor_positions(enigma_t* enigma, const cha
  * @param enigma Pointer to the Enigma machine instance.
  * @param out    Buffer to store the configuration string.
  */
-EMSCRIPTEN_KEEPALIVE void enigma_print_config(const enigma_t* enigma, char* out) {
+EMSCRIPTEN_KEEPALIVE void enigma_print_config(const Enigma* enigma, char* out) {
     sprintf(out,
             "%s %s %s|%c%c%c|%s|%s",
             enigma->rotors[0]->name,
