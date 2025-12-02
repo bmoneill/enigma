@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: enigma_score_list_t Struct Reference</title>
+<title>libenigma: EnigmaReflector Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('structenigma__score__list__t.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structEnigmaReflector.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -92,71 +92,55 @@ $(document).ready(function(){initNavTree('structenigma__score__list__t.html','')
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">enigma_score_list_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">EnigmaReflector Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>A structure representing a list of scored Enigma configurations.  
- <a href="structenigma__score__list__t.html#details">More...</a></p>
+<p>Represents a reflector configuration for the <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine.  
+ <a href="structEnigmaReflector.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="score_8h_source.html">score.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="reflector_8h_source.html">reflector.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a54f43207a3537f038d4888ee5cc9f468"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structenigma__score__t.html">enigma_score_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structenigma__score__list__t.html#a54f43207a3537f038d4888ee5cc9f468">scores</a></td></tr>
-<tr class="separator:a54f43207a3537f038d4888ee5cc9f468"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65b9f467ca6a87f011b6d190aedbaf26"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structenigma__score__list__t.html#a65b9f467ca6a87f011b6d190aedbaf26">score_count</a></td></tr>
-<tr class="separator:a65b9f467ca6a87f011b6d190aedbaf26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c70ea34b7fe7fb6237efa87bb20ce37"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structenigma__score__list__t.html#a8c70ea34b7fe7fb6237efa87bb20ce37">max_scores</a></td></tr>
-<tr class="separator:a8c70ea34b7fe7fb6237efa87bb20ce37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f8f80d37794cde9472343e4487ba3eb"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaReflector.html#a8f8f80d37794cde9472343e4487ba3eb">name</a></td></tr>
+<tr class="separator:a8f8f80d37794cde9472343e4487ba3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f1f905ab53d12a0e1c1e8442b377368"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaReflector.html#a2f1f905ab53d12a0e1c1e8442b377368">indices</a> [26]</td></tr>
+<tr class="separator:a2f1f905ab53d12a0e1c1e8442b377368"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A structure representing a list of scored Enigma configurations. </p>
+<div class="textblock"><p>Represents a reflector configuration for the <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine. </p>
+<p>Indices represent the character code of each standard alphabetic character in the rotor's alphabet.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">scores</td><td>An array of <a class="el" href="structenigma__score__t.html" title="A structure representing a scored Enigma configuration.">enigma_score_t</a> structures. </td></tr>
-    <tr><td class="paramname">score_count</td><td>The number of scores in the array. </td></tr>
-    <tr><td class="paramname">max_scores</td><td>The maximum number of scores that can be stored in the array. </td></tr>
+    <tr><td class="paramname">name</td><td>Name of the reflector. </td></tr>
+    <tr><td class="paramname">indices</td><td>Array of indices representing the reflector's wiring. </td></tr>
   </table>
   </dd>
 </dl>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a8c70ea34b7fe7fb6237efa87bb20ce37" name="a8c70ea34b7fe7fb6237efa87bb20ce37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c70ea34b7fe7fb6237efa87bb20ce37">&#9670;&#160;</a></span>max_scores</h2>
+<a id="a2f1f905ab53d12a0e1c1e8442b377368" name="a2f1f905ab53d12a0e1c1e8442b377368"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f1f905ab53d12a0e1c1e8442b377368">&#9670;&#160;</a></span>indices</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int max_scores</td>
+          <td class="memname">int indices[26]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a65b9f467ca6a87f011b6d190aedbaf26" name="a65b9f467ca6a87f011b6d190aedbaf26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65b9f467ca6a87f011b6d190aedbaf26">&#9670;&#160;</a></span>score_count</h2>
+<a id="a8f8f80d37794cde9472343e4487ba3eb" name="a8f8f80d37794cde9472343e4487ba3eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f8f80d37794cde9472343e4487ba3eb">&#9670;&#160;</a></span>name</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int score_count</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a54f43207a3537f038d4888ee5cc9f468" name="a54f43207a3537f038d4888ee5cc9f468"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54f43207a3537f038d4888ee5cc9f468">&#9670;&#160;</a></span>scores</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structenigma__score__t.html">enigma_score_t</a>* scores</td>
+          <td class="memname">const char* name</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -164,14 +148,14 @@ Data Fields</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>src/enigma/<a class="el" href="score_8h_source.html">score.h</a></li>
+<li>src/enigma/<a class="el" href="reflector_8h_source.html">reflector.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structenigma__score__list__t.html">enigma_score_list_t</a></li>
+    <li class="navelem"><a class="el" href="structEnigmaReflector.html">EnigmaReflector</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

@@ -6,5 +6,5 @@ var ioc_8h =
     [ "ENIGMA_IOC_GERMAN", "ioc_8h.html#a84631f52edd8c7023b98fece3f33a748", null ],
     [ "ENIGMA_IOC_GERMAN_MAX", "ioc_8h.html#a81c07094a9d82a18d3320edc066b9f13", null ],
     [ "ENIGMA_IOC_GERMAN_MIN", "ioc_8h.html#a69b1d89f5ce496b5dc937a0a7c793835", null ],
-    [ "enigma_ioc_score", "ioc_8h.html#aec726ce4189eb2b455297f16b62697fa", null ]
+    [ "enigma_ioc_score", "ioc_8h.html#abda46b96ae664254ee55bf30369c4fa1", null ]
 ];

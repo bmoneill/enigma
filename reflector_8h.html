@@ -103,8 +103,8 @@ $(document).ready(function(){initNavTree('reflector_8h.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a reflector configuration for the Enigma machine.  <a href="structenigma__reflector__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaReflector.html">EnigmaReflector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a reflector configuration for the <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine.  <a href="structEnigmaReflector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -114,21 +114,21 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a50202bc66091342d81973e7de692f93b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a50202bc66091342d81973e7de692f93b">enigma_reflector_generate_indices</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *, const char *)</td></tr>
-<tr class="memdesc:a50202bc66091342d81973e7de692f93b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the indices for the reflector.  <br /></td></tr>
-<tr class="separator:a50202bc66091342d81973e7de692f93b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae155dfc5106669f45754a8559d322c9f"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#ae155dfc5106669f45754a8559d322c9f">enigma_reflector_get_name</a> (const <a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *)</td></tr>
-<tr class="memdesc:ae155dfc5106669f45754a8559d322c9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the reflector.  <br /></td></tr>
-<tr class="separator:ae155dfc5106669f45754a8559d322c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a253f1e0aa88fda4ec134c640893b56ba"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a253f1e0aa88fda4ec134c640893b56ba">enigma_reflector_get_indices</a> (const <a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *)</td></tr>
-<tr class="memdesc:a253f1e0aa88fda4ec134c640893b56ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the indices of the reflector.  <br /></td></tr>
-<tr class="separator:a253f1e0aa88fda4ec134c640893b56ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3648114499b2c7bdd4a3e5c3df99e87c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a3648114499b2c7bdd4a3e5c3df99e87c">enigma_reflector_set_name</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *, const char *)</td></tr>
-<tr class="memdesc:a3648114499b2c7bdd4a3e5c3df99e87c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the name of the reflector.  <br /></td></tr>
-<tr class="separator:a3648114499b2c7bdd4a3e5c3df99e87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e94840bdcaafd26da226ceb673d74f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a3e94840bdcaafd26da226ceb673d74f1">enigma_reflector_set_indices</a> (<a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *, const int *)</td></tr>
-<tr class="memdesc:a3e94840bdcaafd26da226ceb673d74f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the indices of the reflector.  <br /></td></tr>
-<tr class="separator:a3e94840bdcaafd26da226ceb673d74f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78b6b6f33fe3884e22641235433be9a5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a78b6b6f33fe3884e22641235433be9a5">enigma_reflector_generate_indices</a> (<a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *, const char *)</td></tr>
+<tr class="memdesc:a78b6b6f33fe3884e22641235433be9a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the indices for the reflector.  <br /></td></tr>
+<tr class="separator:a78b6b6f33fe3884e22641235433be9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa11e161a5e106de9fa8a54594eab8eb"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#aaa11e161a5e106de9fa8a54594eab8eb">enigma_reflector_get_name</a> (const <a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *)</td></tr>
+<tr class="memdesc:aaa11e161a5e106de9fa8a54594eab8eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the reflector.  <br /></td></tr>
+<tr class="separator:aaa11e161a5e106de9fa8a54594eab8eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ed6c486bf4a84e8c210f8b49443a1b5"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a1ed6c486bf4a84e8c210f8b49443a1b5">enigma_reflector_get_indices</a> (const <a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *)</td></tr>
+<tr class="memdesc:a1ed6c486bf4a84e8c210f8b49443a1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the indices of the reflector.  <br /></td></tr>
+<tr class="separator:a1ed6c486bf4a84e8c210f8b49443a1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a968cb25bb618966deedfbdb44667dc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a9a968cb25bb618966deedfbdb44667dc">enigma_reflector_set_name</a> (<a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *, const char *)</td></tr>
+<tr class="memdesc:a9a968cb25bb618966deedfbdb44667dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the name of the reflector.  <br /></td></tr>
+<tr class="separator:a9a968cb25bb618966deedfbdb44667dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a416b566aee4342bb7291554d316238a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reflector_8h.html#a416b566aee4342bb7291554d316238a2">enigma_reflector_set_indices</a> (<a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *, const int *)</td></tr>
+<tr class="memdesc:a416b566aee4342bb7291554d316238a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the indices of the reflector.  <br /></td></tr>
+<tr class="separator:a416b566aee4342bb7291554d316238a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a076c516101d818406c4cf369d70095c8" name="a076c516101d818406c4cf369d70095c8"></a>
@@ -146,8 +146,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a50202bc66091342d81973e7de692f93b" name="a50202bc66091342d81973e7de692f93b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50202bc66091342d81973e7de692f93b">&#9670;&#160;</a></span>enigma_reflector_generate_indices()</h2>
+<a id="a78b6b6f33fe3884e22641235433be9a5" name="a78b6b6f33fe3884e22641235433be9a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78b6b6f33fe3884e22641235433be9a5">&#9670;&#160;</a></span>enigma_reflector_generate_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -155,7 +155,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_reflector_generate_indices </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *&#160;</td>
           <td class="paramname"><em>reflector</em>, </td>
         </tr>
         <tr>
@@ -184,8 +184,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a253f1e0aa88fda4ec134c640893b56ba" name="a253f1e0aa88fda4ec134c640893b56ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a253f1e0aa88fda4ec134c640893b56ba">&#9670;&#160;</a></span>enigma_reflector_get_indices()</h2>
+<a id="a1ed6c486bf4a84e8c210f8b49443a1b5" name="a1ed6c486bf4a84e8c210f8b49443a1b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ed6c486bf4a84e8c210f8b49443a1b5">&#9670;&#160;</a></span>enigma_reflector_get_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,7 +193,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">const int * enigma_reflector_get_indices </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *&#160;</td>
           <td class="paramname"><em>reflector</em></td><td>)</td>
           <td></td>
         </tr>
@@ -211,8 +211,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae155dfc5106669f45754a8559d322c9f" name="ae155dfc5106669f45754a8559d322c9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae155dfc5106669f45754a8559d322c9f">&#9670;&#160;</a></span>enigma_reflector_get_name()</h2>
+<a id="aaa11e161a5e106de9fa8a54594eab8eb" name="aaa11e161a5e106de9fa8a54594eab8eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa11e161a5e106de9fa8a54594eab8eb">&#9670;&#160;</a></span>enigma_reflector_get_name()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -220,7 +220,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">const char * enigma_reflector_get_name </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *&#160;</td>
           <td class="paramname"><em>reflector</em></td><td>)</td>
           <td></td>
         </tr>
@@ -238,8 +238,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3e94840bdcaafd26da226ceb673d74f1" name="a3e94840bdcaafd26da226ceb673d74f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e94840bdcaafd26da226ceb673d74f1">&#9670;&#160;</a></span>enigma_reflector_set_indices()</h2>
+<a id="a416b566aee4342bb7291554d316238a2" name="a416b566aee4342bb7291554d316238a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a416b566aee4342bb7291554d316238a2">&#9670;&#160;</a></span>enigma_reflector_set_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -247,7 +247,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_reflector_set_indices </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *&#160;</td>
           <td class="paramname"><em>reflector</em>, </td>
         </tr>
         <tr>
@@ -276,8 +276,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3648114499b2c7bdd4a3e5c3df99e87c" name="a3648114499b2c7bdd4a3e5c3df99e87c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3648114499b2c7bdd4a3e5c3df99e87c">&#9670;&#160;</a></span>enigma_reflector_set_name()</h2>
+<a id="a9a968cb25bb618966deedfbdb44667dc" name="a9a968cb25bb618966deedfbdb44667dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a968cb25bb618966deedfbdb44667dc">&#9670;&#160;</a></span>enigma_reflector_set_name()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +285,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_reflector_set_name </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__reflector__t.html">enigma_reflector_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaReflector.html">EnigmaReflector</a> *&#160;</td>
           <td class="paramname"><em>reflector</em>, </td>
         </tr>
         <tr>

@@ -103,8 +103,8 @@ $(document).ready(function(){initNavTree('rotor_8h.html',''); initResizable(); }
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a rotor configuration for the Enigma machine.  <a href="structenigma__rotor__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaRotor.html">EnigmaRotor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a rotor configuration for the <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine.  <a href="structEnigmaRotor.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -114,39 +114,39 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:adf58134c7de0abec053ee4ca8d97403d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#adf58134c7de0abec053ee4ca8d97403d">enigma_rotor_generate_indices</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, const char *)</td></tr>
-<tr class="memdesc:adf58134c7de0abec053ee4ca8d97403d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the indices for the rotor.  <br /></td></tr>
-<tr class="separator:adf58134c7de0abec053ee4ca8d97403d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ef5ec70e3875f392c45fcf7c62562c3"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a0ef5ec70e3875f392c45fcf7c62562c3">enigma_rotor_get_name</a> (const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *)</td></tr>
-<tr class="memdesc:a0ef5ec70e3875f392c45fcf7c62562c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the rotor.  <br /></td></tr>
-<tr class="separator:a0ef5ec70e3875f392c45fcf7c62562c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f371a3f67ca6424e8164be29e4963aa"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a5f371a3f67ca6424e8164be29e4963aa">enigma_rotor_get_fwd_indices</a> (const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *)</td></tr>
-<tr class="memdesc:a5f371a3f67ca6424e8164be29e4963aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the forward indices of the rotor.  <br /></td></tr>
-<tr class="separator:a5f371a3f67ca6424e8164be29e4963aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45e3109015488040364a2be94735d1ac"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a45e3109015488040364a2be94735d1ac">enigma_rotor_get_rev_indices</a> (const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *)</td></tr>
-<tr class="memdesc:a45e3109015488040364a2be94735d1ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the reverse indices of the rotor.  <br /></td></tr>
-<tr class="separator:a45e3109015488040364a2be94735d1ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac78c9aedf4f868f32ca74fb797aaef66"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#ac78c9aedf4f868f32ca74fb797aaef66">enigma_rotor_get_notches</a> (const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *)</td></tr>
-<tr class="memdesc:ac78c9aedf4f868f32ca74fb797aaef66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the notches of the rotor.  <br /></td></tr>
-<tr class="separator:ac78c9aedf4f868f32ca74fb797aaef66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b80f0ce88b602f26acd92469837f5bd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a6b80f0ce88b602f26acd92469837f5bd">enigma_rotor_get_notches_count</a> (const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *)</td></tr>
-<tr class="memdesc:a6b80f0ce88b602f26acd92469837f5bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of notches of the rotor.  <br /></td></tr>
-<tr class="separator:a6b80f0ce88b602f26acd92469837f5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37406b9cccfa40f64c25ea722ab7907f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a37406b9cccfa40f64c25ea722ab7907f">enigma_rotor_set_name</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, const char *)</td></tr>
-<tr class="memdesc:a37406b9cccfa40f64c25ea722ab7907f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the name of the rotor.  <br /></td></tr>
-<tr class="separator:a37406b9cccfa40f64c25ea722ab7907f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70932a6e7cf431649909e519d41ba829"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a70932a6e7cf431649909e519d41ba829">enigma_rotor_set_fwd_indices</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, const int *)</td></tr>
-<tr class="memdesc:a70932a6e7cf431649909e519d41ba829"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the forward indices of the rotor.  <br /></td></tr>
-<tr class="separator:a70932a6e7cf431649909e519d41ba829"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45fa44d3072a9ec08a799a23f5d7ae69"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a45fa44d3072a9ec08a799a23f5d7ae69">enigma_rotor_set_rev_indices</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, const int *)</td></tr>
-<tr class="memdesc:a45fa44d3072a9ec08a799a23f5d7ae69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the reverse indices of the rotor.  <br /></td></tr>
-<tr class="separator:a45fa44d3072a9ec08a799a23f5d7ae69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc9436e3c68410c70d0e2294fb34b5f2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#adc9436e3c68410c70d0e2294fb34b5f2">enigma_rotor_set_notches</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, const int *, int)</td></tr>
-<tr class="memdesc:adc9436e3c68410c70d0e2294fb34b5f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the notches of the rotor.  <br /></td></tr>
-<tr class="separator:adc9436e3c68410c70d0e2294fb34b5f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b85eb16674ca6e8718fb55025ff37ff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a7b85eb16674ca6e8718fb55025ff37ff">enigma_rotor_set_notches_count</a> (<a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *, int)</td></tr>
-<tr class="memdesc:a7b85eb16674ca6e8718fb55025ff37ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the notches count of the rotor.  <br /></td></tr>
-<tr class="separator:a7b85eb16674ca6e8718fb55025ff37ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a42dc93eedf3d73da8491f3864ddbd2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a7a42dc93eedf3d73da8491f3864ddbd2">enigma_rotor_generate_indices</a> (<a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *, const char *)</td></tr>
+<tr class="memdesc:a7a42dc93eedf3d73da8491f3864ddbd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the indices for the rotor.  <br /></td></tr>
+<tr class="separator:a7a42dc93eedf3d73da8491f3864ddbd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad326fd2c8dd81fe58db0c5923c5d5fc3"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#ad326fd2c8dd81fe58db0c5923c5d5fc3">enigma_rotor_get_name</a> (const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *)</td></tr>
+<tr class="memdesc:ad326fd2c8dd81fe58db0c5923c5d5fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the rotor.  <br /></td></tr>
+<tr class="separator:ad326fd2c8dd81fe58db0c5923c5d5fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d9209f09fef9091d683be6c0222bfd7"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a6d9209f09fef9091d683be6c0222bfd7">enigma_rotor_get_fwd_indices</a> (const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *)</td></tr>
+<tr class="memdesc:a6d9209f09fef9091d683be6c0222bfd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the forward indices of the rotor.  <br /></td></tr>
+<tr class="separator:a6d9209f09fef9091d683be6c0222bfd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a114aea9a750fc3618cfa3e89010b662a"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a114aea9a750fc3618cfa3e89010b662a">enigma_rotor_get_rev_indices</a> (const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *)</td></tr>
+<tr class="memdesc:a114aea9a750fc3618cfa3e89010b662a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the reverse indices of the rotor.  <br /></td></tr>
+<tr class="separator:a114aea9a750fc3618cfa3e89010b662a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9cef2afff634c13ea40e4c6fbfb4620"><td class="memItemLeft" align="right" valign="top">const int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#ac9cef2afff634c13ea40e4c6fbfb4620">enigma_rotor_get_notches</a> (const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *)</td></tr>
+<tr class="memdesc:ac9cef2afff634c13ea40e4c6fbfb4620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the notches of the rotor.  <br /></td></tr>
+<tr class="separator:ac9cef2afff634c13ea40e4c6fbfb4620"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe50d50f9049e70cf9c3dfeecbc0c31b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#afe50d50f9049e70cf9c3dfeecbc0c31b">enigma_rotor_get_notches_count</a> (const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *)</td></tr>
+<tr class="memdesc:afe50d50f9049e70cf9c3dfeecbc0c31b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of notches of the rotor.  <br /></td></tr>
+<tr class="separator:afe50d50f9049e70cf9c3dfeecbc0c31b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a901091d3fe64ab83b629f31142a23f5d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a901091d3fe64ab83b629f31142a23f5d">enigma_rotor_set_name</a> (<a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *, const char *)</td></tr>
+<tr class="memdesc:a901091d3fe64ab83b629f31142a23f5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the name of the rotor.  <br /></td></tr>
+<tr class="separator:a901091d3fe64ab83b629f31142a23f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07665dc9c37f74bca860b4db61f4c8cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a07665dc9c37f74bca860b4db61f4c8cb">enigma_rotor_set_fwd_indices</a> (<a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *, const int *)</td></tr>
+<tr class="memdesc:a07665dc9c37f74bca860b4db61f4c8cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the forward indices of the rotor.  <br /></td></tr>
+<tr class="separator:a07665dc9c37f74bca860b4db61f4c8cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a1f25e92bbcd12dacb230f16de11730"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a0a1f25e92bbcd12dacb230f16de11730">enigma_rotor_set_rev_indices</a> (<a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *, const int *)</td></tr>
+<tr class="memdesc:a0a1f25e92bbcd12dacb230f16de11730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the reverse indices of the rotor.  <br /></td></tr>
+<tr class="separator:a0a1f25e92bbcd12dacb230f16de11730"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6bba9f1afc0940df98835e98b0d0df1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#aa6bba9f1afc0940df98835e98b0d0df1">enigma_rotor_set_notches</a> (<a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *, const int *, int)</td></tr>
+<tr class="memdesc:aa6bba9f1afc0940df98835e98b0d0df1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the notches of the rotor.  <br /></td></tr>
+<tr class="separator:aa6bba9f1afc0940df98835e98b0d0df1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65118b7c202a6a25874d2c28937256d5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rotor_8h.html#a65118b7c202a6a25874d2c28937256d5">enigma_rotor_set_notches_count</a> (<a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *, int)</td></tr>
+<tr class="memdesc:a65118b7c202a6a25874d2c28937256d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the notches count of the rotor.  <br /></td></tr>
+<tr class="separator:a65118b7c202a6a25874d2c28937256d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a67c66686a2da6a8327fea9aa638df064" name="a67c66686a2da6a8327fea9aa638df064"></a>
@@ -164,8 +164,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="adf58134c7de0abec053ee4ca8d97403d" name="adf58134c7de0abec053ee4ca8d97403d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf58134c7de0abec053ee4ca8d97403d">&#9670;&#160;</a></span>enigma_rotor_generate_indices()</h2>
+<a id="a7a42dc93eedf3d73da8491f3864ddbd2" name="a7a42dc93eedf3d73da8491f3864ddbd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a42dc93eedf3d73da8491f3864ddbd2">&#9670;&#160;</a></span>enigma_rotor_generate_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -173,7 +173,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_rotor_generate_indices </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em>, </td>
         </tr>
         <tr>
@@ -203,8 +203,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5f371a3f67ca6424e8164be29e4963aa" name="a5f371a3f67ca6424e8164be29e4963aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f371a3f67ca6424e8164be29e4963aa">&#9670;&#160;</a></span>enigma_rotor_get_fwd_indices()</h2>
+<a id="a6d9209f09fef9091d683be6c0222bfd7" name="a6d9209f09fef9091d683be6c0222bfd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d9209f09fef9091d683be6c0222bfd7">&#9670;&#160;</a></span>enigma_rotor_get_fwd_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,7 +212,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">const int * enigma_rotor_get_fwd_indices </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -231,8 +231,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0ef5ec70e3875f392c45fcf7c62562c3" name="a0ef5ec70e3875f392c45fcf7c62562c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ef5ec70e3875f392c45fcf7c62562c3">&#9670;&#160;</a></span>enigma_rotor_get_name()</h2>
+<a id="ad326fd2c8dd81fe58db0c5923c5d5fc3" name="ad326fd2c8dd81fe58db0c5923c5d5fc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad326fd2c8dd81fe58db0c5923c5d5fc3">&#9670;&#160;</a></span>enigma_rotor_get_name()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +240,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">const char * enigma_rotor_get_name </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -260,8 +260,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ac78c9aedf4f868f32ca74fb797aaef66" name="ac78c9aedf4f868f32ca74fb797aaef66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac78c9aedf4f868f32ca74fb797aaef66">&#9670;&#160;</a></span>enigma_rotor_get_notches()</h2>
+<a id="ac9cef2afff634c13ea40e4c6fbfb4620" name="ac9cef2afff634c13ea40e4c6fbfb4620"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9cef2afff634c13ea40e4c6fbfb4620">&#9670;&#160;</a></span>enigma_rotor_get_notches()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,7 +269,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">const int * enigma_rotor_get_notches </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -288,8 +288,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6b80f0ce88b602f26acd92469837f5bd" name="a6b80f0ce88b602f26acd92469837f5bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b80f0ce88b602f26acd92469837f5bd">&#9670;&#160;</a></span>enigma_rotor_get_notches_count()</h2>
+<a id="afe50d50f9049e70cf9c3dfeecbc0c31b" name="afe50d50f9049e70cf9c3dfeecbc0c31b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe50d50f9049e70cf9c3dfeecbc0c31b">&#9670;&#160;</a></span>enigma_rotor_get_notches_count()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,7 +297,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_rotor_get_notches_count </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -316,8 +316,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a45e3109015488040364a2be94735d1ac" name="a45e3109015488040364a2be94735d1ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45e3109015488040364a2be94735d1ac">&#9670;&#160;</a></span>enigma_rotor_get_rev_indices()</h2>
+<a id="a114aea9a750fc3618cfa3e89010b662a" name="a114aea9a750fc3618cfa3e89010b662a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a114aea9a750fc3618cfa3e89010b662a">&#9670;&#160;</a></span>enigma_rotor_get_rev_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -325,7 +325,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">const int * enigma_rotor_get_rev_indices </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -344,8 +344,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a70932a6e7cf431649909e519d41ba829" name="a70932a6e7cf431649909e519d41ba829"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70932a6e7cf431649909e519d41ba829">&#9670;&#160;</a></span>enigma_rotor_set_fwd_indices()</h2>
+<a id="a07665dc9c37f74bca860b4db61f4c8cb" name="a07665dc9c37f74bca860b4db61f4c8cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07665dc9c37f74bca860b4db61f4c8cb">&#9670;&#160;</a></span>enigma_rotor_set_fwd_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -353,7 +353,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_rotor_set_fwd_indices </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em>, </td>
         </tr>
         <tr>
@@ -383,8 +383,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a37406b9cccfa40f64c25ea722ab7907f" name="a37406b9cccfa40f64c25ea722ab7907f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37406b9cccfa40f64c25ea722ab7907f">&#9670;&#160;</a></span>enigma_rotor_set_name()</h2>
+<a id="a901091d3fe64ab83b629f31142a23f5d" name="a901091d3fe64ab83b629f31142a23f5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a901091d3fe64ab83b629f31142a23f5d">&#9670;&#160;</a></span>enigma_rotor_set_name()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -392,7 +392,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_rotor_set_name </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em>, </td>
         </tr>
         <tr>
@@ -422,8 +422,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="adc9436e3c68410c70d0e2294fb34b5f2" name="adc9436e3c68410c70d0e2294fb34b5f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc9436e3c68410c70d0e2294fb34b5f2">&#9670;&#160;</a></span>enigma_rotor_set_notches()</h2>
+<a id="aa6bba9f1afc0940df98835e98b0d0df1" name="aa6bba9f1afc0940df98835e98b0d0df1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6bba9f1afc0940df98835e98b0d0df1">&#9670;&#160;</a></span>enigma_rotor_set_notches()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -431,7 +431,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_rotor_set_notches </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em>, </td>
         </tr>
         <tr>
@@ -468,8 +468,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7b85eb16674ca6e8718fb55025ff37ff" name="a7b85eb16674ca6e8718fb55025ff37ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b85eb16674ca6e8718fb55025ff37ff">&#9670;&#160;</a></span>enigma_rotor_set_notches_count()</h2>
+<a id="a65118b7c202a6a25874d2c28937256d5" name="a65118b7c202a6a25874d2c28937256d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65118b7c202a6a25874d2c28937256d5">&#9670;&#160;</a></span>enigma_rotor_set_notches_count()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -477,7 +477,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_rotor_set_notches_count </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em>, </td>
         </tr>
         <tr>
@@ -507,8 +507,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a45fa44d3072a9ec08a799a23f5d7ae69" name="a45fa44d3072a9ec08a799a23f5d7ae69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45fa44d3072a9ec08a799a23f5d7ae69">&#9670;&#160;</a></span>enigma_rotor_set_rev_indices()</h2>
+<a id="a0a1f25e92bbcd12dacb230f16de11730" name="a0a1f25e92bbcd12dacb230f16de11730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a1f25e92bbcd12dacb230f16de11730">&#9670;&#160;</a></span>enigma_rotor_set_rev_indices()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -516,7 +516,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int enigma_rotor_set_rev_indices </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structenigma__rotor__t.html">enigma_rotor_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *&#160;</td>
           <td class="paramname"><em>rotor</em>, </td>
         </tr>
         <tr>
