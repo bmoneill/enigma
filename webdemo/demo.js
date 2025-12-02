@@ -57,9 +57,9 @@ function populateTaskOptions() {
   const taskSelect = document.getElementById("task");
   const taskOptions = [
     { value: 0, text: "Encrypt" },
-    { value: 1, text: "Frequency Analysis" },
-    { value: 2, text: "IoC Analysis" },
-    { value: 3, text: "N-gram Analysis" },
+    // { value: 1, text: "Frequency Analysis" },
+    // { value: 2, text: "IoC Analysis" },
+    // { value: 3, text: "N-gram Analysis" },
   ];
 
   taskOptions.forEach((option) => {
@@ -133,8 +133,10 @@ function encrypt() {
 
 populateRotorOptions();
 populateReflectorOptions();
-populateTaskOptions();
-populateTaskArgumentOptions();
+
+// TODO support analysis in demo
+// populateTaskOptions();
+//populateTaskArgumentOptions();
 
 var form = document.getElementById("inputForm");
 form.addEventListener("submit", encrypt);
