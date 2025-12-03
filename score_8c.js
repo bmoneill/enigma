@@ -5,7 +5,7 @@ var score_8c =
     [ "enigma_score_get_score", "score_8c.html#a513d47c9c6c85a6ead716022fd5401dd", null ],
     [ "enigma_score_list_get_max_scores", "score_8c.html#a2eee90565d88134875a0d591ac2734a6", null ],
     [ "enigma_score_list_get_score", "score_8c.html#a7559e6dd909fcaa16410beb14c38bf23", null ],
-    [ "enigma_score_list_get_score_count", "score_8c.html#aaff1ea66f8e421eb5c80eeeef882e249", null ],
+    [ "enigma_score_list_get_score_count", "score_8c.html#a63e9dddaeba7cb8b586f666070f91fae", null ],
     [ "enigma_score_list_get_scores", "score_8c.html#abce30a034a0bd9b83624eef64b9796b4", null ],
     [ "enigma_score_list_set_max_scores", "score_8c.html#a9bfc0eab6709c52aecbbcb6faf7c3588", null ],
     [ "enigma_score_list_set_score", "score_8c.html#a503ce58113bc57ff1f089a460a846d0b", null ],
