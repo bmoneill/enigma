@@ -1,3 +1,8 @@
+/**
+ * @file enigma/score.c
+ *
+ * This file contains functions related to plaintext scoring.
+ */
 #include "score.h"
 
 #include "common.h"
@@ -180,7 +185,7 @@ EMSCRIPTEN_KEEPALIVE EnigmaScore* enigma_score_list_get_score(EnigmaScoreList* l
  * @param list The EnigmaScoreList instance
  * @return int The score count
  */
-EMSCRIPTEN_KEEPALIVE int enigma_score_list_get_score_count(EnigmaScoreList* list, int index) {
+EMSCRIPTEN_KEEPALIVE int enigma_score_list_get_score_count(EnigmaScoreList* list) {
     if (!list) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }

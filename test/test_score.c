@@ -150,11 +150,11 @@ void test_enigma_score_list_get_score_WithInvalidArguments(void) {
 
 void test_enigma_score_list_get_score_count(void) {
     scores.score_count = 5;
-    TEST_ASSERT_EQUAL_INT(5, enigma_score_list_get_score_count(&scores, 0));
+    TEST_ASSERT_EQUAL_INT(5, enigma_score_list_get_score_count(&scores));
 }
 
 void test_enigma_score_list_get_score_count_WithInvalidArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_score_list_get_score_count(NULL, 0));
+    TEST_ASSERT_EQUAL_INT(-1, enigma_score_list_get_score_count(NULL));
 }
 
 void test_enigma_score_list_get_max_scores(void) {

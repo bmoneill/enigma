@@ -1,3 +1,8 @@
+/**
+ * @file enigma/rotor.c
+ *
+ * This file contains functions for rotor manipulation and getters/setters for WASM.
+ */
 #include "rotor.h"
 
 #include "common.h"
@@ -40,8 +45,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_rotor_generate_indices(EnigmaRotor* rotor, const
  *
  * This function gets the name of the rotor.
  *
- * @param rotor The rotor to set the name of.
- * @param name The name to set.
+ * @param rotor The rotor to get the name of.
  * @return the name of the rotor on success, or NULL on failure.
  */
 EMSCRIPTEN_KEEPALIVE const char* enigma_rotor_get_name(const EnigmaRotor* rotor) {

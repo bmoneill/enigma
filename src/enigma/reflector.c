@@ -1,3 +1,8 @@
+/**
+ * @file enigma/reflector.c
+ *
+ * This file contains functions for reflector manipulation and getters/setters for WASM.
+ */
 #include "reflector.h"
 
 #include "common.h"

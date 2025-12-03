@@ -21,6 +21,7 @@ static int ipow(int, int);
 /**
  * @brief Print an error message to stderr.
  *
+ * @param func   Function name.
  * @param format Format string.
  * @param ...    Arguments for the format string.
  * @return       ENIGMA_FAILURE.
@@ -140,8 +141,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
  * @brief Load ngrams from a file.
  *
  * The file should have the following format:
- * First line: <n> <charCount>
- * Subsequent lines: <count> <ngram>
+ * First line: n charCount
+ * Subsequent lines: count ngram
  *
  * @param cfg Pointer to the cracking configuration structure.
  * @param path Path to the ngram file.

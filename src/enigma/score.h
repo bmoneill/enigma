@@ -1,3 +1,8 @@
+/**
+ * @file enigma/score.h
+ *
+ * This file contains function definitions related to plaintext scoring.
+ */
 #ifndef LIBENIGMA_SCORE_H
 #define LIBENIGMA_SCORE_H
 
@@ -50,7 +55,7 @@ int     enigma_score_set_flags(EnigmaScore*, int);
 /* EnigmaScoreList getters and setters */
 EnigmaScore* enigma_score_list_get_scores(EnigmaScoreList*);
 EnigmaScore* enigma_score_list_get_score(EnigmaScoreList*, int);
-int          enigma_score_list_get_score_count(EnigmaScoreList*, int);
+int          enigma_score_list_get_score_count(EnigmaScoreList*);
 int          enigma_score_list_get_max_scores(EnigmaScoreList*);
 int          enigma_score_list_set_score(EnigmaScoreList*, int, EnigmaScore*);
 int          enigma_score_list_set_score_count(EnigmaScoreList*, int);
