@@ -1,8 +1,3 @@
-/* Struct sizes */
-const Enigma_SIZE = 96;
-const ENIGMA_SCORE_LIST_T_SIZE = 16;
-const ENIGMA_CRACK_CONFIG_T_SIZE = 288;
-
 /* from common.h */
 const ENIGMA_ALPHA_SIZE = 26;
 const ENIGMA_MAX_ROTOR_COUNT = 4;
