@@ -55,6 +55,7 @@ typedef struct {
     int              known_plaintext_length;
 } EnigmaCrackParams;
 
+EnigmaCrackParams* enigma_crack_params_new(void);
 int   enigma_crack_rotor(EnigmaCrackParams*, int, float (*)(const EnigmaCrackParams*, const char*));
 int   enigma_crack_rotors(EnigmaCrackParams*, float (*)(const EnigmaCrackParams*, const char*));
 int   enigma_crack_rotor_positions(EnigmaCrackParams*,

@@ -26,6 +26,21 @@
 static int score_compare(const void* a, const void* b);
 
 /**
+ * @brief Create a new EnigmaCrackParams structure.
+ *
+ * This function allocates memory for a new EnigmaCrackParams structure.
+ *
+ * @return Pointer to the newly created EnigmaCrackParams structure, or NULL on failure.
+ */
+EMSCRIPTEN_KEEPALIVE EnigmaCrackParams* enigma_crack_params_new(void) {
+    EnigmaCrackParams* params = malloc(sizeof(EnigmaCrackParams));
+    if (!params) {
+        return NULL;
+    }
+    return params;
+}
+
+/**
  * @brief Crack the plugboard using a scoring function.
  *
  * This function attempts to determine the plugboard settings used in the Enigma

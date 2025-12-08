@@ -48,6 +48,7 @@ int         enigma_encode_string(Enigma*, const char*, char*, int);
 int         enigma_init_rotors(Enigma*, const EnigmaRotor*, int);
 int         enigma_init_default_config(Enigma*);
 int         enigma_init_random_config(Enigma*);
+Enigma*     enigma_new(void);
 const char* enigma_version(void);
 
 /* Enigma getters and setters */

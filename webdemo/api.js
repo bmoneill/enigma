@@ -1,5 +1,5 @@
 /* Struct sizes */
-const ENIGMA_T_SIZE = 96;
+const Enigma_SIZE = 96;
 const ENIGMA_SCORE_LIST_T_SIZE = 16;
 const ENIGMA_CRACK_CONFIG_T_SIZE = 288;
 
@@ -26,18 +26,17 @@ const ENIGMA_IOC_GERMAN_MAX = ENIGMA_IOC_GERMAN + 0.25;
 
 const enigmaAPI = {
   /**
-   * Initialize a new enigma_t struct.
-   * @returns A pointer to a malloc'd enigma_t
+   * Initialize a new Enigma struct.
+   * @returns A pointer to a malloc'd Enigma
    */
   initEnigma: () => {
-    const ptr = Module._malloc(ENIGMA_T_SIZE);
-    Module._enigma_init_default_config(ptr);
+    const ptr = Module._enigma_new();
     return ptr;
   },
 
   /**
-   * Print the configuration of an enigma_t struct to the console.
-   * @param {*} ptr A pointer to an enigma_t struct
+   * Print the configuration of an Enigma struct to the console.
+   * @param {*} ptr A pointer to an Enigma struct
    */
   printConfig: (ptr) => {
     const bufSize = 1024;
@@ -50,8 +49,8 @@ const enigmaAPI = {
   },
 
   /**
-   * Encode a string using an enigma_t struct.
-   * @param {*} ptr A pointer to an enigma_t struct
+   * Encode a string using an Enigma struct.
+   * @param {*} ptr A pointer to an Enigma struct
    * @param {*} str The string to encode
    * @returns The encoded string
    */

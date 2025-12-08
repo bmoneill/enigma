@@ -213,6 +213,20 @@ EMSCRIPTEN_KEEPALIVE int enigma_init_random_config(Enigma* enigma) {
 }
 
 /**
+ * @brief Create a new Enigma machine.
+ *
+ * This function allocates memory for a new Enigma machine and initializes it with default
+ * configuration.
+ *
+ * @return Pointer to the new Enigma machine.
+ */
+EMSCRIPTEN_KEEPALIVE Enigma* enigma_new(void) {
+    Enigma* enigma = malloc(sizeof(Enigma));
+    enigma_init_default_config(enigma);
+    return enigma;
+}
+
+/**
  * @brief Get the version of the Enigma library.
  *
  * This function returns the version of the Enigma library as a string.
