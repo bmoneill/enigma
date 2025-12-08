@@ -5,23 +5,28 @@
 [![clang-format status](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml)
 [![Demo status](https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/demo.yml)
 
-This is a full-featured C99 library and toolset (with WebAssembly support) for simulating and cracking the Enigma.
+This is a full-featured C99 library and toolset (with WebAssembly support) for
+simulating and cracking the Enigma.
 
-The library and toolset currently supports simulating all common 4-rotor military Enigma configurations used
-in World War II. It also supports cracking ciphertext utilizing Index of Coincidence and n-gram analysis.
+The library and toolset currently supports simulating all common 4-rotor military
+Enigma configurations used in World War II. It also supports cracking ciphertext
+utilizing Index of Coincidence and n-gram analysis.
 
 An online [demo](https://oneill.sh/apps/enigma) is available.
 
 ## About the Enigma
 
-The Enigma was a cipher device used by the Germans during World War II to encrypt military communication.
-It uses a very complex wiring system to scramble the input.
+The Enigma was a cipher device used by the Germans during World War II to encrypt
+military communication. It uses a very complex wiring system to scramble the input.
 
-When a key is pressed, the signal first passes through the plugboard, which swaps the letter with another according
-to its configuration. It then travels through three rotors, each further scrambling the signal. Next, the signal
-reaches the reflector, which further scrambles the signal. Then, the signal passes through the rotors again in reverse.
-Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard.
-The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.
+When a key is pressed, the signal first passes through the plugboard, which swaps
+the letter with another according to its configuration. It then travels through
+three rotors, each further scrambling the signal. Next, the signal
+reaches the reflector, which further scrambles the signal. Then, the signal passes
+through the rotors again in reverse. Finally, the signal passes through the
+plugboard again, and the resulting encoded letter lights up on the lampboard.
+The Enigma's encryption was symmetric &mdash; ciphertext is decrypted using the
+same key as was used to create it.
 
 ## Building
 
