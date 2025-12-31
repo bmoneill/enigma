@@ -20,49 +20,49 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg -fsanitize=address,undefined -fno-omit-frame-pointer")
 
 INCLUDE_DIRECTORIES (
-	"${LIBRARY_BASE_PATH}"
+ "${LIBRARY_BASE_PATH}"
 )
 
 set(LIBRARY_PUBLIC_SRC
-	"${LIBRARY_BASE_PATH}/enigma/crack.c"
-	"${LIBRARY_BASE_PATH}/enigma/enigma.c"
-	"${LIBRARY_BASE_PATH}/enigma/io.c"
-	"${LIBRARY_BASE_PATH}/enigma/ioc.c"
-	"${LIBRARY_BASE_PATH}/enigma/ngram.c"
-	"${LIBRARY_BASE_PATH}/enigma/reflector.c"
-	"${LIBRARY_BASE_PATH}/enigma/rotor.c"
-	"${LIBRARY_BASE_PATH}/enigma/score.c"
+ "${LIBRARY_BASE_PATH}/enigma/crack.c"
+ "${LIBRARY_BASE_PATH}/enigma/enigma.c"
+ "${LIBRARY_BASE_PATH}/enigma/io.c"
+ "${LIBRARY_BASE_PATH}/enigma/ioc.c"
+ "${LIBRARY_BASE_PATH}/enigma/ngram.c"
+ "${LIBRARY_BASE_PATH}/enigma/reflector.c"
+ "${LIBRARY_BASE_PATH}/enigma/rotor.c"
+ "${LIBRARY_BASE_PATH}/enigma/score.c"
 )
 
 set(LIBRARY_PUBLIC_HEADERS
-	"${LIBRARY_BASE_PATH}/enigma/common.h"
-	"${LIBRARY_BASE_PATH}/enigma/crack.h"
-	"${LIBRARY_BASE_PATH}/enigma/enigma.h"
-	"${LIBRARY_BASE_PATH}/enigma/io.h"
-	"${LIBRARY_BASE_PATH}/enigma/ioc.h"
-	"${LIBRARY_BASE_PATH}/enigma/ngram.h"
-	"${LIBRARY_BASE_PATH}/enigma/reflector.h"
-	"${LIBRARY_BASE_PATH}/enigma/rotor.h"
+ "${LIBRARY_BASE_PATH}/enigma/common.h"
+ "${LIBRARY_BASE_PATH}/enigma/crack.h"
+ "${LIBRARY_BASE_PATH}/enigma/enigma.h"
+ "${LIBRARY_BASE_PATH}/enigma/io.h"
+ "${LIBRARY_BASE_PATH}/enigma/ioc.h"
+ "${LIBRARY_BASE_PATH}/enigma/ngram.h"
+ "${LIBRARY_BASE_PATH}/enigma/reflector.h"
+ "${LIBRARY_BASE_PATH}/enigma/rotor.h"
 )
 
 add_library (
-	${LIBRARY_NAME}_static STATIC ${LIBRARY_PUBLIC_SRC}
+ ${LIBRARY_NAME}_static STATIC ${LIBRARY_PUBLIC_SRC}
 )
 
 if(NOT ${TARGET_GROUP} STREQUAL wasm)
     add_library (
         ${LIBRARY_NAME} SHARED ${LIBRARY_PUBLIC_SRC} ${LIBRARY_PUBLIC_HEADERS}
-	)
+    )
 endif()
 
 # Compiler definitions
 if(TEST)
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DTEST")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DTEST")
 endif()
 
 # Library installation directives
 INSTALL (
-	TARGETS ${BINARY_NAME}
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+ TARGETS ${LIBRARY_NAME}
+ LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )

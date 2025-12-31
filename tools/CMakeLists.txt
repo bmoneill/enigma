@@ -13,3 +13,6 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
 target_link_libraries(${ENIGMA_BINARY_NAME} enigma_static m)
 target_link_libraries(${CRACK_BINARY_NAME} enigma_static m)
+
+install(TARGETS ${ENIGMA_BINARY_NAME} ${CRACK_BINARY_NAME}
+  RUNTIME DESTINATION bin)
