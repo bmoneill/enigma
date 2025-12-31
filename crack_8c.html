@@ -112,6 +112,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a1103c8f1b06818e73fbf317d970cb99e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a1103c8f1b06818e73fbf317d970cb99e">enigma_crack_params_new</a> (void)</td></tr>
+<tr class="memdesc:a1103c8f1b06818e73fbf317d970cb99e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure.  <br /></td></tr>
+<tr class="separator:a1103c8f1b06818e73fbf317d970cb99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1497525c17eb1aa5c16ac4a045e124bb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8c.html#a1497525c17eb1aa5c16ac4a045e124bb">enigma_crack_plugboard</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *cfg, float(*scoreFunc)(const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *))</td></tr>
 <tr class="memdesc:a1497525c17eb1aa5c16ac4a045e124bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack the plugboard using a scoring function.  <br /></td></tr>
 <tr class="separator:a1497525c17eb1aa5c16ac4a045e124bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -677,6 +680,28 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The target_score field, or ENIGMA_FAILURE if cfg is NULL </dd></dl>
+
+</div>
+</div>
+<a id="a1103c8f1b06818e73fbf317d970cb99e" name="a1103c8f1b06818e73fbf317d970cb99e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1103c8f1b06818e73fbf317d970cb99e">&#9670;&#160;</a></span>enigma_crack_params_new()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> * enigma_crack_params_new </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a new <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure. </p>
+<p>This function allocates memory for a new <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure.</p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the newly created <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure, or NULL on failure. </dd></dl>
 
 </div>
 </div>

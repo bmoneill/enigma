@@ -12,6 +12,7 @@ var enigma_8h =
     [ "enigma_init_default_config", "enigma_8h.html#a03ab453a88259a340b72c2cc1a29db9a", null ],
     [ "enigma_init_random_config", "enigma_8h.html#add61454d6d9d24b3e4d16f2154875454", null ],
     [ "enigma_init_rotors", "enigma_8h.html#a22b8fa3091b4e8f059df0f4eec366167", null ],
+    [ "enigma_new", "enigma_8h.html#ad83c3e14ebf650fd6eb35be24acaa741", null ],
     [ "enigma_set_plugboard", "enigma_8h.html#ac4ec280d2ae77724b897e77724e8ee6f", null ],
     [ "enigma_set_reflector", "enigma_8h.html#a58a39d4eacf32411156396fc7a581285", null ],
     [ "enigma_set_rotor", "enigma_8h.html#a02d5e2766e24bd64e8a26df9ca90f542", null ],
