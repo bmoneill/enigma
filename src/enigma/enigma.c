@@ -503,7 +503,8 @@ static ENIGMA_ALWAYS_INLINE void enigma_rotate_rotors(Enigma* enigma) {
  *
  * @return The index of the character after passing through the rotor.
  */
-static ENIGMA_ALWAYS_INLINE int enigma_rotor_pass_forward(const EnigmaRotor* rotor, int rotIdx, int idx) {
+static ENIGMA_ALWAYS_INLINE int
+enigma_rotor_pass_forward(const EnigmaRotor* rotor, int rotIdx, int idx) {
     idx = idx + rotIdx;
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;
@@ -527,7 +528,8 @@ static ENIGMA_ALWAYS_INLINE int enigma_rotor_pass_forward(const EnigmaRotor* rot
  *
  * @return The index of the character after passing through the rotor.
  */
-static ENIGMA_ALWAYS_INLINE int enigma_rotor_pass_reverse(const EnigmaRotor* rotor, int rotIdx, int idx) {
+static ENIGMA_ALWAYS_INLINE int
+enigma_rotor_pass_reverse(const EnigmaRotor* rotor, int rotIdx, int idx) {
     idx += rotIdx;
     if (idx >= ENIGMA_ALPHA_SIZE) {
         idx -= ENIGMA_ALPHA_SIZE;
