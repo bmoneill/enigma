@@ -34,20 +34,20 @@ void test_enigma_score_sort_WithInvalidArguments(void) {
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, enigma_score_list_sort(NULL), failure);
 }
 
-void test_score_compare(void) {
+void test_enigma_score_compare(void) {
     EnigmaScore score1;
     EnigmaScore score2;
     score1.score = 0.5;
     score2.score = 0.6;
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(1,
-                                  score_compare(&score1, &score2),
+                                  enigma_score_compare(&score1, &score2),
                                   "Expected score1 to be greater than score2");
     TEST_ASSERT_EQUAL_INT_MESSAGE(-1,
-                                  score_compare(&score2, &score1),
+                                  enigma_score_compare(&score2, &score1),
                                   "Expected score2 to be greater than score1");
     TEST_ASSERT_EQUAL_INT_MESSAGE(0,
-                                  score_compare(&score1, &score1),
+                                  enigma_score_compare(&score1, &score1),
                                   "Expected score1 to be equal to score1");
 }
 

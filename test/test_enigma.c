@@ -138,11 +138,11 @@ void test_enigma_init_random_config_WithInvalidArguments(void) {
 
 void test_rotate(void) {
     int idx = 0;
-    rotate(&idx);
+    enigma_rotate(&idx);
     TEST_ASSERT_EQUAL_INT_MESSAGE(1, idx, "Expected index to be incremented");
 
     idx = ENIGMA_ALPHA_SIZE - 1;
-    rotate(&idx);
+    enigma_rotate(&idx);
     TEST_ASSERT_EQUAL_INT_MESSAGE(0, idx, "Expected index to wrap back to zero");
 }
 
@@ -159,7 +159,7 @@ void test_rotate_rotors(void) {
     enigma.rotors[2]        = &rotor3;
 
     enigma.rotor_indices[0] = 0;
-    rotate_rotors(&enigma);
+    enigma_rotate_rotors(&enigma);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(1, enigma.rotor_indices[0], "Expected first rotor to rotate");
     TEST_ASSERT_EQUAL_INT_MESSAGE(0,
@@ -171,7 +171,7 @@ void test_rotate_rotors(void) {
     rotor2.fwd_indices[17]  = 25;
     rotor2.notches[0]       = 25;
     rotor2.notches_count    = 1;
-    rotate_rotors(&enigma);
+    enigma_rotate_rotors(&enigma);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(10, enigma.rotor_indices[0], "Expected first rotor to rotate");
     TEST_ASSERT_EQUAL_INT_MESSAGE(18,
@@ -187,10 +187,10 @@ void test_rotor_pass_forward(void) {
     };
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(4,
-                                  rotor_pass_forward(&rotor, idx, 0),
+                                  enigma_rotor_pass_forward(&rotor, idx, 0),
                                   "Expected rotor to pass forward properly"); // A -> E
     TEST_ASSERT_EQUAL_INT_MESSAGE(10,
-                                  rotor_pass_forward(&rotor, idx, 1),
+                                  enigma_rotor_pass_forward(&rotor, idx, 1),
                                   "Expected rotor to pass forward properly"); // B -> K
 }
 
@@ -202,10 +202,10 @@ void test_rotor_pass_reverse(void) {
     };
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(0,
-                                  rotor_pass_reverse(&rotor, idx, 4),
+                                  enigma_rotor_pass_reverse(&rotor, idx, 4),
                                   "Expected rotor to pass properly in reverse"); // E -> A
     TEST_ASSERT_EQUAL_INT_MESSAGE(1,
-                                  rotor_pass_reverse(&rotor, idx, 10),
+                                  enigma_rotor_pass_reverse(&rotor, idx, 10),
                                   "Expected rotor to pass properly in reverse"); // K -> B
 }
 
@@ -214,21 +214,21 @@ void test_substitute(void) {
     strcpy(enigma.plugboard, "ABCD");
 
     TEST_ASSERT_EQUAL_CHAR_MESSAGE('B',
-                                   substitute(enigma.plugboard, 'A'),
+                                   enigma_substitute(enigma.plugboard, 'A'),
                                    "Expected substitution to work properly");
     TEST_ASSERT_EQUAL_CHAR_MESSAGE('A',
-                                   substitute(enigma.plugboard, 'B'),
+                                   enigma_substitute(enigma.plugboard, 'B'),
                                    "Expected substitution to work properly");
 
     TEST_ASSERT_EQUAL_CHAR_MESSAGE('D',
-                                   substitute(enigma.plugboard, 'C'),
+                                   enigma_substitute(enigma.plugboard, 'C'),
                                    "Expected substitution to work properly");
     TEST_ASSERT_EQUAL_CHAR_MESSAGE('C',
-                                   substitute(enigma.plugboard, 'D'),
+                                   enigma_substitute(enigma.plugboard, 'D'),
                                    "Expected substitution to work properly");
 
     TEST_ASSERT_EQUAL_CHAR_MESSAGE('E',
-                                   substitute(enigma.plugboard, 'E'),
+                                   enigma_substitute(enigma.plugboard, 'E'),
                                    "Expected substitution to work properly");
 }
 

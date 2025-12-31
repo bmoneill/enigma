@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int ipow(int, int);
+static int enigma_ipow(int, int);
 
 /**
  * @brief Print an error message to stderr.
@@ -178,7 +178,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(EnigmaCrackParams* cfg, const char* 
         fclose(f);
         return ENIGMA_FAILURE;
     }
-    cfg->ngrams = calloc(ipow(26, n), sizeof(float));
+    cfg->ngrams = calloc(enigma_ipow(26, n), sizeof(float));
     cfg->n      = n;
 
     char s[5];
@@ -326,7 +326,7 @@ EMSCRIPTEN_KEEPALIVE void enigma_print_config(const Enigma* enigma, char* out) {
  * @param exp The exponent integer.
  * @return The result of base raised to the power of exp.
  */
-static int ipow(int base, int exp) {
+static int enigma_ipow(int base, int exp) {
     int result = 1;
     for (int i = 0; i < exp; i++) {
         result *= base;
