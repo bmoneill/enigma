@@ -1,16 +1,10 @@
 build/
-
 vgcore.*
 gmon.out
+a.out.*
+log.txt
 
 # Editor stuff
-.zed/
-/.clangd
-/compile_commands.json
-/.cache
+.zed
+.clangd
 
-# wasm
-a.out.*
-
-# etc
-*.txt
