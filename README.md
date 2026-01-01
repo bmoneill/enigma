@@ -51,5 +51,5 @@ cmake --build .
 
 ## License
 
-Copyright (c) 2025 Ben O'Neill <ben@oneill.sh>. This work is released under the
+Copyright (c) 2025-2026 Ben O'Neill <ben@oneill.sh>. This work is released under the
 terms of the MIT License. See [LICENSE](LICENSE) for the license terms.
