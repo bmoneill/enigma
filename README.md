@@ -31,9 +31,25 @@ same key as was used to create it.
 ## Building
 
 ```shell
-cmake . -DTARGET_GROUP=all
-cmake --build .
+# build library and tools
+cmake -S . -B build -DTARGET_GROUP=all
+cmake --build build
+
+# build web demo
 ./build_webdemo.sh # build the web demo
+
+# install library and tools
+cmake --install build
+```
+
+## Testing
+
+```shell
+git submodule update
+cmake -S . -B build -DTARGET_GROUP=test
+cmake --build build 
+cd build
+ctest --verbose
 ```
 
 ## Documentation
