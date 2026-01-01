@@ -1,8 +1,24 @@
 #!/bin/bash
 # ngram generator
-# usage: ngram.sh n file
+# usage: genngrams n file
 # outputs ngram counts to stdout.
 # first line of output is "n charcount"
+
+if [[ $# -ne 2 ]]; then
+  echo "Usage: $0 n file"
+  exit 1
+fi
+
+if [[ $1 -lt 1 || $1 -gt 4 ]]; then
+  echo "Error: first argument must be an integer between 1 and 4"
+  exit 1
+fi
+
+# Check if file exists
+if [ ! -f "$2" ]; then
+  echo "Error: file \"$2\" not found"
+  exit 1
+fi
 
 n=$1
 f=$2

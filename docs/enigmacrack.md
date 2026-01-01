@@ -38,7 +38,7 @@ given we know the language the source text was written in. This requires some us
 
 ### ngram
 
-Use n-grams for cryptanalysis. n-grams may be generated from a corpus using the [ngram.sh](../tools/ngram.sh)
+Use n-grams for cryptanalysis. n-grams may be generated from a corpus using the [genngrams](../tools/genngrams.sh)
 script.
 
 ## Targets

@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.31.6)
 project("libenigma" C)
 include(CTest)
 
+add_subdirectory(docs/man)
+
 execute_process(
     COMMAND git rev-parse --short HEAD
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
@@ -24,34 +26,34 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -D_DEFAULT_SOURCE -D_BSD_
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
 
 # Debugging and Profiling
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg -fprofile-arcs -ftest-coverage")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg -fprofile-arcs -ftest-coverage")
 
 function(Enable_Tests)
-  set(TEST ON CACHE INTERNAL "")
+    set(TEST ON CACHE INTERNAL "")
 endfunction()
 
 function(Build_Library)
-  add_subdirectory(src)
-  include_directories(src)
+    add_subdirectory(src)
+    include_directories(src)
 endfunction()
 
 function(Build_Tests)
-  add_subdirectory(external)
-  add_subdirectory(test)
+    add_subdirectory(external)
+    add_subdirectory(test)
 endfunction()
 
 if(TARGET_GROUP STREQUAL test)
-  Enable_Tests()
-  Build_Library()
-  Build_Tests()
+    Enable_Tests()
+    Build_Library()
+    Build_Tests()
 elseif(TARGET_GROUP STREQUAL all)
-  Enable_Tests()
-  Build_Library()
-  add_subdirectory(tools)
-  Build_Tests()
+    Enable_Tests()
+    Build_Library()
+    add_subdirectory(tools)
+    Build_Tests()
 elseif(TARGET_GROUP STREQUAL lib)
-  Build_Library()
+    Build_Library()
 else()
-  Build_Library()
-  add_subdirectory(tools)
+    Build_Library()
+    add_subdirectory(tools)
 endif()
