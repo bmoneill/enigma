@@ -27,4 +27,5 @@ test/*_runner.c
 a.out.*
 
 # etc
+docs/html
 *.txt
