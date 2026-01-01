@@ -36,7 +36,7 @@ cmake -S . -B build -DTARGET_GROUP=all
 cmake --build build
 
 # build web demo
-./build_webdemo.sh # build the web demo
+./build_webdemo.sh
 
 # install library and tools
 cmake --install build
