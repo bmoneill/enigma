@@ -1,0 +1,77 @@
+.TH ENIGMACRACK 1 "January 2026" "libenigma" "User Commands"
+.SH NAME
+enigmacrack \- Cryptanalysis tools to break Enigma ciphers
+.SH SYNOPSIS
+.B enigmacrack
+method target [options] ciphertext
+.SH DESCRIPTION
+This program allows you to use Index of Coincidence (ioc) and n-grams (ngram)
+cryptanalysis methods to break Enigma ciphers.
+There are some general options that can be used with either method. If you
+have narrowed down the potential settings, you can exclude irrelevant configurations
+from testing in further analysis using the \fB-w\fP, \fB-p\fP, \fB-u\fP, and \fB-s\fP options.
+.SH USAGE
+.TP
+.B -w rotors
+Set the rotor configuration (e\.g\. 'I II III')\.
+.TP
+.B -p positions
+Set the initial rotor positions (e\.g\. 'ABC')\.
+.TP
+.B -u reflector
+Set the reflector (e\.g\. 'B')\.
+.TP
+.B -s plugboard
+Set the plugboard pairs (e\.g\. 'ABCDEF')\.
+.SH CRYPTANALYSIS SETTINGS
+.TP
+.B -c plaintext
+Set the known plaintext\.
+.TP
+.B -C position
+Set the position of known plaintext\.
+.TP
+.B -d path
+Load dictionary words from the given file\.
+.TP
+.B -l language
+Set the language ('english' or 'german', for IOC method)\.
+.TP
+.B -m float
+Set the minimum score threshold (REQUIRED)\.
+.TP
+.B -M float
+Set the maximum score threshold (REQUIRED)\.
+.TP
+.B -n file
+Load n-grams from the given file\.
+.SH IOC METHOD
+The \fBioc\fP method uses Index of Coincidence for cryptanalysis\. The Index of Coincidence measures
+how likely it is to draw two random letters from a given text\. As correct settings are discovered,
+intermediary plaintexts should approach the established Index of Coincidence value for its language\.
+Utilizing this method, it is possible to decrypt ciphertext with no known settings in a short amount of time,
+given we know the language the source text was written in\. This requires some user intervention, however\.
+.SH NGRAM METHOD
+The \fBngram\fP method uses n-grams for cryptanalysis\. n-grams may be generated from a corpus using the \fBgenngrams\fP
+script.
+.SH TARGETS
+.TP
+.B rotor[1-3]
+Crack the rotor (Walzen) configuration\. Optional index indicates which rotor to crack\.
+.TP
+.B positions
+Crack the initial rotor positions\.
+.TP
+.B reflector
+Crack the reflector (Umkehrwalze)\.
+.TP
+.B plugboard
+Crack a plugboard (Steckerbrett) setting\.
+.SH AUTHOR
+Written by Ben O'Neill <ben@oneill.sh>.
+.SH BUGS
+If any bugs are found, email the author.
+.SH COPYRIGHT
+Copyright \(co 2025-2026 Ben O'Neill <ben@oneill.sh>. License: MIT.
+.SH SEE ALSO
+.BR enigmacli (1)

@@ -1,0 +1,32 @@
+.TH ENIGMACLI 1 "January 2026" "libenigma" "User Commands"
+.SH NAME
+enigmacli \- CLI Enigma simulator
+.SH SYNOPSIS
+.B enigmacli
+[-r] [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
+.SH DESCRIPTION
+This is a CLI Enigma simulator. It is case-agnostic, and reads from stdin and outputs to stdout by default.
+.SH USAGE
+.TP
+.B -p
+Set the initial rotor (Walze) positions (e\.g\. \fB'ABC'\fP)
+.TP
+.B -s
+Set the plugboard (Steckerbrett) configuration (e\.g\. \fB'ABCDEF'\fP)
+.TP
+.B -u
+Set the reflector (Umkehrwalze) (e\.g\. \fB'B'\fP)
+.TP
+.B -w
+Set the rotor (Walze) configuration (e\.g\. \fB'I II III'\fP)
+.TP
+.B -r
+Generate a random Enigma configuration.
+.SH AUTHOR
+Written by Ben O'Neill <ben@oneill.sh>.
+.SH BUGS
+If any bugs are found, email the author.
+.SH COPYRIGHT
+Copyright \(co 2025-2026 Ben O'Neill <ben@oneill.sh>. License: MIT.
+.SH SEE ALSO
+.BR enigmacrack (1)
