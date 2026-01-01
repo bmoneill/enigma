@@ -107,12 +107,12 @@ void test_load_ngrams(void) {
     // 50 HE
     // 20 AR
 
-    int               charCount        = 500;
-    const char*       ngramFilePath    = "data/bigrams.txt";
-    const char*       altNgramFilePath = "test/data/bigrams.txt";
-    const char*       altNgramFilePath2 = "../../test/data/bigrams.txt";
-    char cwd[1024];
-	getcwd(cwd, 1024);
+    int         charCount         = 500;
+    const char* ngramFilePath     = "data/bigrams.txt";
+    const char* altNgramFilePath  = "test/data/bigrams.txt";
+    const char* altNgramFilePath2 = "../../test/data/bigrams.txt";
+    char        cwd[1024];
+    getcwd(cwd, 1024);
     printf("%s\n", cwd);
     EnigmaCrackParams cfg;
 
