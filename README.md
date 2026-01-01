@@ -39,8 +39,8 @@ cmake --build .
 ## Documentation
 
 * [Library Documentation](https://bmoneill.github.io/enigma/).
-* [Enigma Simulator Documentation](doc/enigmacli.md).
-* [Enigma Cracking Tools Documentation](doc/enigmacrack.md).
+* [Enigma Simulator Documentation](docs/enigmacli.md).
+* [Enigma Cracking Tools Documentation](docs/enigmacrack.md).
 
 ## Further Reading
 
