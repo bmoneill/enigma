@@ -46,14 +46,12 @@ set(LIBRARY_PUBLIC_HEADERS
 )
 
 add_library (
- ${LIBRARY_NAME}_static STATIC ${LIBRARY_PUBLIC_SRC}
+ ${LIBRARY_NAME} SHARED ${LIBRARY_PUBLIC_SRC}
 )
 
-if(NOT ${TARGET_GROUP} STREQUAL wasm)
-    add_library (
-        ${LIBRARY_NAME} SHARED ${LIBRARY_PUBLIC_SRC} ${LIBRARY_PUBLIC_HEADERS}
-    )
-endif()
+add_library (
+ ${LIBRARY_NAME}_static STATIC ${LIBRARY_PUBLIC_SRC}
+)
 
 # Compiler definitions
 if(TEST)
