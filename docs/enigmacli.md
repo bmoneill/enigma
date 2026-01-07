@@ -1,6 +1,6 @@
-# enigmacli
+# enigmacli: Enigma simulator
 
-This is a CLI M3 Enigma simulator.
+This is a CLI Enigma simulator.
 
 ### Usage
 
