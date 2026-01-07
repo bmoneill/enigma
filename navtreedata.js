@@ -26,7 +26,7 @@ var NAVTREE =
 [
   [ "libenigma", "index.html", [
     [ "Enigma machine simulator and cryptanalysis tools", "index.html", "index" ],
-    [ "enigmacli", "md_docs_enigmacli.html", null ],
+    [ "enigmacli: Enigma simulator", "md_docs_enigmacli.html", null ],
     [ "enigmacrack: Cryptanalysis tools to break Enigma ciphers", "md_docs_enigmacrack.html", [
       [ "Usage", "md_docs_enigmacrack.html#autotoc_md3", null ],
       [ "Options", "md_docs_enigmacrack.html#autotoc_md4", [
