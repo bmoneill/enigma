@@ -22,10 +22,12 @@
  */
 typedef struct {
     const char* name; //!< Name of the rotor.
-    int         fwd_indices[ENIGMA_ALPHA_SIZE]; //!< Character code of each standard alphabetic character in the rotor's alphabet.
-    int         rev_indices[ENIGMA_ALPHA_SIZE]; //!< Character code of each rotor's alphabetic character in the standard alphabet.
-    int         notches[2]; //!< Array of notch positions.
-    int         notches_count; //!< Number of notches.
+    int         fwd_indices
+        [ENIGMA_ALPHA_SIZE]; //!< Character code of each standard alphabetic character in the rotor's alphabet.
+    int rev_indices
+        [ENIGMA_ALPHA_SIZE]; //!< Character code of each rotor's alphabetic character in the standard alphabet.
+    int notches[2]; //!< Array of notch positions.
+    int notches_count; //!< Number of notches.
 } EnigmaRotor;
 
 // clang-format off

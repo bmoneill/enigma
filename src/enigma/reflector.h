@@ -21,7 +21,7 @@
  */
 typedef struct {
     const char* name; //!< Name of the reflector.
-    int         indices[ENIGMA_ALPHA_SIZE]; //!< Array of indices representing the reflector's wiring.
+    int indices[ENIGMA_ALPHA_SIZE]; //!< Array of indices representing the reflector's wiring.
 } EnigmaReflector;
 
 /**

@@ -30,10 +30,12 @@ typedef struct {
     float            min_score; //!< The minimum score for a configuration to be considered
     float            max_score; //!< The maximum score for a configuration to be considered
     float            target_score; //!< The target score for a configuration to be considered
-    float            target_frequency; //!< The target frequency for a configuration to be considered
-    float            frequency_offset; //!< The maximum offset from the target frequency that a scored configuration may have to be considered valid.
-    const char*      known_plaintext; //!< Known plaintext that must exist for a configuration to be considered
-    int              known_plaintext_length; //!< The length of the known plaintext
+    float target_frequency; //!< The target frequency for a configuration to be considered
+    float
+        frequency_offset; //!< The maximum offset from the target frequency that a scored configuration may have to be considered valid.
+    const char*
+        known_plaintext; //!< Known plaintext that must exist for a configuration to be considered
+    int known_plaintext_length; //!< The length of the known plaintext
 } EnigmaCrackParams;
 
 EnigmaCrackParams* enigma_crack_params_new(void);
