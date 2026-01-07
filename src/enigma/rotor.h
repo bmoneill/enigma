@@ -3,11 +3,14 @@
  *
  * This file defines the standard rotors used in the Enigma machine.
  */
-#ifndef LIBENIGMA_ROTORS_H
-#define LIBENIGMA_ROTORS_H
+#ifndef ENIGMA_ROTOR_H
+#define ENIGMA_ROTOR_H
 
 #include "common.h"
 
+/**
+ * @brief Total number of available rotors.
+ */
 #define ENIGMA_ROTOR_COUNT 8
 
 /**
@@ -177,7 +180,7 @@ static const EnigmaRotor* enigma_rotors[]
 
 int enigma_rotor_generate_indices(EnigmaRotor*, const char*);
 
-/* EnigmaRotor getters and setters */
+/* --- EnigmaRotor getters and setters --- */
 const char* enigma_rotor_get_name(const EnigmaRotor*);
 const int*  enigma_rotor_get_fwd_indices(const EnigmaRotor*);
 const int*  enigma_rotor_get_rev_indices(const EnigmaRotor*);

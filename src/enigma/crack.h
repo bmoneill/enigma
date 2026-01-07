@@ -3,8 +3,8 @@
  *
  * Header file for cracking Enigma machine configurations.
  */
-#ifndef LIBENIGMA_CRACK_H
-#define LIBENIGMA_CRACK_H
+#ifndef ENIGMA_CRACK_H
+#define ENIGMA_CRACK_H
 
 #include "enigma.h"
 #include "score.h"
@@ -69,7 +69,7 @@ int   enigma_letter_freq(const EnigmaCrackParams*, const char*);
 int   enigma_score_append(EnigmaCrackParams*, Enigma*, const char*, float);
 int   enigma_score_flags(const EnigmaCrackParams*, const char*);
 
-/* EnigmaCrackParams getters and setters */
+/* --- EnigmaCrackParams getters and setters --- */
 const Enigma*          enigma_crack_get_enigma(const EnigmaCrackParams*);
 const EnigmaScoreList* enigma_crack_get_score_list(const EnigmaCrackParams*);
 const char**           enigma_crack_get_dictionary(const EnigmaCrackParams*);

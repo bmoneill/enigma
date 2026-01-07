@@ -3,11 +3,14 @@
  *
  * This file defines the standard reflectors used in the Enigma machine.
  */
-#ifndef LIBENIGMA_REFLECTORS_H
-#define LIBENIGMA_REFLECTORS_H
+#ifndef ENIGMA_REFLECTOR_H
+#define ENIGMA_REFLECTOR_H
 
 #include "common.h"
 
+/**
+ * @brief Total number of available reflectors.
+ */
 #define ENIGMA_REFLECTOR_COUNT 3
 
 /**
@@ -57,6 +60,9 @@ static const EnigmaReflector enigma_UKW_C = {
                  22, 6,  2,  19, 10, 20, 16, 18, 1, 13, 12, 7,  11 },
 };
 
+/**
+ * @brief Array of available reflectors.
+ */
 static const EnigmaReflector* enigma_reflectors[] = {
     &enigma_UKW_A,
     &enigma_UKW_B,
@@ -65,7 +71,7 @@ static const EnigmaReflector* enigma_reflectors[] = {
 
 int enigma_reflector_generate_indices(EnigmaReflector*, const char*);
 
-/* EnigmaReflector getters and setters */
+/* --- EnigmaReflector getters and setters --- */
 const char* enigma_reflector_get_name(const EnigmaReflector*);
 const int*  enigma_reflector_get_indices(const EnigmaReflector*);
 int         enigma_reflector_set_name(EnigmaReflector*, const char*);

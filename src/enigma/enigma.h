@@ -5,8 +5,8 @@
  * including the main Enigma structure, encoding functions, and initialization
  * routines for default and random configurations.
  */
-#ifndef LIBENIGMA_ENIGMA_H
-#define LIBENIGMA_ENIGMA_H
+#ifndef ENIGMA_ENIGMA_H
+#define ENIGMA_ENIGMA_H
 
 #include "reflector.h"
 #include "rotor.h"
@@ -51,7 +51,7 @@ int         enigma_init_random_config(Enigma*);
 Enigma*     enigma_new(void);
 const char* enigma_version(void);
 
-/* Enigma getters and setters */
+/* --- Enigma getters and setters --- */
 const char*            enigma_get_plugboard(const Enigma*);
 const EnigmaReflector* enigma_get_reflector(const Enigma*);
 const EnigmaRotor*     enigma_get_rotor(const Enigma*, int);
