@@ -104,29 +104,24 @@ $(document).ready(function(){initNavTree('structEnigmaRotor.html',''); initResiz
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a8f8f80d37794cde9472343e4487ba3eb"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaRotor.html#a8f8f80d37794cde9472343e4487ba3eb">name</a></td></tr>
+<tr class="memdesc:a8f8f80d37794cde9472343e4487ba3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the rotor.  <br /></td></tr>
 <tr class="separator:a8f8f80d37794cde9472343e4487ba3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6cb4d26efa809b129c10563b36a4b54"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaRotor.html#ad6cb4d26efa809b129c10563b36a4b54">fwd_indices</a> [26]</td></tr>
+<tr class="memdesc:ad6cb4d26efa809b129c10563b36a4b54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Character code of each standard alphabetic character in the rotor's alphabet.  <br /></td></tr>
 <tr class="separator:ad6cb4d26efa809b129c10563b36a4b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d5c88ad1cc84d45dafd16d49209fd02"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaRotor.html#a8d5c88ad1cc84d45dafd16d49209fd02">rev_indices</a> [26]</td></tr>
+<tr class="memdesc:a8d5c88ad1cc84d45dafd16d49209fd02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Character code of each rotor's alphabetic character in the standard alphabet.  <br /></td></tr>
 <tr class="separator:a8d5c88ad1cc84d45dafd16d49209fd02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a550a1fc91f9880c8311c35507596ed76"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaRotor.html#a550a1fc91f9880c8311c35507596ed76">notches</a> [2]</td></tr>
+<tr class="memdesc:a550a1fc91f9880c8311c35507596ed76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of notch positions.  <br /></td></tr>
 <tr class="separator:a550a1fc91f9880c8311c35507596ed76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91f2c7161273ec66e4ceccc3efa9ff86"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaRotor.html#a91f2c7161273ec66e4ceccc3efa9ff86">notches_count</a></td></tr>
+<tr class="memdesc:a91f2c7161273ec66e4ceccc3efa9ff86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of notches.  <br /></td></tr>
 <tr class="separator:a91f2c7161273ec66e4ceccc3efa9ff86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a rotor configuration for the <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine. </p>
-<p>Indices here are entered manually to avoid extra calculation at runtime. Essentially, they map the rotor's alphabet to the standard alphabet (A-Z).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">name</td><td>Name of the rotor. </td></tr>
-    <tr><td class="paramname">fwd_indices</td><td>Character code of each standard alphabetic character in the rotor's alphabet. </td></tr>
-    <tr><td class="paramname">rev_indices</td><td>Character code of each rotor's alphabetic character in the standard alphabet. </td></tr>
-    <tr><td class="paramname">notches</td><td>Array of notch positions. </td></tr>
-    <tr><td class="paramname">notches_count</td><td>Number of notches. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Indices here are entered manually to avoid extra calculation at runtime. Essentially, they map the rotor's alphabet to the standard alphabet (A-Z). </p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="ad6cb4d26efa809b129c10563b36a4b54" name="ad6cb4d26efa809b129c10563b36a4b54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad6cb4d26efa809b129c10563b36a4b54">&#9670;&#160;</a></span>fwd_indices</h2>
@@ -139,6 +134,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Character code of each standard alphabetic character in the rotor's alphabet. </p>
 
 </div>
 </div>
@@ -154,6 +151,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Name of the rotor. </p>
+
 </div>
 </div>
 <a id="a550a1fc91f9880c8311c35507596ed76" name="a550a1fc91f9880c8311c35507596ed76"></a>
@@ -167,6 +166,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Array of notch positions. </p>
 
 </div>
 </div>
@@ -182,6 +183,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Number of notches. </p>
+
 </div>
 </div>
 <a id="a8d5c88ad1cc84d45dafd16d49209fd02" name="a8d5c88ad1cc84d45dafd16d49209fd02"></a>
@@ -195,6 +198,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Character code of each rotor's alphabetic character in the standard alphabet. </p>
 
 </div>
 </div>
