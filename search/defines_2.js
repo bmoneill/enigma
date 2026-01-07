@@ -23,7 +23,8 @@ var searchData=
   ['enigma_5fquadidx_20',['ENIGMA_QUADIDX',['../ngram_8h.html#aaf493239f088308a16708233f187dd33',1,'ngram.h']]],
   ['enigma_5freflector_5fcount_21',['ENIGMA_REFLECTOR_COUNT',['../reflector_8h.html#a076c516101d818406c4cf369d70095c8',1,'reflector.h']]],
   ['enigma_5frotor_5fcount_22',['ENIGMA_ROTOR_COUNT',['../rotor_8h.html#a67c66686a2da6a8327fea9aa638df064',1,'rotor.h']]],
-  ['enigma_5fsuccess_23',['ENIGMA_SUCCESS',['../common_8h.html#ad01df2272c636e6292001609bd8601f0',1,'common.h']]],
-  ['enigma_5ftriidx_24',['ENIGMA_TRIIDX',['../ngram_8h.html#ad2d03ddb165565c8493e9fcf0cb33a73',1,'ngram.h']]],
-  ['enigma_5fversion_25',['ENIGMA_VERSION',['../common_8h.html#ae8d1ce982f3e9c82e1a9cffb0651eccc',1,'common.h']]]
+  ['enigma_5fstatic_23',['ENIGMA_STATIC',['../common_8h.html#a08226d5c9d32d2c3fee3441df26efe02',1,'common.h']]],
+  ['enigma_5fsuccess_24',['ENIGMA_SUCCESS',['../common_8h.html#ad01df2272c636e6292001609bd8601f0',1,'common.h']]],
+  ['enigma_5ftriidx_25',['ENIGMA_TRIIDX',['../ngram_8h.html#ad2d03ddb165565c8493e9fcf0cb33a73',1,'ngram.h']]],
+  ['enigma_5fversion_26',['ENIGMA_VERSION',['../common_8h.html#ae8d1ce982f3e9c82e1a9cffb0651eccc',1,'common.h']]]
 ];
