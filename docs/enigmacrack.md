@@ -29,12 +29,14 @@ enigmacrack method target [options] ciphertext
 
 ### ioc
 
-This method uses Index of Coincidence for cryptanalysis. The Index of Coincidence measures how
-likely it is to draw two random letters from a given text. As correct settings are discovered,
-intermediary plaintexts should approach the established Index of Coincidence value for its language.
+This method uses Index of Coincidence for cryptanalysis. The Index of
+Coincidence measures how likely it is to draw two random letters from a given
+text. As correct settings are discovered, intermediary plaintexts should
+approach the established Index of Coincidence value for its language.
 
-Utilizing this method, it is possible to decrypt ciphertext with no known settings in a short amount of time,
-given we know the language the source text was written in. This requires some user intervention, however.
+Utilizing this method, it is possible to decrypt ciphertext with no known
+settings in a short amount of time, given we know the language the source text
+was written in. This requires some user intervention, however.
 
 ### ngram
 
@@ -43,7 +45,8 @@ script.
 
 ## Targets
 
-* `rotor[1-3]`: Crack the rotor (Walzen) configuration. Index indicates which rotor to crack.
+* `rotor[1-3]`: Crack the rotor (Walzen) configuration. Index indicates which
+  rotor to crack.
 * `positions`: Crack the initial rotor positions.
 * `reflector`: Crack the reflector (Umkehrwalze).
 * `plugboard`: Crack a plugboard (Steckerbrett) setting.
