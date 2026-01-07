@@ -61,8 +61,7 @@ var menudata={children:[
 {text:"All",url:"globals.html",children:[
 {text:"_",url:"globals.html#index__5F"},
 {text:"a",url:"globals_a.html#index_a"},
-{text:"e",url:"globals_e.html#index_e"},
-{text:"l",url:"globals_l.html#index_l"}]},
+{text:"e",url:"globals_e.html#index_e"}]},
 {text:"Functions",url:"globals_func.html",children:[
 {text:"e",url:"globals_func.html#index_e"}]},
 {text:"Macros",url:"globals_defs.html"}]}]}]}
