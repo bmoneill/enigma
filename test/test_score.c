@@ -1,8 +1,11 @@
-#include "enigma/score.c"
+#include "enigma/score.h"
 
 #include "unity.h"
 
+#include <stdlib.h>
 #include <string.h>
+
+extern int      enigma_score_compare(const void* a, const void* b);
 
 const char*     success = "Expected success";
 const char*     failure = "Expected failure";

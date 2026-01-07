@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int enigma_score_compare(const void* a, const void* b);
+ENIGMA_STATIC int enigma_score_compare(const void* a, const void* b);
 
 /**
  * @brief Print the scores in an EnigmaScoreList.
@@ -263,7 +263,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_list_set_max_scores(EnigmaScoreList* list,
  * This function is used by qsort to sort an array of EnigmaScore structures
  * in descending order based on the score field.
  */
-static int enigma_score_compare(const void* a, const void* b) {
+ENIGMA_STATIC int enigma_score_compare(const void* a, const void* b) {
     const EnigmaScore* scoreA = (const EnigmaScore*) a;
     const EnigmaScore* scoreB = (const EnigmaScore*) b;
 

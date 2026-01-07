@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int enigma_ipow(int, int);
+ENIGMA_STATIC int enigma_ipow(int, int);
 
 /**
  * @brief Print an error message to stderr.
@@ -326,7 +326,7 @@ EMSCRIPTEN_KEEPALIVE void enigma_print_config(const Enigma* enigma, char* out) {
  * @param exp The exponent integer.
  * @return The result of base raised to the power of exp.
  */
-static int enigma_ipow(int base, int exp) {
+ENIGMA_STATIC int enigma_ipow(int base, int exp) {
     int result = 1;
     for (int i = 0; i < exp; i++) {
         result *= base;

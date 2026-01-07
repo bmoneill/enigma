@@ -1,6 +1,13 @@
-#include "enigma/enigma.c"
 #include "enigma/enigma.h"
 #include "unity.h"
+
+#include <string.h>
+
+extern void enigma_rotate(int*);
+extern void enigma_rotate_rotors(Enigma*);
+extern int  enigma_rotor_pass_forward(const EnigmaRotor*, int, int);
+extern int  enigma_rotor_pass_reverse(const EnigmaRotor*, int, int);
+extern char enigma_substitute(const char*, char);
 
 Enigma      enigma;
 const char* success = "Expected success";

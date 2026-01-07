@@ -6,6 +6,12 @@
 #ifndef ENIGMA_COMMON_H
 #define ENIGMA_COMMON_H
 
+#ifdef TEST
+#define ENIGMA_STATIC
+#else
+#define ENIGMA_STATIC static
+#endif
+
 /**
  * @brief Defines the size of the alphabet used in the Enigma machine.
  */
@@ -59,10 +65,14 @@
 #define ENIGMA_VERSION "unknown"
 #endif
 
+#ifdef TEST
+#define ENIGMA_ALWAYS_INLINE
+#else
 #ifdef __GNUC__
 #define ENIGMA_ALWAYS_INLINE inline __attribute__((always_inline))
 #else
 #define ENIGMA_ALWAYS_INLINE inline
+#endif
 #endif
 
 #ifdef EMSCRIPTEN

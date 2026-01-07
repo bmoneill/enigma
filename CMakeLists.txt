@@ -30,6 +30,11 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg -fprofile-arcs -ftest-coverage")
 
 function(Enable_Tests)
     set(TEST ON CACHE INTERNAL "")
+    if(CMAKE_COMPILER_IS_GNUCC)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+        set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
+        include(CodeCoverage)
+    endif()
 endfunction()
 
 function(Build_Library)

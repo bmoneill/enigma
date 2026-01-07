@@ -23,8 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int enigma_score_compare(const void* a, const void* b);
-
 /**
  * @brief Create a new EnigmaCrackParams structure.
  *
