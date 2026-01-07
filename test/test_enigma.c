@@ -232,7 +232,7 @@ void test_substitute(void) {
                                    "Expected substitution to work properly");
 }
 
-void test_enigma_version(void) { TEST_ASSERT_EQUAL_STRING(LIBENIGMA_VERSION, enigma_version()); }
+void test_enigma_version(void) { TEST_ASSERT_EQUAL_STRING(ENIGMA_VERSION, enigma_version()); }
 
 // --- enigma_t getter/setter tests ---
 
