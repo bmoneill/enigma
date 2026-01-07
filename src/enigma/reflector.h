@@ -18,13 +18,10 @@
  * @brief Represents a reflector configuration for the Enigma machine.
  *
  * Indices represent the character code of each standard alphabetic character in the rotor's alphabet.
- *
- * @param name    Name of the reflector.
- * @param indices Array of indices representing the reflector's wiring.
  */
 typedef struct {
-    const char* name;
-    int         indices[ENIGMA_ALPHA_SIZE];
+    const char* name; //!< Name of the reflector.
+    int         indices[ENIGMA_ALPHA_SIZE]; //!< Array of indices representing the reflector's wiring.
 } EnigmaReflector;
 
 /**

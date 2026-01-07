@@ -30,24 +30,14 @@
  * pair indicates two letters that are swapped during encoding.
  *
  * Example plugboard configuration: "ABCD" means A<->B and C<->D are swapped.
- *
- * Note: The reflector and rotors are represented using their respective structures
- * defined in `reflectors.h` and `rotors.h`.
- *
- * @param rotors        Array of pointers to rotor configurations.
- * @param rotor_indices Array of current rotor indices.
- * @param rotor_flag    Flag indicating rotor behavior.
- * @param rotor_count   Number of rotors in use.
- * @param reflector     Pointer to reflector configuration.
- * @param plugboard     String representing plugboard settings.
  */
 typedef struct {
-    const EnigmaRotor*     rotors[4];
-    int                    rotor_indices[4];
-    int                    rotor_flag;
-    int                    rotor_count;
-    const EnigmaReflector* reflector;
-    char                   plugboard[27];
+    const EnigmaRotor*     rotors[4]; //!< Array of pointers to rotor configurations.
+    int                    rotor_indices[4]; //!< Array of current rotor indices.
+    int                    rotor_flag; //!< Flag indicating rotor behavior.
+    int                    rotor_count; //!< Number of rotors in use.
+    const EnigmaReflector* reflector; //!< Pointer to reflector configuration.
+    char                   plugboard[27]; //!< String representing plugboard settings.
 } Enigma;
 
 char        enigma_encode(Enigma*, int);

@@ -14,45 +14,26 @@
 /**
  * @struct EnigmaCrackParams
  * @brief A structure representing a configuration for cracking an Enigma cipher.
- *
- * @param enigma            The base Enigma machine configuration.
- * @param score_list            A list of scored Enigma configurations.
- * @param dictionary        An array of dictionary words.
- * @param dictionary_length The number of words in the dictionary.
- * @param ngrams            An array of n-gram frequencies.
- * @param n                 The length of each n-gram.
- * @param ngrams_length     The number of n-grams.
- * @param ciphertext        The ciphertext to be cracked.
- * @param ciphertext_length The length of the ciphertext.
- * @param flags             Flags indicating special conditions a scored configuration may meet.
- * @param frequency_targets An array of frequency targets for each letter.
- * @param min_score         The minimum score for a configuration to be considered valid.
- * @param max_score         The maximum score for a configuration to be considered valid.
- * @param target_score      The target score for a configuration to be considered valid.
- * @param target_frequency  The target frequency for a configuration to be considered valid.
- * @param frequency_offset  The maximum offset from the target frequency that a scored configuration
- *                          may have to be considered valid.
- * @param known_plaintext   Known plaintext.
  */
 typedef struct {
-    Enigma           enigma;
-    EnigmaScoreList* score_list;
-    const char**     dictionary;
-    size_t           dictionary_length;
-    float*           ngrams;
-    int              n;
-    size_t           ngrams_length;
-    const char*      ciphertext;
-    size_t           ciphertext_length;
-    int              flags;
-    float            frequency_targets[26];
-    float            min_score;
-    float            max_score;
-    float            target_score;
-    float            target_frequency;
-    float            frequency_offset;
-    const char*      known_plaintext;
-    int              known_plaintext_length;
+    Enigma           enigma; //!< The base enigma machine configuration
+    EnigmaScoreList* score_list; //!< A list of scored configurations
+    const char**     dictionary; //!< A list of dictionary words
+    size_t           dictionary_length; //!< The number of words in the dictionary
+    float*           ngrams; //!< An array of n-gram frequencies
+    int              n; //!< The length of each n-gram
+    size_t           ngrams_length; //!< The number of n-grams in the array
+    const char*      ciphertext; //!< The ciphertext to be cracked
+    size_t           ciphertext_length; //!< The length of the ciphertext
+    int              flags; //!< Flags indicating special conditions a scored configuration may meet
+    float            frequency_targets[26]; //!< An array of frequency targets for each letter
+    float            min_score; //!< The minimum score for a configuration to be considered
+    float            max_score; //!< The maximum score for a configuration to be considered
+    float            target_score; //!< The target score for a configuration to be considered
+    float            target_frequency; //!< The target frequency for a configuration to be considered
+    float            frequency_offset; //!< The maximum offset from the target frequency that a scored configuration may have to be considered valid.
+    const char*      known_plaintext; //!< Known plaintext that must exist for a configuration to be considered
+    int              known_plaintext_length; //!< The length of the known plaintext
 } EnigmaCrackParams;
 
 EnigmaCrackParams* enigma_crack_params_new(void);

@@ -19,21 +19,13 @@
  *
  * Indices here are entered manually to avoid extra calculation at runtime. Essentially, they map
  * the rotor's alphabet to the standard alphabet (A-Z).
- *
- * @param name          Name of the rotor.
- * @param fwd_indices   Character code of each standard alphabetic character in the rotor's
- *                      alphabet.
- * @param rev_indices   Character code of each rotor's alphabetic character in the standard
- *                      alphabet.
- * @param notches       Array of notch positions.
- * @param notches_count Number of notches.
  */
 typedef struct {
-    const char* name;
-    int         fwd_indices[ENIGMA_ALPHA_SIZE];
-    int         rev_indices[ENIGMA_ALPHA_SIZE];
-    int         notches[2];
-    int         notches_count;
+    const char* name; //!< Name of the rotor.
+    int         fwd_indices[ENIGMA_ALPHA_SIZE]; //!< Character code of each standard alphabetic character in the rotor's alphabet.
+    int         rev_indices[ENIGMA_ALPHA_SIZE]; //!< Character code of each rotor's alphabetic character in the standard alphabet.
+    int         notches[2]; //!< Array of notch positions.
+    int         notches_count; //!< Number of notches.
 } EnigmaRotor;
 
 // clang-format off

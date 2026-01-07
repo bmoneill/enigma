@@ -26,30 +26,21 @@
 /**
  * @struct EnigmaScore
  * @brief A structure representing a scored Enigma configuration.
- *
- * @param enigma The Enigma configuration.
- * @param score  The score of the configuration.
- * @param flags  Flags indicating special conditions the configuration met (e.g. matches dictionary
- *               words or contains known plaintext).
  */
 typedef struct {
-    Enigma enigma;
-    float  score;
-    int    flags;
+    Enigma enigma; //!< The Enigma configuration.
+    float  score; //!< The score of the configuration.
+    int    flags; //!< Flags indicating special conditions the configuration met
 } EnigmaScore;
 
 /**
  * @struct EnigmaScoreList
  * @brief A structure representing a list of scored Enigma configurations.
- *
- * @param scores      An array of EnigmaScore structs.
- * @param score_count The number of scores in the array.
- * @param max_scores  The maximum number of scores that can be stored in the array.
  */
 typedef struct {
-    EnigmaScore* scores;
-    int          score_count;
-    int          max_scores;
+    EnigmaScore* scores; //!< An array of EnigmaScore structs.
+    int          score_count; //!< The number of scores in the array.
+    int          max_scores; //!< The maximum number of scores that can be stored in the array.
 } EnigmaScoreList;
 
 int enigma_score_print(const EnigmaScoreList*);
