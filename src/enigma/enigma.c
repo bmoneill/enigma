@@ -233,7 +233,7 @@ EMSCRIPTEN_KEEPALIVE Enigma* enigma_new(void) {
  *
  * @return Pointer to the version string.
  */
-EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) { return LIBENIGMA_VERSION; }
+EMSCRIPTEN_KEEPALIVE const char* enigma_version(void) { return ENIGMA_VERSION; }
 
 /**
  * @brief Get the plugboard configuration.

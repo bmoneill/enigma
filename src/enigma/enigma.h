@@ -11,6 +11,13 @@
 #include "reflector.h"
 #include "rotor.h"
 
+#ifndef ENIGMA_VERSION
+/**
+ * @brief libenigma version string
+ */
+#define ENIGMA_VERSION "unknown"
+#endif
+
 /**
  * @struct Enigma
  * @brief Represents the state and configuration of an Enigma machine.
