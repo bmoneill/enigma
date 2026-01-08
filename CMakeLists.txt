@@ -25,13 +25,13 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -D_DEFAULT_SOURCE -D_BSD_
 # Optimization
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
 
-# Debugging and Profiling
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -pg -fprofile-arcs -ftest-coverage")
+# etc
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 
 function(Enable_Tests)
     set(TEST ON CACHE INTERNAL "")
     if(CMAKE_COMPILER_IS_GNUCC)
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg -fprofile-arcs -ftest-coverage")
         set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
         include(CodeCoverage)
     endif()
