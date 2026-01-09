@@ -32,7 +32,7 @@ same key as was used to create it.
 
 ```shell
 # build library and tools
-cmake -S . -B build -DTARGET_GROUP=all
+cmake -S . -B build
 cmake --build build
 
 # build web demo
@@ -46,7 +46,7 @@ cmake --install build
 
 ```shell
 git submodule update
-cmake -S . -B build -DTARGET_GROUP=test
+cmake -S . -B build -DTEST=ON
 cmake --build build 
 cd build
 ctest --verbose

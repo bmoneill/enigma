@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.31.6)
 project("libenigma" C)
 include(CTest)
 
+option(TEST "Build tests" OFF)
+option(LIBONLY "Build libenigma only" OFF)
+
 add_subdirectory(docs/man)
 
 execute_process(
@@ -20,18 +23,11 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DENIGMA_VERSION='\"${GIT_COMMIT_HASH}\"'")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_FILE_OFFSET_BITS=64")
 
 # Warnings
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-missing-field-initializers -fsanitize=address,undefined -fno-omit-frame-pointer")
-
-# Optimization
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
-
-# etc
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -Wno-unused-variable -Wno-missing-field-initializers")
 
 function(Enable_Tests)
-    set(TEST ON CACHE INTERNAL "")
     if(CMAKE_COMPILER_IS_GNUCC)
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg -fprofile-arcs -ftest-coverage")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg -fprofile-arcs -ftest-coverage -fsanitize=address,undefined -fno-omit-frame-pointer")
         set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
         include(CodeCoverage)
     endif()
@@ -47,16 +43,11 @@ function(Build_Tests)
     add_subdirectory(test)
 endfunction()
 
-if(TARGET_GROUP STREQUAL test)
+if(TEST)
     Enable_Tests()
     Build_Library()
     Build_Tests()
-elseif(TARGET_GROUP STREQUAL all)
-    Enable_Tests()
-    Build_Library()
-    add_subdirectory(tools)
-    Build_Tests()
-elseif(TARGET_GROUP STREQUAL lib)
+elseif(LIBONLY)
     Build_Library()
 else()
     Build_Library()

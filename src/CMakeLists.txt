@@ -56,6 +56,10 @@ add_library (
 # Compiler definitions
 if(TEST)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DTEST")
+    target_compile_options(${LIBRARY_NAME} PRIVATE "-fprofile-arcs" "-ftest-coverage")
+    target_link_options(${LIBRARY_NAME} PRIVATE "-fprofile-arcs" "-ftest-coverage")
+else()
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -ffast-math")
 endif()
 
 # Library installation directives
