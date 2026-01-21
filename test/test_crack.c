@@ -354,7 +354,27 @@ void test_enigma_dict_match_WithMatchingPlaintext_X_Separated(void) {
     free(cfg.dictionary);
 }
 
-void test_enigma_dict_match_WithNonMatchingPlaintext(void) {
+void test_enigma_dict_match_WithNonMatchingPlaintext_X_Separated(void) {
+    cfg.dictionary        = malloc(7 * sizeof(char*));
+    cfg.dictionary_length = 7;
+    cfg.ciphertext_length = strlen(helloWorld);
+    cfg.flags |= ENIGMA_FLAG_X_SEPARATED;
+    cfg.dictionary[0] = "BAR";
+    cfg.dictionary[1] = "BAZ";
+    cfg.dictionary[2] = "EARTH";
+    cfg.dictionary[3] = "FOO";
+    cfg.dictionary[4] = "MARS";
+    cfg.dictionary[5] = "SATURN";
+    cfg.dictionary[6] = "TEST";
+
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0,
+                                  enigma_dict_match(&cfg, helloWorld),
+                                  "Expected dictionary not to match");
+
+    free(cfg.dictionary);
+}
+
+void test_enigma_dict_match_WithNonMatchingPlaintext_Not_X_Separated(void) {
     cfg.dictionary        = malloc(4 * sizeof(char*));
     cfg.dictionary_length = 4;
     cfg.dictionary[0]     = "EARTH";

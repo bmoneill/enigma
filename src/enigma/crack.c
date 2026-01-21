@@ -20,6 +20,7 @@
 #include "rotor.h"
 
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -338,11 +339,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
         int    plaintextIdx       = 0;
         size_t plaintextEndOfWord = strlen(&tmpPlaintext[plaintextIdx]);
         while (plaintextEndOfWord < cfg->ciphertext_length) {
+            plaintextEndOfWord = plaintextIdx + strlen(&tmpPlaintext[plaintextIdx]);
+
             match_count += enigma_dict_match_word(cfg, &tmpPlaintext[plaintextIdx]);
             if (match_count > 1) {
                 free(tmpPlaintext);
                 return 1;
             }
+
             plaintextIdx += strlen(&tmpPlaintext[plaintextIdx]) + 1;
         }
 
