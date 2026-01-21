@@ -334,8 +334,8 @@ void test_enigma_dict_match_WithMatchingPlaintext(void) {
 void test_enigma_dict_match_WithNonMatchingPlaintext(void) {
     cfg.dictionary        = malloc(4 * sizeof(char*));
     cfg.dictionary_length = 4;
-    cfg.dictionary[0]     = "FOO";
-    cfg.dictionary[1]     = "EARTH";
+    cfg.dictionary[0]     = "EARTH";
+    cfg.dictionary[1]     = "FOO";
     cfg.dictionary[2]     = "MARS";
     cfg.dictionary[3]     = "SATURN";
 
