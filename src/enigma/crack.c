@@ -338,17 +338,9 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
 #else
     // bsearch implementation
     for (size_t i = 0; i < cfg->ciphertext_length; i++) {
-        void* result = bsearch(&plaintext[i],
-                               cfg->dictionary,
-                               cfg->dictionary_length,
-                               sizeof(const char*),
-                               enigma_strcmp);
-        if (result != NULL) {
-            match_count++;
-            if (match_count > 1) {
-                return 1;
-            }
-        }
+        // Can't use bsearch here
+        // Need to integrate binary search with arbitrary length strings
+        size_t idx = cfg->dictionary_length / 2; // TODO
     }
 #endif
     return 0;
