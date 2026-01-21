@@ -18,19 +18,19 @@
 typedef struct {
     Enigma           enigma; //!< The base enigma machine configuration
     EnigmaScoreList* score_list; //!< A list of scored configurations
-    const char**     dictionary; //!< A list of dictionary words
-    size_t           dictionary_length; //!< The number of words in the dictionary
-    float*           ngrams; //!< An array of n-gram frequencies
-    int              n; //!< The length of each n-gram
-    size_t           ngrams_length; //!< The number of n-grams in the array
-    const char*      ciphertext; //!< The ciphertext to be cracked
-    size_t           ciphertext_length; //!< The length of the ciphertext
-    int              flags; //!< Flags indicating special conditions a scored configuration may meet
-    float            frequency_targets[26]; //!< An array of frequency targets for each letter
-    float            min_score; //!< The minimum score for a configuration to be considered
-    float            max_score; //!< The maximum score for a configuration to be considered
-    float            target_score; //!< The target score for a configuration to be considered
-    float target_frequency; //!< The target frequency for a configuration to be considered
+    const char** dictionary; //!< A list of dictionary words (should be sorted and all uppercase)
+    size_t       dictionary_length; //!< The number of words in the dictionary
+    float*       ngrams; //!< An array of n-gram frequencies
+    int          n; //!< The length of each n-gram
+    size_t       ngrams_length; //!< The number of n-grams in the array
+    const char*  ciphertext; //!< The ciphertext to be cracked
+    size_t       ciphertext_length; //!< The length of the ciphertext
+    int          flags; //!< Flags indicating special conditions a scored configuration may meet
+    float        frequency_targets[26]; //!< An array of frequency targets for each letter
+    float        min_score; //!< The minimum score for a configuration to be considered
+    float        max_score; //!< The maximum score for a configuration to be considered
+    float        target_score; //!< The target score for a configuration to be considered
+    float        target_frequency; //!< The target frequency for a configuration to be considered
     float
         frequency_offset; //!< The maximum offset from the target frequency that a scored configuration may have to be considered valid.
     const char*

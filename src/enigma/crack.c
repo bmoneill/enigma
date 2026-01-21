@@ -23,6 +23,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+static int enigma_strcmp(const void*, const void*);
+
 /**
  * @brief Create a new EnigmaCrackParams structure.
  *
@@ -309,7 +311,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_positions(EnigmaCrackParams* cfg,
  * This function checks the plaintext against a dictionary of words and returns
  * 1 if multiple words are found, otherwise returns 0.
  *
- * The dictionary must be uppercase.
+ * The dictionary must be uppercase and sorted.
  *
  * @param cfg The EnigmaCrackParams struct containing the dictionary and its size
  * @param plaintext The plaintext to check
@@ -322,6 +324,9 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
     }
 
     int match_count = 0;
+
+#if 0
+    // strstr implementation
     for (size_t i = 0; i < cfg->dictionary_length; i++) {
         if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
             match_count++;
@@ -330,6 +335,22 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
             }
         }
     }
+#else
+    // bsearch implementation
+    for (size_t i = 0; i < cfg->ciphertext_length; i++) {
+        void* result = bsearch(&plaintext[i],
+                               cfg->dictionary,
+                               cfg->dictionary_length,
+                               sizeof(const char*),
+                               enigma_strcmp);
+        if (result != NULL) {
+            match_count++;
+            if (match_count > 1) {
+                return 1;
+            }
+        }
+    }
+#endif
     return 0;
 }
 
@@ -966,4 +987,8 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(EnigmaCrackParams* cfg
     cfg->known_plaintext        = knownPlaintext;
     cfg->known_plaintext_length = length;
     return ENIGMA_SUCCESS;
+}
+
+static int enigma_strcmp(const void* s1, const void* s2) {
+    return strcmp((const char*) s1, (const char*) s2);
 }
