@@ -11,6 +11,13 @@
 
 #include <stddef.h>
 
+#ifndef ENIGMA_FLAG_X_SEPARATED
+/**
+ * @brief Flag indicating that the plaintext words are separated by X's.
+ */
+#define ENIGMA_FLAG_X_SEPARATED 16
+#endif
+
 /**
  * @struct EnigmaCrackParams
  * @brief A structure representing a configuration for cracking an Enigma cipher.

@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int enigma_strcmp(const void*, const void*);
+static int enigma_dict_match_word(const EnigmaCrackParams*, char*);
 
 /**
  * @brief Create a new EnigmaCrackParams structure.
@@ -325,24 +325,39 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
 
     int match_count = 0;
 
-#if 0
-    // strstr implementation
-    for (size_t i = 0; i < cfg->dictionary_length; i++) {
-        if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
-            match_count++;
+    if (cfg->flags & ENIGMA_FLAG_X_SEPARATED) {
+        char* tmpPlaintext = strdup(plaintext);
+
+        // Replace 'X' with '\0'
+        for (size_t i = 0; i < cfg->ciphertext_length; i++) {
+            if (tmpPlaintext[i] == 'X') {
+                tmpPlaintext[i] = '\0';
+            }
+        }
+
+        int    plaintextIdx       = 0;
+        size_t plaintextEndOfWord = strlen(&tmpPlaintext[plaintextIdx]);
+        while (plaintextEndOfWord < cfg->ciphertext_length) {
+            match_count += enigma_dict_match_word(cfg, &tmpPlaintext[plaintextIdx]);
             if (match_count > 1) {
+                free(tmpPlaintext);
                 return 1;
+            }
+            plaintextIdx += strlen(&tmpPlaintext[plaintextIdx]) + 1;
+        }
+
+        free(tmpPlaintext);
+    } else {
+        // Pretty inefficient
+        for (size_t i = 0; i < cfg->dictionary_length; i++) {
+            if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
+                match_count++;
+                if (match_count > 1) {
+                    return 1;
+                }
             }
         }
     }
-#else
-    // bsearch implementation
-    for (size_t i = 0; i < cfg->ciphertext_length; i++) {
-        // Can't use bsearch here
-        // Need to integrate binary search with arbitrary length strings
-        size_t idx = cfg->dictionary_length / 2; // TODO
-    }
-#endif
     return 0;
 }
 
@@ -981,6 +996,41 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(EnigmaCrackParams* cfg
     return ENIGMA_SUCCESS;
 }
 
-static int enigma_strcmp(const void* s1, const void* s2) {
-    return strcmp((const char*) s1, (const char*) s2);
+static int enigma_dict_match_word(const EnigmaCrackParams* cfg, char* plaintext) {
+    const char** dict    = cfg->dictionary;
+    size_t       dictLen = cfg->dictionary_length;
+    int          key     = plaintext[0];
+    size_t       idx     = dictLen / 2;
+    int          left    = 0;
+    int          right   = (int) dictLen - 1;
+    int          found   = -1;
+
+    // Binary search to find any entry that starts with `key`
+    while (left <= right) {
+        int  mid       = left + (right - left) / 2;
+        char dictFirst = dict[mid][0];
+
+        if (dictFirst < key) {
+            left = mid + 1;
+        } else if (dictFirst > key) {
+            right = mid - 1;
+        } else {
+            found = mid;
+            // Continue searching left side to find the first occurrence
+            right = mid - 1;
+        }
+    }
+
+    // Move back to the first dictionary entry that starts with `key`
+    while (found > 0 && dict[found - 1][0] == key) {
+        found--;
+    }
+
+    for (size_t i = found; i < dictLen && dict[i][0] == key; i++) {
+        if (strcmp(dict[i], plaintext) == 0) {
+            return 1;
+        }
+    }
+
+    return 0;
 }

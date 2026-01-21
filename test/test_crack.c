@@ -311,8 +311,9 @@ void test_enigma_crack_rotor_positions_WithInvalidArguments(void) {
                                   failure);
 }
 
-void test_enigma_dict_match_WithMatchingPlaintext(void) {
+void test_enigma_dict_match_WithMatchingPlaintext_Not_X_Separated(void) {
     const char* plaintext = "HELLOXWORLDXFOOXBAR";
+    cfg.ciphertext_length = strlen(plaintext);
     cfg.dictionary        = malloc(7 * sizeof(char*));
     cfg.dictionary_length = 7;
 
@@ -323,6 +324,28 @@ void test_enigma_dict_match_WithMatchingPlaintext(void) {
     cfg.dictionary[4]     = "HELLO";
     cfg.dictionary[5]     = "TEST";
     cfg.dictionary[6]     = "WORLD";
+
+    TEST_ASSERT_EQUAL_INT_MESSAGE(1,
+                                  enigma_dict_match(&cfg, plaintext),
+                                  "Expected dictionary to match");
+
+    free(cfg.dictionary);
+}
+
+void test_enigma_dict_match_WithMatchingPlaintext_X_Separated(void) {
+    const char* plaintext = "HELLOXWORLDXFOOXBAR";
+    cfg.ciphertext_length = strlen(plaintext);
+    cfg.dictionary        = malloc(7 * sizeof(char*));
+    cfg.dictionary_length = 7;
+    cfg.flags |= ENIGMA_FLAG_X_SEPARATED;
+
+    cfg.dictionary[0] = "BAR";
+    cfg.dictionary[1] = "BAZ";
+    cfg.dictionary[2] = "FOO";
+    cfg.dictionary[3] = "GOODBYE";
+    cfg.dictionary[4] = "HELLO";
+    cfg.dictionary[5] = "TEST";
+    cfg.dictionary[6] = "WORLD";
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(1,
                                   enigma_dict_match(&cfg, plaintext),
