@@ -19,11 +19,13 @@ enigmacrack method target [options] ciphertext
 
 * `-c plaintext`: Set the known plaintext.
 * `-C position`: Set the position of known plaintext.
-* `-d path`: Load dictionary words from the given file.
+* `-d path`: Load dictionary words from the given file. Dictionary must contain
+  one word per line, be sorted alphabetically, and be all uppercase.
 * `-l language`: Set the language ('english' or 'german', for IOC method).
 * `-m float`: Set the minimum score threshold (**REQUIRED**).
 * `-M float`: Set the maximum score threshold (**REQUIRED**).
 * `-n file`: Load n-grams from the given file.
+* `-x`: Assume X-separated words in plaintext.
 
 ## Methods
 
