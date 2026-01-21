@@ -32,7 +32,7 @@ Set the known plaintext\.
 Set the position of known plaintext\.
 .TP
 .B -d path
-Load dictionary words from the given file\.
+Load dictionary words from the given file\. Dictionary must contain one word per line, be sorted alphabetically, and be all uppercase\.
 .TP
 .B -l language
 Set the language ('english' or 'german', for IOC method)\.
@@ -45,6 +45,9 @@ Set the maximum score threshold (REQUIRED)\.
 .TP
 .B -n file
 Load n-grams from the given file\.
+.TP
+.B -x
+Assume X-separated words in plaintext\.
 .SH IOC METHOD
 The \fBioc\fP method uses Index of Coincidence for cryptanalysis\. The Index of Coincidence measures
 how likely it is to draw two random letters from a given text\. As correct settings are discovered,

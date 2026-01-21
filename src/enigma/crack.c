@@ -996,6 +996,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(EnigmaCrackParams* cfg
     return ENIGMA_SUCCESS;
 }
 
+/**
+ * @brief Match a word in the dictionary with the given plaintext
+ *
+ * cfg->dictionary and cfg->dictionary_length must be initialized and valid.
+ *
+ * @param cfg The EnigmaCrackParams struct instance
+ * @param plaintext The plaintext string to match
+ * @return 1 on success, 0 on failure
+ */
 static int enigma_dict_match_word(const EnigmaCrackParams* cfg, char* plaintext) {
     const char** dict    = cfg->dictionary;
     size_t       dictLen = cfg->dictionary_length;

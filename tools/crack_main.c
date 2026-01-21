@@ -32,9 +32,12 @@
         -l language    Language ('english' or 'german', for IOC method)\n\
         -m float       Minimum score threshold\n\
         -M float       Maximum score threshold\n\
-        -n file        n-gram bank to load\n\n\
+        -n file        n-gram bank to load\n\
+        -x             Assume X-separated words in plaintext\n\n\
     A file can be provided as the last argument to read the ciphertext from a file.\n\
     If no file is provided, the ciphertext will be read from standard input.\n\n\
+    Note that dictionaries must contain one word per line, be sorted alphabetically, and\n\
+    be all uppercase\n\n\
     Available languages: english, german\n\
     Available rotors: I, II, III, IV, V, VI, VII, VIII\n\
     Available reflectors: A, B, C\n"
@@ -100,7 +103,7 @@ int main(int argc, char* argv[]) {
 
     optind += 2;
     int opt;
-    while ((opt = getopt(argc, argv, "w:p:u:s:c:d:l:m:M:n:f:")) != -1) {
+    while ((opt = getopt(argc, argv, "w:p:u:s:c:d:l:m:M:n:f:x")) != -1) {
         switch (opt) {
         case 'w':
             enigma_load_rotor_config(&cfg->enigma, optarg);
@@ -138,6 +141,9 @@ int main(int argc, char* argv[]) {
             break;
         case 'f':
             load_frequencies(cfg, optarg);
+            break;
+        case 'x':
+            cfg->flags |= ENIGMA_FLAG_X_SEPARATED;
             break;
         default:
             clean_exit("Error: Unknown option", argv[0], cfg, 1);
@@ -267,7 +273,7 @@ static void free_dictionary(char** dictionary, int size) {
 }
 
 static void load_dictionary(EnigmaCrackParams* cfg, const char* path) {
-    int alloced            = 10000;
+    size_t alloced         = 10000;
     cfg->dictionary        = malloc(alloced * sizeof(char*));
     cfg->dictionary_length = 0;
     FILE* f                = fopen(path, "r");
