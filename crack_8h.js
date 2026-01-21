@@ -1,6 +1,7 @@
 var crack_8h =
 [
     [ "EnigmaCrackParams", "structEnigmaCrackParams.html", "structEnigmaCrackParams" ],
+    [ "ENIGMA_FLAG_X_SEPARATED", "crack_8h.html#a9f0b1d74e1265e9ba6174ef903d2c9eb", null ],
     [ "enigma_crack_get_ciphertext", "crack_8h.html#ab496a07ea609efc12d031c16e0f01d93", null ],
     [ "enigma_crack_get_ciphertext_length", "crack_8h.html#a97e25f76bbb4d535838708b698f9f1a3", null ],
     [ "enigma_crack_get_dictionary", "crack_8h.html#a081b4e6255f3d0399f233291604b2a0c", null ],

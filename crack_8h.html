@@ -92,6 +92,7 @@ $(document).ready(function(){initNavTree('crack_8h.html',''); initResizable(); }
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">crack.h File Reference</div></div>
 </div><!--header-->
@@ -107,6 +108,12 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A structure representing a configuration for cracking an <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> cipher.  <a href="structEnigmaCrackParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a9f0b1d74e1265e9ba6174ef903d2c9eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a9f0b1d74e1265e9ba6174ef903d2c9eb">ENIGMA_FLAG_X_SEPARATED</a>&#160;&#160;&#160;16</td></tr>
+<tr class="memdesc:a9f0b1d74e1265e9ba6174ef903d2c9eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the plaintext words are separated by X's.  <br /></td></tr>
+<tr class="separator:a9f0b1d74e1265e9ba6174ef903d2c9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -233,7 +240,24 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file for cracking <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine configurations. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a9f0b1d74e1265e9ba6174ef903d2c9eb" name="a9f0b1d74e1265e9ba6174ef903d2c9eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f0b1d74e1265e9ba6174ef903d2c9eb">&#9670;&#160;</a></span>ENIGMA_FLAG_X_SEPARATED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_FLAG_X_SEPARATED&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that the plaintext words are separated by X's. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="ab496a07ea609efc12d031c16e0f01d93" name="ab496a07ea609efc12d031c16e0f01d93"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab496a07ea609efc12d031c16e0f01d93">&#9670;&#160;</a></span>enigma_crack_get_ciphertext()</h2>
 
@@ -1409,7 +1433,7 @@ Functions</h2></td></tr>
 
 <p>Checks if multiple words from the dictionary are present in the plaintext. </p>
 <p>This function checks the plaintext against a dictionary of words and returns 1 if multiple words are found, otherwise returns 0.</p>
-<p>The dictionary must be uppercase.</p>
+<p>The dictionary must be uppercase and sorted.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>The <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct containing the dictionary and its size </td></tr>
