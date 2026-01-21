@@ -316,11 +316,11 @@ void test_enigma_dict_match_WithMatchingPlaintext(void) {
     cfg.dictionary        = malloc(7 * sizeof(char*));
     cfg.dictionary_length = 7;
 
-    cfg.dictionary[0]     = "GOODBYE";
-    cfg.dictionary[1]     = "HELLO";
+    cfg.dictionary[0]     = "BAR";
+    cfg.dictionary[1]     = "BAZ";
     cfg.dictionary[2]     = "FOO";
-    cfg.dictionary[3]     = "BAZ";
-    cfg.dictionary[4]     = "BAR";
+    cfg.dictionary[3]     = "GOODBYE";
+    cfg.dictionary[4]     = "HELLO";
     cfg.dictionary[5]     = "TEST";
     cfg.dictionary[6]     = "WORLD";
 
