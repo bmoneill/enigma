@@ -244,6 +244,44 @@ void test_enigma_crack_rotors_WithValidArguments_WithFourRotors(void) {
     }
 }
 
+void test_enigma_crack_rotor_position_WithValidArguments(void) {
+    int rotor = 1;
+    int ret   = enigma_crack_rotor_position(&cfg, 1, mock_score_function);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
+
+    for (int i = 0; i < MAX_STORED_SCORES; i++) {
+        TEST_ASSERT_EQUAL_FLOAT_MESSAGE(storedScores[i],
+                                        cfg.score_list->scores[i].score,
+                                        "Expected score to match stored score");
+        TEST_ASSERT_EQUAL_CHAR_ARRAY_MESSAGE(cfg.enigma.plugboard,
+                                             cfg.score_list->scores[i].enigma.plugboard,
+                                             27,
+                                             "Expected plugboard to match stored plugboard");
+
+        int     cmp = 0;
+        Enigma* e1  = &cfg.score_list->scores[i].enigma;
+        Enigma* e2  = &cfg.score_list->scores[i + 1].enigma;
+        for (int i = 0; i < 3; i++) {
+            if (e1->rotor_indices[i] == e2->rotor_indices[i]) {
+                cmp++;
+            }
+        }
+        TEST_ASSERT_NOT_EQUAL_INT_MESSAGE(3, cmp, "Expected at least one rotor position to change");
+    }
+}
+
+void test_enigma_crack_rotor_position_WithInvalidArguments(void) {
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_crack_rotor_position(NULL, 1, NULL),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_crack_rotor_position(&cfg, 1, NULL),
+                                  failure);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
+                                  enigma_crack_rotor_position(NULL, 1, mock_score_function),
+                                  failure);
+}
+
 void test_enigma_crack_rotor_positions_WithValidArguments_WithThreeRotors(void) {
     int ret = enigma_crack_rotor_positions(&cfg, mock_score_function);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, success);
