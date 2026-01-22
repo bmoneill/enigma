@@ -17,7 +17,7 @@
       ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n\
     Targets:\n\
       rotor[1-3]       Crack a rotor (Walzen) configuration\n\
-      positions        Crack the initial rotor positions\n\
+      position[1-3]    Crack an initial rotor position\n\
       reflector        Crack the reflector (Umkehrwalze) configuration\n\
       plugboard        Crack a plugboard (Steckerbrett) setting\n\n\
     Options:\n\
@@ -53,7 +53,7 @@ static void load_target(EnigmaCrackParams*, const char*);
 #define METHOD_NGRAM 2
 
 #define TARGET_ROTOR     1
-#define TARGET_POSITIONS 2
+#define TARGET_POSITION  2
 #define TARGET_REFLECTOR 3
 #define TARGET_PLUGBOARD 4
 
@@ -88,8 +88,11 @@ int main(int argc, char* argv[]) {
         if (strlen(argv[2]) > strlen("rotor")) {
             param = argv[2][strlen("rotor")] - '0';
         }
-    } else if (!strcmp(argv[2], "positions")) {
-        target = TARGET_POSITIONS;
+    } else if (!strncmp(argv[2], "position", strlen("position"))) {
+        target = TARGET_POSITION;
+        if (strlen(argv[2]) > strlen("position")) {
+            param = argv[2][strlen("position")] - '0';
+        }
     } else if (!strcmp(argv[2], "reflector")) {
         target = TARGET_REFLECTOR;
     } else if (!strcmp(argv[2], "plugboard")) {
@@ -171,8 +174,11 @@ int main(int argc, char* argv[]) {
             }
             enigma_crack_rotor(cfg, param - 1, enigma_ioc_score);
             break;
-        case TARGET_POSITIONS:
-            enigma_crack_rotor_positions(cfg, enigma_ioc_score);
+        case TARGET_POSITION:
+            if (param < 1 || param > 3) {
+                clean_exit("Position target requires rotor number (1-3)\n", argv[0], cfg, 1);
+            }
+            enigma_crack_rotor_position(cfg, param - 1, enigma_ioc_score);
             break;
         case TARGET_REFLECTOR:
             enigma_crack_reflector(cfg, enigma_ioc_score);
@@ -204,16 +210,19 @@ int main(int argc, char* argv[]) {
                 break;
             }
             break;
-        case TARGET_POSITIONS:
+        case TARGET_POSITION:
+            if (param < 1 || param > 3) {
+                clean_exit("Position target requires rotor number (1-3)\n", argv[0], cfg, 1);
+            }
             switch (cfg->n) {
             case 2:
-                enigma_crack_rotor_positions(cfg, enigma_bigram_score);
+                enigma_crack_rotor_position(cfg, param - 1, enigma_bigram_score);
                 break;
             case 3:
-                enigma_crack_rotor_positions(cfg, enigma_trigram_score);
+                enigma_crack_rotor_position(cfg, param - 1, enigma_trigram_score);
                 break;
             case 4:
-                enigma_crack_rotor_positions(cfg, enigma_quadgram_score);
+                enigma_crack_rotor_position(cfg, param - 1, enigma_quadgram_score);
                 break;
             }
             break;

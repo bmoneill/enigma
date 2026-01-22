@@ -244,6 +244,40 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_rotors(EnigmaCrackParams* cfg,
 }
 
 /**
+ * @brief Crack a rotor's position using a scoring function.
+ *
+ * This function attempts to determine the starting position of the given rotor
+ * by evaluating all possible rotor positions and scoring the
+ * resulting plaintext using the provided scoring function.
+ *
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param scoreFunc Function pointer to the scoring function to use.
+ *
+ * @return `ENIGMA_SUCCESS` on success, `ENIGMA_FAILURE` on failure.
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_rotor_position(
+    EnigmaCrackParams* cfg, int rotor, float (*scoreFunc)(const EnigmaCrackParams*, const char*)) {
+    if (!cfg || !scoreFunc) {
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
+    }
+
+    Enigma enigma;
+    Enigma enigmaTmp;
+    char*  plaintext = malloc((cfg->ciphertext_length + 1) * sizeof(char));
+
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        enigma                      = cfg->enigma;
+        enigma.rotor_indices[rotor] = i;
+        enigmaTmp                   = enigma;
+
+        enigma_encode_string(&enigmaTmp, cfg->ciphertext, plaintext, cfg->ciphertext_length);
+        enigma_score_append(cfg, &enigma, plaintext, scoreFunc(cfg, plaintext));
+    }
+
+    free(plaintext);
+    return ENIGMA_SUCCESS;
+}
+/**
  * @brief Crack the rotor positions using a scoring function.
  *
  * This function attempts to determine the rotor starting positions of the
