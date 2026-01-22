@@ -21,6 +21,7 @@ var crack_8c =
     [ "enigma_crack_plugboard", "crack_8c.html#a1497525c17eb1aa5c16ac4a045e124bb", null ],
     [ "enigma_crack_reflector", "crack_8c.html#a1c6eed9959ed3dde877fd770465522d5", null ],
     [ "enigma_crack_rotor", "crack_8c.html#af4337c356a9a6d48ecf9ec452db5f0bf", null ],
+    [ "enigma_crack_rotor_position", "crack_8c.html#a78c1c26a4a6dbc9ae7446842c9527b4b", null ],
     [ "enigma_crack_rotor_positions", "crack_8c.html#ab5b5c276ed2b4bf166ca058c89ccdf5d", null ],
     [ "enigma_crack_rotors", "crack_8c.html#a7e926a63effb8fb67cfa8a67673e3ed3", null ],
     [ "enigma_crack_set_ciphertext", "crack_8c.html#a14b4c430f0489a26917aa376baa14098", null ],

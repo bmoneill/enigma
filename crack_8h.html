@@ -126,6 +126,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a9ef9a0b4a3cd782d9d94d68cdee8214a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a9ef9a0b4a3cd782d9d94d68cdee8214a">enigma_crack_rotors</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, float(*)(const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *))</td></tr>
 <tr class="memdesc:a9ef9a0b4a3cd782d9d94d68cdee8214a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack the rotor order using a scoring function.  <br /></td></tr>
 <tr class="separator:a9ef9a0b4a3cd782d9d94d68cdee8214a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05e01ea67c04853336f981ab5eabbfb4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a05e01ea67c04853336f981ab5eabbfb4">enigma_crack_rotor_position</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, int, float(*scoreFunc)(const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *))</td></tr>
+<tr class="memdesc:a05e01ea67c04853336f981ab5eabbfb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack a rotor's position using a scoring function.  <br /></td></tr>
+<tr class="separator:a05e01ea67c04853336f981ab5eabbfb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac687cafa4e83df4dbcfbf556fbd57f1d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#ac687cafa4e83df4dbcfbf556fbd57f1d">enigma_crack_rotor_positions</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, float(*)(const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *))</td></tr>
 <tr class="memdesc:ac687cafa4e83df4dbcfbf556fbd57f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack the rotor positions using a scoring function.  <br /></td></tr>
 <tr class="separator:ac687cafa4e83df4dbcfbf556fbd57f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -828,6 +831,51 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
     <tr><td class="paramname">targetRotor</td><td>The index of the rotor to crack (0-based). </td></tr>
+    <tr><td class="paramname">scoreFunc</td><td>Function pointer to the scoring function to use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a05e01ea67c04853336f981ab5eabbfb4" name="a05e01ea67c04853336f981ab5eabbfb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05e01ea67c04853336f981ab5eabbfb4">&#9670;&#160;</a></span>enigma_crack_rotor_position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_crack_rotor_position </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rotor</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float(*)(const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *)&#160;</td>
+          <td class="paramname"><em>scoreFunc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Crack a rotor's position using a scoring function. </p>
+<p>This function attempts to determine the starting position of the given rotor by evaluating all possible rotor positions and scoring the resulting plaintext using the provided scoring function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
     <tr><td class="paramname">scoreFunc</td><td>Function pointer to the scoring function to use.</td></tr>
   </table>
   </dd>

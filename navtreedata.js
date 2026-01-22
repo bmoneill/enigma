@@ -61,7 +61,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"rotor_8h.html#a0a1f25e92bbcd12dacb230f16de11730"
+"rotor_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
