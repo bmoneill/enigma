@@ -25,6 +25,7 @@ ENIGMA_STATIC ENIGMA_ALWAYS_INLINE int  enigma_rotor_pass_forward(const EnigmaRo
 ENIGMA_STATIC ENIGMA_ALWAYS_INLINE int  enigma_rotor_pass_reverse(const EnigmaRotor*, int, int);
 ENIGMA_STATIC ENIGMA_ALWAYS_INLINE char enigma_substitute(const char*, char);
 
+#include <stdio.h>
 /**
  * @brief Encode a character using the Enigma machine.
  *
@@ -40,6 +41,7 @@ ENIGMA_STATIC ENIGMA_ALWAYS_INLINE char enigma_substitute(const char*, char);
  */
 EMSCRIPTEN_KEEPALIVE char enigma_encode(Enigma* enigma, int c) {
     if (!enigma || c < 'A' || c > 'Z') {
+        fprintf(stderr, "%d\n", c - 'A');
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 

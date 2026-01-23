@@ -4,6 +4,7 @@
 #include "enigma/ioc.h"
 #include "enigma/ngram.h"
 
+#include <ctype.h>
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -67,7 +68,7 @@ static void load_target(EnigmaCrackParams*, const char*);
 #define TARGET_PLUGBOARD   6
 #define TARGET_PLUGBOARD_S "plugboard"
 
-#define IS_TARGET(s) (!strncmp(argv[0], s, strlen(s)))
+#define IS_TARGET(s) (!strncmp(argv[2], s, strlen(s)))
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
@@ -83,6 +84,16 @@ int main(int argc, char* argv[]) {
     int method               = 0;
     int target               = 0;
     int param                = 0;
+
+    // Convert ciphertext to uppercase
+    for (size_t i = 0; i < cfg->ciphertext_length; i++) {
+        if (isalpha(cfg->ciphertext[i])) {
+            ((char*) cfg->ciphertext)[i] = toupper(cfg->ciphertext[i]);
+        } else {
+            fprintf(stderr,"Warning: Non-alphabetic character '%c' replaced with 'X'\n", cfg->ciphertext[i]);
+            ((char*) cfg->ciphertext)[i] = 'X';
+        }
+    }
 
     if (!strcmp(argv[1], "ioc")) {
         method = METHOD_IOC;
