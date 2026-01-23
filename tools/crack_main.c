@@ -90,7 +90,9 @@ int main(int argc, char* argv[]) {
         if (isalpha(cfg->ciphertext[i])) {
             ((char*) cfg->ciphertext)[i] = toupper(cfg->ciphertext[i]);
         } else {
-            fprintf(stderr,"Warning: Non-alphabetic character '%c' replaced with 'X'\n", cfg->ciphertext[i]);
+            fprintf(stderr,
+                    "Warning: Non-alphabetic character '%c' replaced with 'X'\n",
+                    cfg->ciphertext[i]);
             ((char*) cfg->ciphertext)[i] = 'X';
         }
     }
