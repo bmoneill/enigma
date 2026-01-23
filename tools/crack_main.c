@@ -17,7 +17,9 @@
       ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n\
     Targets:\n\
       rotor[1-3]       Crack a rotor (Walzen) configuration\n\
+      rotors           Crack all rotor (Walzen) configurations\n\
       position[1-3]    Crack an initial rotor position\n\
+      positions        Crack all initial rotor positions\n\
       reflector        Crack the reflector (Umkehrwalze) configuration\n\
       plugboard        Crack a plugboard (Steckerbrett) setting\n\n\
     Options:\n\
