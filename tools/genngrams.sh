@@ -5,6 +5,8 @@
 # first line of output is "n charcount"
 
 if [[ $# -ne 2 ]]; then
+  echo "This script generates n-grams from a given file."
+  echo "This is a part of the Enigma project <https://github.com/bmoneill/enigma>."
   echo "Usage: $0 n file"
   exit 1
 fi

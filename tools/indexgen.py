@@ -30,6 +30,10 @@ def generate_indexes(rotalpha):
 
 def main():
     if len(sys.argv) != 2:
+        print("This script generates rotor index mappings, given a rotor alphabet.")
+        print(
+            "This is a part of the Enigma project <https://github.com/bmoneill/enigma>."
+        )
         print("Usage: %s <rotor_alphabet>" % sys.argv[0])
         return
     fwd, rev = generate_indexes(sys.argv[1])
