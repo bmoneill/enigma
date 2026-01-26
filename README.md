@@ -57,6 +57,8 @@ ctest --verbose
 * [Library Documentation](https://bmoneill.github.io/enigma/).
 * [Enigma Simulator Documentation](docs/enigmacli.md).
 * [Enigma Cracking Tools Documentation](docs/enigmacrack.md).
+* [N-Gram Generator Documentation](docs/genngrams.md).
+* [Rotor Index Generator Documentation](docs/indexgen.md).
 
 ## Further Reading
 
@@ -67,5 +69,5 @@ ctest --verbose
 
 ## License
 
-Copyright (c) 2025-2026 Ben O'Neill <ben@oneill.sh>. This work is released under the
-terms of the MIT License. See [LICENSE](LICENSE) for the license terms.
+Copyright (c) 2025-2026 Ben O'Neill <ben@oneill.sh>. This work is released under
+the terms of the MIT License. See [LICENSE](LICENSE) for the license terms.
