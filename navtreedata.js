@@ -39,6 +39,12 @@ var NAVTREE =
       ] ],
       [ "Targets", "md_docs_enigmacrack.html#autotoc_md10", null ]
     ] ],
+    [ "genngrams: N-Gram Generator", "md_docs_genngrams.html", [
+      [ "Usage", "md_docs_genngrams.html#autotoc_md12", null ]
+    ] ],
+    [ "indexgen: Rotor Index Generator", "md_docs_indexgen.html", [
+      [ "Usage", "md_docs_indexgen.html#autotoc_md14", null ]
+    ] ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -61,7 +67,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"reflector_8h.html#aaa11e161a5e106de9fa8a54594eab8eb"
+"reflector_8h.html#a1ed6c486bf4a84e8c210f8b49443a1b5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
