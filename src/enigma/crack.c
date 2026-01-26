@@ -27,6 +27,31 @@
 static int enigma_dict_match_word(const EnigmaCrackParams*, char*);
 
 /**
+ * @brief Attempt to automatically crack the ciphertext using various methods.
+ *
+ * This function attempts to automatically crack the ciphertext using various methods.
+ * It first checks if the configuration is valid, then initializes an empty score list.
+ * Finally, it cracks the ciphertext and returns the score list.
+ *
+ * @note NOT YET IMPLEMENTED
+ *
+ * @param cfg Pointer to the EnigmaCrackParams structure.
+ * @param max_results Maximum number of results to return.
+ * @return Pointer to the EnigmaScoreList structure, or NULL on failure.
+ */
+EMSCRIPTEN_KEEPALIVE EnigmaScoreList* enigma_crack_auto(EnigmaCrackParams* cfg, int max_results) {
+    int cfg_flags = enigma_crack_params_validate(cfg);
+
+    // Analyze current enigma machine state, warn if not configured enough
+
+    // Initialize an empty score list
+
+    // Crack the ciphertext
+
+    return NULL;
+}
+
+/**
  * @brief Create a new EnigmaCrackParams structure.
  *
  * This function allocates memory for a new EnigmaCrackParams structure.
@@ -39,6 +64,47 @@ EMSCRIPTEN_KEEPALIVE EnigmaCrackParams* enigma_crack_params_new(void) {
         return NULL;
     }
     return params;
+}
+
+/**
+ * @brief Check what capabilities the EnigmaCrackParams structure has.
+ *
+ * This function checks if the EnigmaCrackParams structure is able to
+ * be used to perform cracking operations.
+ * The following flags are checked:
+ * - ENIGMA_DICTIONARY_EXISTS: The dictionary exists and is not empty.
+ * - ENIGMA_N_GRAMS_EXIST: The n-grams exist and are valid.
+ * - ENIGMA_IOC_FREQS_EXIST: The IOC frequencies exist and are valid.
+ * - ENIGMA_CIPHERTEXT_EXISTS: The ciphertext exists and is not empty.
+ * - ENIGMA_SCORE_BOUNDS_EXIST: The score bounds exist and are valid.
+ *
+ * @param cfg Pointer to the EnigmaCrackParams structure.
+ * @return A bitmask indicating the capabilities of the EnigmaCrackParams structure.
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_crack_params_validate(const EnigmaCrackParams* cfg) {
+    int flags = 0;
+    if (cfg->dictionary && cfg->dictionary_length > 0) {
+        flags |= ENIGMA_DICTIONARY_EXISTS;
+    }
+    if (cfg->ngrams && cfg->ngrams_length > 0 && cfg->n > 1 && cfg->n < 5) {
+        flags |= ENIGMA_N_GRAMS_EXIST;
+    }
+    if (cfg->frequency_offset >= 0.0 && cfg->frequency_offset <= 1.0) {
+        flags |= ENIGMA_IOC_FREQS_EXIST;
+        for (int i = 0; i < 26; i++) {
+            if (cfg->frequency_targets[i] < 0.0 || cfg->frequency_targets[i] > 1.0) {
+                flags ^= ENIGMA_IOC_FREQS_EXIST;
+            }
+        }
+    }
+    if (cfg->ciphertext && cfg->ciphertext_length > 0) {
+        flags |= ENIGMA_CIPHERTEXT_EXISTS;
+    }
+    if (cfg->max_score >= 0.0 && cfg->max_score <= 1.0 && cfg->min_score >= 0.0
+        && cfg->min_score <= 1.0 && cfg->max_score > cfg->min_score) {
+        flags |= ENIGMA_SCORE_BOUNDS_EXIST;
+    }
+    return flags;
 }
 
 /**

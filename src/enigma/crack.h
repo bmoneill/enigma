@@ -18,6 +18,41 @@
 #define ENIGMA_FLAG_X_SEPARATED 16
 #endif
 
+#ifndef ENIGMA_DICTIONARY_EXISTS
+/**
+ * @brief Flag indicating that the dictionary exists, utilized in enigma_crack_params_validate().
+ */
+#define ENIGMA_DICTIONARY_EXISTS 1
+#endif
+
+#ifndef ENIGMA_N_GRAMS_EXIST
+/**
+ * @brief Flag indicating that the n-grams exist, utilized in enigma_crack_params_validate().
+ */
+#define ENIGMA_N_GRAMS_EXIST 2
+#endif
+
+#ifndef ENIGMA_IOC_FREQS_EXIST
+/**
+ * @brief Flag indicating that the IOC frequencies exist, utilized in enigma_crack_params_validate().
+ */
+#define ENIGMA_IOC_FREQS_EXIST 4
+#endif
+
+#ifndef ENIGMA_CIPHERTEXT_EXISTS
+/**
+ * @brief Flag indicating that the ciphertext exists, utilized in enigma_crack_params_validate().
+ */
+#define ENIGMA_CIPHERTEXT_EXISTS 8
+#endif
+
+#ifndef ENIGMA_SCORE_BOUNDS_EXIST
+/**
+ * @brief Flag indicating that the score bounds exist, utilized in enigma_crack_params_validate().
+ */
+#define ENIGMA_SCORE_BOUNDS_EXIST 16
+#endif
+
 /**
  * @struct EnigmaCrackParams
  * @brief A structure representing a configuration for cracking an Enigma cipher.
@@ -45,7 +80,9 @@ typedef struct {
     int known_plaintext_length; //!< The length of the known plaintext
 } EnigmaCrackParams;
 
+EnigmaScoreList*   enigma_crack_auto(EnigmaCrackParams*, int);
 EnigmaCrackParams* enigma_crack_params_new(void);
+int                enigma_crack_params_validate(const EnigmaCrackParams*);
 int   enigma_crack_rotor(EnigmaCrackParams*, int, float (*)(const EnigmaCrackParams*, const char*));
 int   enigma_crack_rotors(EnigmaCrackParams*, float (*)(const EnigmaCrackParams*, const char*));
 int   enigma_crack_rotor_position(EnigmaCrackParams*,
