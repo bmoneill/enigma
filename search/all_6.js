@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['indices_0',['indices',['../structEnigmaReflector.html#a2f1f905ab53d12a0e1c1e8442b377368',1,'EnigmaReflector']]],
-  ['io_2ec_1',['io.c',['../io_8c.html',1,'']]],
-  ['io_2eh_2',['io.h',['../io_8h.html',1,'']]],
-  ['ioc_2ec_3',['ioc.c',['../ioc_8c.html',1,'']]],
-  ['ioc_2eh_4',['ioc.h',['../ioc_8h.html',1,'']]]
+  ['flags_0',['flags',['../structEnigmaCrackParams.html#ac8bf36fe0577cba66bccda3a6f7e80a4',1,'EnigmaCrackParams::flags()'],['../structEnigmaScore.html#ac8bf36fe0577cba66bccda3a6f7e80a4',1,'EnigmaScore::flags()']]],
+  ['frequency_5foffset_1',['frequency_offset',['../structEnigmaCrackParams.html#ad1a24a769e2555235422ac4ee81998b3',1,'EnigmaCrackParams']]],
+  ['frequency_5ftargets_2',['frequency_targets',['../structEnigmaCrackParams.html#a9dbb1a2f94a0c18269a7ff74230c2e69',1,'EnigmaCrackParams']]],
+  ['fwd_5findices_3',['fwd_indices',['../structEnigmaRotor.html#ad6cb4d26efa809b129c10563b36a4b54',1,'EnigmaRotor']]]
 ];

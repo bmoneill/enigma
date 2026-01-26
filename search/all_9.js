@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['n_0',['n',['../structEnigmaCrackParams.html#a76f11d9a0a47b94f72c2d0e77fb32240',1,'EnigmaCrackParams']]],
-  ['name_1',['name',['../structEnigmaReflector.html#a8f8f80d37794cde9472343e4487ba3eb',1,'EnigmaReflector::name()'],['../structEnigmaRotor.html#a8f8f80d37794cde9472343e4487ba3eb',1,'EnigmaRotor::name()']]],
-  ['ngram_2ec_2',['ngram.c',['../ngram_8c.html',1,'']]],
-  ['ngram_2eh_3',['ngram.h',['../ngram_8h.html',1,'']]],
-  ['ngrams_4',['ngrams',['../structEnigmaCrackParams.html#a3a75aa32bcc305b7b1968ea884730a38',1,'EnigmaCrackParams']]],
-  ['ngrams_5flength_5',['ngrams_length',['../structEnigmaCrackParams.html#af8d1ba0c46bc97c981469ad52201948c',1,'EnigmaCrackParams']]],
-  ['notches_6',['notches',['../structEnigmaRotor.html#a550a1fc91f9880c8311c35507596ed76',1,'EnigmaRotor']]],
-  ['notches_5fcount_7',['notches_count',['../structEnigmaRotor.html#a91f2c7161273ec66e4ceccc3efa9ff86',1,'EnigmaRotor']]]
+  ['max_5fscore_0',['max_score',['../structEnigmaCrackParams.html#ad5ce61f736f9a2961945949de4531a54',1,'EnigmaCrackParams']]],
+  ['max_5fscores_1',['max_scores',['../structEnigmaScoreList.html#a8c70ea34b7fe7fb6237efa87bb20ce37',1,'EnigmaScoreList']]],
+  ['min_5fscore_2',['min_score',['../structEnigmaCrackParams.html#a8276c8d044b60c841968966b8e3ca193',1,'EnigmaCrackParams']]]
 ];

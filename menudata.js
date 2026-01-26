@@ -64,4 +64,7 @@ var menudata={children:[
 {text:"e",url:"globals_e.html#index_e"}]},
 {text:"Functions",url:"globals_func.html",children:[
 {text:"e",url:"globals_func.html#index_e"}]},
-{text:"Macros",url:"globals_defs.html"}]}]}]}
+{text:"Macros",url:"globals_defs.html",children:[
+{text:"_",url:"globals_defs.html#index__5F"},
+{text:"a",url:"globals_defs.html#index_a"},
+{text:"e",url:"globals_defs.html#index_e"}]}]}]}]}

@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['dictionary_0',['dictionary',['../structEnigmaCrackParams.html#a7b1a50b63b27254f02584283a49738c9',1,'EnigmaCrackParams']]],
-  ['dictionary_5flength_1',['dictionary_length',['../structEnigmaCrackParams.html#a40f9ab8601a8c7c01d6eabace037b5d4',1,'EnigmaCrackParams']]]
+  ['ciphertext_0',['ciphertext',['../structEnigmaCrackParams.html#a725ae6fbdc67a9d510d2afa2a06ef11b',1,'EnigmaCrackParams']]],
+  ['ciphertext_5flength_1',['ciphertext_length',['../structEnigmaCrackParams.html#ac9c5f151bfccefc05e9d52af8b0406fa',1,'EnigmaCrackParams']]],
+  ['common_2eh_2',['common.h',['../common_8h.html',1,'']]],
+  ['crack_2ec_3',['crack.c',['../crack_8c.html',1,'']]],
+  ['crack_2eh_4',['crack.h',['../crack_8h.html',1,'']]]
 ];

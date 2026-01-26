@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: src/enigma/ioc.h Source File</title>
+<title>libenigma: src/enigma/brute.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('ioc_8h_source.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('brute_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -90,39 +90,27 @@ $(document).ready(function(){initNavTree('ioc_8h_source.html',''); initResizable
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">ioc.h</div></div>
+  <div class="headertitle"><div class="title">brute.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="ioc_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef ENIGMA_IOC_H</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define ENIGMA_IOC_H</span></div>
+<a href="brute_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef ENIGMA_BRUTE_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define ENIGMA_BRUTE_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="crack_8h.html">crack.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="ioc_8h.html#a2aef771ef221ced848ad36adc5e17822">   15</a></span><span class="preprocessor">#define ENIGMA_IOC_ENGLISH (1.73 / 26)</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="ioc_8h.html#a14138ff9ce8a441def26d73522d6ed25">   20</a></span><span class="preprocessor">#define ENIGMA_IOC_ENGLISH_MIN (ENIGMA_IOC_ENGLISH - 0.25)</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="ioc_8h.html#a272160ae7f89398fe2dc98467d9ff270">   25</a></span><span class="preprocessor">#define ENIGMA_IOC_ENGLISH_MAX (ENIGMA_IOC_ENGLISH + 0.25)</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="ioc_8h.html#a84631f52edd8c7023b98fece3f33a748">   30</a></span><span class="preprocessor">#define ENIGMA_IOC_GERMAN (2.05 / 26)</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="ioc_8h.html#a69b1d89f5ce496b5dc937a0a7c793835">   35</a></span><span class="preprocessor">#define ENIGMA_IOC_GERMAN_MIN (ENIGMA_IOC_GERMAN - 0.25)</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="ioc_8h.html#a81c07094a9d82a18d3320edc066b9f13">   40</a></span><span class="preprocessor">#define ENIGMA_IOC_GERMAN_MAX (ENIGMA_IOC_GERMAN + 0.25)</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keywordtype">float</span> <a class="code hl_function" href="ioc_8h.html#abda46b96ae664254ee55bf30369c4fa1">enigma_ioc_score</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEnigmaCrackParams.html">EnigmaCrackParams</a>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keywordtype">float</span> <a class="code hl_function" href="brute_8h.html#a328782123e448d79acb9a0ddbd747987">enigma_brute_score</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEnigmaCrackParams.html">EnigmaCrackParams</a>*, <span class="keyword">const</span> <span class="keywordtype">char</span>*);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="abrute_8h_html_a328782123e448d79acb9a0ddbd747987"><div class="ttname"><a href="brute_8h.html#a328782123e448d79acb9a0ddbd747987">enigma_brute_score</a></div><div class="ttdeci">float enigma_brute_score(const EnigmaCrackParams *, const char *)</div><div class="ttdef"><b>Definition:</b> brute.c:11</div></div>
 <div class="ttc" id="acrack_8h_html"><div class="ttname"><a href="crack_8h.html">crack.h</a></div></div>
-<div class="ttc" id="aioc_8h_html_abda46b96ae664254ee55bf30369c4fa1"><div class="ttname"><a href="ioc_8h.html#abda46b96ae664254ee55bf30369c4fa1">enigma_ioc_score</a></div><div class="ttdeci">float enigma_ioc_score(const EnigmaCrackParams *, const char *)</div><div class="ttdoc">Score text using Index of Coincidence.</div><div class="ttdef"><b>Definition:</b> ioc.c:18</div></div>
 <div class="ttc" id="astructEnigmaCrackParams_html"><div class="ttname"><a href="structEnigmaCrackParams.html">EnigmaCrackParams</a></div><div class="ttdoc">A structure representing a configuration for cracking an Enigma cipher.</div><div class="ttdef"><b>Definition:</b> crack.h:60</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_afa9d67d7be824863403988bd03a861d.html">enigma</a></li><li class="navelem"><a class="el" href="ioc_8h.html">ioc.h</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_afa9d67d7be824863403988bd03a861d.html">enigma</a></li><li class="navelem"><a class="el" href="brute_8h.html">brute.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
   </ul>
 </div>

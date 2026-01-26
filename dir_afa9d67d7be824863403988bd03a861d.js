@@ -1,5 +1,7 @@
 var dir_afa9d67d7be824863403988bd03a861d =
 [
+    [ "brute.c", "brute_8c.html", "brute_8c" ],
+    [ "brute.h", "brute_8h.html", "brute_8h" ],
     [ "common.h", "common_8h.html", "common_8h" ],
     [ "crack.c", "crack_8c.html", "crack_8c" ],
     [ "crack.h", "crack_8h.html", "crack_8h" ],

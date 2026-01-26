@@ -1,7 +1,13 @@
 var crack_8h =
 [
     [ "EnigmaCrackParams", "structEnigmaCrackParams.html", "structEnigmaCrackParams" ],
+    [ "ENIGMA_CIPHERTEXT_EXISTS", "crack_8h.html#ab86ce373f73085eded00df0c5767abd9", null ],
+    [ "ENIGMA_DICTIONARY_EXISTS", "crack_8h.html#a0410b58e46d1ec3653b0cabe07df15e9", null ],
     [ "ENIGMA_FLAG_X_SEPARATED", "crack_8h.html#a9f0b1d74e1265e9ba6174ef903d2c9eb", null ],
+    [ "ENIGMA_IOC_FREQS_EXIST", "crack_8h.html#a91080dc336f2bc2c63e0523eda4dfbec", null ],
+    [ "ENIGMA_N_GRAMS_EXIST", "crack_8h.html#a3ad100d4617b6365b215719308de7e28", null ],
+    [ "ENIGMA_SCORE_BOUNDS_EXIST", "crack_8h.html#abc1f9bc0863d63b537dd94b2749f813d", null ],
+    [ "enigma_crack_auto", "crack_8h.html#a1f4db289959964b67a0eec39733a6ec9", null ],
     [ "enigma_crack_get_ciphertext", "crack_8h.html#ab496a07ea609efc12d031c16e0f01d93", null ],
     [ "enigma_crack_get_ciphertext_length", "crack_8h.html#a97e25f76bbb4d535838708b698f9f1a3", null ],
     [ "enigma_crack_get_dictionary", "crack_8h.html#a081b4e6255f3d0399f233291604b2a0c", null ],
@@ -19,6 +25,7 @@ var crack_8h =
     [ "enigma_crack_get_score_list", "crack_8h.html#a2d231ebe1d413b781aee1ca5766aac50", null ],
     [ "enigma_crack_get_target_score", "crack_8h.html#a1a5b7ebfdd8e99f0a716618e5c98d086", null ],
     [ "enigma_crack_params_new", "crack_8h.html#a1103c8f1b06818e73fbf317d970cb99e", null ],
+    [ "enigma_crack_params_validate", "crack_8h.html#a32832794d5b3d1034ff27a11101f88c3", null ],
     [ "enigma_crack_plugboard", "crack_8h.html#a55f850228481ae658e3fbd02cb6645a5", null ],
     [ "enigma_crack_reflector", "crack_8h.html#a7f457078f1aa4b6dff7dc609c0d21034", null ],
     [ "enigma_crack_rotor", "crack_8h.html#a26409c79399ca2ec8e6850a8a1511682", null ],

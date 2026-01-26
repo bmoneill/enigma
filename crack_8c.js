@@ -1,6 +1,7 @@
 var crack_8c =
 [
     [ "_POSIX_C_SOURCE", "crack_8c.html#a3024ccd4a9af5109d24e6c57565d74a1", null ],
+    [ "enigma_crack_auto", "crack_8c.html#a61ca552c1f738c6e88abdf7e9d5cce82", null ],
     [ "enigma_crack_get_ciphertext", "crack_8c.html#a22e60a3aba14b91be1aa04f8c024cd2e", null ],
     [ "enigma_crack_get_ciphertext_length", "crack_8c.html#ad88a916eac2e309a123be0310aa94bc5", null ],
     [ "enigma_crack_get_dictionary", "crack_8c.html#ad680d946a06e4f9f118e1d7aca826cf1", null ],
@@ -18,6 +19,7 @@ var crack_8c =
     [ "enigma_crack_get_score_list", "crack_8c.html#a688812f01f6b58f380e71aa86ed72052", null ],
     [ "enigma_crack_get_target_score", "crack_8c.html#a8be170fbd70ef2b969df0138506ab35a", null ],
     [ "enigma_crack_params_new", "crack_8c.html#a1103c8f1b06818e73fbf317d970cb99e", null ],
+    [ "enigma_crack_params_validate", "crack_8c.html#af9990332b1b1a5ab5c7386f4233c4318", null ],
     [ "enigma_crack_plugboard", "crack_8c.html#a1497525c17eb1aa5c16ac4a045e124bb", null ],
     [ "enigma_crack_reflector", "crack_8c.html#a1c6eed9959ed3dde877fd770465522d5", null ],
     [ "enigma_crack_rotor", "crack_8c.html#af4337c356a9a6d48ecf9ec452db5f0bf", null ],

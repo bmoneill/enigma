@@ -114,12 +114,33 @@ Macros</h2></td></tr>
 <tr class="memitem:a9f0b1d74e1265e9ba6174ef903d2c9eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a9f0b1d74e1265e9ba6174ef903d2c9eb">ENIGMA_FLAG_X_SEPARATED</a>&#160;&#160;&#160;16</td></tr>
 <tr class="memdesc:a9f0b1d74e1265e9ba6174ef903d2c9eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the plaintext words are separated by X's.  <br /></td></tr>
 <tr class="separator:a9f0b1d74e1265e9ba6174ef903d2c9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0410b58e46d1ec3653b0cabe07df15e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a0410b58e46d1ec3653b0cabe07df15e9">ENIGMA_DICTIONARY_EXISTS</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:a0410b58e46d1ec3653b0cabe07df15e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the dictionary exists, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>.  <br /></td></tr>
+<tr class="separator:a0410b58e46d1ec3653b0cabe07df15e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad100d4617b6365b215719308de7e28"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a3ad100d4617b6365b215719308de7e28">ENIGMA_N_GRAMS_EXIST</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:a3ad100d4617b6365b215719308de7e28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the n-grams exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>.  <br /></td></tr>
+<tr class="separator:a3ad100d4617b6365b215719308de7e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91080dc336f2bc2c63e0523eda4dfbec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a91080dc336f2bc2c63e0523eda4dfbec">ENIGMA_IOC_FREQS_EXIST</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memdesc:a91080dc336f2bc2c63e0523eda4dfbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the IOC frequencies exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>.  <br /></td></tr>
+<tr class="separator:a91080dc336f2bc2c63e0523eda4dfbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab86ce373f73085eded00df0c5767abd9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#ab86ce373f73085eded00df0c5767abd9">ENIGMA_CIPHERTEXT_EXISTS</a>&#160;&#160;&#160;8</td></tr>
+<tr class="memdesc:ab86ce373f73085eded00df0c5767abd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the ciphertext exists, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>.  <br /></td></tr>
+<tr class="separator:ab86ce373f73085eded00df0c5767abd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc1f9bc0863d63b537dd94b2749f813d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#abc1f9bc0863d63b537dd94b2749f813d">ENIGMA_SCORE_BOUNDS_EXIST</a>&#160;&#160;&#160;16</td></tr>
+<tr class="memdesc:abc1f9bc0863d63b537dd94b2749f813d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the score bounds exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>.  <br /></td></tr>
+<tr class="separator:abc1f9bc0863d63b537dd94b2749f813d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a1f4db289959964b67a0eec39733a6ec9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEnigmaScoreList.html">EnigmaScoreList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a1f4db289959964b67a0eec39733a6ec9">enigma_crack_auto</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, int)</td></tr>
+<tr class="memdesc:a1f4db289959964b67a0eec39733a6ec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to automatically crack the ciphertext using various methods.  <br /></td></tr>
+<tr class="separator:a1f4db289959964b67a0eec39733a6ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1103c8f1b06818e73fbf317d970cb99e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a1103c8f1b06818e73fbf317d970cb99e">enigma_crack_params_new</a> (void)</td></tr>
 <tr class="memdesc:a1103c8f1b06818e73fbf317d970cb99e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure.  <br /></td></tr>
 <tr class="separator:a1103c8f1b06818e73fbf317d970cb99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32832794d5b3d1034ff27a11101f88c3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3">enigma_crack_params_validate</a> (const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *)</td></tr>
+<tr class="memdesc:a32832794d5b3d1034ff27a11101f88c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check what capabilities the <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure has.  <br /></td></tr>
+<tr class="separator:a32832794d5b3d1034ff27a11101f88c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26409c79399ca2ec8e6850a8a1511682"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a26409c79399ca2ec8e6850a8a1511682">enigma_crack_rotor</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, int, float(*)(const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *))</td></tr>
 <tr class="memdesc:a26409c79399ca2ec8e6850a8a1511682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crack the rotor using a scoring function.  <br /></td></tr>
 <tr class="separator:a26409c79399ca2ec8e6850a8a1511682"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,6 +265,38 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file for cracking <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine configurations. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ab86ce373f73085eded00df0c5767abd9" name="ab86ce373f73085eded00df0c5767abd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab86ce373f73085eded00df0c5767abd9">&#9670;&#160;</a></span>ENIGMA_CIPHERTEXT_EXISTS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_CIPHERTEXT_EXISTS&#160;&#160;&#160;8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that the ciphertext exists, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>. </p>
+
+</div>
+</div>
+<a id="a0410b58e46d1ec3653b0cabe07df15e9" name="a0410b58e46d1ec3653b0cabe07df15e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0410b58e46d1ec3653b0cabe07df15e9">&#9670;&#160;</a></span>ENIGMA_DICTIONARY_EXISTS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_DICTIONARY_EXISTS&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that the dictionary exists, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>. </p>
+
+</div>
+</div>
 <a id="a9f0b1d74e1265e9ba6174ef903d2c9eb" name="a9f0b1d74e1265e9ba6174ef903d2c9eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f0b1d74e1265e9ba6174ef903d2c9eb">&#9670;&#160;</a></span>ENIGMA_FLAG_X_SEPARATED</h2>
 
@@ -260,7 +313,95 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a91080dc336f2bc2c63e0523eda4dfbec" name="a91080dc336f2bc2c63e0523eda4dfbec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91080dc336f2bc2c63e0523eda4dfbec">&#9670;&#160;</a></span>ENIGMA_IOC_FREQS_EXIST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_IOC_FREQS_EXIST&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that the IOC frequencies exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>. </p>
+
+</div>
+</div>
+<a id="a3ad100d4617b6365b215719308de7e28" name="a3ad100d4617b6365b215719308de7e28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ad100d4617b6365b215719308de7e28">&#9670;&#160;</a></span>ENIGMA_N_GRAMS_EXIST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_N_GRAMS_EXIST&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that the n-grams exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>. </p>
+
+</div>
+</div>
+<a id="abc1f9bc0863d63b537dd94b2749f813d" name="abc1f9bc0863d63b537dd94b2749f813d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc1f9bc0863d63b537dd94b2749f813d">&#9670;&#160;</a></span>ENIGMA_SCORE_BOUNDS_EXIST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_SCORE_BOUNDS_EXIST&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that the score bounds exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a1f4db289959964b67a0eec39733a6ec9" name="a1f4db289959964b67a0eec39733a6ec9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f4db289959964b67a0eec39733a6ec9">&#9670;&#160;</a></span>enigma_crack_auto()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEnigmaScoreList.html">EnigmaScoreList</a> * enigma_crack_auto </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>max_results</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempt to automatically crack the ciphertext using various methods. </p>
+<p>This function attempts to automatically crack the ciphertext using various methods. It first checks if the configuration is valid, then initializes an empty score list. Finally, it cracks the ciphertext and returns the score list.</p>
+<dl class="section note"><dt>Note</dt><dd>NOT YET IMPLEMENTED</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>Pointer to the <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure. </td></tr>
+    <tr><td class="paramname">max_results</td><td>Maximum number of results to return. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the <a class="el" href="structEnigmaScoreList.html" title="A structure representing a list of scored Enigma configurations.">EnigmaScoreList</a> structure, or NULL on failure. </dd></dl>
+
+</div>
+</div>
 <a id="ab496a07ea609efc12d031c16e0f01d93" name="ab496a07ea609efc12d031c16e0f01d93"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab496a07ea609efc12d031c16e0f01d93">&#9670;&#160;</a></span>enigma_crack_get_ciphertext()</h2>
 
@@ -712,6 +853,40 @@ Functions</h2></td></tr>
 <p>Create a new <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure. </p>
 <p>This function allocates memory for a new <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure.</p>
 <dl class="section return"><dt>Returns</dt><dd>Pointer to the newly created <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure, or NULL on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a32832794d5b3d1034ff27a11101f88c3" name="a32832794d5b3d1034ff27a11101f88c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32832794d5b3d1034ff27a11101f88c3">&#9670;&#160;</a></span>enigma_crack_params_validate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_crack_params_validate </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check what capabilities the <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure has. </p>
+<p>This function checks if the <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure is able to be used to perform cracking operations. The following flags are checked:</p><ul>
+<li>ENIGMA_DICTIONARY_EXISTS: The dictionary exists and is not empty.</li>
+<li>ENIGMA_N_GRAMS_EXIST: The n-grams exist and are valid.</li>
+<li>ENIGMA_IOC_FREQS_EXIST: The IOC frequencies exist and are valid.</li>
+<li>ENIGMA_CIPHERTEXT_EXISTS: The ciphertext exists and is not empty.</li>
+<li>ENIGMA_SCORE_BOUNDS_EXIST: The score bounds exist and are valid.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>Pointer to the <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A bitmask indicating the capabilities of the <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> structure. </dd></dl>
 
 </div>
 </div>
