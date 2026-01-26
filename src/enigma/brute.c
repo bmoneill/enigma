@@ -1,4 +1,4 @@
- /**
+/**
   * @file enigma/brute.c
   *
   * This file implements scoring functions for brute force dictionary cracking
