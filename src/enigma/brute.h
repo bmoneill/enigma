@@ -1,7 +1,7 @@
 /**
  * @file enigma/brute.c
  *
- * This file implements scoring functions for brute force dictionary cracking
+ * This file defines definitions for scoring functions for brute force dictionary cracking
  * of Enigma machines that were hopefully already partially cracked.
  */
 #ifndef ENIGMA_BRUTE_H
