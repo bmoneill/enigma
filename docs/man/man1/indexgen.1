@@ -1,0 +1,22 @@
+.TH INDEXGEN 1 "January 2026" "libenigma" "User Commands"
+.SH NAME
+indexgen \- Generate rotor index mappings
+.SH SYNOPSIS
+.B indexgen
+n file
+.SH DESCRIPTION
+Given a rotor alphabet, this tool generates forward and reverse index mappings
+(EnigmaRotor.fwd_indices and EnigmaRotor.rev_indices), given a rotor's alphabet.
+This is useful for implementing custom or obscure Enigma rotors. To utilize
+these mappings, you need to use libenigma - there is no way to directly use them
+in enigmacli or enigmacrack.
+.SH AUTHOR
+Written by Ben O'Neill <ben@oneill.sh>.
+.SH BUGS
+If any bugs are found, email the author.
+.SH COPYRIGHT
+Copyright \(co 2025-2026 Ben O'Neill <ben@oneill.sh>. License: MIT.
+.SH SEE ALSO
+.BR enigmacli (1),
+.BR enigmacrack (1),
+.BR genngrams (1)
