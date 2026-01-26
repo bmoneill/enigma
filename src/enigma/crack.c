@@ -24,7 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int enigma_dict_match_word(const EnigmaCrackParams*, char*);
+ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams*, char*);
 
 /**
  * @brief Attempt to automatically crack the ciphertext using various methods.
@@ -1109,7 +1109,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(EnigmaCrackParams* cfg
  * @param plaintext The plaintext string to match
  * @return 1 on success, 0 on failure
  */
-static int enigma_dict_match_word(const EnigmaCrackParams* cfg, char* plaintext) {
+ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams* cfg, char* plaintext) {
     const char** dict    = cfg->dictionary;
     size_t       dictLen = cfg->dictionary_length;
     int          key     = plaintext[0];
