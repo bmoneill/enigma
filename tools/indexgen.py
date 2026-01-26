@@ -34,7 +34,8 @@ def main():
         print(
             "This is a part of the Enigma project <https://github.com/bmoneill/enigma>."
         )
-        print("Usage: %s <rotor_alphabet>" % sys.argv[0])
+        print("")
+        print("Usage: %s rotor_alphabet" % sys.argv[0])
         return
     fwd, rev = generate_indexes(sys.argv[1])
     print(fwd)

@@ -2,6 +2,8 @@ set(ENIGMA_BINARY_NAME "enigmacli")
 set(CRACK_BINARY_NAME "enigmacrack")
 set(GENNGRAMS_SCRIPT_NAME "genngrams.sh")
 set(GENNGRAMS_SCRIPT_TARGET_NAME "genngrams")
+set(INDEXGEN_SCRIPT_NAME "indexgen.py")
+set(INDEXGEN_SCRIPT_TARGET_NAME "indexgen")
 
 add_executable(${ENIGMA_BINARY_NAME} enigma_main.c)
 add_executable(${CRACK_BINARY_NAME} crack_main.c)
@@ -19,3 +21,4 @@ target_link_libraries(${CRACK_BINARY_NAME} enigma_static m)
 install(TARGETS ${ENIGMA_BINARY_NAME} ${CRACK_BINARY_NAME}
   RUNTIME DESTINATION bin)
 install(PROGRAMS ${GENNGRAMS_SCRIPT_NAME} DESTINATION bin RENAME ${GENNGRAMS_SCRIPT_TARGET_NAME})
+install(PROGRAMS ${INDEXGEN_SCRIPT_NAME} DESTINATION bin RENAME ${INDEXGEN_SCRIPT_TARGET_NAME})
