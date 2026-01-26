@@ -17,6 +17,7 @@ function(add_enigma_test name)
     add_test(NAME ${name} COMMAND ${name}_tests)
 endfunction()
 
+add_enigma_test(brute)
 add_enigma_test(crack)
 add_enigma_test(enigma)
 add_enigma_test(io)
