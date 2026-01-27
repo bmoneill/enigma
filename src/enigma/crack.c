@@ -27,31 +27,6 @@
 ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams*, char*);
 
 /**
- * @brief Attempt to automatically crack the ciphertext using various methods.
- *
- * This function attempts to automatically crack the ciphertext using various methods.
- * It first checks if the configuration is valid, then initializes an empty score list.
- * Finally, it cracks the ciphertext and returns the score list.
- *
- * @note NOT YET IMPLEMENTED
- *
- * @param cfg Pointer to the EnigmaCrackParams structure.
- * @param max_results Maximum number of results to return.
- * @return Pointer to the EnigmaScoreList structure, or NULL on failure.
- */
-EMSCRIPTEN_KEEPALIVE EnigmaScoreList* enigma_crack_auto(EnigmaCrackParams* cfg, int max_results) {
-    int cfg_flags = enigma_crack_params_validate(cfg);
-
-    // Analyze current enigma machine state, warn if not configured enough
-
-    // Initialize an empty score list
-
-    // Crack the ciphertext
-
-    return NULL;
-}
-
-/**
  * @brief Create a new EnigmaCrackParams structure.
  *
  * This function allocates memory for a new EnigmaCrackParams structure.

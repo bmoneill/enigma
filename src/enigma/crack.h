@@ -80,7 +80,6 @@ typedef struct {
     int known_plaintext_length; //!< The length of the known plaintext
 } EnigmaCrackParams;
 
-EnigmaScoreList*   enigma_crack_auto(EnigmaCrackParams*, int);
 EnigmaCrackParams* enigma_crack_params_new(void);
 int                enigma_crack_params_validate(const EnigmaCrackParams*);
 int   enigma_crack_rotor(EnigmaCrackParams*, int, float (*)(const EnigmaCrackParams*, const char*));
