@@ -7,7 +7,6 @@ var crack_8h =
     [ "ENIGMA_IOC_FREQS_EXIST", "crack_8h.html#a91080dc336f2bc2c63e0523eda4dfbec", null ],
     [ "ENIGMA_N_GRAMS_EXIST", "crack_8h.html#a3ad100d4617b6365b215719308de7e28", null ],
     [ "ENIGMA_SCORE_BOUNDS_EXIST", "crack_8h.html#abc1f9bc0863d63b537dd94b2749f813d", null ],
-    [ "enigma_crack_auto", "crack_8h.html#a1f4db289959964b67a0eec39733a6ec9", null ],
     [ "enigma_crack_get_ciphertext", "crack_8h.html#ab496a07ea609efc12d031c16e0f01d93", null ],
     [ "enigma_crack_get_ciphertext_length", "crack_8h.html#a97e25f76bbb4d535838708b698f9f1a3", null ],
     [ "enigma_crack_get_dictionary", "crack_8h.html#a081b4e6255f3d0399f233291604b2a0c", null ],

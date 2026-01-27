@@ -1,7 +1,6 @@
 var crack_8c =
 [
     [ "_POSIX_C_SOURCE", "crack_8c.html#a3024ccd4a9af5109d24e6c57565d74a1", null ],
-    [ "enigma_crack_auto", "crack_8c.html#a61ca552c1f738c6e88abdf7e9d5cce82", null ],
     [ "enigma_crack_get_ciphertext", "crack_8c.html#a22e60a3aba14b91be1aa04f8c024cd2e", null ],
     [ "enigma_crack_get_ciphertext_length", "crack_8c.html#ad88a916eac2e309a123be0310aa94bc5", null ],
     [ "enigma_crack_get_dictionary", "crack_8c.html#ad680d946a06e4f9f118e1d7aca826cf1", null ],
