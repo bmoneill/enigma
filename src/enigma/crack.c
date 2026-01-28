@@ -40,11 +40,23 @@ ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams*, char*);
  * @return Pointer to the EnigmaScoreList structure, or NULL on failure.
  */
 EMSCRIPTEN_KEEPALIVE EnigmaScoreList* enigma_crack_auto(EnigmaCrackParams* cfg, int max_results) {
-    int cfg_flags = enigma_crack_params_validate(cfg);
+    int     flags  = enigma_crack_params_validate(cfg);
+    Enigma* enigma = &cfg->enigma;
 
-    // Analyze current enigma machine state, warn if not configured enough
+    if (!(flags & ENIGMA_DICTIONARY_EXISTS)) {
+        ENIGMA_ERROR("%s", "Dictionary needed for automatic cracking");
+    } else if (!(flags & ENIGMA_N_GRAMS_EXIST)) {
+        ENIGMA_ERROR("%s", "N-grams needed for automatic cracking");
+    } else if (!(flags & ENIGMA_IOC_FREQS_EXIST)) {
+        ENIGMA_ERROR("%s", "IoC frequencies needed for automatic cracking");
+    } else if (!(flags & ENIGMA_CIPHERTEXT_EXISTS)) {
+        ENIGMA_ERROR("%s", "Ciphertext needed for automatic cracking");
+    } else if (!(flags & ENIGMA_SCORE_BOUNDS_EXIST)) {
+        ENIGMA_ERROR("%s", "Score bounds needed for automatic cracking");
+    }
 
     // Initialize an empty score list
+    //EnigmaScoreList* scoreList = malloc(sizeof(EnigmaScoreList));
 
     // Crack the ciphertext
 
