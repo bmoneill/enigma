@@ -102,6 +102,7 @@ $(document).ready(function(){initNavTree('brute_8h.html',''); initResizable(); }
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a328782123e448d79acb9a0ddbd747987"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="brute_8h.html#a328782123e448d79acb9a0ddbd747987">enigma_brute_score</a> (const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *)</td></tr>
+<tr class="memdesc:a328782123e448d79acb9a0ddbd747987"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the score of a given text using the brute force dictionary cracking method.  <br /></td></tr>
 <tr class="separator:a328782123e448d79acb9a0ddbd747987"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -130,6 +131,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculate the score of a given text using the brute force dictionary cracking method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>The configuration parameters for the <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine. </td></tr>
+    <tr><td class="paramname">text</td><td>The text to be scored. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The score of the text. It will be 1.0 if two dictionary words exist in the plaintext, and 0.0 otherwise. </dd></dl>
 
 </div>
 </div>
