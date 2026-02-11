@@ -24,5 +24,6 @@ jobs:
             git stash
             git pull --force origin main
             emcc -O3 -s WASM=1 -s EXPORTED_RUNTIME_METHODS='["cwrap"]' -s EXPORTED_FUNCTIONS='["_malloc", "_free", "stringToUTF8", "UTF8ToString"]' -s ALLOW_MEMORY_GROWTH=1 -I src/enigma/ src/enigma/*.c
+            mkdir -p /var/www/html/apps/enigma
             mv a.out.js a.out.wasm /var/www/html/apps/enigma
             mv webdemo/* /var/www/html/apps/enigma/
