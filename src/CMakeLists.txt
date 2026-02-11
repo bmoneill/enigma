@@ -70,3 +70,8 @@ INSTALL (
  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
+
+foreach(header IN LISTS LIBRARY_PUBLIC_HEADERS)
+    get_filename_component(header_name ${header} NAME)
+    install(FILES ${header} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/enigma RENAME ${header_name})
+endforeach()
