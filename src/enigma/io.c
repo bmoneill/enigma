@@ -168,6 +168,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(EnigmaCrackParams* cfg, const char* 
     } else {
         ENIGMA_ERROR("Failed to read ngram file: %s", path);
         free(cfg->ngrams);
+        cfg->ngrams = NULL;
         fclose(f);
         return ENIGMA_FAILURE;
     }
@@ -175,6 +176,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(EnigmaCrackParams* cfg, const char* 
     if (n > 4 || n < 1) {
         ENIGMA_ERROR("N-grams must be of size 2-4. Unsupported size: %d", n);
         free(cfg->ngrams);
+        cfg->ngrams = NULL;
         fclose(f);
         return ENIGMA_FAILURE;
     }
