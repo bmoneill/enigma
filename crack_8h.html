@@ -129,6 +129,18 @@ Macros</h2></td></tr>
 <tr class="memitem:abc1f9bc0863d63b537dd94b2749f813d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#abc1f9bc0863d63b537dd94b2749f813d">ENIGMA_SCORE_BOUNDS_EXIST</a>&#160;&#160;&#160;16</td></tr>
 <tr class="memdesc:abc1f9bc0863d63b537dd94b2749f813d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that the score bounds exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>.  <br /></td></tr>
 <tr class="separator:abc1f9bc0863d63b537dd94b2749f813d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5417684b5f50813db8abce129eca0824"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a5417684b5f50813db8abce129eca0824">ENIGMA_ROTORS_DEFINED</a>&#160;&#160;&#160;32</td></tr>
+<tr class="memdesc:a5417684b5f50813db8abce129eca0824"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that hypothesized rotors are defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto().  <br /></td></tr>
+<tr class="separator:a5417684b5f50813db8abce129eca0824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9f4b9d1cade2eda2c137eaedda48d3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#aa9f4b9d1cade2eda2c137eaedda48d3c">ENIGMA_ROTOR_POSITIONS_DEFINED</a>&#160;&#160;&#160;64</td></tr>
+<tr class="memdesc:aa9f4b9d1cade2eda2c137eaedda48d3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that hypothesized rotor positions are defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto().  <br /></td></tr>
+<tr class="separator:aa9f4b9d1cade2eda2c137eaedda48d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa98651d30b057b38d8592fa623bdeb0d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#aa98651d30b057b38d8592fa623bdeb0d">ENIGMA_REFLECTOR_DEFINED</a>&#160;&#160;&#160;128</td></tr>
+<tr class="memdesc:aa98651d30b057b38d8592fa623bdeb0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that a hypothesized reflector is defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto().  <br /></td></tr>
+<tr class="separator:aa98651d30b057b38d8592fa623bdeb0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b985cfa07ea81894068d7f138c990c7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a6b985cfa07ea81894068d7f138c990c7">ENIGMA_PLUGBOARD_DEFINED</a>&#160;&#160;&#160;256</td></tr>
+<tr class="memdesc:a6b985cfa07ea81894068d7f138c990c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that hypothesized plugboard settings are defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto().  <br /></td></tr>
+<tr class="separator:a6b985cfa07ea81894068d7f138c990c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -339,6 +351,70 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Flag indicating that the n-grams exist, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a>. </p>
+
+</div>
+</div>
+<a id="a6b985cfa07ea81894068d7f138c990c7" name="a6b985cfa07ea81894068d7f138c990c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b985cfa07ea81894068d7f138c990c7">&#9670;&#160;</a></span>ENIGMA_PLUGBOARD_DEFINED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_PLUGBOARD_DEFINED&#160;&#160;&#160;256</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that hypothesized plugboard settings are defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto(). </p>
+
+</div>
+</div>
+<a id="aa98651d30b057b38d8592fa623bdeb0d" name="aa98651d30b057b38d8592fa623bdeb0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa98651d30b057b38d8592fa623bdeb0d">&#9670;&#160;</a></span>ENIGMA_REFLECTOR_DEFINED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_REFLECTOR_DEFINED&#160;&#160;&#160;128</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that a hypothesized reflector is defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto(). </p>
+
+</div>
+</div>
+<a id="aa9f4b9d1cade2eda2c137eaedda48d3c" name="aa9f4b9d1cade2eda2c137eaedda48d3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9f4b9d1cade2eda2c137eaedda48d3c">&#9670;&#160;</a></span>ENIGMA_ROTOR_POSITIONS_DEFINED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_ROTOR_POSITIONS_DEFINED&#160;&#160;&#160;64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that hypothesized rotor positions are defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto(). </p>
+
+</div>
+</div>
+<a id="a5417684b5f50813db8abce129eca0824" name="a5417684b5f50813db8abce129eca0824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5417684b5f50813db8abce129eca0824">&#9670;&#160;</a></span>ENIGMA_ROTORS_DEFINED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ENIGMA_ROTORS_DEFINED&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flag indicating that hypothesized rotors are defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto(). </p>
 
 </div>
 </div>
