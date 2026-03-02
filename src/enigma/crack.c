@@ -27,46 +27,6 @@
 ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams*, char*);
 
 /**
- * @brief Attempt to automatically crack the ciphertext using various methods.
- *
- * This function attempts to automatically crack the ciphertext using various methods.
- * It first checks if the configuration is valid, then initializes an empty score list.
- * Finally, it cracks the ciphertext and returns the score list.
- *
- * @note NOT YET IMPLEMENTED
- *
- * @param cfg Pointer to the EnigmaCrackParams structure.
- * @param max_results Maximum number of results to return.
- * @return Pointer to the EnigmaScoreList structure, or NULL on failure.
- */
-EMSCRIPTEN_KEEPALIVE EnigmaScoreList* enigma_crack_auto(EnigmaCrackParams* cfg, int max_results) {
-    int     flags  = enigma_crack_params_validate(cfg);
-    Enigma* enigma = &cfg->enigma;
-
-    if (!(flags & ENIGMA_DICTIONARY_EXISTS)) {
-        ENIGMA_ERROR("%s", "Dictionary needed for automatic cracking");
-    } else if (!(flags & ENIGMA_N_GRAMS_EXIST)) {
-        ENIGMA_ERROR("%s", "N-grams needed for automatic cracking");
-    } else if (!(flags & ENIGMA_IOC_FREQS_EXIST)) {
-        ENIGMA_ERROR("%s", "IoC frequencies needed for automatic cracking");
-    } else if (!(flags & ENIGMA_CIPHERTEXT_EXISTS)) {
-        ENIGMA_ERROR("%s", "Ciphertext needed for automatic cracking");
-    } else if (!(flags & ENIGMA_SCORE_BOUNDS_EXIST)) {
-        ENIGMA_ERROR("%s", "Score bounds needed for automatic cracking");
-    }
-
-    // Initialize an empty score list
-    EnigmaScoreList* scoreList = malloc(sizeof(EnigmaScoreList));
-    scoreList->max_scores      = max_results;
-    scoreList->score_count     = 0;
-    scoreList->scores          = calloc(max_results, sizeof(EnigmaScore));
-
-    // Crack the ciphertext
-
-    return NULL;
-}
-
-/**
  * @brief Create a new EnigmaCrackParams structure.
  *
  * This function allocates memory for a new EnigmaCrackParams structure.
