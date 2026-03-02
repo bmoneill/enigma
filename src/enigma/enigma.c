@@ -26,6 +26,7 @@ ENIGMA_STATIC ENIGMA_ALWAYS_INLINE int  enigma_rotor_pass_reverse(const EnigmaRo
 ENIGMA_STATIC ENIGMA_ALWAYS_INLINE char enigma_substitute(const char*, char);
 
 #include <stdio.h>
+
 /**
  * @brief Encode a character using the Enigma machine.
  *

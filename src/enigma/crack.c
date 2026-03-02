@@ -57,13 +57,18 @@ EMSCRIPTEN_KEEPALIVE EnigmaCrackParams* enigma_crack_params_new(void) {
  * @return A bitmask indicating the capabilities of the EnigmaCrackParams structure.
  */
 EMSCRIPTEN_KEEPALIVE int enigma_crack_params_validate(const EnigmaCrackParams* cfg) {
-    int flags = 0;
+    int    flags = 0;
+    Enigma defaultEnigma;
+    enigma_init_default_config(&defaultEnigma);
+
     if (cfg->dictionary && cfg->dictionary_length > 0) {
         flags |= ENIGMA_DICTIONARY_EXISTS;
     }
+
     if (cfg->ngrams && cfg->ngrams_length > 0 && cfg->n > 1 && cfg->n < 5) {
         flags |= ENIGMA_N_GRAMS_EXIST;
     }
+
     if (cfg->frequency_offset >= 0.0 && cfg->frequency_offset <= 1.0) {
         flags |= ENIGMA_IOC_FREQS_EXIST;
         for (int i = 0; i < 26; i++) {
@@ -72,13 +77,47 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_params_validate(const EnigmaCrackParams* c
             }
         }
     }
+
     if (cfg->ciphertext && cfg->ciphertext_length > 0) {
         flags |= ENIGMA_CIPHERTEXT_EXISTS;
     }
+
     if (cfg->max_score >= 0.0 && cfg->max_score <= 1.0 && cfg->min_score >= 0.0
         && cfg->min_score <= 1.0 && cfg->max_score > cfg->min_score) {
         flags |= ENIGMA_SCORE_BOUNDS_EXIST;
     }
+
+    /*
+     * TODO figure out a better way to do this. Default enigma may be passed to enigma_crack_auto(),
+     * or a hypothesized enigma may contain the same values as the default enigma.
+     */
+    flags |= ENIGMA_ROTORS_DEFINED;
+    for (int i = 0; i < 4; i++) {
+        if (cfg->enigma.rotors[i] == NULL) {
+            flags ^= ENIGMA_ROTORS_DEFINED;
+            break;
+        }
+    }
+
+    flags |= ENIGMA_ROTOR_POSITIONS_DEFINED;
+    for (int i = 0; i < 4; i++) {
+        if (cfg->enigma.rotor_indices[i] < 0 || cfg->enigma.rotor_indices[i] > 25) {
+            flags ^= ENIGMA_ROTOR_POSITIONS_DEFINED;
+            break;
+        }
+    }
+
+    if (cfg->enigma.reflector != NULL) {
+        flags |= ENIGMA_REFLECTOR_DEFINED;
+    }
+
+    for (int i = 0; i < 26; i++) {
+        if (cfg->enigma.plugboard[i] > 0) {
+            flags |= ENIGMA_PLUGBOARD_DEFINED;
+            break;
+        }
+    }
+
     return flags;
 }
 

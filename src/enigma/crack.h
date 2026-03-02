@@ -53,6 +53,38 @@
 #define ENIGMA_SCORE_BOUNDS_EXIST 16
 #endif
 
+#ifndef ENIGMA_ROTORS_DEFINED
+/**
+ * @brief Flag indicating that hypothesized rotors are defined, utilized in
+ * enigma_crack_params_validate() and enigma_crack_auto().
+ */
+#define ENIGMA_ROTORS_DEFINED 32
+#endif
+
+#ifndef ENIGMA_ROTOR_POSITIONS_DEFINED
+/**
+ * @brief Flag indicating that hypothesized rotor positions are defined, utilized in
+ * enigma_crack_params_validate() and enigma_crack_auto().
+ */
+#define ENIGMA_ROTOR_POSITIONS_DEFINED 64
+#endif
+
+#ifndef ENIGMA_REFLECTOR_DEFINED
+/**
+ * @brief Flag indicating that a hypothesized reflector is defined, utilized in
+ * enigma_crack_params_validate() and enigma_crack_auto().
+ */
+#define ENIGMA_REFLECTOR_DEFINED 128
+#endif
+
+#ifndef ENIGMA_PLUGBOARD_DEFINED
+/**
+ * @brief Flag indicating that hypothesized plugboard settings are defined, utilized in
+ * enigma_crack_params_validate() and enigma_crack_auto().
+ */
+#define ENIGMA_PLUGBOARD_DEFINED 256
+#endif
+
 /**
  * @struct EnigmaCrackParams
  * @brief A structure representing a configuration for cracking an Enigma cipher.
