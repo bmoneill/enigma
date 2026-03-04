@@ -53,4 +53,18 @@ jobs:
         run: ctest --test-dir ${{github.workspace}}/build --output-on-failure --verbose
 
       - name: Run test coverage analysis
-        run: ctest --test-dir ${{github.workspace}}/build -T coverage
+        id: coverage
+        run: |
+          raw="$(ctest --test-dir ${{github.workspace}}/build -T coverage)"
+          echo "percentage=$(echo "$raw" | tail -n 1 | sed 's/.*: //' | sed 's/\..*//')" >> "$GITHUB_OUTPUT"
+
+      - name: Update coverage badge
+        uses: appleboy/ssh-action@master
+        with:
+          host: oneill.sh
+          username: www
+          key: ${{ secrets.wwwssh }}
+          passphrase: ${{ secrets.wwwpass }}
+          port: 22
+          script: |
+            update-coverage libc8 ${{ steps.coverage.outputs.percentage }}

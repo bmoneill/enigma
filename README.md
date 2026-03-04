@@ -4,6 +4,7 @@
 [![Doxygen status](https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/enigma)
 [![clang-format status](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml)
 [![Demo status](https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/demo.yml)
+[![Coverage](https://oneill.sh/coverage/libc8)](https://oneill.sh/coverage/libc8)
 
 This is a full-featured C99 library and toolset (with WebAssembly support) for
 simulating and cracking the Enigma.
@@ -47,25 +48,25 @@ cmake --install build
 ```shell
 git submodule update
 cmake -S . -B build -DTEST=ON
-cmake --build build 
+cmake --build build
 cd build
 ctest --verbose
 ```
 
 ## Documentation
 
-* [Library Documentation](https://bmoneill.github.io/enigma/).
-* [Enigma Simulator Documentation](docs/enigmacli.md).
-* [Enigma Cracking Tools Documentation](docs/enigmacrack.md).
-* [N-Gram Generator Documentation](docs/genngrams.md).
-* [Rotor Index Generator Documentation](docs/indexgen.md).
+- [Library Documentation](https://bmoneill.github.io/enigma/).
+- [Enigma Simulator Documentation](docs/enigmacli.md).
+- [Enigma Cracking Tools Documentation](docs/enigmacrack.md).
+- [N-Gram Generator Documentation](docs/genngrams.md).
+- [Rotor Index Generator Documentation](docs/indexgen.md).
 
 ## Further Reading
 
-* [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
-* [Enigma Cipher Machine on Crypto Museum](https://www.cryptomuseum.com/crypto/enigma/index.htm)
-* [The Turing-Welchman Bombe (National Museum of Computing)](https://www.tnmoc.org/bombe)
-* [Cracking Enigma in 2021 (Computerphile on YouTube)](https://youtu.be/RzWB5jL5RX0)
+- [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
+- [Enigma Cipher Machine on Crypto Museum](https://www.cryptomuseum.com/crypto/enigma/index.htm)
+- [The Turing-Welchman Bombe (National Museum of Computing)](https://www.tnmoc.org/bombe)
+- [Cracking Enigma in 2021 (Computerphile on YouTube)](https://youtu.be/RzWB5jL5RX0)
 
 ## License
 
