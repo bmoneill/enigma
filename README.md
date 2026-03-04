@@ -4,7 +4,7 @@
 [![Doxygen status](https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/enigma)
 [![clang-format status](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml)
 [![Demo status](https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/demo.yml)
-[![Coverage](https://oneill.sh/coverage/enigma)](https://oneill.sh/coverage/enigma?foo)
+[![Coverage](https://oneill.sh/coverage/enigma)](https://oneill.sh/coverage/enigma)
 
 This is a full-featured C99 library and toolset (with WebAssembly support) for
 simulating and cracking the Enigma.
