@@ -67,4 +67,4 @@ jobs:
           passphrase: ${{ secrets.wwwpass }}
           port: 22
           script: |
-            update-coverage enigma ${{ steps.coverage.outputs.percentage }}
+            sudo update-coverage enigma ${{ steps.coverage.outputs.percentage }}
