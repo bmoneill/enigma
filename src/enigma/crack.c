@@ -92,7 +92,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_params_validate(const EnigmaCrackParams* c
      * or a hypothesized enigma may contain the same values as the default enigma.
      */
     flags |= ENIGMA_ROTORS_DEFINED;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < cfg->enigma.rotor_count; i++) {
         if (cfg->enigma.rotors[i] == NULL) {
             flags ^= ENIGMA_ROTORS_DEFINED;
             break;
@@ -100,7 +100,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_params_validate(const EnigmaCrackParams* c
     }
 
     flags |= ENIGMA_ROTOR_POSITIONS_DEFINED;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < cfg->enigma.rotor_count; i++) {
         if (cfg->enigma.rotor_indices[i] < 0 || cfg->enigma.rotor_indices[i] > 25) {
             flags ^= ENIGMA_ROTOR_POSITIONS_DEFINED;
             break;
