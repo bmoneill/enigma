@@ -63,12 +63,6 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_config(Enigma* enigma, const char* s) {
     char* reflector = strtok(NULL, "|");
     char* plugboard = strtok(NULL, "|");
 
-    for (size_t i = 0; i < strlen(buf); i++) {
-        if (buf[i] == '|') {
-            buf[i] = '\0';
-        }
-    }
-
     if (enigma_load_rotor_config(enigma, rotors)) {
         return ENIGMA_ERROR("Invalid rotor configuration: %s", rotors);
     }
@@ -167,21 +161,29 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(EnigmaCrackParams* cfg, const char* 
         }
     } else {
         ENIGMA_ERROR("Failed to read ngram file: %s", path);
-        free(cfg->ngrams);
-        cfg->ngrams = NULL;
         fclose(f);
         return ENIGMA_FAILURE;
     }
 
     if (n > 4 || n < 1) {
         ENIGMA_ERROR("N-grams must be of size 2-4. Unsupported size: %d", n);
-        free(cfg->ngrams);
-        cfg->ngrams = NULL;
         fclose(f);
         return ENIGMA_FAILURE;
     }
-    cfg->ngrams = calloc(enigma_ipow(26, n), sizeof(float));
-    cfg->n      = n;
+
+    switch (n) {
+    case 2:
+        cfg->ngrams = calloc('Z' << 5 | 'Z', sizeof(float));
+        break;
+    case 3:
+        cfg->ngrams = calloc('Z' << 10 | 'Z' << 5 | 'Z', sizeof(float));
+        break;
+    case 4:
+        cfg->ngrams = calloc('Z' << 15 | 'Z' << 10 | 'Z' << 5 | 'Z', sizeof(float));
+        break;
+    }
+
+    cfg->n = n;
 
     char s[5];
     int  count = 0;
@@ -192,6 +194,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_ngrams(EnigmaCrackParams* cfg, const char* 
                 cfg->ngrams[ENIGMA_BIIDX(s[0], s[1])] = (float) count / charCount;
                 break;
             case 3:
+                printf("%d %d\n", enigma_ipow(26, 3), ENIGMA_TRIIDX(s[0], s[1], s[2]));
                 cfg->ngrams[ENIGMA_TRIIDX(s[0], s[1], s[2])] = (float) count / charCount;
                 break;
             case 4:

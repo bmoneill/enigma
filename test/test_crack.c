@@ -3,6 +3,7 @@
 #include "enigma/enigma.h"
 #include "enigma/reflector.h"
 #include "enigma/rotor.h"
+#include "enigma/score.h"
 #include "unity.h"
 
 #include <stdlib.h>
@@ -58,7 +59,7 @@ void test_enigma_crack_params_new(void) {
 }
 
 void test_enigma_crack_params_validate_WhereDictionaryExists(void) {
-    cfg.dictionary        = (const char**) malloc(sizeof(const char**));
+    cfg.dictionary        = (const char**) malloc(sizeof(const char*));
     cfg.dictionary_length = 1;
     int ret               = enigma_crack_params_validate(&cfg);
     TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
@@ -71,7 +72,7 @@ void test_enigma_crack_params_validate_WhereDictionaryDoesNotExist(void) {
     int ret               = enigma_crack_params_validate(&cfg);
     TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
 
-    cfg.dictionary        = (const char**) malloc(sizeof(const char**));
+    cfg.dictionary        = (const char**) malloc(sizeof(const char*));
     cfg.dictionary_length = 0;
     ret                   = enigma_crack_params_validate(&cfg);
     TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
@@ -797,6 +798,61 @@ void test_enigma_score_append_WithNullArguments(void) {
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE,
                                   enigma_score_append(NULL, &enigma, NULL, 0),
                                   failure);
+}
+
+void test_enigma_score_flags_WithDictionaryMatchFlag_WithMatchingPlaintext(void) {
+    cfg.flags             = ENIGMA_FLAG_DICTIONARY_MATCH;
+    cfg.dictionary        = malloc(sizeof(const char*) * 2);
+    cfg.dictionary[0]     = "WORLD";
+    cfg.dictionary[1]     = "HELLO";
+    cfg.dictionary_length = 2;
+
+    int ret               = enigma_score_flags(&cfg, helloWorld);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FLAG_DICTIONARY_MATCH,
+                                  ret & ENIGMA_FLAG_DICTIONARY_MATCH,
+                                  "Expected dictionary match flag to be set");
+    free(cfg.dictionary);
+}
+
+void test_enigma_score_flags_WithDictionaryMatchFlag_WithNonMatchingPlaintext(void) {
+    cfg.flags             = ENIGMA_FLAG_DICTIONARY_MATCH;
+    cfg.dictionary        = malloc(sizeof(const char*) * 2);
+    cfg.dictionary[0]     = "WORLD";
+    cfg.dictionary[1]     = "GOODBYE";
+    cfg.dictionary_length = 2;
+
+    int ret               = enigma_score_flags(&cfg, helloWorld);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0,
+                                  ret & ENIGMA_FLAG_DICTIONARY_MATCH,
+                                  "Expected dictionary match flag to not be set");
+    free(cfg.dictionary);
+}
+
+void test_enigma_score_flags_WithFrequencyFlag_WithMatchingPlaintext(void) {
+    cfg.flags            = ENIGMA_FLAG_FREQUENCY;
+    cfg.frequency_offset = 0.1;
+    for (size_t i = 0; i < strlen(helloWorld); i++) {
+        cfg.frequency_targets[helloWorld[i] - 'A'] += 1.0f / strlen(helloWorld);
+    }
+
+    int ret = enigma_score_flags(&cfg, helloWorld);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FLAG_FREQUENCY,
+                                  ret & ENIGMA_FLAG_FREQUENCY,
+                                  "Expected frequency flag to be set");
+}
+
+void test_enigma_score_flags_WithFrequencyFlag_WithNonMatchingPlaintext(void) {
+    cfg.flags            = ENIGMA_FLAG_FREQUENCY;
+    cfg.frequency_offset = 0.05;
+
+    for (int i = 0; i < 26; i++) {
+        cfg.frequency_targets[i] = 1.0;
+    }
+
+    int ret = enigma_score_flags(&cfg, helloWorld);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(0,
+                                  ret & ENIGMA_FLAG_FREQUENCY,
+                                  "Expected frequency flag to not be set");
 }
 
 void test_enigma_score_flags_WithKnownPlaintextFlag_WithMatchingPlaintext(void) {

@@ -265,6 +265,7 @@ EMSCRIPTEN_KEEPALIVE const char* enigma_get_plugboard(const Enigma* enigma) {
 EMSCRIPTEN_KEEPALIVE const EnigmaReflector* enigma_get_reflector(const Enigma* enigma) {
     if (!enigma) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
+        return NULL;
     }
     return enigma->reflector;
 }

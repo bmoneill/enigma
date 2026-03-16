@@ -1,3 +1,4 @@
+#include "enigma/common.h"
 #include "enigma/enigma.h"
 #include "unity.h"
 
@@ -30,6 +31,16 @@ void test_enigma_encode(void) {
     TEST_ASSERT_EQUAL_INT_MESSAGE(idx + 1 >= ENIGMA_ALPHA_SIZE ? 0 : idx + 1,
                                   enigma.rotor_indices[0],
                                   "Expected rotor index to be incremented");
+}
+
+void test_enigma_encode_WithNullEnigma(void) {
+    char encoded = enigma_encode(NULL, 'A');
+    TEST_ASSERT_EQUAL_CHAR(ENIGMA_FAILURE, encoded);
+}
+
+void test_enigma_encode_WithInvalidCharacter(void) {
+    char encoded = enigma_encode(NULL, '!');
+    TEST_ASSERT_EQUAL_CHAR(ENIGMA_FAILURE, encoded);
 }
 
 void test_enigma_encode_string(void) {
@@ -251,11 +262,19 @@ void test_enigma_get_plugboard(void) {
     TEST_ASSERT_EQUAL_STRING(plugboard, enigma_get_plugboard(&enigma));
 }
 
+void test_enigma_get_plugboard_WithInvalidArgument(void) {
+    TEST_ASSERT_NULL(enigma_get_plugboard(NULL));
+}
+
 void test_enigma_get_reflector(void) {
     Enigma enigma;
     enigma.reflector = enigma_reflectors[0];
 
     TEST_ASSERT_EQUAL_PTR(enigma_reflectors[0], enigma_get_reflector(&enigma));
+}
+
+void test_enigma_get_reflector_WithInvalidArgument(void) {
+    TEST_ASSERT_NULL(enigma_get_reflector(NULL));
 }
 
 void test_enigma_get_rotor(void) {
@@ -265,10 +284,18 @@ void test_enigma_get_rotor(void) {
     TEST_ASSERT_EQUAL_PTR(rotor, enigma_get_rotor(&enigma, 0));
 }
 
+void test_enigma_get_rotor_WithInvalidArgument(void) {
+    TEST_ASSERT_NULL(enigma_get_rotor(NULL, 0));
+}
+
 void test_enigma_get_rotor_count(void) {
     Enigma enigma;
     enigma.rotor_count = 0;
     TEST_ASSERT_EQUAL_INT(0, enigma_get_rotor_count(&enigma));
+}
+
+void test_enigma_get_rotor_count_WithInvalidArgument(void) {
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_get_rotor_count(NULL));
 }
 
 void test_enigma_get_rotor_flag(void) {
@@ -277,12 +304,19 @@ void test_enigma_get_rotor_flag(void) {
     TEST_ASSERT_EQUAL_INT(42, enigma_get_rotor_flag(&enigma));
 }
 
+void test_enigma_get_rotor_flag_WithInvalidArgument(void) {
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_get_rotor_flag(NULL));
+}
+
 void test_enigma_get_rotor_index(void) {
     Enigma enigma;
     enigma.rotor_indices[2] = 7;
     TEST_ASSERT_EQUAL_INT(7, enigma_get_rotor_index(&enigma, 2));
 }
 
+void test_enigma_get_rotor_index_WithInvalidArgument(void) {
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_get_rotor_index(NULL, 0));
+}
 void test_enigma_set_plugboard(void) {
     Enigma      enigma;
     const char* plugboard = "QWERTY";

@@ -3,17 +3,22 @@
 #include "enigma/ngram.h"
 #include "unity.h"
 
+#include "util.c"
+
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-const char* success = "Expected success";
-const char* failure = "Expected failure";
+const char*       success = "Expected success";
+const char*       failure = "Expected failure";
+Enigma            enigma;
+EnigmaCrackParams cfg;
 
-void        test_enigma_load_config(void) {
+void              setUp(void) { memset(&cfg, 0, sizeof(EnigmaCrackParams)); }
+
+void              test_enigma_load_config(void) {
     const char* configStr = "I II III|XYZ|B|ABCDEF";
-    Enigma      enigma;
-    int         result = enigma_load_config(&enigma, configStr);
+    int         result    = enigma_load_config(&enigma, configStr);
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
     TEST_ASSERT_EQUAL_INT_MESSAGE(3,
@@ -43,6 +48,34 @@ void        test_enigma_load_config(void) {
     TEST_ASSERT_EQUAL_STRING_MESSAGE("ABCDEF",
                                      enigma.plugboard,
                                      "Expected plugboard to match config string");
+}
+
+void test_enigma_load_config_WithLengthyString(void) {
+    char* configStr = malloc(100);
+    for (int i = 0; i < 99; i++) {
+        configStr[i] = 'A';
+    }
+    configStr[99] = '\0';
+
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_load_config(&enigma, configStr));
+}
+
+void test_enigma_load_config_WithInvalidRotors(void) {
+    const char* configStr = "A AB ABC|XYZ|B|ABCDEF";
+
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_load_config(&enigma, configStr));
+}
+
+void test_enigma_load_config_WithInvalidRotorPositions(void) {
+    const char* configStr = "I II III|?!?|B|ABCDEF";
+
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_load_config(&enigma, configStr));
+}
+
+void test_enigma_load_config_WithInvalidReflector(void) {
+    const char* configStr = "I II III|XYZ|Z|ABCDEF";
+
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_load_config(&enigma, configStr));
 }
 
 void test_enigma_load_custom_reflector(void) {
@@ -98,33 +131,19 @@ void test_enigma_load_custom_rotor(void) {
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, result, failure);
 }
 
-void test_load_ngrams(void) {
-    // Assumes test/files/bigrams.txt contains:
+void test_enigma_load_ngrams(void) {
+    // Assumes test/data/bigrams.txt contains:
     // 2 500
     // 10 TH
     // 5 CH
     // 1 EA
     // 50 HE
     // 20 AR
-
-    int         charCount         = 500;
-    const char* ngramFilePath     = "data/bigrams.txt";
-    const char* altNgramFilePath  = "test/data/bigrams.txt";
-    const char* altNgramFilePath2 = "../../test/data/bigrams.txt";
-    char        cwd[1024];
-    getcwd(cwd, 1024);
-    printf("%s\n", cwd);
+    int               charCount = 500;
+    char              cwd[1024];
     EnigmaCrackParams cfg;
 
-    if (access(altNgramFilePath, F_OK) == 0) {
-        ngramFilePath = altNgramFilePath;
-    }
-
-    if (access(altNgramFilePath2, F_OK) == 0) {
-        ngramFilePath = altNgramFilePath2;
-    }
-
-    int result = enigma_load_ngrams(&cfg, ngramFilePath);
+    int               result = enigma_load_ngrams(&cfg, get_path("bigrams.txt"));
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
     TEST_ASSERT_EQUAL_INT_MESSAGE(2, cfg.n, "Expected n to be 2");
     TEST_ASSERT_NOT_NULL_MESSAGE(cfg.ngrams, "Expected ngrams to be not null");
@@ -152,13 +171,110 @@ void test_load_ngrams(void) {
     free(cfg.ngrams);
 }
 
+void test_enigma_load_ngrams_WithTrigrams(void) {
+    // Assumes test/data/trigrams.txt contains:
+    // 3 500
+    // 10 THE
+    // 5 CHA
+    // 1 EAC
+    // 50 HER
+    // 20 ART
+    int               charCount = 500;
+    char              cwd[1024];
+    EnigmaCrackParams cfg;
+
+    int               result = enigma_load_ngrams(&cfg, get_path("trigrams.txt"));
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(3, cfg.n, "Expected n to be 3");
+    TEST_ASSERT_NOT_NULL_MESSAGE(cfg.ngrams, "Expected ngrams to be not null");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        10.0 / charCount,
+        cfg.ngrams[ENIGMA_TRIIDX('T', 'H', 'E')],
+        "Expected THE trigram to equal value set in test/data/trigrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        5.0 / charCount,
+        cfg.ngrams[ENIGMA_TRIIDX('C', 'H', 'A')],
+        "Expected CHA trigram to equal value set in test/data/trigrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        1.0 / charCount,
+        cfg.ngrams[ENIGMA_TRIIDX('E', 'A', 'C')],
+        "Expected EAC trigram to equal value set in test/data/trigrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        50.0 / charCount,
+        cfg.ngrams[ENIGMA_TRIIDX('H', 'E', 'R')],
+        "Expected HER trigram to equal value set in test/data/trigrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        20.0 / charCount,
+        cfg.ngrams[ENIGMA_TRIIDX('A', 'R', 'T')],
+        "Expected ART trigram to equal value set in test/data/trigrams.txt");
+
+    free(cfg.ngrams);
+}
+
+void test_enigma_load_ngrams_WithQuadgrams(void) {
+    // Assumes test/data/quadgrams.txt contains:
+    // 4 500
+    // 10 THER
+    // 5 CHAN
+    // 1 EACH
+    // 50 HERA
+    // 20 ARTI
+    int               charCount = 500;
+    char              cwd[1024];
+    EnigmaCrackParams cfg;
+
+    int               result = enigma_load_ngrams(&cfg, get_path("quadgrams.txt"));
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(4, cfg.n, "Expected n to be 4");
+    TEST_ASSERT_NOT_NULL_MESSAGE(cfg.ngrams, "Expected ngrams to be not null");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        10.0 / charCount,
+        cfg.ngrams[ENIGMA_QUADIDX('T', 'H', 'E', 'R')],
+        "Expected THER trigram to equal value set in test/data/quadgrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        5.0 / charCount,
+        cfg.ngrams[ENIGMA_QUADIDX('C', 'H', 'A', 'N')],
+        "Expected CHAN trigram to equal value set in test/data/quadgrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        1.0 / charCount,
+        cfg.ngrams[ENIGMA_QUADIDX('E', 'A', 'C', 'H')],
+        "Expected EACH trigram to equal value set in test/data/quadgrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        50.0 / charCount,
+        cfg.ngrams[ENIGMA_QUADIDX('H', 'E', 'R', 'A')],
+        "Expected HERA trigram to equal value set in test/data/quadgrams.txt");
+    TEST_ASSERT_EQUAL_FLOAT_MESSAGE(
+        20.0 / charCount,
+        cfg.ngrams[ENIGMA_QUADIDX('A', 'R', 'T', 'I')],
+        "Expected ARTI trigram to equal value set in test/data/quadgrams.txt");
+
+    free(cfg.ngrams);
+}
+
+void test_enigma_load_ngrams_WherePathIsInvalid(void) {
+    EnigmaCrackParams cfg;
+    int               result = enigma_load_ngrams(&cfg, "foo.txt");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, result, failure);
+}
+
+void test_enigma_load_ngrams_WhereFirstLineIsInvalid(void) {
+    EnigmaCrackParams cfg;
+    int               result = enigma_load_ngrams(&cfg, get_path("ngrams_invalid_first_line.txt"));
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, result, failure);
+}
+
+void test_enigma_load_ngrams_WhereNIsInvalid(void) {
+    EnigmaCrackParams cfg;
+    int               result = enigma_load_ngrams(&cfg, get_path("ngrams_invalid_n.txt"));
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, result, failure);
+}
+
 void test_enigma_load_plugboard_config(void) {
     const char* plugboardConfig       = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const char* longPlugboardConfig   = "ABCDEFGHIJKLMNOPQRSTUVWXYZA"; // 27 characters
     const char* unevenPlugboardConfig = "ABCDE"; // Odd number of characters
-    Enigma      enigma;
 
-    int         result = enigma_load_plugboard_config(&enigma, plugboardConfig);
+    int         result                = enigma_load_plugboard_config(&enigma, plugboardConfig);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
 
     result = enigma_load_plugboard_config(&enigma, longPlugboardConfig);
@@ -169,9 +285,7 @@ void test_enigma_load_plugboard_config(void) {
 }
 
 void test_enigma_load_reflector_config(void) {
-    Enigma enigma;
-
-    int    result = enigma_load_reflector_config(&enigma, "B");
+    int result = enigma_load_reflector_config(&enigma, "B");
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, result, success);
     TEST_ASSERT_EQUAL_STRING_MESSAGE("B",
                                      enigma.reflector->name,
@@ -188,8 +302,7 @@ void test_enigma_load_reflector_config(void) {
 }
 
 void test_enigma_load_rotor_config(void) {
-    Enigma enigma;
-    char   buf[64];
+    char buf[64];
     strcpy(buf, "I II III");
 
     int result = enigma_load_rotor_config(&enigma, buf);
@@ -209,7 +322,6 @@ void test_enigma_load_rotor_config(void) {
 }
 
 void test_enigma_load_rotor_positions(void) {
-    Enigma enigma;
     enigma.rotor_count = 3;
 
     int result         = enigma_load_rotor_positions(&enigma, "XYZ");
@@ -228,9 +340,14 @@ void test_enigma_load_rotor_positions(void) {
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, result, failure);
 }
 
+void test_enigma_load_rotor_positions_WhereEnigmaHasNoRotors(void) {
+    enigma.rotor_count = 0;
+    int result         = enigma_load_rotor_positions(&enigma, "XYZ");
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FAILURE, result, failure);
+}
+
 void test_enigma_print_config(void) {
-    Enigma enigma;
-    char   buf[128];
+    char buf[128];
 
     enigma.rotor_count      = 3;
     enigma.rotors[0]        = enigma_rotors[0];
