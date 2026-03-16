@@ -1,6 +1,8 @@
 #include "enigma/common.h"
 #include "enigma/crack.h"
 #include "enigma/enigma.h"
+#include "enigma/reflector.h"
+#include "enigma/rotor.h"
 #include "unity.h"
 
 #include <stdlib.h>
@@ -48,6 +50,217 @@ float mock_score_function(const EnigmaCrackParams* config, const char* plaintext
     }
 
     return score;
+}
+
+void test_enigma_crack_params_new(void) {
+    EnigmaCrackParams* params = enigma_crack_params_new();
+    TEST_ASSERT_NOT_NULL(params);
+}
+
+void test_enigma_crack_params_validate_WhereDictionaryExists(void) {
+    cfg.dictionary        = (const char**) malloc(sizeof(const char**));
+    cfg.dictionary_length = 1;
+    int ret               = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
+    free(cfg.dictionary);
+}
+
+void test_enigma_crack_params_validate_WhereDictionaryDoesNotExist(void) {
+    cfg.dictionary        = NULL;
+    cfg.dictionary_length = 0;
+    int ret               = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
+
+    cfg.dictionary        = (const char**) malloc(sizeof(const char**));
+    cfg.dictionary_length = 0;
+    ret                   = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
+
+    free(cfg.dictionary);
+    cfg.dictionary        = NULL;
+    cfg.dictionary_length = 1;
+    ret                   = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
+}
+
+void test_enigma_crack_params_validate_WhereNGramsExist(void) {
+    cfg.ngrams        = (float*) malloc(sizeof(float));
+    cfg.ngrams_length = 1;
+    cfg.n             = 2;
+    int ret           = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_N_GRAMS_EXIST);
+}
+
+void test_enigma_crack_params_validate_WhereNGramsDoNotExist(void) {
+    cfg.ngrams        = NULL;
+    cfg.ngrams_length = 1;
+    cfg.n             = 1;
+    int ret           = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_N_GRAMS_EXIST);
+
+    cfg.ngrams        = (float*) malloc(sizeof(float));
+    cfg.ngrams_length = 0;
+    cfg.n             = 1;
+    ret               = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_N_GRAMS_EXIST);
+
+    cfg.ngrams_length = 1;
+    cfg.n             = 1;
+    ret               = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_N_GRAMS_EXIST);
+
+    free(cfg.ngrams);
+    cfg.ngrams        = NULL;
+    cfg.ngrams_length = 1;
+    cfg.n             = 3;
+    ret               = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_N_GRAMS_EXIST);
+}
+
+void test_enigma_crack_params_validate_WhereIOCFrequenciesExist(void) {
+    cfg.frequency_offset = 0.1;
+    for (int i = 0; i < 26; i++) {
+        cfg.frequency_targets[i] = 0.3;
+    }
+    int ret = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_IOC_FREQS_EXIST);
+}
+
+void test_enigma_crack_params_validate_WhereIOCFrequenciesDoNotExist(void) {
+    cfg.frequency_offset = 2.0;
+    int ret              = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_IOC_FREQS_EXIST);
+
+    cfg.frequency_offset = 0.5;
+    for (int i = 0; i < 26; i++) {
+        cfg.frequency_targets[i] = 2.0;
+    }
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_IOC_FREQS_EXIST);
+}
+
+void test_enigma_crack_params_validate_WhereCiphertextExists(void) {
+    cfg.ciphertext        = "HELLO";
+    cfg.ciphertext_length = strlen("HELLO");
+    int ret               = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_CIPHERTEXT_EXISTS);
+}
+
+void test_enigma_crack_params_validate_WhereCiphertextDoesNotExist(void) {
+    cfg.ciphertext        = NULL;
+    cfg.ciphertext_length = 0;
+    int ret               = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_CIPHERTEXT_EXISTS);
+
+    cfg.ciphertext        = "HELLO";
+    cfg.ciphertext_length = 0;
+    ret                   = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_CIPHERTEXT_EXISTS);
+
+    cfg.ciphertext        = NULL;
+    cfg.ciphertext_length = 5;
+    ret                   = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_CIPHERTEXT_EXISTS);
+}
+
+void test_enigma_crack_params_validate_WhereScoreBoundsExist(void) {
+    cfg.min_score = 0.4;
+    cfg.max_score = 0.9;
+    int ret       = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_SCORE_BOUNDS_EXIST);
+}
+
+void test_enigma_crack_params_validate_WhereScoreBoundsDoNotExist(void) {
+    cfg.min_score = -1.0;
+    cfg.max_score = 1.0;
+    int ret       = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_SCORE_BOUNDS_EXIST);
+
+    cfg.min_score = 0.0;
+    cfg.max_score = 2.0;
+    ret           = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_SCORE_BOUNDS_EXIST);
+
+    cfg.min_score = 0.5;
+    cfg.max_score = 0.3;
+    ret           = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_SCORE_BOUNDS_EXIST);
+}
+
+void test_enigma_crack_params_validate_WhereRotorsAreDefined(void) {
+    cfg.enigma.rotor_count = 4;
+    for (int i = 0; i < 4; i++) {
+        cfg.enigma.rotors[i] = &enigma_rotor_I;
+    }
+    int ret = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_ROTORS_DEFINED);
+}
+
+void test_enigma_crack_params_validate_WhereRotorsAreNotDefined(void) {
+    cfg.enigma.rotor_count = 3;
+    for (int i = 0; i < 3; i++) {
+        cfg.enigma.rotors[i] = NULL;
+    }
+    int ret = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_ROTORS_DEFINED);
+
+    cfg.enigma.rotor_count = 4;
+    for (int i = 0; i < 3; i++) {
+        cfg.enigma.rotors[i] = &enigma_rotor_I;
+    }
+    cfg.enigma.rotors[3] = NULL;
+    ret                  = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_ROTORS_DEFINED);
+}
+
+void test_enigma_crack_params_validate_WhereRotorPositionsAreDefined(void) {
+    cfg.enigma.rotor_count = 4;
+    for (int i = 0; i < 4; i++) {
+        cfg.enigma.rotor_indices[i] = i;
+    }
+    int ret = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_ROTOR_POSITIONS_DEFINED);
+}
+
+void test_enigma_crack_params_validate_WhereRotorPositionsAreNotDefined(void) {
+    cfg.enigma.rotor_count = 3;
+    for (int i = 0; i < 3; i++) {
+        cfg.enigma.rotor_indices[i] = 26;
+    }
+    int ret = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_ROTOR_POSITIONS_DEFINED);
+
+    cfg.enigma.rotor_count = 3;
+    for (int i = 0; i < 3; i++) {
+        cfg.enigma.rotor_indices[i] = -1;
+    }
+    ret = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_ROTOR_POSITIONS_DEFINED);
+}
+
+void test_enigma_crack_params_validate_WhereReflectorIsDefined(void) {
+    cfg.enigma.reflector = &enigma_UKW_A;
+    int ret              = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_REFLECTOR_DEFINED);
+}
+
+void test_enigma_crack_params_validate_WhereReflectorIsNotDefined(void) {
+    cfg.enigma.reflector = NULL;
+    int ret              = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_REFLECTOR_DEFINED);
+}
+
+void test_enigma_crack_params_validate_WherePlugboardIsDefined(void) {
+    cfg.enigma.plugboard[0] = 1;
+    int ret                 = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_PLUGBOARD_DEFINED);
+}
+
+void test_enigma_crack_params_validate_WherePlugboardIsNotDefined(void) {
+    for (int i = 0; i < 26; i++) {
+        cfg.enigma.plugboard[i] = 0;
+    }
+    int ret = enigma_crack_params_validate(&cfg);
+    TEST_ASSERT_EQUAL(0, ret & ENIGMA_PLUGBOARD_DEFINED);
 }
 
 void test_enigma_crack_plugboard_WithValidArguments_WithEmptyPlugboard(void) {
