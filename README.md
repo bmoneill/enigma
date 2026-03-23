@@ -23,11 +23,11 @@
 
 ### Tool Documentation
 
-- [Enigma Simulator Documentation](docs/enigmacli.md)
-- [Enigma Cracking Tools Documentation](docs/enigmacrack.md)
-- [N-Gram Generator Documentation](docs/genngrams.md)
-- [Rotor Index Generator Documentation](docs/indexgen.md)
-- [Library Documentation](https://bmoneill.github.io/enigma/)
+- [Enigma Simulator (enigmacli) Documentation](docs/enigmacli.md)
+- [Enigma Cracking Tools (enigmacrack) Documentation](docs/enigmacrack.md)
+- [N-Gram Generator (genngrams) Documentation](docs/genngrams.md)
+- [Rotor Index Generator (indexgen) Documentation](docs/indexgen.md)
+- [Library (libenigma) Documentation](https://bmoneill.github.io/enigma/)
 
 ## Overview
 
@@ -37,8 +37,6 @@ simulating and cracking the Enigma.
 The library and toolset currently supports simulating all common 4-rotor military
 Enigma configurations used in World War II. It also supports cracking ciphertext
 utilizing Index of Coincidence and n-gram analysis.
-
-[Library Documentation](https://bmoneill.github.io/enigma/) is available here.
 
 An online [demo](https://oneill.sh/apps/enigma) is available.
 
