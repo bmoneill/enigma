@@ -1,16 +1,12 @@
-<h1 align="center">
-  enigma
-</h1>
-
-<h4 align="center">
-  An Enigma machine simulator and toolset for cryptanalysis
-</h4>
-
-[![CI status](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml).
-[![Doxygen status](https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/enigma)
-[![clang-format status](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml)
-[![Demo status](https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/demo.yml)
-[![Coverage](https://oneill.sh/coverage/enigma)](https://oneill.sh/coverage/enigma)
+<div align="center">
+    <h1>enigma</h1>
+    <h4>An Enigma machine simulator and toolset for cryptanalysis</h4>
+    <a href="https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main" alt="CI status" /></a>.
+    <a href="https://bmoneill.github.io/enigma"><img src="https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main" alt="Doxygen status" /></a>
+    <a href="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main" alt="clang-format status" /></a>
+    <a href="https://github.com/bmoneill/enigma/actions/workflows/demo.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main" alt="Demo status" /></a>
+    <a href="https://oneill.sh/coverage/enigma"><img src="https://oneill.sh/coverage/enigma" alt="Coverage" /></a>
+</div>
 
 ## Table of Contents
 
