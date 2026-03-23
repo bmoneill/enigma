@@ -25,26 +25,22 @@
 var NAVTREE =
 [
   [ "libenigma", "index.html", [
-    [ "Enigma machine simulator and cryptanalysis tools", "index.html", "index" ],
-    [ "enigmacli: Enigma simulator", "md_docs_enigmacli.html", null ],
-    [ "enigmacrack: Cryptanalysis tools to break Enigma ciphers", "md_docs_enigmacrack.html", [
-      [ "Usage", "md_docs_enigmacrack.html#autotoc_md3", null ],
-      [ "Options", "md_docs_enigmacrack.html#autotoc_md4", [
-        [ "Enigma Settings", "md_docs_enigmacrack.html#autotoc_md5", null ],
-        [ "Cryptanalysis Settings", "md_docs_enigmacrack.html#autotoc_md6", null ]
+    [ "enigmacli", "md_docs_enigmacli.html", [
+      [ "Table of Contents", "index.html#autotoc_md13", [
+        [ "Tool Documentation", "index.html#autotoc_md14", null ]
       ] ],
-      [ "Methods", "md_docs_enigmacrack.html#autotoc_md7", [
-        [ "ioc", "md_docs_enigmacrack.html#autotoc_md8", null ],
-        [ "ngram", "md_docs_enigmacrack.html#autotoc_md9", null ]
-      ] ],
-      [ "Targets", "md_docs_enigmacrack.html#autotoc_md10", null ]
+      [ "Overview", "index.html#autotoc_md15", null ],
+      [ "About the Enigma", "index.html#autotoc_md16", null ],
+      [ "Building", "index.html#autotoc_md17", null ],
+      [ "Testing", "index.html#autotoc_md18", null ],
+      [ "Further Reading", "index.html#autotoc_md19", null ],
+      [ "License", "index.html#autotoc_md20", [
+        [ "Usage", "md_docs_enigmacli.html#autotoc_md0", null ]
+      ] ]
     ] ],
-    [ "genngrams: N-Gram Generator", "md_docs_genngrams.html", [
-      [ "Usage", "md_docs_genngrams.html#autotoc_md12", null ]
-    ] ],
-    [ "indexgen: Rotor Index Generator", "md_docs_indexgen.html", [
-      [ "Usage", "md_docs_indexgen.html#autotoc_md14", null ]
-    ] ],
+    [ "enigmacrack", "md_docs_enigmacrack.html", null ],
+    [ "genngrams", "md_docs_genngrams.html", null ],
+    [ "indexgen", "md_docs_indexgen.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
@@ -67,7 +63,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"reflector_8h.html"
+"rotor_8c.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

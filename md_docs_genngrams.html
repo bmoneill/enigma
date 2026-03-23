@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: genngrams: N-Gram Generator</title>
+<title>libenigma: genngrams</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,13 +90,30 @@ $(document).ready(function(){initNavTree('md_docs_genngrams.html',''); initResiz
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">genngrams: N-Gram Generator </div></div>
+  <div class="headertitle"><div class="title">genngrams </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md12"></a>
-Usage</h1>
+<div class="textblock"><h1 align="center">genngrams </h1>
+<h4 align="center">An N-Gram Generator </h4>
+<h2><a class="anchor" id="autotoc_md10"></a>
+Usage</h2>
 <div class="fragment"><div class="line">genngrams n file</div>
-</div><!-- fragment --><p>This script generates n-grams from a given file. The first option is the n-gram size, and the second is the file to read from. The first line of output is "n charcount", and the subsequent lines are the n-grams themselves (formatted as "count ngram"). The output can be directly used by <code>libenigma</code> and <code>enigmacrack</code>. </p>
+</div><!-- fragment --><p>This script generates n-grams from a given file. The first option is the n-gram size, and the second is the file to read from.</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+Output</h2>
+<p>Output is formatted like so:</p>
+<div class="fragment"><div class="line">n charcount</div>
+<div class="line">count ngram</div>
+<div class="line">count ngram</div>
+<div class="line">...</div>
+</div><!-- fragment --><p>Where:</p>
+<ul>
+<li><code>n</code> is the number of characters in each N-Gram,</li>
+<li><code>charcount</code> is the total number of characters in the input text,</li>
+<li><code>count</code> is the number of occurances of the given N-Gram,</li>
+<li>and <code>ngram</code> is the N-Gram value.</li>
+</ul>
+<p>The output can be directly used by <code>libenigma</code> and <code>enigmacrack</code>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

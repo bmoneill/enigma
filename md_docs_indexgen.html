@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: indexgen: Rotor Index Generator</title>
+<title>libenigma: indexgen</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,13 +90,15 @@ $(document).ready(function(){initNavTree('md_docs_indexgen.html',''); initResiza
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">indexgen: Rotor Index Generator </div></div>
+  <div class="headertitle"><div class="title">indexgen </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md14"></a>
-Usage</h1>
+<div class="textblock"><h1 align="center">indexgen </h1>
+<h4 align="center">A rotor index generator for libenigma. </h4>
+<h2><a class="anchor" id="autotoc_md12"></a>
+Usage</h2>
 <div class="fragment"><div class="line">indexgen.py rotor_alphabet</div>
-</div><!-- fragment --><p>Given a rotor alphabet, this tool generates forward and reverse index mappings (<a class="el" href="structEnigmaRotor.html#ad6cb4d26efa809b129c10563b36a4b54" title="Character code of each standard alphabetic character in the rotor&#39;s alphabet.">EnigmaRotor.fwd_indices</a> and <a class="el" href="structEnigmaRotor.html#a8d5c88ad1cc84d45dafd16d49209fd02" title="Character code of each rotor&#39;s alphabetic character in the standard alphabet.">EnigmaRotor.rev_indices</a>), given a rotor's alphabet. This is useful for implementing custom or obscure <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> rotors. To utilize these mappings, you need to use libenigma - there is no way to directly use them in <code>enigmacli</code> or <code>enigmacrack</code>. </p>
+</div><!-- fragment --><p>Given a rotor alphabet, this tool generates forward and reverse index mappings (<a class="el" href="structEnigmaRotor.html#ad6cb4d26efa809b129c10563b36a4b54" title="Character code of each standard alphabetic character in the rotor&#39;s alphabet.">EnigmaRotor.fwd_indices</a> and <a class="el" href="structEnigmaRotor.html#a8d5c88ad1cc84d45dafd16d49209fd02" title="Character code of each rotor&#39;s alphabetic character in the standard alphabet.">EnigmaRotor.rev_indices</a>), given a rotor's standard alphabet. This is useful for implementing custom or obscure <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> rotors. To utilize these mappings, you need to modify libenigma - there is no way to directly use them in <code>enigmacli</code> or <code>enigmacrack</code>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

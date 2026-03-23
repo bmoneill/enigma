@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: enigmacli: Enigma simulator</title>
+<title>libenigma: enigmacli</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,18 +90,22 @@ $(document).ready(function(){initNavTree('md_docs_enigmacli.html',''); initResiz
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">enigmacli: <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> simulator </div></div>
+  <div class="headertitle"><div class="title">enigmacli </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This is a CLI <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> simulator.</p>
-<h2><a class="anchor" id="autotoc_md1"></a>
+<div class="textblock"><h1 align="center">enigmacli </h1>
+<h4 align="center">A CLI <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> simulator. </h4>
+<h2><a class="anchor" id="autotoc_md0"></a>
 Usage</h2>
-<div class="fragment"><div class="line">$ enigmacli [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]</div>
+<div class="fragment"><div class="line">enigmacli [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]</div>
 </div><!-- fragment --><p><code>enigmacli</code> reads from stdin and outputs to stdout by default, and is case-agnostic.</p>
 <p>The following options are supported:</p>
-<ul>
-<li><code>-p</code>: Set the initial rotor (Walze) positions (e.g. &lsquo;'ABC&rsquo;<code>) *</code>-s<code>: Set the plugboard (Steckerbrett) configuration (e.g.</code>'ABCDEF'<code>) *</code>-u<code>: Set the reflector (Umkehrwalze) (e.g.</code>'B'<code>) *</code>-w<code>: Set the rotor (Walze) configuration (e.g.</code>'I II III'<code>) *</code>-r`: Generate a random <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> configuration.</li>
-</ul>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Flag   </th><th class="markdownTableHeadNone">Description    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>-p</code>   </td><td class="markdownTableBodyNone">Set the initial rotor (Walze) positions (e.g. &lsquo;'ABC&rsquo;<code>) \ilinebr &lt;/td&gt; &lt;/tr&gt; &lt;tr class="markdownTableRowEven"&gt; &lt;td class="markdownTableBodyNone"&gt;</code>-s<code>\ilinebr &lt;/td&gt; &lt;td class="markdownTableBodyNone"&gt; Set the plugboard (Steckerbrett) configuration (e.g.</code>'ABCDEF'<code>) \ilinebr &lt;/td&gt; &lt;/tr&gt; &lt;tr class="markdownTableRowOdd"&gt; &lt;td class="markdownTableBodyNone"&gt;</code>-u<code>\ilinebr &lt;/td&gt; &lt;td class="markdownTableBodyNone"&gt; Set the reflector (Umkehrwalze) (e.g.</code>'B'<code>) \ilinebr &lt;/td&gt; &lt;/tr&gt; &lt;tr class="markdownTableRowEven"&gt; &lt;td class="markdownTableBodyNone"&gt;</code>-w<code>\ilinebr &lt;/td&gt; &lt;td class="markdownTableBodyNone"&gt; Set the rotor (Walze) configuration (e.g.</code>'I II III'<code>) \ilinebr &lt;/td&gt; &lt;/tr&gt; &lt;tr class="markdownTableRowOdd"&gt; &lt;td class="markdownTableBodyNone"&gt;</code>-r`   </td><td class="markdownTableBodyNone">Generate a random <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> configuration.   </td></tr>
+</table>
 <p>Here is an example encryption/decryption with a custom rotor/plugboard configuration:</p>
 <div class="fragment"><div class="line">$ enigmacli -s &quot;ABCD&quot; -w &quot;I II IV&quot; -u &quot;B&quot; -p &quot;XYZ&quot;</div>
 <div class="line">Rotors: I (X)  II (Y), IV (Z) | Reflector: B | Plugboard: ABCD</div>

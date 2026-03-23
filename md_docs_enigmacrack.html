@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libenigma: enigmacrack: Cryptanalysis tools to break Enigma ciphers</title>
+<title>libenigma: enigmacrack</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,53 +90,95 @@ $(document).ready(function(){initNavTree('md_docs_enigmacrack.html',''); initRes
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">enigmacrack: Cryptanalysis tools to break <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> ciphers </div></div>
+  <div class="headertitle"><div class="title">enigmacrack </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md3"></a>
-Usage</h1>
+<div class="textblock"><h1 align="center">enigmacrack </h1>
+<h4 align="center">Cryptanalysis tools to break <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> ciphers </h4>
+<h2><a class="anchor" id="autotoc_md1"></a>
+Table of Contents</h2>
+<ul>
+<li>Usage</li>
+<li>Options<ul>
+<li>Enigma Settings</li>
+<li>Cryptanalysis Settings</li>
+</ul>
+</li>
+<li>Methods<ul>
+<li>Index of Coincidence</li>
+<li>N-Grams</li>
+</ul>
+</li>
+<li>Targets</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md2"></a>
+Usage</h2>
 <div class="fragment"><div class="line">enigmacrack method target [options] ciphertext</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
-Options</h1>
-<h2><a class="anchor" id="autotoc_md5"></a>
-Enigma Settings</h2>
-<ul>
-<li><code>-w rotors</code>: Set the rotor configuration (e.g. 'I II III').</li>
-<li><code>-p positions</code>: Set the initial rotor positions (e.g. 'ABC').</li>
-<li><code>-u reflector</code>: Set the reflector (e.g. 'B').</li>
-<li><code>-s plugboard</code>: Set the plugboard pairs (e.g. 'ABCDEF').</li>
-</ul>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md3"></a>
+Options</h2>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Enigma Settings</h3>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Flag   </th><th class="markdownTableHeadNone">Description    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>-w rotors</code>   </td><td class="markdownTableBodyNone">Set the rotor configuration (e.g. 'I II III').    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>-p positions</code>   </td><td class="markdownTableBodyNone">Set the initial rotor positions (e.g. 'ABC').    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>-u reflector</code>   </td><td class="markdownTableBodyNone">Set the reflector (e.g. 'B').    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>-s plugboard</code>   </td><td class="markdownTableBodyNone">Set the plugboard pairs (e.g. 'ABCDEF').   </td></tr>
+</table>
+<h3><a class="anchor" id="autotoc_md5"></a>
+Cryptanalysis Settings</h3>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Flag   </th><th class="markdownTableHeadNone">Description    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>-c plaintext</code>   </td><td class="markdownTableBodyNone">Set the known plaintext.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>-C position</code>   </td><td class="markdownTableBodyNone">Set the position of known plaintext.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>-d path</code>   </td><td class="markdownTableBodyNone">Load dictionary words from the given file. Dictionary must contain one word per line, be sorted alphabetically, and be all uppercase.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>-l language</code>   </td><td class="markdownTableBodyNone">Set the language ('english' or 'german', for IOC method).    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>-m float</code>   </td><td class="markdownTableBodyNone">(<b>REQUIRED</b>) Set the minimum score threshold.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>-M float</code>   </td><td class="markdownTableBodyNone">(<b>REQUIRED</b>) Set the maximum score threshold.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>-n file</code>   </td><td class="markdownTableBodyNone">Load n-grams from the given file.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>-x</code>   </td><td class="markdownTableBodyNone">Assume X-separated words in plaintext.   </td></tr>
+</table>
 <h2><a class="anchor" id="autotoc_md6"></a>
-Cryptanalysis Settings</h2>
-<ul>
-<li><code>-c plaintext</code>: Set the known plaintext.</li>
-<li><code>-C position</code>: Set the position of known plaintext.</li>
-<li><code>-d path</code>: Load dictionary words from the given file. Dictionary must contain one word per line, be sorted alphabetically, and be all uppercase.</li>
-<li><code>-l language</code>: Set the language ('english' or 'german', for IOC method).</li>
-<li><code>-m float</code>: Set the minimum score threshold (<b>REQUIRED</b>).</li>
-<li><code>-M float</code>: Set the maximum score threshold (<b>REQUIRED</b>).</li>
-<li><code>-n file</code>: Load n-grams from the given file.</li>
-<li><code>-x</code>: Assume X-separated words in plaintext.</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md7"></a>
-Methods</h1>
-<h2><a class="anchor" id="autotoc_md8"></a>
-ioc</h2>
+Methods</h2>
+<h3><a class="anchor" id="autotoc_md7"></a>
+ioc</h3>
 <p>This method uses Index of Coincidence for cryptanalysis. The Index of Coincidence measures how likely it is to draw two random letters from a given text. As correct settings are discovered, intermediary plaintexts should approach the established Index of Coincidence value for its language.</p>
 <p>Utilizing this method, it is possible to decrypt ciphertext with no known settings in a short amount of time, given we know the language the source text was written in. This requires some user intervention, however.</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
-ngram</h2>
+<h3><a class="anchor" id="autotoc_md8"></a>
+ngram</h3>
 <p>Use n-grams for cryptanalysis. n-grams may be generated from a corpus using the <a href="../tools/genngrams.sh">genngrams</a> script.</p>
-<h1><a class="anchor" id="autotoc_md10"></a>
-Targets</h1>
-<ul>
-<li><code>rotor[1-3]</code>: Crack the rotor (Walzen) configuration. Index indicates which rotor to crack.</li>
-<li><code>rotors</code>: Crack all rotor configurations.</li>
-<li><code>position[1-3]</code>: Crack an initial rotor position.</li>
-<li><code>positions</code>: Crack all initial rotor positions.</li>
-<li><code>reflector</code>: Crack the reflector (Umkehrwalze).</li>
-<li><code>plugboard</code>: Crack a plugboard (Steckerbrett) setting. </li>
-</ul>
+<h2><a class="anchor" id="autotoc_md9"></a>
+Targets</h2>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Target   </th><th class="markdownTableHeadNone">Description    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>rotor[1-3]</code>   </td><td class="markdownTableBodyNone">Crack the rotor (Walzen) configuration. Index indicates which rotor to crack.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>rotors</code>   </td><td class="markdownTableBodyNone">Crack all rotor configurations.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>position[1-3]</code>   </td><td class="markdownTableBodyNone">Crack an initial rotor position.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>positions</code>   </td><td class="markdownTableBodyNone">Crack all initial rotor positions.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>reflector</code>   </td><td class="markdownTableBodyNone">Crack the reflector (Umkehrwalze).    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>plugboard</code>   </td><td class="markdownTableBodyNone">Crack a plugboard (Steckerbrett) setting.   </td></tr>
+</table>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
