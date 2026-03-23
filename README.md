@@ -78,14 +78,6 @@ cd build
 ctest --verbose
 ```
 
-## Documentation
-
-- [Library Documentation](https://bmoneill.github.io/enigma/).
-- [Enigma Simulator Documentation](docs/enigmacli.md).
-- [Enigma Cracking Tools Documentation](docs/enigmacrack.md).
-- [N-Gram Generator Documentation](docs/genngrams.md).
-- [Rotor Index Generator Documentation](docs/indexgen.md).
-
 ## Further Reading
 
 - [The Cryptographic Mathematics of Enigma](https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf)
