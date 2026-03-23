@@ -1,4 +1,10 @@
-# Enigma machine simulator and cryptanalysis tools
+<h1 align="center">
+  enigma
+</h1>
+
+<h4 align="center">
+  An Enigma machine simulator and toolset for cryptanalysis
+</h4>
 
 [![CI status](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml).
 [![Doxygen status](https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/enigma)
@@ -6,12 +12,33 @@
 [![Demo status](https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main)](https://github.com/bmoneill/enigma/actions/workflows/demo.yml)
 [![Coverage](https://oneill.sh/coverage/enigma)](https://oneill.sh/coverage/enigma)
 
+## Table of Contents
+
+- [Overview](#overview)
+- [About the Enigma](#about-the-enigma)
+- [Building](#building)
+- [Testing](#testing)
+- [Further Reading](#further-reading)
+- [License](#license)
+
+### Tool Documentation
+
+- [Enigma Simulator Documentation](docs/enigmacli.md)
+- [Enigma Cracking Tools Documentation](docs/enigmacrack.md)
+- [N-Gram Generator Documentation](docs/genngrams.md)
+- [Rotor Index Generator Documentation](docs/indexgen.md)
+- [Library Documentation](https://bmoneill.github.io/enigma/)
+
+## Overview
+
 This is a full-featured C99 library and toolset (with WebAssembly support) for
 simulating and cracking the Enigma.
 
 The library and toolset currently supports simulating all common 4-rotor military
 Enigma configurations used in World War II. It also supports cracking ciphertext
 utilizing Index of Coincidence and n-gram analysis.
+
+[Library Documentation](https://bmoneill.github.io/enigma/) is available here.
 
 An online [demo](https://oneill.sh/apps/enigma) is available.
 

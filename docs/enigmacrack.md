@@ -1,4 +1,21 @@
-# enigmacrack: Cryptanalysis tools to break Enigma ciphers
+<h1 align="center">
+  enigmacrack
+</h1>
+
+<h4 align="center">
+  Cryptanalysis tools to break Enigma ciphers
+</h4>
+
+## Table of Contents
+
+- [Usage](#usage)
+- [Options](#options)
+  - [Enigma Settings](#enigma-settings)
+  - [Cryptanalysis Settings](#cryptanalysis-settings)
+- [Methods](#methods)
+  - [Index of Coincidence](#ioc)
+  - [N-Grams](#ngram)
+- [Targets](#targets)
 
 ## Usage
 
@@ -10,22 +27,25 @@ enigmacrack method target [options] ciphertext
 
 ### Enigma Settings
 
-- `-w rotors`: Set the rotor configuration (e.g. 'I II III').
-- `-p positions`: Set the initial rotor positions (e.g. 'ABC').
-- `-u reflector`: Set the reflector (e.g. 'B').
-- `-s plugboard`: Set the plugboard pairs (e.g. 'ABCDEF').
+| Flag           | Description                                    |
+| -------------- | ---------------------------------------------- |
+| `-w rotors`    | Set the rotor configuration (e.g. 'I II III'). |
+| `-p positions` | Set the initial rotor positions (e.g. 'ABC').  |
+| `-u reflector` | Set the reflector (e.g. 'B').                  |
+| `-s plugboard` | Set the plugboard pairs (e.g. 'ABCDEF').       |
 
 ### Cryptanalysis Settings
 
-- `-c plaintext`: Set the known plaintext.
-- `-C position`: Set the position of known plaintext.
-- `-d path`: Load dictionary words from the given file. Dictionary must contain
-  one word per line, be sorted alphabetically, and be all uppercase.
-- `-l language`: Set the language ('english' or 'german', for IOC method).
-- `-m float`: Set the minimum score threshold (**REQUIRED**).
-- `-M float`: Set the maximum score threshold (**REQUIRED**).
-- `-n file`: Load n-grams from the given file.
-- `-x`: Assume X-separated words in plaintext.
+| Flag           | Description                                                                                                                           |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `-c plaintext` | Set the known plaintext.                                                                                                              |
+| `-C position`  | Set the position of known plaintext.                                                                                                  |
+| `-d path`      | Load dictionary words from the given file. Dictionary must contain one word per line, be sorted alphabetically, and be all uppercase. |
+| `-l language`  | Set the language ('english' or 'german', for IOC method).                                                                             |
+| `-m float`     | (**REQUIRED**) Set the minimum score threshold.                                                                                       |
+| `-M float`     | (**REQUIRED**) Set the maximum score threshold.                                                                                       |
+| `-n file`      | Load n-grams from the given file.                                                                                                     |
+| `-x`           | Assume X-separated words in plaintext.                                                                                                |
 
 ## Methods
 
@@ -47,10 +67,11 @@ script.
 
 ## Targets
 
-- `rotor[1-3]`: Crack the rotor (Walzen) configuration. Index indicates which
-  rotor to crack.
-- `rotors`: Crack all rotor configurations.
-- `position[1-3]`: Crack an initial rotor position.
-- `positions`: Crack all initial rotor positions.
-- `reflector`: Crack the reflector (Umkehrwalze).
-- `plugboard`: Crack a plugboard (Steckerbrett) setting.
+| Target          | Description                                                                   |
+| --------------- | ----------------------------------------------------------------------------- |
+| `rotor[1-3]`    | Crack the rotor (Walzen) configuration. Index indicates which rotor to crack. |
+| `rotors`        | Crack all rotor configurations.                                               |
+| `position[1-3]` | Crack an initial rotor position.                                              |
+| `positions`     | Crack all initial rotor positions.                                            |
+| `reflector`     | Crack the reflector (Umkehrwalze).                                            |
+| `plugboard`     | Crack a plugboard (Steckerbrett) setting.                                     |

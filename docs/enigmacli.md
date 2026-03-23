@@ -1,22 +1,28 @@
-# enigmacli: Enigma simulator
+<h1 align="center">
+  enigmacli
+</h1>
 
-This is a CLI Enigma simulator.
+<h4 align="center">
+ A CLI Enigma simulator.
+</h4>
 
-### Usage
+## Usage
 
 ```shell
-$ enigmacli [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
+enigmacli [-s plugboard] [-w rotors] [-p rotor_positions] [-u reflector]
 ```
 
 `enigmacli` reads from stdin and outputs to stdout by default, and is case-agnostic.
 
 The following options are supported:
 
-* `-p`: Set the initial rotor (Walze) positions (e.g. `'ABC'`)
-* `-s`: Set the plugboard (Steckerbrett) configuration (e.g. `'ABCDEF'`)
-* `-u`: Set the reflector (Umkehrwalze) (e.g. `'B'`)
-* `-w`: Set the rotor (Walze) configuration (e.g. `'I II III'`)
-* `-r`: Generate a random Enigma configuration.
+| Flag | Description                                                      |
+| ---- | ---------------------------------------------------------------- |
+| `-p` | Set the initial rotor (Walze) positions (e.g. `'ABC'`)           |
+| `-s` | Set the plugboard (Steckerbrett) configuration (e.g. `'ABCDEF'`) |
+| `-u` | Set the reflector (Umkehrwalze) (e.g. `'B'`)                     |
+| `-w` | Set the rotor (Walze) configuration (e.g. `'I II III'`)          |
+| `-r` | Generate a random Enigma configuration.                          |
 
 Here is an example encryption/decryption with a custom rotor/plugboard configuration:
 
