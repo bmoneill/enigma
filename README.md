@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>enigma</h1>
+    <h1><b>enigma</b></h1>
     <h4>An Enigma machine simulator and toolset for cryptanalysis</h4>
     <a href="https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main" alt="CI status" /></a>.
     <a href="https://bmoneill.github.io/enigma"><img src="https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main" alt="Doxygen status" /></a>
