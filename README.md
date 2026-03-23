@@ -23,11 +23,11 @@
 
 ### Tool Documentation
 
-- [Enigma Simulator (enigmacli) Documentation](docs/enigmacli.md)
-- [Enigma Cracking Tools (enigmacrack) Documentation](docs/enigmacrack.md)
-- [N-Gram Generator (genngrams) Documentation](docs/genngrams.md)
-- [Rotor Index Generator (indexgen) Documentation](docs/indexgen.md)
-- [Library (libenigma) Documentation](https://bmoneill.github.io/enigma/)
+- [Enigma Simulator Documentation](docs/enigmacli.md)
+- [Enigma Cracking Tools Documentation](docs/enigmacrack.md)
+- [N-Gram Generator Documentation](docs/genngrams.md)
+- [Rotor Index Generator Documentation](docs/indexgen.md)
+- [Library Documentation](https://bmoneill.github.io/enigma/)
 
 ## Overview
 
