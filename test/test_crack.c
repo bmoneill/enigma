@@ -1155,8 +1155,8 @@ void test_enigma_crack_set_min_score_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_max_score(void) {
-    int expected = 4.56f;
-    int ret      = enigma_crack_set_max_score(&cfg, expected);
+    float expected = 4.56f;
+    int   ret      = enigma_crack_set_max_score(&cfg, expected);
     TEST_ASSERT_EQUAL_INT(ENIGMA_SUCCESS, ret);
     TEST_ASSERT_EQUAL_FLOAT(expected, cfg.max_score);
 }
