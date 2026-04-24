@@ -25,17 +25,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_score_print(const EnigmaScoreList* list) {
     }
     char buf[64];
     for (int i = 0; i < list->score_count; i++) {
-        printf("%.6f ", list->scores[i].score);
+        printf("%.6f\t", list->scores[i].score);
         if (list->scores[i].flags & ENIGMA_FLAG_DICTIONARY_MATCH) {
             printf("D");
-        } else {
-            printf("-");
         }
         if (list->scores[i].flags & ENIGMA_FLAG_FREQUENCY) {
-            printf("F ");
-        } else {
-            printf("- ");
+            printf("F");
         }
+        printf("\t");
         enigma_print_config(&list->scores[i].enigma, buf);
         printf("%s\n", buf);
     }
