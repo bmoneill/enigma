@@ -32,9 +32,10 @@ var NAVTREE =
       [ "Overview", "index.html#autotoc_md15", null ],
       [ "About the Enigma", "index.html#autotoc_md16", null ],
       [ "Building", "index.html#autotoc_md17", null ],
-      [ "Testing", "index.html#autotoc_md18", null ],
-      [ "Further Reading", "index.html#autotoc_md19", null ],
-      [ "License", "index.html#autotoc_md20", [
+      [ "Linux / macOS", "index.html#autotoc_md18", null ],
+      [ "Testing", "index.html#autotoc_md19", null ],
+      [ "Further Reading", "index.html#autotoc_md20", null ],
+      [ "License", "index.html#autotoc_md21", [
         [ "Usage", "md_docs_enigmacli.html#autotoc_md0", null ]
       ] ]
     ] ],
@@ -63,7 +64,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"rotor_8c.html"
+"reflector_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
