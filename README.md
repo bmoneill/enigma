@@ -52,6 +52,8 @@ same key as was used to create it.
 
 ## Building
 
+## Linux / macOS
+
 ```shell
 # build library and tools
 cmake -S . -B build
