@@ -295,19 +295,10 @@ static void clean_exit(const char* msg, const char* argv0, EnigmaCrackParams* cf
     }
     fprintf(stderr, USAGE, argv0);
     if (cfg->dictionary) {
-        free_dictionary_node(cfg->dictionary);
+        enigma_free_dict(cfg);
     }
     free(cfg);
     exit(code);
-}
-
-static void free_dictionary_node(EnigmaTrie* node) {
-    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
-        if (node->children[i]) {
-            free_dictionary_node(node->children[i]);
-        }
-    }
-    free(node);
 }
 
 /**

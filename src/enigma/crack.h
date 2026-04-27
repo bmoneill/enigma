@@ -135,6 +135,7 @@ int   enigma_crack_reflector(EnigmaCrackParams*, float (*)(const EnigmaCrackPara
 int   enigma_crack_plugboard(EnigmaCrackParams*, float (*)(const EnigmaCrackParams*, const char*));
 int   enigma_dict_match(const EnigmaCrackParams*, const char*);
 int   enigma_find_potential_indices(const char*, const char*, int*);
+int   enigma_free_dict(EnigmaCrackParams*);
 float enigma_freq(const char*, int);
 int   enigma_letter_freq(const EnigmaCrackParams*, const char*);
 int   enigma_score_append(EnigmaCrackParams*, Enigma*, const char*, float);

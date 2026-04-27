@@ -24,7 +24,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams*, char*);
+ENIGMA_STATIC int  enigma_dict_match_word(const EnigmaCrackParams*, char*);
+ENIGMA_STATIC void enigma_free_dictionary_node(EnigmaTrie*);
 
 /**
  * @brief Create a new EnigmaCrackParams structure.
@@ -524,6 +525,18 @@ enigma_find_potential_indices(const char* ciphertext, const char* plaintext, int
     }
 
     indices[matchCount] = -1;
+    return ENIGMA_SUCCESS;
+}
+
+/**
+ * @brief Free all dictionary nodes in cfg
+ * @param cfg the config to free dictionary nodes from
+ * @return ENIGMA_SUCCESS
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_free_dict(EnigmaCrackParams* cfg) {
+    if (cfg->dictionary) {
+        enigma_free_dictionary_node(cfg->dictionary);
+    }
     return ENIGMA_SUCCESS;
 }
 
@@ -1126,4 +1139,17 @@ ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams* cfg, char* pla
     }
 
     return node->value == 1;
+}
+
+/**
+ * @brief Recursively free dictiomnary nodes
+ * @param node the node to free
+ */
+ENIGMA_STATIC void enigma_free_dictionary_node(EnigmaTrie* node) {
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        if (node->children[i]) {
+            enigma_free_dictionary_node(node->children[i]);
+        }
+    }
+    free(node);
 }
