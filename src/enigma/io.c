@@ -131,6 +131,96 @@ EMSCRIPTEN_KEEPALIVE int enigma_load_custom_rotor(
     return ENIGMA_SUCCESS;
 }
 
+EMSCRIPTEN_KEEPALIVE int enigma_load_dict_f(EnigmaCrackParams* cfg, const char* path) {
+    FILE* f = fopen(path, "r");
+    if (!f) {
+        return ENIGMA_ERROR("Failed to open dictionary file: %s", path);
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), f)) {
+        size_t len = strlen(line);
+        if (len > 0 && line[len - 1] == '\n') {
+            line[len - 1] = '\0';
+            len--;
+        }
+        if (len > 0 && line[len - 1] == '\r') {
+            line[len - 1] = '\0';
+            len--;
+        }
+        if (len > 0) {
+            if (enigma_load_dict_s(cfg, line, len) != ENIGMA_SUCCESS) {
+                fclose(f);
+                return ENIGMA_FAILURE;
+            }
+        }
+    }
+
+    fclose(f);
+    return ENIGMA_SUCCESS;
+}
+
+/**
+ * @brief Load newline-separated words from a string into the cracking configuration.
+ * @param cfg Pointer to the cracking configuration structure.
+ * @param s String containing newline-separated words.
+ * @param length Length of the string.
+ * @return ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure.
+ */
+EMSCRIPTEN_KEEPALIVE int enigma_load_dict_s(EnigmaCrackParams* cfg, const char* s, size_t length) {
+    if (!cfg || !s) {
+        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
+    }
+
+    if (!cfg->dictionary) {
+        cfg->dictionary = calloc(1, sizeof(EnigmaTrie));
+        if (!cfg->dictionary) {
+            return ENIGMA_ERROR("%s", "Failed to allocate dictionary trie root");
+        }
+    }
+
+    size_t idx = 0;
+    while (idx < length) {
+        size_t wordStart = idx;
+
+        while (idx < length && s[idx] != '\n') {
+            idx++;
+        }
+
+        // Strip carriage return if present
+        size_t wordEnd = idx;
+        if (wordEnd > wordStart && s[wordEnd - 1] == '\r') {
+            wordEnd--;
+        }
+
+        if (wordEnd > wordStart) {
+            EnigmaTrie* node = cfg->dictionary;
+            for (size_t i = wordStart; i < wordEnd; i++) {
+                char c        = toupper((unsigned char) s[i]);
+                int  childIdx = c - 'A';
+                if (c < 'A' || c > 'Z') {
+                    continue;
+                }
+                if (!node->children[childIdx]) {
+                    node->children[childIdx] = calloc(1, sizeof(EnigmaTrie));
+                    if (!node->children[childIdx]) {
+                        return ENIGMA_ERROR("%s", "Failed to allocate dictionary trie node");
+                    }
+                }
+                node = node->children[childIdx];
+            }
+            node->value = 1;
+        }
+
+        if (idx < length && s[idx] == '\n') {
+            idx++;
+        }
+    }
+
+    cfg->flags |= ENIGMA_DICTIONARY_EXISTS;
+    return ENIGMA_SUCCESS;
+}
+
 /**
  * @brief Load ngrams from a file.
  *

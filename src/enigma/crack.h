@@ -6,6 +6,7 @@
 #ifndef ENIGMA_CRACK_H
 #define ENIGMA_CRACK_H
 
+#include "common.h"
 #include "enigma.h"
 #include "score.h"
 
@@ -86,25 +87,34 @@
 #endif
 
 /**
+ * @struct EnigmaTrie
+ * @brief A structure representing a trie for storing dictionary words, used in enigma_dict_match() for efficient word matching.
+ */
+typedef struct EnigmaTrie_s {
+    char                 value; //!< 1 if the node represents the end of a valid word, 0 otherwise.
+    struct EnigmaTrie_s* children
+        [ENIGMA_ALPHA_SIZE]; //!< Pointers to child nodes for each letter of the alphabet (NULL if no child exists for that letter)
+} EnigmaTrie;
+
+/**
  * @struct EnigmaCrackParams
  * @brief A structure representing a configuration for cracking an Enigma cipher.
  */
 typedef struct {
     Enigma           enigma; //!< The base enigma machine configuration
     EnigmaScoreList* score_list; //!< A list of scored configurations
-    const char** dictionary; //!< A list of dictionary words (should be sorted and all uppercase)
-    size_t       dictionary_length; //!< The number of words in the dictionary
-    float*       ngrams; //!< An array of n-gram frequencies
-    int          n; //!< The length of each n-gram
-    size_t       ngrams_length; //!< The number of n-grams in the array
-    const char*  ciphertext; //!< The ciphertext to be cracked
-    size_t       ciphertext_length; //!< The length of the ciphertext
-    int          flags; //!< Flags indicating special conditions a scored configuration may meet
-    float        frequency_targets[26]; //!< An array of frequency targets for each letter
-    float        min_score; //!< The minimum score for a configuration to be considered
-    float        max_score; //!< The maximum score for a configuration to be considered
-    float        target_score; //!< The target score for a configuration to be considered
-    float        target_frequency; //!< The target frequency for a configuration to be considered
+    EnigmaTrie*      dictionary; //!< A trie containing the dictionary words to be used for scoring
+    float*           ngrams; //!< An array of n-gram frequencies
+    int              n; //!< The length of each n-gram
+    size_t           ngrams_length; //!< The number of n-grams in the array
+    const char*      ciphertext; //!< The ciphertext to be cracked
+    size_t           ciphertext_length; //!< The length of the ciphertext
+    int              flags; //!< Flags indicating special conditions a scored configuration may meet
+    float            frequency_targets[26]; //!< An array of frequency targets for each letter
+    float            min_score; //!< The minimum score for a configuration to be considered
+    float            max_score; //!< The maximum score for a configuration to be considered
+    float            target_score; //!< The target score for a configuration to be considered
+    float target_frequency; //!< The target frequency for a configuration to be considered
     float
         frequency_offset; //!< The maximum offset from the target frequency that a scored configuration may have to be considered valid.
     const char*

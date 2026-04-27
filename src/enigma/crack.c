@@ -1117,47 +1117,21 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_known_plaintext(EnigmaCrackParams* cfg
 /**
  * @brief Match a word in the dictionary with the given plaintext
  *
- * cfg->dictionary and cfg->dictionary_length must be initialized and valid.
+ * cfg->dictionary must be initialized and valid.
  *
  * @param cfg The EnigmaCrackParams struct instance
  * @param plaintext The plaintext string to match
  * @return 1 on success, 0 on failure
  */
 ENIGMA_STATIC int enigma_dict_match_word(const EnigmaCrackParams* cfg, char* plaintext) {
-    const char** dict    = cfg->dictionary;
-    size_t       dictLen = cfg->dictionary_length;
-    int          key     = plaintext[0];
-    size_t       idx     = dictLen / 2;
-    int          left    = 0;
-    int          right   = (int) dictLen - 1;
-    int          found   = -1;
-
-    // Binary search to find any entry that starts with `key`
-    while (left <= right) {
-        int  mid       = left + (right - left) / 2;
-        char dictFirst = dict[mid][0];
-
-        if (dictFirst < key) {
-            left = mid + 1;
-        } else if (dictFirst > key) {
-            right = mid - 1;
-        } else {
-            found = mid;
-            // Continue searching left side to find the first occurrence
-            right = mid - 1;
+    EnigmaTrie* node = cfg->dictionary;
+    for (int i = 0; plaintext[i] != '\0'; i++) {
+        int childIdx = plaintext[i] - 'A';
+        if (node->children[childIdx] == NULL) {
+            return 0;
         }
+        node = node->children[childIdx];
     }
 
-    // Move back to the first dictionary entry that starts with `key`
-    while (found > 0 && dict[found - 1][0] == key) {
-        found--;
-    }
-
-    for (size_t i = found; i < dictLen && dict[i][0] == key; i++) {
-        if (strcmp(dict[i], plaintext) == 0) {
-            return 1;
-        }
-    }
-
-    return 0;
+    return node->value == 1;
 }

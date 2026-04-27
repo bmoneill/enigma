@@ -23,6 +23,8 @@ int                enigma_error_message(const char*, const char*, ...);
 int                enigma_load_config(Enigma*, const char*);
 int                enigma_load_custom_reflector(EnigmaReflector*, const char*, const char*);
 int                enigma_load_custom_rotor(EnigmaRotor*, const char*, const char*, int*, int);
+int                enigma_load_dict_f(EnigmaCrackParams*, const char*);
+int                enigma_load_dict_s(EnigmaCrackParams*, const char*, size_t);
 int                enigma_load_ngrams(EnigmaCrackParams*, const char*);
 int                enigma_load_plugboard_config(Enigma*, const char*);
 int                enigma_load_reflector_config(Enigma*, const char*);
