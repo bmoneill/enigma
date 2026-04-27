@@ -61,7 +61,7 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_params_validate(const EnigmaCrackParams* c
     Enigma defaultEnigma;
     enigma_init_default_config(&defaultEnigma);
 
-    if (cfg->dictionary && cfg->dictionary_length > 0) {
+    if (cfg->dictionary) {
         flags |= ENIGMA_DICTIONARY_EXISTS;
     }
 
