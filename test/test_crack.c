@@ -1,6 +1,7 @@
 #include "enigma/common.h"
 #include "enigma/crack.h"
 #include "enigma/enigma.h"
+#include "enigma/io.h"
 #include "enigma/reflector.h"
 #include "enigma/rotor.h"
 #include "enigma/score.h"
@@ -67,20 +68,8 @@ void test_enigma_crack_params_validate_WhereDictionaryExists(void) {
 }
 
 void test_enigma_crack_params_validate_WhereDictionaryDoesNotExist(void) {
-    cfg.dictionary        = NULL;
-    cfg.dictionary_length = 0;
-    int ret               = enigma_crack_params_validate(&cfg);
-    TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
-
-    cfg.dictionary        = (const char**) malloc(sizeof(const char*));
-    cfg.dictionary_length = 0;
-    ret                   = enigma_crack_params_validate(&cfg);
-    TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
-
-    free(cfg.dictionary);
-    cfg.dictionary        = NULL;
-    cfg.dictionary_length = 1;
-    ret                   = enigma_crack_params_validate(&cfg);
+    cfg.dictionary = NULL;
+    int ret        = enigma_crack_params_validate(&cfg);
     TEST_ASSERT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
 }
 
@@ -567,15 +556,10 @@ void test_enigma_dict_match_WithMatchingPlaintext_Not_X_Separated(void) {
     const char* plaintext = "HELLOXWORLDXFOOXBAR";
     cfg.ciphertext_length = strlen(plaintext);
     cfg.dictionary        = malloc(7 * sizeof(char*));
-    cfg.dictionary_length = 7;
-
-    cfg.dictionary[0]     = "BAR";
-    cfg.dictionary[1]     = "BAZ";
-    cfg.dictionary[2]     = "FOO";
-    cfg.dictionary[3]     = "GOODBYE";
-    cfg.dictionary[4]     = "HELLO";
-    cfg.dictionary[5]     = "TEST";
-    cfg.dictionary[6]     = "WORLD";
+    int ret               = enigma_load_dict_s(&cfg,
+                                 "BAR\nBAZ\nFOO\nGOODBYE\nHELLO\nTEST\nWORLD",
+                                 strlen("BAR\nBAZ\nFOO\nGOODBYE\nHELLO\nTEST\nWORLD"));
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, "Expected enigma_load_dict_s to succeed");
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(1,
                                   enigma_dict_match(&cfg, plaintext),
@@ -585,19 +569,15 @@ void test_enigma_dict_match_WithMatchingPlaintext_Not_X_Separated(void) {
 }
 
 void test_enigma_dict_match_WithMatchingPlaintext_X_Separated(void) {
-    const char* plaintext = "HELLOXWORLDXFOOXBAR";
-    cfg.ciphertext_length = strlen(plaintext);
-    cfg.dictionary        = malloc(7 * sizeof(char*));
-    cfg.dictionary_length = 7;
-    cfg.flags |= ENIGMA_FLAG_X_SEPARATED;
+    const char* plaintext  = "HELLOXWORLDXFOOXBAR";
+    cfg.ciphertext_length  = strlen(plaintext);
 
-    cfg.dictionary[0] = "BAR";
-    cfg.dictionary[1] = "BAZ";
-    cfg.dictionary[2] = "FOO";
-    cfg.dictionary[3] = "GOODBYE";
-    cfg.dictionary[4] = "HELLO";
-    cfg.dictionary[5] = "TEST";
-    cfg.dictionary[6] = "WORLD";
+    const char* dictString = "BAR\nBAZ\nFOO\nGOODBYE\nHELLO\nTEST\nWORLD";
+
+    cfg.flags |= ENIGMA_FLAG_X_SEPARATED;
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS,
+                                  enigma_load_dict_s(&cfg, dictString, strlen(dictString)),
+                                  "Expected enigma_load_dict_s to succeed");
 
     TEST_ASSERT_EQUAL_INT_MESSAGE(1,
                                   enigma_dict_match(&cfg, plaintext),
@@ -607,18 +587,13 @@ void test_enigma_dict_match_WithMatchingPlaintext_X_Separated(void) {
 }
 
 void test_enigma_dict_match_WithNonMatchingPlaintext_X_Separated(void) {
-    cfg.dictionary        = malloc(7 * sizeof(char*));
-    cfg.dictionary_length = 7;
-    cfg.ciphertext_length = strlen(helloWorld);
+    const char* dictString = "BAR\nBAZ\nEARTH\nFOO\nMARS\nSATURN\nTEST";
+    cfg.ciphertext_length  = strlen(helloWorld);
     cfg.flags |= ENIGMA_FLAG_X_SEPARATED;
-    cfg.dictionary[0] = "BAR";
-    cfg.dictionary[1] = "BAZ";
-    cfg.dictionary[2] = "EARTH";
-    cfg.dictionary[3] = "FOO";
-    cfg.dictionary[4] = "MARS";
-    cfg.dictionary[5] = "SATURN";
-    cfg.dictionary[6] = "TEST";
 
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS,
+                                  enigma_load_dict_s(&cfg, dictString, strlen(dictString)),
+                                  "Expected enigma_load_dict_s to succeed");
     TEST_ASSERT_EQUAL_INT_MESSAGE(0,
                                   enigma_dict_match(&cfg, helloWorld),
                                   "Expected dictionary not to match");
@@ -627,13 +602,12 @@ void test_enigma_dict_match_WithNonMatchingPlaintext_X_Separated(void) {
 }
 
 void test_enigma_dict_match_WithNonMatchingPlaintext_Not_X_Separated(void) {
-    cfg.dictionary        = malloc(4 * sizeof(char*));
-    cfg.dictionary_length = 4;
-    cfg.dictionary[0]     = "EARTH";
-    cfg.dictionary[1]     = "FOO";
-    cfg.dictionary[2]     = "MARS";
-    cfg.dictionary[3]     = "SATURN";
+    const char* dictString = "EARTH\nFOO\nMARS\nSATURN";
+    cfg.ciphertext_length  = strlen(helloWorld);
 
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS,
+                                  enigma_load_dict_s(&cfg, dictString, strlen(dictString)),
+                                  "Expected enigma_load_dict_s to succeed");
     TEST_ASSERT_EQUAL_INT_MESSAGE(0,
                                   enigma_dict_match(&cfg, helloWorld),
                                   "Expected dictionary not to match");
@@ -801,13 +775,12 @@ void test_enigma_score_append_WithNullArguments(void) {
 }
 
 void test_enigma_score_flags_WithDictionaryMatchFlag_WithMatchingPlaintext(void) {
-    cfg.flags             = ENIGMA_FLAG_DICTIONARY_MATCH;
-    cfg.dictionary        = malloc(sizeof(const char*) * 2);
-    cfg.dictionary[0]     = "WORLD";
-    cfg.dictionary[1]     = "HELLO";
-    cfg.dictionary_length = 2;
+    cfg.flags = ENIGMA_FLAG_DICTIONARY_MATCH;
+    int ret   = enigma_load_dict_s(&cfg, "WORLD\nHELLO", strlen("WORLD\nHELLO"));
 
-    int ret               = enigma_score_flags(&cfg, helloWorld);
+    TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_SUCCESS, ret, "Expected enigma_load_dict_s to succeed");
+
+    ret = enigma_score_flags(&cfg, helloWorld);
     TEST_ASSERT_EQUAL_INT_MESSAGE(ENIGMA_FLAG_DICTIONARY_MATCH,
                                   ret & ENIGMA_FLAG_DICTIONARY_MATCH,
                                   "Expected dictionary match flag to be set");
@@ -815,13 +788,13 @@ void test_enigma_score_flags_WithDictionaryMatchFlag_WithMatchingPlaintext(void)
 }
 
 void test_enigma_score_flags_WithDictionaryMatchFlag_WithNonMatchingPlaintext(void) {
-    cfg.flags             = ENIGMA_FLAG_DICTIONARY_MATCH;
-    cfg.dictionary        = malloc(sizeof(const char*) * 2);
-    cfg.dictionary[0]     = "WORLD";
-    cfg.dictionary[1]     = "GOODBYE";
-    cfg.dictionary_length = 2;
+    cfg.flags = ENIGMA_FLAG_DICTIONARY_MATCH;
+    TEST_ASSERT_EQUAL_INT_MESSAGE(
+        ENIGMA_SUCCESS,
+        enigma_load_dict_s(&cfg, "WORLD\nGOODBYE", strlen("WORLD\nGOODBYE")),
+        "Expected enigma_load_dict_s to succeed");
 
-    int ret               = enigma_score_flags(&cfg, helloWorld);
+    int ret = enigma_score_flags(&cfg, helloWorld);
     TEST_ASSERT_EQUAL_INT_MESSAGE(0,
                                   ret & ENIGMA_FLAG_DICTIONARY_MATCH,
                                   "Expected dictionary match flag to not be set");
@@ -898,23 +871,14 @@ void test_enigma_crack_get_score_list_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_get_dictionary(void) {
-    const char* dict[] = { "A", "B" };
-    cfg.dictionary     = dict;
+    EnigmaTrie* dict = malloc(sizeof(EnigmaTrie));
+    cfg.dictionary   = dict;
     TEST_ASSERT_EQUAL_PTR(dict, enigma_crack_get_dictionary(&cfg));
+    free(dict);
 }
 
 void test_enigma_crack_get_dictionary_WithInvalidArguments(void) {
     TEST_ASSERT_NULL(enigma_crack_get_dictionary(NULL));
-}
-
-void test_enigma_crack_get_dictionary_length(void) {
-    int len               = 42;
-    cfg.dictionary_length = len;
-    TEST_ASSERT_EQUAL_INT(len, enigma_crack_get_dictionary_length(&cfg));
-}
-
-void test_enigma_crack_get_dictionary_length_WithInvalidArguments(void) {
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_get_dictionary_length(NULL));
 }
 
 void test_enigma_crack_get_ngrams(void) {
@@ -1090,17 +1054,17 @@ void test_enigma_crack_set_n_WithInvalidArguments(void) {
 }
 
 void test_enigma_crack_set_dictionary(void) {
-    const char* dict[2] = { "WORD1", "WORD2" };
-    int         ret     = enigma_crack_set_dictionary(&cfg, dict, 2);
+    EnigmaTrie* dict = malloc(sizeof(EnigmaTrie));
+    int         ret  = enigma_crack_set_dictionary(&cfg, dict);
     TEST_ASSERT_EQUAL_INT(0, ret);
     TEST_ASSERT_EQUAL_PTR(dict, cfg.dictionary);
-    TEST_ASSERT_EQUAL_INT(2, cfg.dictionary_length);
+    free(dict);
 }
 
 void test_enigma_crack_set_dictionary_WithInvalidArguments(void) {
-    const char* dict[2] = { "WORD1", "WORD2" };
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_dictionary(NULL, dict, 2));
-    TEST_ASSERT_EQUAL_INT(-1, enigma_crack_set_dictionary(&cfg, NULL, 2));
+    EnigmaTrie* dict = malloc(sizeof(EnigmaTrie));
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_crack_set_dictionary(NULL, dict));
+    TEST_ASSERT_EQUAL_INT(ENIGMA_FAILURE, enigma_crack_set_dictionary(&cfg, NULL));
 }
 
 void test_enigma_crack_set_ciphertext(void) {
