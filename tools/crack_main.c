@@ -1,3 +1,4 @@
+#include "enigma/common.h"
 #include "enigma/crack.h"
 #include "enigma/enigma.h"
 #include "enigma/io.h"
@@ -46,8 +47,7 @@
     Available reflectors: A, B, C\n"
 
 static void clean_exit(const char*, const char*, EnigmaCrackParams*, int);
-static void free_dictionary(char**, int);
-static void load_dictionary(EnigmaCrackParams*, const char*);
+static void free_dictionary_node(EnigmaTrie*);
 static void load_frequencies(EnigmaCrackParams*, const char*);
 static int  load_language(EnigmaCrackParams*, const char*);
 static void load_target(EnigmaCrackParams*, const char*);
@@ -170,7 +170,10 @@ int main(int argc, char* argv[]) {
             cfg->known_plaintext = optarg;
             break;
         case 'd':
-            load_dictionary(cfg, optarg);
+            if (enigma_load_dict_f(cfg, optarg)) {
+                fprintf(stderr, "Failed to load dictionary from path: %s\n", optarg);
+                clean_exit(NULL, argv[0], cfg, 1);
+            }
             break;
         case 'l':
             if (load_language(cfg, optarg)) {
@@ -292,40 +295,19 @@ static void clean_exit(const char* msg, const char* argv0, EnigmaCrackParams* cf
     }
     fprintf(stderr, USAGE, argv0);
     if (cfg->dictionary) {
-        free_dictionary((char**) cfg->dictionary, cfg->dictionary_length);
+        free_dictionary_node(cfg->dictionary);
     }
     free(cfg);
     exit(code);
 }
 
-static void free_dictionary(char** dictionary, int size) {
-    for (int i = 0; i < size; i++) {
-        free(dictionary[i]);
-    }
-    free(dictionary);
-}
-
-static void load_dictionary(EnigmaCrackParams* cfg, const char* path) {
-    size_t alloced         = 10000;
-    cfg->dictionary        = malloc(alloced * sizeof(char*));
-    cfg->dictionary_length = 0;
-    FILE* f                = fopen(path, "r");
-    if (!f) {
-        fprintf(stderr, "Failed to open dictionary file: %s\n", path);
-        return;
-    }
-
-    char line[BUFSIZ];
-    while ((fgets(line, sizeof(line), f)) != NULL) {
-        if (cfg->dictionary_length >= alloced) {
-            alloced *= 2;
-            cfg->dictionary = realloc(cfg->dictionary, alloced * sizeof(char*));
+static void free_dictionary_node(EnigmaTrie* node) {
+    for (int i = 0; i < ENIGMA_ALPHA_SIZE; i++) {
+        if (node->children[i]) {
+            free_dictionary_node(node->children[i]);
         }
-        line[strcspn(line, "\n")]               = 0;
-        cfg->dictionary[cfg->dictionary_length] = strdup(line);
-        cfg->dictionary_length++;
     }
-    fclose(f);
+    free(node);
 }
 
 /**

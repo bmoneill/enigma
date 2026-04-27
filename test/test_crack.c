@@ -60,9 +60,8 @@ void test_enigma_crack_params_new(void) {
 }
 
 void test_enigma_crack_params_validate_WhereDictionaryExists(void) {
-    cfg.dictionary        = (const char**) malloc(sizeof(const char*));
-    cfg.dictionary_length = 1;
-    int ret               = enigma_crack_params_validate(&cfg);
+    cfg.dictionary = (EnigmaTrie*) malloc(sizeof(EnigmaTrie*));
+    int ret        = enigma_crack_params_validate(&cfg);
     TEST_ASSERT_NOT_EQUAL(0, ret & ENIGMA_DICTIONARY_EXISTS);
     free(cfg.dictionary);
 }
