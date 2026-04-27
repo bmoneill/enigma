@@ -466,12 +466,20 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
 
         free(tmpPlaintext);
     } else {
-        // Pretty inefficient
-        for (size_t i = 0; i < cfg->dictionary_length; i++) {
-            if (strstr(plaintext, cfg->dictionary[i]) != NULL) {
-                match_count++;
-                if (match_count > 1) {
-                    return 1;
+        // Run through dictionary for each character in plaintext
+        for (size_t i = 0; i < cfg->ciphertext_length; i++) {
+            EnigmaTrie* node = cfg->dictionary;
+            for (size_t j = i; j < cfg->ciphertext_length; j++) {
+                int childIdx = plaintext[j] - 'A';
+                if (!node->children[childIdx]) {
+                    break;
+                }
+                node = node->children[childIdx];
+                if (node->value == 1) {
+                    match_count++;
+                    if (match_count > 1) {
+                        return 1;
+                    }
                 }
             }
         }
@@ -710,27 +718,13 @@ enigma_crack_get_score_list(const EnigmaCrackParams* cfg) {
  * @param cfg The EnigmaCrackParams struct instance
  * @return The dictionary field, or NULL if cfg is NULL.
  */
-EMSCRIPTEN_KEEPALIVE const char** enigma_crack_get_dictionary(const EnigmaCrackParams* cfg) {
+EMSCRIPTEN_KEEPALIVE EnigmaTrie* enigma_crack_get_dictionary(const EnigmaCrackParams* cfg) {
     if (!cfg) {
         ENIGMA_ERROR("%s", enigma_invalid_argument_message);
         return NULL;
     }
 
     return cfg->dictionary;
-}
-
-/**
- * @brief Get the `dictionary_length` field in the given EnigmaCrackParams struct
- *
- * @param cfg The EnigmaCrackParams struct instance
- * @return The `dictionary_length` field, or `ENIGMA_FAILURE` if `cfg` is NULL.
- */
-EMSCRIPTEN_KEEPALIVE size_t enigma_crack_get_dictionary_length(const EnigmaCrackParams* cfg) {
-    if (!cfg) {
-        return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
-    }
-
-    return cfg->dictionary_length;
 }
 
 /**
@@ -943,17 +937,15 @@ EMSCRIPTEN_KEEPALIVE int enigma_crack_set_score_list(EnigmaCrackParams* cfg,
  *
  * @param cfg The EnigmaCrackParams struct instance
  * @param dictionary The dictionary array
- * @param length The length of the dictionary array
  * @return 0 on success, -1 on failure
  */
-EMSCRIPTEN_KEEPALIVE int
-enigma_crack_set_dictionary(EnigmaCrackParams* cfg, const char** dictionary, size_t length) {
+EMSCRIPTEN_KEEPALIVE int enigma_crack_set_dictionary(EnigmaCrackParams* cfg,
+                                                     EnigmaTrie*        dictionary) {
     if (!cfg || !dictionary) {
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    cfg->dictionary        = dictionary;
-    cfg->dictionary_length = length;
+    cfg->dictionary = dictionary;
     return 0;
 }
 

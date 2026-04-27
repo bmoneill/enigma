@@ -143,8 +143,7 @@ int   enigma_score_flags(const EnigmaCrackParams*, const char*);
 /* --- EnigmaCrackParams getters and setters --- */
 const Enigma*          enigma_crack_get_enigma(const EnigmaCrackParams*);
 const EnigmaScoreList* enigma_crack_get_score_list(const EnigmaCrackParams*);
-const char**           enigma_crack_get_dictionary(const EnigmaCrackParams*);
-size_t                 enigma_crack_get_dictionary_length(const EnigmaCrackParams*);
+EnigmaTrie*            enigma_crack_get_dictionary(const EnigmaCrackParams*);
 const float*           enigma_crack_get_ngrams(const EnigmaCrackParams*);
 int                    enigma_crack_get_n(const EnigmaCrackParams*);
 size_t                 enigma_crack_get_ngrams_length(const EnigmaCrackParams*);
@@ -159,7 +158,7 @@ const char*            enigma_crack_get_known_plaintext(const EnigmaCrackParams*
 size_t                 enigma_crack_get_known_plaintext_length(const EnigmaCrackParams*);
 int                    enigma_crack_set_enigma(EnigmaCrackParams*, Enigma*);
 int                    enigma_crack_set_score_list(EnigmaCrackParams*, EnigmaScoreList*);
-int                    enigma_crack_set_dictionary(EnigmaCrackParams*, const char**, size_t);
+int                    enigma_crack_set_dictionary(EnigmaCrackParams*, EnigmaTrie*);
 int                    enigma_crack_set_ngrams(EnigmaCrackParams*, float*, int, size_t);
 int                    enigma_crack_set_n(EnigmaCrackParams*, int);
 int                    enigma_crack_set_ciphertext(EnigmaCrackParams*, const char*, size_t);
