@@ -554,7 +554,6 @@ void test_enigma_crack_rotor_positions_WithInvalidArguments(void) {
 void test_enigma_dict_match_WithMatchingPlaintext_Not_X_Separated(void) {
     const char* plaintext = "HELLOXWORLDXFOOXBAR";
     cfg.ciphertext_length = strlen(plaintext);
-    cfg.dictionary        = malloc(7 * sizeof(char*));
     int ret               = enigma_load_dict_s(&cfg,
                                  "BAR\nBAZ\nFOO\nGOODBYE\nHELLO\nTEST\nWORLD",
                                  strlen("BAR\nBAZ\nFOO\nGOODBYE\nHELLO\nTEST\nWORLD"));

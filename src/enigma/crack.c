@@ -439,13 +439,14 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
         return ENIGMA_ERROR("%s", enigma_invalid_argument_message);
     }
 
-    int match_count = 0;
+    int    matchCount   = 0;
+    size_t plaintextLen = strlen(plaintext);
 
     if (cfg->flags & ENIGMA_FLAG_X_SEPARATED) {
         char* tmpPlaintext = strdup(plaintext);
 
         // Replace 'X' with '\0'
-        for (size_t i = 0; i < cfg->ciphertext_length; i++) {
+        for (size_t i = 0; i < plaintextLen; i++) {
             if (tmpPlaintext[i] == 'X') {
                 tmpPlaintext[i] = '\0';
             }
@@ -453,11 +454,11 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
 
         int    plaintextIdx       = 0;
         size_t plaintextEndOfWord = strlen(&tmpPlaintext[plaintextIdx]);
-        while (plaintextEndOfWord < cfg->ciphertext_length) {
+        while (plaintextEndOfWord < plaintextLen) {
             plaintextEndOfWord = plaintextIdx + strlen(&tmpPlaintext[plaintextIdx]);
 
-            match_count += enigma_dict_match_word(cfg, &tmpPlaintext[plaintextIdx]);
-            if (match_count > 1) {
+            matchCount += enigma_dict_match_word(cfg, &tmpPlaintext[plaintextIdx]);
+            if (matchCount > 1) {
                 free(tmpPlaintext);
                 return 1;
             }
@@ -468,17 +469,17 @@ EMSCRIPTEN_KEEPALIVE int enigma_dict_match(const EnigmaCrackParams* cfg, const c
         free(tmpPlaintext);
     } else {
         // Run through dictionary for each character in plaintext
-        for (size_t i = 0; i < cfg->ciphertext_length; i++) {
+        for (size_t i = 0; i < plaintextLen; i++) {
             EnigmaTrie* node = cfg->dictionary;
-            for (size_t j = i; j < cfg->ciphertext_length; j++) {
+            for (size_t j = i; j < plaintextLen; j++) {
                 int childIdx = plaintext[j] - 'A';
                 if (!node->children[childIdx]) {
                     break;
                 }
                 node = node->children[childIdx];
                 if (node->value == 1) {
-                    match_count++;
-                    if (match_count > 1) {
+                    matchCount++;
+                    if (matchCount > 1) {
                         return 1;
                     }
                 }
