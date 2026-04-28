@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['dictionary_0',['dictionary',['../structEnigmaCrackParams.html#a7b1a50b63b27254f02584283a49738c9',1,'EnigmaCrackParams']]],
-  ['dictionary_5flength_1',['dictionary_length',['../structEnigmaCrackParams.html#a40f9ab8601a8c7c01d6eabace037b5d4',1,'EnigmaCrackParams']]]
+  ['dictionary_0',['dictionary',['../structEnigmaCrackParams.html#a085089ee7649b01ba3695018312d716a',1,'EnigmaCrackParams']]]
 ];

@@ -4,6 +4,8 @@ var io_8c =
     [ "enigma_load_config", "io_8c.html#a6d6029013ae75961c6ad000eadaf5763", null ],
     [ "enigma_load_custom_reflector", "io_8c.html#a241befd30d08cdaee1f14baf7c31d027", null ],
     [ "enigma_load_custom_rotor", "io_8c.html#a42befda5895dd7c34e47c64e75fcd7f1", null ],
+    [ "enigma_load_dict_f", "io_8c.html#ac4ab47b32a6b2dae3115b06d051286a5", null ],
+    [ "enigma_load_dict_s", "io_8c.html#a554ba4044fa550a1a00121f2f471ae86", null ],
     [ "enigma_load_ngrams", "io_8c.html#ab8fb6094bf0e51031d81bc74902f8d3e", null ],
     [ "enigma_load_plugboard_config", "io_8c.html#adbfae7ade6f1999aa00b3ed3f9425396", null ],
     [ "enigma_load_reflector_config", "io_8c.html#aa034cfe43d61283518f3cc217c59507d", null ],

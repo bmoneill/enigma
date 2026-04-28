@@ -121,6 +121,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a2323c1b957210951363c993f75642f20"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a2323c1b957210951363c993f75642f20">enigma_load_custom_rotor</a> (<a class="el" href="structEnigmaRotor.html">EnigmaRotor</a> *, const char *, const char *, int *, int)</td></tr>
 <tr class="memdesc:a2323c1b957210951363c993f75642f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a custom rotor alphabet from the given alphabet, name, and notches.  <br /></td></tr>
 <tr class="separator:a2323c1b957210951363c993f75642f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa295f891aac287a5737130c76abf028"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#afa295f891aac287a5737130c76abf028">enigma_load_dict_f</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *)</td></tr>
+<tr class="separator:afa295f891aac287a5737130c76abf028"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0438084578983a38e2530a730fa329f0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a0438084578983a38e2530a730fa329f0">enigma_load_dict_s</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *, size_t)</td></tr>
+<tr class="memdesc:a0438084578983a38e2530a730fa329f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load newline-separated words from a string into the cracking configuration.  <br /></td></tr>
+<tr class="separator:a0438084578983a38e2530a730fa329f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cfaec41d6825c5fa6627e7bfe9ff96c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="io_8h.html#a3cfaec41d6825c5fa6627e7bfe9ff96c">enigma_load_ngrams</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char *)</td></tr>
 <tr class="memdesc:a3cfaec41d6825c5fa6627e7bfe9ff96c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load ngrams from a file.  <br /></td></tr>
 <tr class="separator:a3cfaec41d6825c5fa6627e7bfe9ff96c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -355,6 +360,79 @@ Functions</h2></td></tr>
     <tr><td class="paramname">name</td><td>The name of the custom rotor. </td></tr>
     <tr><td class="paramname">notches</td><td>Array of notch positions (length must match numNotches). </td></tr>
     <tr><td class="paramname">numNotches</td><td>Number of notches.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS on success, ENIGMA_FAILURE on failure. </dd></dl>
+
+</div>
+</div>
+<a id="afa295f891aac287a5737130c76abf028" name="afa295f891aac287a5737130c76abf028"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa295f891aac287a5737130c76abf028">&#9670;&#160;</a></span>enigma_load_dict_f()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_load_dict_f </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0438084578983a38e2530a730fa329f0" name="a0438084578983a38e2530a730fa329f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0438084578983a38e2530a730fa329f0">&#9670;&#160;</a></span>enigma_load_dict_s()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_load_dict_s </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load newline-separated words from a string into the cracking configuration. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>Pointer to the cracking configuration structure. </td></tr>
+    <tr><td class="paramname">s</td><td>String containing newline-separated words. </td></tr>
+    <tr><td class="paramname">length</td><td>Length of the string. </td></tr>
   </table>
   </dd>
 </dl>

@@ -5,5 +5,7 @@ var searchData=
   ['enigmareflector_2',['EnigmaReflector',['../structEnigmaReflector.html',1,'']]],
   ['enigmarotor_3',['EnigmaRotor',['../structEnigmaRotor.html',1,'']]],
   ['enigmascore_4',['EnigmaScore',['../structEnigmaScore.html',1,'']]],
-  ['enigmascorelist_5',['EnigmaScoreList',['../structEnigmaScoreList.html',1,'']]]
+  ['enigmascorelist_5',['EnigmaScoreList',['../structEnigmaScoreList.html',1,'']]],
+  ['enigmatrie_6',['EnigmaTrie',['../structEnigmaTrie.html',1,'']]],
+  ['enigmatrie_5fs_7',['EnigmaTrie_s',['../structEnigmaTrie__s.html',1,'']]]
 ];

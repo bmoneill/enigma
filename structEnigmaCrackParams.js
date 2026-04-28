@@ -2,8 +2,7 @@ var structEnigmaCrackParams =
 [
     [ "ciphertext", "structEnigmaCrackParams.html#a725ae6fbdc67a9d510d2afa2a06ef11b", null ],
     [ "ciphertext_length", "structEnigmaCrackParams.html#ac9c5f151bfccefc05e9d52af8b0406fa", null ],
-    [ "dictionary", "structEnigmaCrackParams.html#a7b1a50b63b27254f02584283a49738c9", null ],
-    [ "dictionary_length", "structEnigmaCrackParams.html#a40f9ab8601a8c7c01d6eabace037b5d4", null ],
+    [ "dictionary", "structEnigmaCrackParams.html#a085089ee7649b01ba3695018312d716a", null ],
     [ "enigma", "structEnigmaCrackParams.html#a072769d3a0087516590b227766d57294", null ],
     [ "flags", "structEnigmaCrackParams.html#ac8bf36fe0577cba66bccda3a6f7e80a4", null ],
     [ "frequency_offset", "structEnigmaCrackParams.html#ad1a24a769e2555235422ac4ee81998b3", null ],

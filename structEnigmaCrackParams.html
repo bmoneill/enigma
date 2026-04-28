@@ -109,12 +109,9 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a6cc6eaaf88ff3d94c666b014b5bc66e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEnigmaScoreList.html">EnigmaScoreList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaCrackParams.html#a6cc6eaaf88ff3d94c666b014b5bc66e8">score_list</a></td></tr>
 <tr class="memdesc:a6cc6eaaf88ff3d94c666b014b5bc66e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of scored configurations.  <br /></td></tr>
 <tr class="separator:a6cc6eaaf88ff3d94c666b014b5bc66e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b1a50b63b27254f02584283a49738c9"><td class="memItemLeft" align="right" valign="top">const char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaCrackParams.html#a7b1a50b63b27254f02584283a49738c9">dictionary</a></td></tr>
-<tr class="memdesc:a7b1a50b63b27254f02584283a49738c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of dictionary words (should be sorted and all uppercase)  <br /></td></tr>
-<tr class="separator:a7b1a50b63b27254f02584283a49738c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40f9ab8601a8c7c01d6eabace037b5d4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaCrackParams.html#a40f9ab8601a8c7c01d6eabace037b5d4">dictionary_length</a></td></tr>
-<tr class="memdesc:a40f9ab8601a8c7c01d6eabace037b5d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of words in the dictionary.  <br /></td></tr>
-<tr class="separator:a40f9ab8601a8c7c01d6eabace037b5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a085089ee7649b01ba3695018312d716a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="crack_8h.html#a4fd814b61764f27acd9fcdf807c8d5d1">EnigmaTrie</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaCrackParams.html#a085089ee7649b01ba3695018312d716a">dictionary</a></td></tr>
+<tr class="memdesc:a085089ee7649b01ba3695018312d716a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A trie containing the dictionary words to be used for scoring.  <br /></td></tr>
+<tr class="separator:a085089ee7649b01ba3695018312d716a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a75aa32bcc305b7b1968ea884730a38"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaCrackParams.html#a3a75aa32bcc305b7b1968ea884730a38">ngrams</a></td></tr>
 <tr class="memdesc:a3a75aa32bcc305b7b1968ea884730a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">An array of n-gram frequencies.  <br /></td></tr>
 <tr class="separator:a3a75aa32bcc305b7b1968ea884730a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,35 +190,19 @@ Data Fields</h2></td></tr>
 
 </div>
 </div>
-<a id="a7b1a50b63b27254f02584283a49738c9" name="a7b1a50b63b27254f02584283a49738c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b1a50b63b27254f02584283a49738c9">&#9670;&#160;</a></span>dictionary</h2>
+<a id="a085089ee7649b01ba3695018312d716a" name="a085089ee7649b01ba3695018312d716a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a085089ee7649b01ba3695018312d716a">&#9670;&#160;</a></span>dictionary</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char** dictionary</td>
+          <td class="memname"><a class="el" href="crack_8h.html#a4fd814b61764f27acd9fcdf807c8d5d1">EnigmaTrie</a>* dictionary</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>A list of dictionary words (should be sorted and all uppercase) </p>
-
-</div>
-</div>
-<a id="a40f9ab8601a8c7c01d6eabace037b5d4" name="a40f9ab8601a8c7c01d6eabace037b5d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a40f9ab8601a8c7c01d6eabace037b5d4">&#9670;&#160;</a></span>dictionary_length</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t dictionary_length</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The number of words in the dictionary. </p>
+<p>A trie containing the dictionary words to be used for scoring. </p>
 
 </div>
 </div>

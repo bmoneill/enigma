@@ -93,11 +93,13 @@ $(document).ready(function(){initNavTree('crack_8h.html',''); initResizable(); }
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">crack.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="enigma_8h_source.html">enigma.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="common_8h_source.html">common.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="enigma_8h_source.html">enigma.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="score_8h_source.html">score.h</a>&quot;</code><br />
 <code>#include &lt;stddef.h&gt;</code><br />
 </div>
@@ -105,6 +107,8 @@ $(document).ready(function(){initNavTree('crack_8h.html',''); initResizable(); }
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaTrie__s.html">EnigmaTrie_s</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A structure representing a configuration for cracking an <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> cipher.  <a href="structEnigmaCrackParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,6 +146,11 @@ Macros</h2></td></tr>
 <tr class="memdesc:a6b985cfa07ea81894068d7f138c990c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating that hypothesized plugboard settings are defined, utilized in <a class="el" href="crack_8h.html#a32832794d5b3d1034ff27a11101f88c3" title="Check what capabilities the EnigmaCrackParams structure has.">enigma_crack_params_validate()</a> and enigma_crack_auto().  <br /></td></tr>
 <tr class="separator:a6b985cfa07ea81894068d7f138c990c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a4fd814b61764f27acd9fcdf807c8d5d1"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structEnigmaTrie__s.html">EnigmaTrie_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a4fd814b61764f27acd9fcdf807c8d5d1">EnigmaTrie</a></td></tr>
+<tr class="separator:a4fd814b61764f27acd9fcdf807c8d5d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a1103c8f1b06818e73fbf317d970cb99e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a1103c8f1b06818e73fbf317d970cb99e">enigma_crack_params_new</a> (void)</td></tr>
@@ -174,6 +183,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2ee5be8dd1962ac643e14e6c2020ae43"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a2ee5be8dd1962ac643e14e6c2020ae43">enigma_find_potential_indices</a> (const char *, const char *, int *)</td></tr>
 <tr class="memdesc:a2ee5be8dd1962ac643e14e6c2020ae43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds potential indices in the ciphertext where the known plaintext may exist.  <br /></td></tr>
 <tr class="separator:a2ee5be8dd1962ac643e14e6c2020ae43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33090050238a10d878f4fa3be9425506"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a33090050238a10d878f4fa3be9425506">enigma_free_dict</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *)</td></tr>
+<tr class="memdesc:a33090050238a10d878f4fa3be9425506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free all dictionary nodes in cfg.  <br /></td></tr>
+<tr class="separator:a33090050238a10d878f4fa3be9425506"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd4bcc4bc9caa85848a6e59bd4cdae0b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#abd4bcc4bc9caa85848a6e59bd4cdae0b">enigma_freq</a> (const char *, int)</td></tr>
 <tr class="memdesc:abd4bcc4bc9caa85848a6e59bd4cdae0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the frequency of characters in the plaintext.  <br /></td></tr>
 <tr class="separator:abd4bcc4bc9caa85848a6e59bd4cdae0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,12 +204,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2d231ebe1d413b781aee1ca5766aac50"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structEnigmaScoreList.html">EnigmaScoreList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a2d231ebe1d413b781aee1ca5766aac50">enigma_crack_get_score_list</a> (const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *)</td></tr>
 <tr class="memdesc:a2d231ebe1d413b781aee1ca5766aac50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the score_list field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
 <tr class="separator:a2d231ebe1d413b781aee1ca5766aac50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a081b4e6255f3d0399f233291604b2a0c"><td class="memItemLeft" align="right" valign="top">const char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a081b4e6255f3d0399f233291604b2a0c">enigma_crack_get_dictionary</a> (const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *)</td></tr>
-<tr class="memdesc:a081b4e6255f3d0399f233291604b2a0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dictionary field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
-<tr class="separator:a081b4e6255f3d0399f233291604b2a0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53031e7585d04f7ba8c43b92ee7abe17"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a53031e7585d04f7ba8c43b92ee7abe17">enigma_crack_get_dictionary_length</a> (const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *)</td></tr>
-<tr class="memdesc:a53031e7585d04f7ba8c43b92ee7abe17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <code>dictionary_length</code> field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
-<tr class="separator:a53031e7585d04f7ba8c43b92ee7abe17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea8d0b56f52f871c7979fa3944907070"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEnigmaTrie.html">EnigmaTrie</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#aea8d0b56f52f871c7979fa3944907070">enigma_crack_get_dictionary</a> (const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *)</td></tr>
+<tr class="memdesc:aea8d0b56f52f871c7979fa3944907070"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the dictionary field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
+<tr class="separator:aea8d0b56f52f871c7979fa3944907070"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4feb383e86bd9b876babddc3b03d54a5"><td class="memItemLeft" align="right" valign="top">const float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a4feb383e86bd9b876babddc3b03d54a5">enigma_crack_get_ngrams</a> (const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *)</td></tr>
 <tr class="memdesc:a4feb383e86bd9b876babddc3b03d54a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the ngrams field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
 <tr class="separator:a4feb383e86bd9b876babddc3b03d54a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -240,9 +249,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a0e351c00d6f7220f00ab15d2970410c7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a0e351c00d6f7220f00ab15d2970410c7">enigma_crack_set_score_list</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, <a class="el" href="structEnigmaScoreList.html">EnigmaScoreList</a> *)</td></tr>
 <tr class="memdesc:a0e351c00d6f7220f00ab15d2970410c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the score_list field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
 <tr class="separator:a0e351c00d6f7220f00ab15d2970410c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01a6269d651ff2ffc9b281fb841ab563"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a01a6269d651ff2ffc9b281fb841ab563">enigma_crack_set_dictionary</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, const char **, size_t)</td></tr>
-<tr class="memdesc:a01a6269d651ff2ffc9b281fb841ab563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the dictionary field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
-<tr class="separator:a01a6269d651ff2ffc9b281fb841ab563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7931b8c8f4e9ccfc495b67722025100d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#a7931b8c8f4e9ccfc495b67722025100d">enigma_crack_set_dictionary</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, <a class="el" href="structEnigmaTrie.html">EnigmaTrie</a> *)</td></tr>
+<tr class="memdesc:a7931b8c8f4e9ccfc495b67722025100d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the dictionary field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
+<tr class="separator:a7931b8c8f4e9ccfc495b67722025100d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac88d61289c2afe59033e3cb360998d2b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="crack_8h.html#ac88d61289c2afe59033e3cb360998d2b">enigma_crack_set_ngrams</a> (<a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *, float *, int, size_t)</td></tr>
 <tr class="memdesc:ac88d61289c2afe59033e3cb360998d2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the ngrams field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct.  <br /></td></tr>
 <tr class="separator:ac88d61289c2afe59033e3cb360998d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -434,6 +443,21 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a4fd814b61764f27acd9fcdf807c8d5d1" name="a4fd814b61764f27acd9fcdf807c8d5d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fd814b61764f27acd9fcdf807c8d5d1">&#9670;&#160;</a></span>EnigmaTrie</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structEnigmaTrie__s.html">EnigmaTrie_s</a> <a class="el" href="structEnigmaTrie.html">EnigmaTrie</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ab496a07ea609efc12d031c16e0f01d93" name="ab496a07ea609efc12d031c16e0f01d93"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab496a07ea609efc12d031c16e0f01d93">&#9670;&#160;</a></span>enigma_crack_get_ciphertext()</h2>
@@ -489,14 +513,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a081b4e6255f3d0399f233291604b2a0c" name="a081b4e6255f3d0399f233291604b2a0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a081b4e6255f3d0399f233291604b2a0c">&#9670;&#160;</a></span>enigma_crack_get_dictionary()</h2>
+<a id="aea8d0b56f52f871c7979fa3944907070" name="aea8d0b56f52f871c7979fa3944907070"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea8d0b56f52f871c7979fa3944907070">&#9670;&#160;</a></span>enigma_crack_get_dictionary()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char ** enigma_crack_get_dictionary </td>
+          <td class="memname"><a class="el" href="structEnigmaTrie.html">EnigmaTrie</a> * enigma_crack_get_dictionary </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
           <td class="paramname"><em>cfg</em></td><td>)</td>
@@ -513,33 +537,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The dictionary field, or NULL if cfg is NULL. </dd></dl>
-
-</div>
-</div>
-<a id="a53031e7585d04f7ba8c43b92ee7abe17" name="a53031e7585d04f7ba8c43b92ee7abe17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53031e7585d04f7ba8c43b92ee7abe17">&#9670;&#160;</a></span>enigma_crack_get_dictionary_length()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t enigma_crack_get_dictionary_length </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
-          <td class="paramname"><em>cfg</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the <code>dictionary_length</code> field in the given <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">cfg</td><td>The <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct instance </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The <code>dictionary_length</code> field, or <code>ENIGMA_FAILURE</code> if <code>cfg</code> is NULL. </dd></dl>
 
 </div>
 </div>
@@ -1215,8 +1212,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a01a6269d651ff2ffc9b281fb841ab563" name="a01a6269d651ff2ffc9b281fb841ab563"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01a6269d651ff2ffc9b281fb841ab563">&#9670;&#160;</a></span>enigma_crack_set_dictionary()</h2>
+<a id="a7931b8c8f4e9ccfc495b67722025100d" name="a7931b8c8f4e9ccfc495b67722025100d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7931b8c8f4e9ccfc495b67722025100d">&#9670;&#160;</a></span>enigma_crack_set_dictionary()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1230,14 +1227,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char **&#160;</td>
-          <td class="paramname"><em>dictionary</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>length</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="structEnigmaTrie.html">EnigmaTrie</a> *&#160;</td>
+          <td class="paramname"><em>dictionary</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1252,7 +1243,6 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">cfg</td><td>The <a class="el" href="structEnigmaCrackParams.html" title="A structure representing a configuration for cracking an Enigma cipher.">EnigmaCrackParams</a> struct instance </td></tr>
     <tr><td class="paramname">dictionary</td><td>The dictionary array </td></tr>
-    <tr><td class="paramname">length</td><td>The length of the dictionary array </td></tr>
   </table>
   </dd>
 </dl>
@@ -1744,6 +1734,33 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>ENIGMA_SUCCESS</code> on success, <code>ENIGMA_FAILURE</code> on failure. </dd></dl>
+
+</div>
+</div>
+<a id="a33090050238a10d878f4fa3be9425506" name="a33090050238a10d878f4fa3be9425506"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33090050238a10d878f4fa3be9425506">&#9670;&#160;</a></span>enigma_free_dict()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int enigma_free_dict </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structEnigmaCrackParams.html">EnigmaCrackParams</a> *&#160;</td>
+          <td class="paramname"><em>cfg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Free all dictionary nodes in cfg. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cfg</td><td>the config to free dictionary nodes from </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ENIGMA_SUCCESS </dd></dl>
 
 </div>
 </div>
