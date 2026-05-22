@@ -15,17 +15,13 @@
 - [Overview](#overview)
 - [About the Enigma](#about-the-enigma)
 - [Building](#building)
+  - [Prerequisites](#prerequisites)
+  - [Building and Installing](#building-and-installing)
+  - [Building the Web Demo](#building-the-web-demo)
 - [Testing](#testing)
+- [Tool Documentation](#tool-documentation)
 - [Further Reading](#further-reading)
 - [License](#license)
-
-### Tool Documentation
-
-- [Enigma Simulator Documentation](docs/enigmacli.md)
-- [Enigma Cracking Tools Documentation](docs/enigmacrack.md)
-- [N-Gram Generator Documentation](docs/genngrams.md)
-- [Rotor Index Generator Documentation](docs/indexgen.md)
-- [Library Documentation](https://bmoneill.github.io/enigma/)
 
 ## Overview
 
@@ -54,18 +50,30 @@ same key as was used to create it.
 
 ## Building
 
-## Linux / macOS
+### Prerequisites
+
+- A C99 compiler
+- [CMake](https://cmake.org) 3.31.6 or later
+- [MinGW](https://www.mingw-w64.org) (Windows only)
+
+### Building and Installing
 
 ```shell
 # build library and tools
 cmake -S . -B build
 cmake --build build
 
-# build web demo
-./build_webdemo.sh
-
 # install library and tools
 cmake --install build
+```
+
+### Building the Web Demo
+
+This only works on Linux and macOS.
+
+```shell
+# build the library first!
+./build_webdemo.sh
 ```
 
 ## Testing
@@ -77,6 +85,14 @@ cmake --build build
 cd build
 ctest --verbose
 ```
+
+## Tool Documentation
+
+- [Enigma Simulator Documentation](docs/enigmacli.md)
+- [Enigma Cracking Tools Documentation](docs/enigmacrack.md)
+- [N-Gram Generator Documentation](docs/genngrams.md)
+- [Rotor Index Generator Documentation](docs/indexgen.md)
+- [Library Documentation](https://bmoneill.github.io/enigma/)
 
 ## Further Reading
 
