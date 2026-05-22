@@ -28,8 +28,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wno-unused-parameter 
 function(Enable_Tests)
   if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pg -fprofile-arcs -ftest-coverage -fsanitize=address,undefined -fno-omit-frame-pointer")
-    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
-    include(CodeCoverage)
+    if(NOT WIN32)
+      set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
+      include(CodeCoverage)
+    endif()
   endif()
 endfunction()
 
