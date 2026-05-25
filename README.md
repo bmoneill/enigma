@@ -1,9 +1,9 @@
 <div align="center">
     <h1><b>enigma</b></h1>
     <h4>An Enigma machine simulator and toolset for cryptanalysis</h4>
-    <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml/badge.svg?branch=main" alt="Linux CI status" /></a>.
-    <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml/badge.svg?branch=main" alt="macOS CI status" /></a>.
-    <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml/badge.svg?branch=main" alt="Windows CI status" /></a>.
+    <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml/badge.svg?branch=main" alt="Linux CI status" /></a>
+    <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml/badge.svg?branch=main" alt="macOS CI status" /></a>
+    <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml/badge.svg?branch=main" alt="Windows CI status" /></a>
     <a href="https://bmoneill.github.io/enigma"><img src="https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main" alt="Doxygen status" /></a>
     <a href="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main" alt="clang-format status" /></a>
     <a href="https://github.com/bmoneill/enigma/actions/workflows/demo.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main" alt="Demo status" /></a>
