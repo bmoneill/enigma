@@ -54,7 +54,7 @@ same key as was used to create it.
 
 - A C99 compiler
 - [CMake](https://cmake.org) 3.31.6 or later
-- [MinGW](https://www.mingw-w64.org) (Windows only)
+- WSL or [MinGW](https://www.mingw-w64.org) (Windows only)
 
 ### Building and Installing
 
