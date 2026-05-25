@@ -17,7 +17,7 @@ execute_process(
 )
 
 # Version
-add_compile_definitions("ARENA_VERSION=\"${GIT_COMMIT_HASH}\"")
+add_compile_definitions("ENIGMA_VERSION=\"${GIT_COMMIT_HASH}\"")
 
 # C Standard
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -pedantic -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_FILE_OFFSET_BITS=64")
