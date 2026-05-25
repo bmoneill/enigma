@@ -26,16 +26,18 @@ var NAVTREE =
 [
   [ "libenigma", "index.html", [
     [ "enigmacli", "md_docs_enigmacli.html", [
-      [ "Table of Contents", "index.html#autotoc_md13", [
-        [ "Tool Documentation", "index.html#autotoc_md14", null ]
+      [ "Table of Contents", "index.html#autotoc_md13", null ],
+      [ "Overview", "index.html#autotoc_md14", null ],
+      [ "About the Enigma", "index.html#autotoc_md15", null ],
+      [ "Building", "index.html#autotoc_md16", [
+        [ "Prerequisites", "index.html#autotoc_md17", null ],
+        [ "Building and Installing", "index.html#autotoc_md18", null ],
+        [ "Building the Web Demo", "index.html#autotoc_md19", null ]
       ] ],
-      [ "Overview", "index.html#autotoc_md15", null ],
-      [ "About the Enigma", "index.html#autotoc_md16", null ],
-      [ "Building", "index.html#autotoc_md17", null ],
-      [ "Linux / macOS", "index.html#autotoc_md18", null ],
-      [ "Testing", "index.html#autotoc_md19", null ],
-      [ "Further Reading", "index.html#autotoc_md20", null ],
-      [ "License", "index.html#autotoc_md21", [
+      [ "Testing", "index.html#autotoc_md20", null ],
+      [ "Tool Documentation", "index.html#autotoc_md21", null ],
+      [ "Further Reading", "index.html#autotoc_md22", null ],
+      [ "License", "index.html#autotoc_md23", [
         [ "Usage", "md_docs_enigmacli.html#autotoc_md0", null ]
       ] ]
     ] ],
@@ -65,7 +67,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"reflector_8h.html#a076c516101d818406c4cf369d70095c8"
+"reflector_8c.html#ae4b93635b0089cb46681fd0098032750"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
