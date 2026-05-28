@@ -5,8 +5,8 @@ set(GENNGRAMS_SCRIPT_TARGET_NAME "genngrams")
 set(INDEXGEN_SCRIPT_NAME "indexgen.py")
 set(INDEXGEN_SCRIPT_TARGET_NAME "indexgen")
 
-add_executable(${ENIGMA_BINARY_NAME} enigma_main.c)
-add_executable(${CRACK_BINARY_NAME} crack_main.c)
+add_executable(${ENIGMA_BINARY_NAME} enigma/main.c)
+add_executable(${CRACK_BINARY_NAME} enigmacrack/main.c enigmacrack/repl.c)
 
 # Set the version for the executables
 target_compile_definitions(${ENIGMA_BINARY_NAME} PRIVATE VERSION="${GIT_COMMIT_HASH}")
