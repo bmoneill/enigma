@@ -95,10 +95,11 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a> </p><div align="center"> <h1><b>enigma</b></h1>
 </div><div align="center"> <h4>An <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> machine simulator and toolset for cryptanalysis</h4>
-</div><div align="center"> <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml/badge.svg?branch=main" alt="Linux CI status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml/badge.svg?branch=main" alt="macOS CI status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml/badge.svg?branch=main" alt="Windows CI status" style="pointer-events: none;" class="inline"/></a> <a href="https://bmoneill.github.io/enigma"><img src="https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main" alt="Doxygen status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main" alt="clang-format status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/demo.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main" alt="Demo status" style="pointer-events: none;" class="inline"/></a> <a href="https://oneill.sh/coverage/enigma"><img src="https://oneill.sh/coverage/enigma" alt="Coverage" class="inline"/></a> </div><h2><a class="anchor" id="autotoc_md13"></a>
+</div><div align="center"> <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-linux.yml/badge.svg?branch=main" alt="Linux CI status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-macos.yml/badge.svg?branch=main" alt="macOS CI status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/ci-windows.yml/badge.svg?branch=main" alt="Windows CI status" style="pointer-events: none;" class="inline"/></a> <a href="https://bmoneill.github.io/enigma"><img src="https://github.com/bmoneill/enigma/actions/workflows/doxygen.yml/badge.svg?branch=main" alt="Doxygen status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/clang-format.yml/badge.svg?branch=main" alt="clang-format status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/bmoneill/enigma/actions/workflows/demo.yml"><img src="https://github.com/bmoneill/enigma/actions/workflows/demo.yml/badge.svg?branch=main" alt="Demo status" style="pointer-events: none;" class="inline"/></a> <a href="https://oneill.sh/coverage/enigma"><img src="https://oneill.sh/coverage/enigma" alt="Coverage" class="inline"/></a> </div><h2><a class="anchor" id="autotoc_md14"></a>
 Table of Contents</h2>
 <ul>
 <li>Overview</li>
+<li>Features</li>
 <li>About the Enigma</li>
 <li>Building<ul>
 <li>Prerequisites</li>
@@ -111,25 +112,35 @@ Table of Contents</h2>
 <li>Further Reading</li>
 <li>License</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Overview</h2>
 <p>This is a full-featured C99 library and toolset (with WebAssembly support) for simulating and cracking the <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a>.</p>
 <p>The library and toolset currently supports simulating all common 4-rotor military <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> configurations used in World War II. It also supports cracking ciphertext utilizing Index of Coincidence and n-gram analysis.</p>
 <p>An online <a href="https://oneill.sh/apps/enigma">demo</a> is available.</p>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
+Features</h2>
+<ul>
+<li>[x] Simulate all common 4-rotor military <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> configurations</li>
+<li>[x] Cracking tools for ciphertext using Index of Coincidence, n-gram analysis, frequency analysis, and brute-force dictionary search</li>
+<li>[x] WebAssembly support for running in the browser</li>
+<li>[x] Command-line tools for simulating and cracking <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> ciphertext</li>
+<li>[x] Interactive shell for cracking <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> ciphertext</li>
+<li>[x] C99 library for building your own <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> tools</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md17"></a>
 About the Enigma</h2>
 <p>The <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> was a cipher device used by the Germans during World War II to encrypt military communication. It uses a very complex wiring system to scramble the input.</p>
 <p>When a key is pressed, the signal first passes through the plugboard, which swaps the letter with another according to its configuration. It then travels through three rotors, each further scrambling the signal. Next, the signal reaches the reflector, which further scrambles the signal. Then, the signal passes through the rotors again in reverse. Finally, the signal passes through the plugboard again, and the resulting encoded letter lights up on the lampboard. The <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a>'s encryption was symmetric &mdash; ciphertext is decrypted using the same key as was used to create it.</p>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 Building</h2>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md19"></a>
 Prerequisites</h3>
 <ul>
 <li>A C99 compiler</li>
 <li><a href="https://cmake.org">CMake</a> 3.31.6 or later</li>
 <li>WSL or <a href="https://www.mingw-w64.org">MinGW</a> (Windows only)</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md18"></a>
+<h3><a class="anchor" id="autotoc_md20"></a>
 Building and Installing</h3>
 <div class="fragment"><div class="line"># build library and tools</div>
 <div class="line">cmake -S . -B build</div>
@@ -137,19 +148,19 @@ Building and Installing</h3>
 <div class="line"> </div>
 <div class="line"># install library and tools</div>
 <div class="line">cmake --install build</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md21"></a>
 Building the Web Demo</h3>
 <p>This only works on Linux and macOS.</p>
 <div class="fragment"><div class="line"># build the library first!</div>
 <div class="line">./build_webdemo.sh</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md20"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
 Testing</h2>
 <div class="fragment"><div class="line">git submodule update</div>
 <div class="line">cmake -S . -B build -DTEST=ON</div>
 <div class="line">cmake --build build</div>
 <div class="line">cd build</div>
 <div class="line">ctest --verbose</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md23"></a>
 Tool Documentation</h2>
 <ul>
 <li><a class="el" href="md_docs_enigmacli.html">Enigma Simulator Documentation</a></li>
@@ -158,7 +169,7 @@ Tool Documentation</h2>
 <li><a class="el" href="md_docs_indexgen.html">Rotor Index Generator Documentation</a></li>
 <li><a href="https://bmoneill.github.io/enigma/">Library Documentation</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Further Reading</h2>
 <ul>
 <li><a href="https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/wwii/CryptoMathEnigma_Miller.pdf">The Cryptographic Mathematics of Enigma</a></li>
@@ -166,7 +177,7 @@ Further Reading</h2>
 <li><a href="https://www.tnmoc.org/bombe">The Turing-Welchman Bombe (National Museum of Computing)</a></li>
 <li><a href="https://youtu.be/RzWB5jL5RX0">Cracking Enigma in 2021 (Computerphile on YouTube)</a></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 License</h2>
 <p>Copyright (c) 2025-2026 Ben O'Neill <a href="#" onclick="location.href='mai'+'lto:'+'ben'+'@o'+'nei'+'ll'+'.sh'; return false;">ben@o<span class="obfuscator">.nosp@m.</span>neil<span class="obfuscator">.nosp@m.</span>l.sh</a>. This work is released under the terms of the MIT License. See [LICENSE](LICENSE) for the license terms. </p>
 </div></div><!-- PageDoc -->

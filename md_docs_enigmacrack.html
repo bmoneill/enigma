@@ -113,10 +113,13 @@ Table of Contents</h2>
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Usage</h2>
-<div class="fragment"><div class="line">enigmacrack method target [options] ciphertext</div>
+<div class="fragment"><div class="line">enigmacrack [method target [options] ciphertext]|shell</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md3"></a>
 Options</h2>
 <h3><a class="anchor" id="autotoc_md4"></a>
+Interactive shell</h3>
+<p>Run <code>enigmacrack shell</code> to enter an interactive shell for cracking <a class="el" href="structEnigma.html" title="Represents the state and configuration of an Enigma machine.">Enigma</a> ciphertext. The shell provides a command-line interface for running cryptanalysis methods and managing settings.</p>
+<h3><a class="anchor" id="autotoc_md5"></a>
 Enigma Settings</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -130,7 +133,7 @@ Enigma Settings</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>-s plugboard</code>   </td><td class="markdownTableBodyNone">Set the plugboard pairs (e.g. 'ABCDEF').   </td></tr>
 </table>
-<h3><a class="anchor" id="autotoc_md5"></a>
+<h3><a class="anchor" id="autotoc_md6"></a>
 Cryptanalysis Settings</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -152,16 +155,16 @@ Cryptanalysis Settings</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>-x</code>   </td><td class="markdownTableBodyNone">Assume X-separated words in plaintext.   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Methods</h2>
-<h3><a class="anchor" id="autotoc_md7"></a>
+<h3><a class="anchor" id="autotoc_md8"></a>
 ioc</h3>
 <p>This method uses Index of Coincidence for cryptanalysis. The Index of Coincidence measures how likely it is to draw two random letters from a given text. As correct settings are discovered, intermediary plaintexts should approach the established Index of Coincidence value for its language.</p>
 <p>Utilizing this method, it is possible to decrypt ciphertext with no known settings in a short amount of time, given we know the language the source text was written in. This requires some user intervention, however.</p>
-<h3><a class="anchor" id="autotoc_md8"></a>
+<h3><a class="anchor" id="autotoc_md9"></a>
 ngram</h3>
 <p>Use n-grams for cryptanalysis. n-grams may be generated from a corpus using the <a href="../tools/genngrams.sh">genngrams</a> script.</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Targets</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
