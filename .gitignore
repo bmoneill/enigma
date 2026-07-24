@@ -4,6 +4,7 @@ vgcore.*
 gmon.out
 a.out.*
 log.txt
+.DS_Store
 
 # Editor stuff
 .zed
