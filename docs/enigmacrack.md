@@ -20,10 +20,16 @@
 ## Usage
 
 ```shell
-enigmacrack method target [options] ciphertext
+enigmacrack [method target [options] ciphertext]|shell
 ```
 
 ## Options
+
+### Interactive shell
+
+Run `enigmacrack shell` to enter an interactive shell for cracking Enigma
+ciphertext. The shell provides a command-line interface for running
+cryptanalysis methods and managing settings.
 
 ### Enigma Settings
 

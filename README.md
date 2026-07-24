@@ -13,6 +13,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
+- [Features](#features)
 - [About the Enigma](#about-the-enigma)
 - [Building](#building)
   - [Prerequisites](#prerequisites)
@@ -33,6 +34,16 @@ Enigma configurations used in World War II. It also supports cracking ciphertext
 utilizing Index of Coincidence and n-gram analysis.
 
 An online [demo](https://oneill.sh/apps/enigma) is available.
+
+## Features
+
+- [x] Simulate all common 4-rotor military Enigma configurations
+- [x] Cracking tools for ciphertext using Index of Coincidence, n-gram analysis,
+      frequency analysis, and brute-force dictionary search
+- [x] WebAssembly support for running in the browser
+- [x] Command-line tools for simulating and cracking Enigma ciphertext
+- [x] Interactive shell for cracking Enigma ciphertext
+- [x] C99 library for building your own Enigma tools
 
 ## About the Enigma
 
