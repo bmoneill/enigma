@@ -4,6 +4,7 @@
 #include "enigma/io.h"
 #include "enigma/ioc.h"
 #include "enigma/ngram.h"
+#include "repl.h"
 
 #include <ctype.h>
 #include <getopt.h>
@@ -14,6 +15,7 @@
 
 #define USAGE                                                                                      \
     "Usage: %s method target [options] ciphertext\n\
+    Tip: run this binary with 'repl' to start the interactive REPL.\n\n\
     Methods:\n\
       ioc              Use Index of Coincidence for cryptanalysis (target, -m/-M OR -l required)\n\
       ngram            Use n-gram analysis for cryptanalysis (target, -n, -m/-M required)\n\
@@ -71,6 +73,11 @@ static void load_target(EnigmaCrackParams*, const char*);
 #define IS_TARGET(s) (!strncmp(argv[2], s, strlen(s)))
 
 int main(int argc, char* argv[]) {
+    /* Interactive REPL mode: enigmacrack repl */
+    if (argc >= 2 && !strcmp(argv[1], "repl")) {
+        return start_repl();
+    }
+
     if (argc < 3) {
         fprintf(stderr, USAGE, argv[0]);
         return 1;
