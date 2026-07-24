@@ -54,9 +54,9 @@ typedef float (*ScoreFunc)(const EnigmaCrackParams*, const char*);
 #define INITIAL_SCORES 64
 
 static EnigmaCrackParams g_cfg;
+static char              g_cipher[SHELL_CIPHER_MAX];
 static int               g_method      = SHELL_METHOD_IOC;
 static int               g_vary        = 0;
-static char              g_cipher[SHELL_CIPHER_MAX];
 static int               g_freq_loaded = 0;
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -88,18 +88,18 @@ static void        extract_token(const char*, char*, size_t, const char**);
 int start_shell(void) {
     memset(&g_cfg, 0, sizeof(EnigmaCrackParams));
     enigma_init_default_config(&g_cfg.enigma);
-    g_cipher[0] = '\0';
+    g_cipher[0]                   = '\0';
 
     g_cfg.score_list              = malloc(sizeof(EnigmaScoreList));
     g_cfg.score_list->scores      = malloc(INITIAL_SCORES * sizeof(EnigmaScore));
     g_cfg.score_list->score_count = 0;
     g_cfg.score_list->max_scores  = INITIAL_SCORES;
 
-    g_method          = SHELL_METHOD_IOC;
-    g_vary            = 0;
-    g_freq_loaded     = 0;
-    g_cfg.min_score   = ENIGMA_IOC_ENGLISH_MIN;
-    g_cfg.max_score   = ENIGMA_IOC_ENGLISH_MAX;
+    g_method                      = SHELL_METHOD_IOC;
+    g_vary                        = 0;
+    g_freq_loaded                 = 0;
+    g_cfg.min_score               = ENIGMA_IOC_ENGLISH_MIN;
+    g_cfg.max_score               = ENIGMA_IOC_ENGLISH_MAX;
 
     printf("enigmacrack shell  (libenigma %s)\n", enigma_version());
     printf("Type 'help' or '?' for available commands.\n\n");
@@ -116,8 +116,8 @@ int start_shell(void) {
             break;
         }
 
-        int len = (int)strlen(input);
-        while (len > 0 && isspace((unsigned char)input[len - 1]))
+        int len = (int) strlen(input);
+        while (len > 0 && isspace((unsigned char) input[len - 1]))
             input[--len] = '\0';
 
         if (len == 0)
@@ -156,8 +156,7 @@ int start_shell(void) {
         } else if (!strcmp(first, "attribute") || !strcmp(first, "attr")) {
             cmd_attribute(args);
 
-        } else if (!strcmp(first, "analyze") || !strcmp(first, "analyse") ||
-                   !strcmp(first, "an")) {
+        } else if (!strcmp(first, "analyze") || !strcmp(first, "analyse") || !strcmp(first, "an")) {
             cmd_analyze();
 
         } else if (!strcmp(first, "show")) {
@@ -230,7 +229,7 @@ static void cmd_ldfreq(const char* path) {
         char  letter;
         float freq;
         if (sscanf(line, " %c %f", &letter, &freq) == 2) {
-            int idx = toupper((unsigned char)letter) - 'A';
+            int idx = toupper((unsigned char) letter) - 'A';
             if (idx >= 0 && idx < 26) {
                 freqs[idx] = freq;
                 loaded++;
@@ -277,9 +276,7 @@ static void cmd_ldcipher(const char* path) {
     set_cipher_file(path);
 }
 
-static void cmd_score(void) {
-    print_scores_top(SHELL_DISPLAY_SCORES);
-}
+static void cmd_score(void) { print_scores_top(SHELL_DISPLAY_SCORES); }
 
 static void cmd_set(const char* args) {
     if (!args || !*args) {
@@ -294,7 +291,10 @@ static void cmd_set(const char* args) {
     extract_token(args, attr, sizeof(attr), &val);
 
     if (!strcmp(attr, "method") || !strcmp(attr, "meth") || !strcmp(attr, "m")) {
-        if (!val || !*val) { printf("Usage: set method <ioc|ngram>\n"); return; }
+        if (!val || !*val) {
+            printf("Usage: set method <ioc|ngram>\n");
+            return;
+        }
         char mlow[16] = { 0 };
         lower_copy(mlow, val, sizeof(mlow));
         if (!strcmp(mlow, "ioc")) {
@@ -308,35 +308,49 @@ static void cmd_set(const char* args) {
         }
 
     } else if (!strcmp(attr, "lang") || !strcmp(attr, "language")) {
-        if (!val || !*val) { printf("Usage: set lang <english|german>\n"); return; }
+        if (!val || !*val) {
+            printf("Usage: set lang <english|german>\n");
+            return;
+        }
         char llow[16] = { 0 };
         lower_copy(llow, val, sizeof(llow));
         if (!strcmp(llow, "english")) {
             g_cfg.min_score = ENIGMA_IOC_ENGLISH_MIN;
             g_cfg.max_score = ENIGMA_IOC_ENGLISH_MAX;
             printf("Language: English (IOC range %.4f - %.4f).\n",
-                   g_cfg.min_score, g_cfg.max_score);
+                   g_cfg.min_score,
+                   g_cfg.max_score);
         } else if (!strcmp(llow, "german")) {
             g_cfg.min_score = ENIGMA_IOC_GERMAN_MIN;
             g_cfg.max_score = ENIGMA_IOC_GERMAN_MAX;
             printf("Language: German  (IOC range %.4f - %.4f).\n",
-                   g_cfg.min_score, g_cfg.max_score);
+                   g_cfg.min_score,
+                   g_cfg.max_score);
         } else {
             printf("Unknown language '%s'. Use 'english' or 'german'.\n", val);
         }
 
     } else if (!strcmp(attr, "minscore") || !strcmp(attr, "mins")) {
-        if (!val || !*val) { printf("Usage: set minscore <float>\n"); return; }
-        g_cfg.min_score = (float)atof(val);
+        if (!val || !*val) {
+            printf("Usage: set minscore <float>\n");
+            return;
+        }
+        g_cfg.min_score = (float) atof(val);
         printf("Min score set to %.6f.\n", g_cfg.min_score);
 
     } else if (!strcmp(attr, "maxscore") || !strcmp(attr, "maxs")) {
-        if (!val || !*val) { printf("Usage: set maxscore <float>\n"); return; }
-        g_cfg.max_score = (float)atof(val);
+        if (!val || !*val) {
+            printf("Usage: set maxscore <float>\n");
+            return;
+        }
+        g_cfg.max_score = (float) atof(val);
         printf("Max score set to %.6f.\n", g_cfg.max_score);
 
     } else if (!strcmp(attr, "cipher") || !strcmp(attr, "ciphertext") || !strcmp(attr, "ct")) {
-        if (!val || !*val) { printf("Usage: set cipher <text>\n"); return; }
+        if (!val || !*val) {
+            printf("Usage: set cipher <text>\n");
+            return;
+        }
         set_cipher_str(val);
 
     } else if (!strcmp(attr, "rotors") || !strcmp(attr, "rots") || !strcmp(attr, "w")) {
@@ -365,7 +379,10 @@ static void cmd_set(const char* args) {
         }
 
     } else if (!strcmp(attr, "reflector") || !strcmp(attr, "refl") || !strcmp(attr, "u")) {
-        if (!val || !*val) { printf("Usage: set reflector <A|B|C>\n"); return; }
+        if (!val || !*val) {
+            printf("Usage: set reflector <A|B|C>\n");
+            return;
+        }
         if (enigma_load_reflector_config(&g_cfg.enigma, val)) {
             printf("Error: invalid reflector '%s'. Valid: A, B, C\n", val);
         } else {
@@ -378,7 +395,8 @@ static void cmd_set(const char* args) {
             return;
         }
         if (enigma_load_plugboard_config(&g_cfg.enigma, val)) {
-            printf("Error: invalid plugboard '%s'. Must be an even-length all-alpha string.\n", val);
+            printf("Error: invalid plugboard '%s'. Must be an even-length all-alpha string.\n",
+                   val);
         } else {
             printf("Plugboard set to: %s\n", val);
         }
@@ -420,16 +438,26 @@ static void cmd_attribute(const char* args) {
     }
 
     int flag = 0;
-    if      (!strcmp(name, "r0"))                                 flag = SHELL_VARY_R0;
-    else if (!strcmp(name, "r1"))                                 flag = SHELL_VARY_R1;
-    else if (!strcmp(name, "r2"))                                 flag = SHELL_VARY_R2;
-    else if (!strcmp(name, "r3"))                                 flag = SHELL_VARY_R3;
-    else if (!strcmp(name, "r0p"))                                flag = SHELL_VARY_R0P;
-    else if (!strcmp(name, "r1p"))                                flag = SHELL_VARY_R1P;
-    else if (!strcmp(name, "r2p"))                                flag = SHELL_VARY_R2P;
-    else if (!strcmp(name, "r3p"))                                flag = SHELL_VARY_R3P;
-    else if (!strcmp(name, "reflector") || !strcmp(name, "refl")) flag = SHELL_VARY_REFLECTOR;
-    else if (!strcmp(name, "plugboard") || !strcmp(name, "plug")) flag = SHELL_VARY_PLUGBOARD;
+    if (!strcmp(name, "r0"))
+        flag = SHELL_VARY_R0;
+    else if (!strcmp(name, "r1"))
+        flag = SHELL_VARY_R1;
+    else if (!strcmp(name, "r2"))
+        flag = SHELL_VARY_R2;
+    else if (!strcmp(name, "r3"))
+        flag = SHELL_VARY_R3;
+    else if (!strcmp(name, "r0p"))
+        flag = SHELL_VARY_R0P;
+    else if (!strcmp(name, "r1p"))
+        flag = SHELL_VARY_R1P;
+    else if (!strcmp(name, "r2p"))
+        flag = SHELL_VARY_R2P;
+    else if (!strcmp(name, "r3p"))
+        flag = SHELL_VARY_R3P;
+    else if (!strcmp(name, "reflector") || !strcmp(name, "refl"))
+        flag = SHELL_VARY_REFLECTOR;
+    else if (!strcmp(name, "plugboard") || !strcmp(name, "plug"))
+        flag = SHELL_VARY_PLUGBOARD;
     else {
         printf("Unknown attribute '%s'.\n", name);
         printf("Valid: r0, r1, r2, r3, r0p, r1p, r2p, r3p, reflector, plugboard\n");
@@ -463,8 +491,8 @@ static void cmd_analyze(void) {
 
     g_cfg.score_list->score_count = 0;
 
-    int rotor_count = g_cfg.enigma.rotor_count;
-    int analyzed    = 0;
+    int rotor_count               = g_cfg.enigma.rotor_count;
+    int analyzed                  = 0;
 
     /* ── Rotor identity ── */
     int r_on[4] = {
@@ -476,7 +504,10 @@ static void cmd_analyze(void) {
     int any_rotor     = r_on[0] | r_on[1] | r_on[2] | r_on[3];
     int all_rotors_on = 1;
     for (int i = 0; i < rotor_count; i++) {
-        if (!r_on[i]) { all_rotors_on = 0; break; }
+        if (!r_on[i]) {
+            all_rotors_on = 0;
+            break;
+        }
     }
 
     if (any_rotor) {
@@ -504,7 +535,10 @@ static void cmd_analyze(void) {
     int any_pos    = rp_on[0] | rp_on[1] | rp_on[2] | rp_on[3];
     int all_pos_on = 1;
     for (int i = 0; i < rotor_count; i++) {
-        if (!rp_on[i]) { all_pos_on = 0; break; }
+        if (!rp_on[i]) {
+            all_pos_on = 0;
+            break;
+        }
     }
 
     if (any_pos) {
@@ -541,8 +575,7 @@ static void cmd_analyze(void) {
         return;
     }
 
-    printf("Analysis complete. %d configuration(s) evaluated.\n\n",
-           g_cfg.score_list->score_count);
+    printf("Analysis complete. %d configuration(s) evaluated.\n\n", g_cfg.score_list->score_count);
     print_scores_top(SHELL_DISPLAY_SCORES);
 }
 
@@ -554,40 +587,43 @@ static void cmd_show(const char* args) {
         char buf[128];
         enigma_print_config(&g_cfg.enigma, buf);
         printf("Enigma config  : %s\n", buf);
-        printf("Method         : %s\n",
-               g_method == SHELL_METHOD_IOC ? "IOC" : "ngram");
+        printf("Method         : %s\n", g_method == SHELL_METHOD_IOC ? "IOC" : "ngram");
         if (g_method == SHELL_METHOD_IOC) {
-            printf("IOC range      : %.6f - %.6f\n",
-                   g_cfg.min_score, g_cfg.max_score);
+            printf("IOC range      : %.6f - %.6f\n", g_cfg.min_score, g_cfg.max_score);
         } else {
             printf("N-gram n       : %d\n", g_cfg.n);
         }
         printf("Ciphertext     : ");
         if (g_cfg.ciphertext && g_cfg.ciphertext_length > 0) {
-            int show = (int)g_cfg.ciphertext_length > 52 ? 52 : (int)g_cfg.ciphertext_length;
+            int show = (int) g_cfg.ciphertext_length > 52 ? 52 : (int) g_cfg.ciphertext_length;
             printf("%.*s", show, g_cfg.ciphertext);
-            if ((int)g_cfg.ciphertext_length > show) printf("...");
+            if ((int) g_cfg.ciphertext_length > show)
+                printf("...");
             printf("  (%zu chars)\n", g_cfg.ciphertext_length);
         } else {
             printf("(not set)\n");
         }
         printf("Dictionary     : %s\n", g_cfg.dictionary ? "loaded" : "not loaded");
-        printf("N-grams        : %s\n", g_cfg.ngrams      ? "loaded" : "not loaded");
-        printf("Freq table     : %s\n", g_freq_loaded     ? "loaded" : "not loaded");
+        printf("N-grams        : %s\n", g_cfg.ngrams ? "loaded" : "not loaded");
+        printf("Freq table     : %s\n", g_freq_loaded ? "loaded" : "not loaded");
         printf("Scores cached  : %d\n", g_cfg.score_list->score_count);
 
     } else if (!strcmp(what, "vary") || !strcmp(what, "vars")) {
-        static const struct { int flag; const char* name; const char* desc; } attrs[] = {
-            { SHELL_VARY_R0,        "r0",        "rotor at slot 0 (right-most)" },
-            { SHELL_VARY_R1,        "r1",        "rotor at slot 1"              },
-            { SHELL_VARY_R2,        "r2",        "rotor at slot 2"              },
-            { SHELL_VARY_R3,        "r3",        "rotor at slot 3 (4-rotor)"    },
-            { SHELL_VARY_R0P,       "r0p",       "starting position of r0"      },
-            { SHELL_VARY_R1P,       "r1p",       "starting position of r1"      },
-            { SHELL_VARY_R2P,       "r2p",       "starting position of r2"      },
-            { SHELL_VARY_R3P,       "r3p",       "starting position of r3"      },
-            { SHELL_VARY_REFLECTOR, "reflector", "reflector (UKW)"              },
-            { SHELL_VARY_PLUGBOARD, "plugboard", "plugboard (Steckerbrett)"     },
+        static const struct {
+            int         flag;
+            const char* name;
+            const char* desc;
+        } attrs[] = {
+            { SHELL_VARY_R0, "r0", "rotor at slot 0 (right-most)" },
+            { SHELL_VARY_R1, "r1", "rotor at slot 1" },
+            { SHELL_VARY_R2, "r2", "rotor at slot 2" },
+            { SHELL_VARY_R3, "r3", "rotor at slot 3 (4-rotor)" },
+            { SHELL_VARY_R0P, "r0p", "starting position of r0" },
+            { SHELL_VARY_R1P, "r1p", "starting position of r1" },
+            { SHELL_VARY_R2P, "r2p", "starting position of r2" },
+            { SHELL_VARY_R3P, "r3p", "starting position of r3" },
+            { SHELL_VARY_REFLECTOR, "reflector", "reflector (UKW)" },
+            { SHELL_VARY_PLUGBOARD, "plugboard", "plugboard (Steckerbrett)" },
         };
         printf("Varied attributes:\n");
         for (int i = 0; i < 10; i++) {
@@ -617,42 +653,40 @@ static void cmd_clear(const char* args) {
 }
 
 static void cmd_help(void) {
-    printf(
-        "enigmacrack shell -- interactive Enigma cryptanalysis\n\n"
-        "Data loading:\n"
-        "  lddict  <file>    ldd   Dictionary file (one uppercase word per line)\n"
-        "  ldfreq  <file>    ldf   Letter-frequency file ('A 0.08167' per line)\n"
-        "  ldngram <file>    ldn   N-gram frequency file\n"
-        "  ldcipher <file>   ldc   Ciphertext file (reads first line)\n\n"
-        "Configuration  (set):\n"
-        "  set method  <ioc|ngram>        sm <m>    Scoring method\n"
-        "  set lang    <english|german>             IOC score range preset\n"
-        "  set minscore <f>                         Minimum IOC score\n"
-        "  set maxscore <f>                         Maximum IOC score\n"
-        "  set cipher  <text>                       Ciphertext (inline)\n"
-        "  set rotors  <I II III>                   Rotor configuration\n"
-        "  set positions <ABC>                      Rotor starting positions\n"
-        "  set reflector <A|B|C>                    Reflector (UKW)\n"
-        "  set plugboard <ABCD>                     Plugboard pairs\n\n"
-        "Vary attributes  (attribute / attr):\n"
-        "  attribute <name> on|off\n"
-        "  Names: r0  r1  r2  r3            rotor in slot 0-3\n"
-        "         r0p r1p r2p r3p           starting position of slot 0-3\n"
-        "         reflector  plugboard\n"
-        "  When ALL slots for the current rotor count are ON, an exhaustive\n"
-        "  combined search is used; otherwise each slot is cracked independently.\n\n"
-        "Analysis:\n"
-        "  analyze  an   Crack all varied attributes; show top 10 results\n\n"
-        "Display:\n"
-        "  score    sc              Top 10 scores from last analysis\n"
-        "  show config    cfg       Enigma + shell state\n"
-        "  show vary      vars      Which attributes are varied\n"
-        "  show scores              Same as 'score'\n"
-        "  clear [scores]           Discard the current score list\n\n"
-        "Other:\n"
-        "  help  h  ?   This help\n"
-        "  exit  quit q Quit\n"
-    );
+    printf("enigmacrack shell -- interactive Enigma cryptanalysis\n\n"
+           "Data loading:\n"
+           "  lddict  <file>    ldd   Dictionary file (one uppercase word per line)\n"
+           "  ldfreq  <file>    ldf   Letter-frequency file ('A 0.08167' per line)\n"
+           "  ldngram <file>    ldn   N-gram frequency file\n"
+           "  ldcipher <file>   ldc   Ciphertext file (reads first line)\n\n"
+           "Configuration  (set):\n"
+           "  set method  <ioc|ngram>        sm <m>    Scoring method\n"
+           "  set lang    <english|german>             IOC score range preset\n"
+           "  set minscore <f>                         Minimum IOC score\n"
+           "  set maxscore <f>                         Maximum IOC score\n"
+           "  set cipher  <text>                       Ciphertext (inline)\n"
+           "  set rotors  <I II III>                   Rotor configuration\n"
+           "  set positions <ABC>                      Rotor starting positions\n"
+           "  set reflector <A|B|C>                    Reflector (UKW)\n"
+           "  set plugboard <ABCD>                     Plugboard pairs\n\n"
+           "Vary attributes  (attribute / attr):\n"
+           "  attribute <name> on|off\n"
+           "  Names: r0  r1  r2  r3            rotor in slot 0-3\n"
+           "         r0p r1p r2p r3p           starting position of slot 0-3\n"
+           "         reflector  plugboard\n"
+           "  When ALL slots for the current rotor count are ON, an exhaustive\n"
+           "  combined search is used; otherwise each slot is cracked independently.\n\n"
+           "Analysis:\n"
+           "  analyze  an   Crack all varied attributes; show top 10 results\n\n"
+           "Display:\n"
+           "  score    sc              Top 10 scores from last analysis\n"
+           "  show config    cfg       Enigma + shell state\n"
+           "  show vary      vars      Which attributes are varied\n"
+           "  show scores              Same as 'score'\n"
+           "  clear [scores]           Discard the current score list\n\n"
+           "Other:\n"
+           "  help  h  ?   This help\n"
+           "  exit  quit q Quit\n");
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
@@ -662,16 +696,16 @@ static void cmd_help(void) {
 static void set_cipher_str(const char* s) {
     int n = 0;
     for (int i = 0; s[i] && n < SHELL_CIPHER_MAX - 1; i++) {
-        unsigned char c = (unsigned char)s[i];
+        unsigned char c = (unsigned char) s[i];
         if (isalpha(c)) {
-            g_cipher[n++] = (char)toupper(c);
+            g_cipher[n++] = (char) toupper(c);
         } else if (!isspace(c)) {
             g_cipher[n++] = 'X';
         }
     }
     g_cipher[n]             = '\0';
     g_cfg.ciphertext        = g_cipher;
-    g_cfg.ciphertext_length = (size_t)n;
+    g_cfg.ciphertext_length = (size_t) n;
     printf("Ciphertext set (%d characters).\n", n);
 }
 
@@ -698,8 +732,7 @@ static void print_scores_top(int n) {
         return;
     }
     enigma_score_list_sort(g_cfg.score_list);
-    int display = g_cfg.score_list->score_count < n
-                    ? g_cfg.score_list->score_count : n;
+    int display = g_cfg.score_list->score_count < n ? g_cfg.score_list->score_count : n;
 
     printf("Top %d / %d:\n", display, g_cfg.score_list->score_count);
     printf("  %-3s  %-12s  %-3s  %s\n", "#", "Score", "Fl.", "Config");
@@ -710,9 +743,12 @@ static void print_scores_top(int n) {
         EnigmaScore* s = &g_cfg.score_list->scores[i];
         enigma_print_config(&s->enigma, buf);
         char flags[4] = "---";
-        if (s->flags & ENIGMA_FLAG_DICTIONARY_MATCH) flags[0] = 'D';
-        if (s->flags & ENIGMA_FLAG_FREQUENCY)        flags[1] = 'F';
-        if (s->flags & ENIGMA_FLAG_KNOWN_PLAINTEXT)  flags[2] = 'P';
+        if (s->flags & ENIGMA_FLAG_DICTIONARY_MATCH)
+            flags[0] = 'D';
+        if (s->flags & ENIGMA_FLAG_FREQUENCY)
+            flags[1] = 'F';
+        if (s->flags & ENIGMA_FLAG_KNOWN_PLAINTEXT)
+            flags[2] = 'P';
         printf("  %-3d  %-12.6f  %s  %s\n", i + 1, s->score, flags, buf);
     }
 }
@@ -727,9 +763,12 @@ static ScoreFunc pick_score_func(void) {
             return NULL;
         }
         switch (g_cfg.n) {
-        case 2: return enigma_bigram_score;
-        case 3: return enigma_trigram_score;
-        case 4: return enigma_quadgram_score;
+        case 2:
+            return enigma_bigram_score;
+        case 3:
+            return enigma_trigram_score;
+        case 4:
+            return enigma_quadgram_score;
         default:
             printf("Error: n-gram length %d is not supported (must be 2-4).\n", g_cfg.n);
             return NULL;
@@ -742,26 +781,26 @@ static ScoreFunc pick_score_func(void) {
 static void lower_copy(char* dest, const char* src, size_t n) {
     size_t i = 0;
     while (i < n - 1 && src[i]) {
-        dest[i] = (char)tolower((unsigned char)src[i]);
+        dest[i] = (char) tolower((unsigned char) src[i]);
         i++;
     }
     dest[i] = '\0';
 }
 
 static const char* skip_ws(const char* s) {
-    while (*s && isspace((unsigned char)*s))
+    while (*s && isspace((unsigned char) *s))
         s++;
     return s;
 }
 
 static void extract_token(const char* s, char* tok, size_t tok_sz, const char** rest) {
-    s = skip_ws(s);
+    s        = skip_ws(s);
     size_t i = 0;
-    while (i < tok_sz - 1 && *s && !isspace((unsigned char)*s)) {
-        tok[i++] = (char)tolower((unsigned char)*s++);
+    while (i < tok_sz - 1 && *s && !isspace((unsigned char) *s)) {
+        tok[i++] = (char) tolower((unsigned char) *s++);
     }
     tok[i] = '\0';
-    while (*s && !isspace((unsigned char)*s))
+    while (*s && !isspace((unsigned char) *s))
         s++;
     if (rest)
         *rest = skip_ws(s);

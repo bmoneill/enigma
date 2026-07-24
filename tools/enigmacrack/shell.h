@@ -8,21 +8,21 @@
 
 /* ── Attribute vary flags ───────────────────────────────────────────────── */
 /** Vary the rotor placed in slot 0 (right-most). */
-#define SHELL_VARY_R0        (1 << 0)
+#define SHELL_VARY_R0 (1 << 0)
 /** Vary the rotor placed in slot 1. */
-#define SHELL_VARY_R1        (1 << 1)
+#define SHELL_VARY_R1 (1 << 1)
 /** Vary the rotor placed in slot 2. */
-#define SHELL_VARY_R2        (1 << 2)
+#define SHELL_VARY_R2 (1 << 2)
 /** Vary the rotor placed in slot 3 (4-rotor Enigma only). */
-#define SHELL_VARY_R3        (1 << 3)
+#define SHELL_VARY_R3 (1 << 3)
 /** Vary the starting position of the rotor in slot 0. */
-#define SHELL_VARY_R0P       (1 << 4)
+#define SHELL_VARY_R0P (1 << 4)
 /** Vary the starting position of the rotor in slot 1. */
-#define SHELL_VARY_R1P       (1 << 5)
+#define SHELL_VARY_R1P (1 << 5)
 /** Vary the starting position of the rotor in slot 2. */
-#define SHELL_VARY_R2P       (1 << 6)
+#define SHELL_VARY_R2P (1 << 6)
 /** Vary the starting position of the rotor in slot 3. */
-#define SHELL_VARY_R3P       (1 << 7)
+#define SHELL_VARY_R3P (1 << 7)
 /** Vary the reflector (UKW). */
 #define SHELL_VARY_REFLECTOR (1 << 8)
 /** Vary the plugboard (Steckerbrett). */
